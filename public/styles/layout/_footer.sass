@@ -1,0 +1,90 @@
+@import '../modules/links'
+
+.footer
+    display: flex
+    flex-direction: column
+    background-color: $footer-primary
+    border-top: solid 1px $footer-border
+    font-family: $primary-font
+    color: $footer-color
+
+    &__top
+        display: flex
+        flex-direction: row
+
+        &-about
+            margin: 2rem
+
+            &-description
+                line-height: $md-lh
+
+        &-links 
+            margin: 2rem
+            list-style: none
+            font-size: $bs-size
+
+            &-item
+                line-height: $lg-lh
+                list-style: none
+
+        &-newsletter 
+            margin: 2rem
+            display: flex
+            flex-direction: column
+
+            input
+                color: white
+                flex: 1
+                width: 180px
+                margin: .5rem 0
+                padding: 0.5rem
+                border-radius: 5px
+                border: solid 1px rgb(255 255 255 / 54%)
+
+            input:not(.btn-secondary)
+                background-color: #232222   
+
+    &__bottom
+        display: flex
+        justify-content: space-between
+        align-items: center
+        width: 100%
+        padding: 1rem
+        border-top: solid 1px $footer__bottom-border
+        background-color: $footer-secondary
+
+        &-copyright
+        font-size: .9rem
+        float: left
+
+        &-socials 
+            display: flex
+            justify-content: center
+            align-items: center
+            float: right
+
+            &-item
+                width: 40px
+                height: 40px
+                border-radius: 50%
+                text-align: center
+                line-height: 42px
+                list-style: none
+                font-size: 20px
+                color: #fff
+                margin-right: 15px
+                cursor: pointer
+
+                &[data-color="#7289da"]
+                    background-color: $discord
+
+                &[data-color="#ff0000"]
+                    background-color: $youtube
+
+                &[data-color="#1da1f2"]
+                    background-color: $twitter
+
+                &[data-color="#333333"]
+                    background-color: $email
+    @media (max-width: 576px)
+        text-align: center

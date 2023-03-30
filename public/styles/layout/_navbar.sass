@@ -1,0 +1,71 @@
+@import '../modules/buttons'
+@import '../modules/links'
+
+.navbar
+  color: $navbar-color
+  font-family: $primary-font
+  
+  &__logo
+    &-name a
+      font-family: $header-font
+      font-weight: bold
+
+    &-img img
+      display: none
+      max-width: 45px
+      max-height: 45px
+
+  &__menu
+    @include center-v
+    gap: 1rem
+
+  &__hamburger
+    display: none
+    cursor: pointer
+
+    img
+      @include center-v
+      max-width: 45px
+      max-height: 45px
+
+  &__dropdown
+    display: none
+    flex-direction: column
+    position: absolute
+    top: 100%
+    left: 0
+    width: 100%
+    background-color: $navbar__dropdown
+    box-shadow: $navbar__dropdown-shadow
+    z-index: 1000
+
+    &.active
+      display: flex
+
+    &-link
+      font-size: 1.2rem
+      padding: 1rem 0
+      text-align: center
+      border-bottom: 1px solid $navbar__dropdown-link-border
+
+      &:last-child
+        border-bottom: none
+
+  @media (max-width: 576px)
+    &__menu
+      display: none
+      
+    &__hamburger
+      display: flex
+      position: relative
+
+  @media (max-width: 320px)
+    &__logo-name a
+      display: none
+
+    &__logo-img img
+      display: flex
+
+  @media (min-width: 576px)
+    &__dropdown.active
+      display: none
