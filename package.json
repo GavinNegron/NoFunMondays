@@ -1,6 +1,6 @@
 {
   "name": "musictheory-website",
-  "version": "1.0.0",
+  "version": "0.9.9",
   "description": "'",
   "main": "server.js",
   "dependencies": {
@@ -190,7 +190,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postcommit": "npm version patch --no-git-tag-version"
   },
   "author": "",
   "license": "ISC"
