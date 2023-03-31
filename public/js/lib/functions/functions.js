@@ -1,4 +1,5 @@
-export function HamburgerToggle() {
+export function HamburgerToggle() 
+{
   const dropdown = $(".navbar__dropdown");
   const menuIcon = $(".navbar__hamburger-img img");
 
@@ -20,3 +21,11 @@ export function HamburgerToggle() {
     }
   });
 }
+
+export function SetMainHeight()
+{
+    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+    const footerHeight = document.querySelector('.footer').offsetHeight;
+    const main = document.querySelector('.main');
+    main.style.minHeight = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
+  }

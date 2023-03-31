@@ -1,11 +1,12 @@
+import { SetMainHeight } from "../../lib/functions/functions.js";
+
 const loader = (() => {
     const init = () => {
         //Set min-height of MAIN
-        const navbarHeight = document.querySelector('.navbar').offsetHeight;
-        const footerHeight = document.querySelector('.footer').offsetHeight;
-        const main = document.querySelector('.main');
-        console.log(footerHeight, navbarHeight)
-        main.style.minHeight = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
+        SetMainHeight();
+        $(window).on('resize', function() {
+          SetMainHeight();
+        });
     };
   
     return {

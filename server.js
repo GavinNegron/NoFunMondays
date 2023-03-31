@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const dbConn = require('./src/config/db');
-const errorHandler = require('./src/middleware/error');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -39,8 +38,8 @@ async function routeHandler(folderName) {
 }
 routeHandler('./src/routes');
 
-// Error handler
-app.use(errorHandler);
+// Error Handler (404)
+
 
 const port = process.env.PORT;
 // Connect to server
