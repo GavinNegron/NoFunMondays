@@ -1,4 +1,5 @@
 import { SetMainHeight } from "../../lib/functions/functions.js";
+import navbar from '/js/app/modules/navbar.js';
 
 const loader = (() => {
     const init = () => {
@@ -7,6 +8,8 @@ const loader = (() => {
         $(window).on('resize', function() {
           SetMainHeight();
         });
+        //Load Navbar Functionality
+        navbar.init();
     };
   
     return {

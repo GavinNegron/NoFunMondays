@@ -3,35 +3,19 @@ $primary-font: 'Poppins', sans-serif
 $header-font: 'Almarai', sans-serif
 
 // Font Sizes
-$bs-size: 16px
-$sm-size: 0.875rem
-$md-size: 1.1rem
-$lg-size: 1.75rem
-$xl-size: 2.25
+$bs-size: clamp(1rem, 1rem, 1rem)
+$sm-size: clamp(1rem, 0.875rem, 1rem)
+$md-size: clamp(12px, 4vw, 1.5rem)
+$lg-size: clamp(18px, 6vw, 2rem)
+$xl-size: clamp(1rem, 2.25rem, 3rem)
+$xl3-size: clamp(5rem, 30vw, 13rem)
 
 // Line Heights
 $bs-lh: 1.5
-$sm-lh: 1.25
+$sm-lh: 1
 $md-lh: 1.75
 $lg-lh: 2.25
 $xl-lh: 2.5
 
-// Headings
-h1 
-  font-size: 2.5rem
-h2 
-  font-size: 2rem
-h3 
-  font-size: 1.75rem
-h4 
-  font-size: .5rem
-h5
-  font-size: 1.25rem
-h6
-  font-size: 1rem
-
-.header-footer
-  font-family: $header-font
-  color: $footer__header-color
-  margin-bottom: 1rem
-  font-size: $lg-size
+//Headers
+@import '../modules/header'

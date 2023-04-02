@@ -34,6 +34,7 @@
             margin: 2rem
             display: flex
             flex-direction: column
+            @include center-v
 
             input
                 color: white
@@ -44,7 +45,7 @@
                 border-radius: 5px
                 border: solid 1px rgb(255 255 255 / 54%)
 
-            input:not(.btn-secondary)
+            input:not(.btn-primary)
                 background-color: #232222   
 
     &__bottom
@@ -57,8 +58,8 @@
         background-color: $footer-secondary
 
         &-copyright
-        font-size: .9rem
-        float: left
+            font-size: .9rem
+            float: left
 
         &-socials 
             display: flex
