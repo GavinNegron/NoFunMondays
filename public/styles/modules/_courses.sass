@@ -1,0 +1,32 @@
+.courses
+    display: flex
+    flex-wrap: wrap
+    padding: 30px
+    background-color: $courses
+
+    &__item
+        display: flex
+        flex-direction: row
+        background-color: $courses__item
+        border: solid 1px $courses__item-border
+        border-radius: 4px
+        font-family: 'Darker Grotesque'
+        text-align: left
+
+        &-img img
+            position: relative
+            width: 100%
+
+        &-content
+            
+            &-header
+                font-size: clamp(18px, 2vw, 4rem)
+
+            &-info
+                font-size: clamp(18px, 6vw, 2rem)
+
+            &-description
+                font-size: clamp(12px, 4vw, 1.5rem)
+
+            &-btn button
+                padding: 0 1rem

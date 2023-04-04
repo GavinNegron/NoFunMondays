@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Theory</title>
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ubuntu:wght@700;800&family=Libre+Franklin:wght@900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap">
+</head>
+<body>
+    <%- include('templates/loading.ejs') %>
+    <%- include('templates/navbar.ejs') %>
+  <main class="main">
+    <%- include('templates/cta.ejs') %>
+    <%- include('templates/overview.ejs') %>
+    <%- include('templates/courses.ejs') %>
+  </main>
+    <%- include('templates/footer.ejs') %> 
+</body>
+<script defer src="/js/vendor/jquery.js" type="module"></script>
+<script defer src="/js/app/landing.js" type="module"></script>
+<script src="https://kit.fontawesome.com/5ee52856b3.js" crossorigin="anonymous"></script>
+</html>

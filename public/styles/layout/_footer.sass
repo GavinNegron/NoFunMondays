@@ -5,7 +5,7 @@
     flex-direction: column
     background-color: $footer-primary
     border-top: solid 1px $footer-border
-    font-family: $primary-font
+    font-family: $poppins
     color: $footer-color
 
     &__top
@@ -21,7 +21,6 @@
         &-links 
             margin: 2rem
             list-style: none
-            font-size: $bs-size
 
             &-item
                 line-height: $lg-lh
@@ -31,10 +30,9 @@
                     text-decoration: underline
 
         &-newsletter 
-            margin: 2rem
-            display: flex
-            flex-direction: column
             @include center-v
+            margin: 2rem
+            flex-direction: column
 
             input
                 color: white

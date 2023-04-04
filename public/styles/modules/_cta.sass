@@ -1,0 +1,32 @@
+.cta 
+    background-color: $primary
+    @include center-v  
+    display: flex
+    display: -webkit-flex
+    width: 100%
+    position: relative
+    flex-direction: column
+    text-align: center
+
+    &__header
+        padding:  75px 20px 40px 20px
+        font-size: clamp(35px, 5vw, 5rem)
+        color: #fff
+        font-family: $ubuntu
+        font-weight: bold
+
+    &__description
+        padding: 40px 35px
+        color: #fff
+        font-size: clamp(18px, 6vw, 2rem)
+        font-family: 'Darker Grotesque'
+
+    &__learn-more
+        margin: 50px 0 25px 0
+        color: #fff
+        font-family: 'Darker Grotesque'
+        font-size: clamp(12px, 4vw, 1.5rem)
+
+        i
+            position: relative
+            top: 2px
