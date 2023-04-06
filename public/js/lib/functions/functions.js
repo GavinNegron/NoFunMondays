@@ -2,10 +2,12 @@
 export function HamburgerToggle() 
 {
   const dropdown = $(".navbar__dropdown");
+  const navbar = $(".navbar");
   const menuIcon = $(".navbar__hamburger-img img");
 
   $(".navbar__hamburger-img").on("click", function() {
     dropdown.toggleClass("active");
+    navbar.toggleClass("active");
     if (dropdown.hasClass("active")) {
       dropdown.fadeIn();
       menuIcon.attr("src", "/img/hamburger-open.png");

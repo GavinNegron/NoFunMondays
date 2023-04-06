@@ -3,30 +3,78 @@
     flex-wrap: wrap
     padding: 30px
     background-color: $courses
+    @include center-v
 
-    &__item
-        display: flex
-        flex-direction: row
-        background-color: $courses__item
-        border: solid 1px $courses__item-border
-        border-radius: 4px
-        font-family: 'Darker Grotesque'
-        text-align: left
-
-        &-img img
-            position: relative
-            width: 100%
-
-        &-content
-            
+    &__content  
+            text-align: center
+            color: #0f0f1b
+            margin-bottom: 6vw
+        
             &-header
-                font-size: clamp(18px, 2vw, 4rem)
-
-            &-info
-                font-size: clamp(18px, 6vw, 2rem)
+                font-size: clamp(40px, 5vw, 5rem)
+                font-family: $ubuntu
 
             &-description
-                font-size: clamp(12px, 4vw, 1.5rem)
+                font-size: clamp(20px, 2vw, 2rem)
+                font-family: $ubuntu
 
-            &-btn button
-                padding: 0 1rem
+    &__item
+        overflow: hidden
+        background-color: #eaeaeac7
+        border-radius: 3px
+        border: solid 1px #b3b3b352
+        width: 300px
+        max-width: 300px
+
+        &-img
+            width: 100%
+            max-width: 100%
+
+        &-content
+            padding: 25px 20px
+
+            &-tags
+                margin-bottom: 15px
+
+                a
+                    background-color: #e2e2e2
+                    font-size: 13px
+                    border: solid 1px #bfbfbf9e
+                    padding: 3px 7px
+                    margin-right: 3px
+                    color: $links-secondary
+                    font-family: $poppins
+                    font-weight: bold
+                    border-radius: 4px
+                    transition: background-color 0.2s ease
+
+                    &:hover
+                        background-color: #d6d6d6
+                        border: solid 1px #8f8f8f6b
+
+            
+            &-header
+                margin-bottom: 12px
+                font-size: 28px
+                font-family: $darker-grotesque
+                font-weight: bold
+                color: #505050
+
+            &-rating
+                display: inline-block
+
+                i 
+                    color: #ffb605
+                    font-size: 0.85rem
+
+                span
+                    color: #848484
+                    font-size: 1rem
+                    position: relative
+                    top: 1px
+                    font-family: $poppins
+
+    &__button button
+        width: 200px
+        padding: 10px 0
+        font-size: 1rem
