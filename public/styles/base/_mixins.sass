@@ -1,6 +1,7 @@
 @mixin center-v
   display: flex
   justify-content: center
+  align-items: center
 
 @mixin center-h
   display: flex
@@ -12,3 +13,6 @@
   -moz-user-select: none //Firefox
   -ms-user-select: none //IE10+/Edge
   user-select: none //Standard 
+
+@mixin input-focus-transition($duration: 0.3s)
+  transition: left $duration, width $duration, background-color $duration

@@ -1,0 +1,86 @@
+.login
+    @include center-v
+
+    &__container
+        width: 900px
+        height: 500px
+        margin: 3rem
+        background-color: $login
+        border-radius: 10px
+
+        &-left
+            background-image: url("/img/login.jpg")
+            background-position: center
+            background-size: cover
+            background-repeat: no-repeat
+            position: relative
+            border-radius: 10px 0 0 10px
+            @include center-h
+            padding: 40px
+            text-align: center
+
+            span
+                color: $login__quote
+                font-family: $ubuntu
+                font-size: 30px
+
+            i
+                font-size: 20px
+
+        &-right
+            @include center-v
+            flex-direction: column
+            text-align: center
+
+            &-header
+                font-weight: bold
+                text-align: center
+                margin-bottom: 20px
+                font-family: $poppins
+                font-size: 25px
+
+            &-input 
+                display: flex
+                flex-direction: column
+                width: 300px
+                @include center-v
+
+                input:not([type=submit])
+                    height: 45px
+                    width: 90%
+                    background: transparent
+                    border: none
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+                    outline: none
+                    margin-bottom: 20px
+                    color: #40414a
+
+                    &:focus
+                        border-bottom: solid 1px #b39aff
+
+                    &::placeholder
+                        font-weight: bold
+                        font-family: $nunito
+
+                input[type=submit]
+                    border: none
+                    outline: none
+                    height: 45px
+                    border-radius: 5px
+                    transition: .4s
+                    font-family: $poppins
+                    font-weight: bold
+                    margin-bottom: 20px
+                    width: 100%
+
+            &-register 
+                
+                span
+                    font-family: $poppins
+
+                a
+                    font-weight: bold
+                    color: $links-tertiary
+
+                    &:hover
+                        text-decoration: underline

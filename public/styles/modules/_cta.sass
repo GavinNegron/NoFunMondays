@@ -18,20 +18,19 @@
             max-height: 100%
             -o-object-fit: cover
             object-fit: cover
-            margin-top: -50px
 
     &__content
 
         &-header
             padding: 0 0 20px 60px
             font-size: clamp(25px, 5vw, 5rem)
-            color: rgb(255, 255, 255)
+            color: $cta-header
             font-family: $ubuntu
             font-weight: bold
 
         &-description
             padding: 0 0 0 60px
-            color: #dedede
+            color: $cta-description
             font-size: clamp(18px,2vw,3rem)
             font-family: 'Darker Grotesque'
 
@@ -74,3 +73,6 @@
             object-position: center bottom
             position: relative
             top: 35vw
+
+            img
+                margin-top: -50px

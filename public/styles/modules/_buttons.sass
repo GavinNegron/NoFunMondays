@@ -1,27 +1,22 @@
-.btn-primary
-    background-color: $btn-primary
-    color: #fff
+.btn
     padding: 0.5rem 1rem
     border-radius: 6px
-    border: 1px solid #bcbbbb8a
+    border: 1px solid $btn-border
     font-family: 'Nunito'
     font-weight: bold
     text-decoration: none
     transition: background-color 0.25s ease-in-out
+
+.btn-primary
+    background-color: $btn-primary
+    color: $btn-color
 
     &:hover
         background-color: $btn-primary--hover
 
 .btn-secondary
     background-color: $btn-secondary
-    color: #fff
-    padding: 0.5rem 1rem
-    border-radius: 6px
-    border: 1px solid #bcbbbb8a
-    font-family: 'Nunito'
-    font-weight: bold
-    text-decoration: none
-    transition: background-color 0.25s ease-in-out
+    color: $btn-color
 
     &:hover
         background-color: $btn-secondary--hover
