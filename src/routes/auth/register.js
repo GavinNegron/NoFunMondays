@@ -6,21 +6,15 @@ const ErrorResponse = require('../../utils/errorResponse');
 
 module.exports = function(app){
     app.get('/register', (req, res) => {
-        if(req.session.error) {
-            res.render('register/index.ejs', {
-                error: req.session.error
-            });
-            req.session.error = undefined;
-            req.session.save(err => {
-                if (err) {
-                  throw err;
-                };
-              });
-        } else {
-            res.render('register/index.ejs', {
-                error: undefined
-            });
-        }
+        const error = req.session.error;
+        res.render('register', {
+            error: error
+        });
+        req.session.save(err => {
+            if (err) {
+              throw err;
+            };
+          });
     });
 
     app.post('/register', async (req, res, next) => {

@@ -39,7 +39,7 @@ export async function TypeSentence(sentence, eleRef, delay = 100) {
   const letters = sentence.split("");
   let i = 0;
   while (i < letters.length) {
-      await waitForMs(delay);
+      await WaitForMs(delay);
       $(eleRef).append(letters[i]);
       i++
   }
@@ -47,19 +47,19 @@ export async function TypeSentence(sentence, eleRef, delay = 100) {
 }
 
 // DeleteSentance()
-export async function deleteSentence(eleRef) {
+export async function DeleteSentence(eleRef) {
   const sentence = $(eleRef).html();
   const letters = sentence.split("");
   let i = 0;
   while (letters.length > 0) {
-      await waitForMs(100);
+      await WaitForMs(100);
       letters.pop();
       $(eleRef).html(letters.join(""));
   }
 }
 
-// WaitForMS()
-export function waitForMs(ms) {
+// WaitForMs()
+export function WaitForMs(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -68,9 +68,9 @@ export async function TextCarousel(carouselList, eleRef) {
   var i = 0;
   while (true) {
       await TypeSentence(carouselList[i], eleRef);
-      await waitForMs(1500);
-      await deleteSentence(eleRef);
-      await waitForMs(500);
+      await WaitForMs(1500);
+      await DeleteSentence(eleRef);
+      await WaitForMs(500);
       i++
       if (i >= carouselList.length) { i = 0; }
   }
@@ -84,4 +84,39 @@ export function GetParam() {
   for (let pair of queryString.entries()) {
       return pair[1];
   }
+}
+
+// GoogleLogin
+export function GoogleLogin() {
+  const googleBtn = document.getElementById('google-sign-in');
+
+  googleBtn.addEventListener('click', () => {
+    document.querySelector('.g_id_signin div[role=button]').click();
+  });
+}
+
+// MicrosoftLogin
+export function MicrosoftLogin() {
+  $("#microsoft-sign-in").on("click", function() {
+    const msalConfig = {
+      auth: {
+        clientId: "da5ca64f-e82f-4c83-a0e4-e247f0ffd647",
+        authority: "https://login.microsoftonline.com/84eda06a-27ae-43dd-897a-2e010d69813c",
+        redirectUri: "http://localhost:3000/dashboard",
+      },
+    };
+
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
+    const authRequest = {
+      scopes: ["openid", "profile", "email"],
+    };
+
+    msalInstance.loginPopup(authRequest)
+      .then((response) => {
+        console.log("User logged in:", response);
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+      });
+  });
 }
