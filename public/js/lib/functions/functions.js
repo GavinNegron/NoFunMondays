@@ -120,3 +120,26 @@ export function MicrosoftLogin() {
       });
   });
 }
+
+// HideLoadingScreen
+export function HideLoadingScreen() {
+  const loadingScreen = document.querySelector('.loading-screen');
+
+  setTimeout(function() {
+      loadingScreen.style.display = 'none';
+  }, 500);
+}
+
+// TogglePasswordVisibility
+export function TogglePasswordVisibility(passwordField, passwordToggle) {
+  if($(passwordField).prop("type") === "password")
+  {
+    $(passwordToggle).removeClass("fa-eye-slash").addClass("fa-eye");
+    $(passwordField).prop("type", "text")
+  }
+  else 
+  {
+    $(passwordToggle).removeClass("fa-eye").addClass("fa-eye-slash");
+    $(passwordField).prop("type", "password")
+  }
+}

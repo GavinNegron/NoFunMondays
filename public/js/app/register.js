@@ -1,5 +1,5 @@
 import loader from '/js/app/modules/loader.js';
-import login from '/js/app/modules/login.js'
+import register from '/js/app/modules/register.js'
 
 loader.init();
-login.init();
+register.init();

@@ -1,4 +1,4 @@
-import { GoogleLogin, MicrosoftLogin, TogglePasswordVisibility } from "../../lib/functions/functions.js";
+import { GoogleLogin, MicrosoftLogin } from "../../lib/functions/functions.js";
 
 const login = (() => {
     const init = () => {
