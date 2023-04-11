@@ -16,6 +16,7 @@
 
 .btn-secondary
     background-color: $btn-secondary
+    background-image: $btn-secondary-gradient
     color: $btn-color
 
     &:hover
@@ -27,3 +28,15 @@
 
     &:hover
         background-color: $btn-tertiary--hover
+
+.btn-status 
+    height: 35px
+    border-radius: 2px
+    font-family: 'Nunito'
+    font-weight: bold
+    text-decoration: none
+    transition: background-color 0.25s ease-in-out
+
+    &--online
+        background-color: #edfdfa
+        color: #2b9986

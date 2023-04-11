@@ -4,20 +4,21 @@ body
 
 nav
   @include disable-select
-  position: relative
   top: 0
   left: 0
-  width: 100%
   height: 70px
   display: flex
-  justify-content: space-between
   align-items: center
-  padding: 0 70px
   z-index: 1000
 
 main
   width: 100%
   min-height: calc(100vh - 70px)
+
+  &.dashboard
+    width: calc( 100vw - 300px )
+    right: 0
+    position: absolute
 
 section
   padding: 20px

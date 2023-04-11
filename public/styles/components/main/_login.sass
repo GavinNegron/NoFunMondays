@@ -1,11 +1,11 @@
-.container-register
+.container-login
   height: 100vh
   width: 100%
   display: flex
   justify-content: center
   font-family: $poppins
 
-.register
+.login
   position: absolute
   max-width: 85vw
   width: 400px
@@ -14,7 +14,7 @@
   background: #FFF
   margin-top: 5rem
   flex-direction: column
-  @include center-v
+  @include center
 
   &__header
     font-size: 28px
@@ -55,8 +55,13 @@
         cursor: pointer
         padding: 5px
 
+  &__forgot
+    text-align: center
+    margin-top: 10px
+    color: $links-tertiary
+
   &__btn
-    margin-top: 15px
+    margin-top: 10px
     width: 100%
 
     input
@@ -66,7 +71,7 @@
       border-radius: 6px
       border: none
 
-  &__login
+  &__register
     text-align: center
     margin-top: 10px
 
@@ -75,7 +80,7 @@
 
   &__media
     width: 75%
-    @include center-v
+    @include center
     flex-direction: column
 
     &-item

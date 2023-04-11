@@ -1,11 +1,13 @@
-@import '../../modules/buttons'
-@import '../../modules/links'
+@import '../../components/modules/buttons'
+@import '../../components/modules/links'
 
 .navbar
   color: $navbar-color
   font-family: $poppins
   background-color: $navbar-primary
   border-bottom: $navbar__border
+  padding: 0 70px
+  position: relative
 
   &__logo
 
@@ -19,18 +21,15 @@
       max-height: 45px
 
   &__menu
-    @include center-v
+    @include center
     gap: 1rem
-
-    &-link
-      @include center-h
 
   &__hamburger
     display: none
     cursor: pointer
 
     img
-      @include center-v
+      @include center
       max-width: 45px
       max-height: 45px
 

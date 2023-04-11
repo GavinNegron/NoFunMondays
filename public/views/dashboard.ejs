@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ubuntu:wght@700;800&family=Libre+Franklin:wght@900&display=swap">
@@ -13,13 +14,12 @@
 </head>
 <body>
     <%- include('templates/loading.ejs') %>
-    <%- include('templates/navbar.ejs') %>
-  <main class="main">
+    <%- include('templates/sidebars/sidebar.ejs') %>
+  <main class="main dashboard">
+    <%- include('templates/navbars/navbar-user.ejs') %>
     <%- include('templates/dashboard.ejs') %>
   </main>
-    <%- include('templates/footer.ejs') %> 
 </body>
 <script defer src="/js/vendor/jquery.js" type="module"></script>
 <script src="/js/app/dashboard.js" type="module"></script>
-<script src="https://kit.fontawesome.com/5ee52856b3.js" crossorigin="anonymous"></script>
 </html>
