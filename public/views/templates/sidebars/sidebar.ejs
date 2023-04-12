@@ -2,66 +2,130 @@
     <div class="sidebar__top d-flex align-items-center">
         <div class="sidebar__top-logo">
             <div class="sidebar__top-logo-name">
-                <a href="/">PLACEHOLDER</a>
+                <a href="/" draggable="false">PLACEHOLDER</a>
             </div>
             <div class="sidebar__top-logo-img">
                 <img src="/img/placeholder.png">
             </div>
         </div>
-        <div class="sidebar__top-arrow" onclick="toggleActive(this)">
+        <div class="sidebar__top-arrow" onclick="toggleActive('.sidebar')">
             <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
         </div>
       </div>
-      <div class="sidebar__bottom">
-        <div class="sidebar__bottom-list">
-            <div class="sidebar__bottom-list-item active">
-                <div class="sidebar__bottom-list-item-icon">
-                    <i class="fa-regular fa-house" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Dashboard</a>
-                </div>
+      <div class="sidebar__profile">
+        <div class="sidebar__profile-icon">
+         <div class="sidebar__profile-icon-img">
+           <img src="/img/user.jpeg" draggable="false">
+         </div>
+        </div>
+       <div class="d-flex flex-column">
+        <div class="sidebar__profile-name">
+          <span>Gavin Negron</span>
+        </div>
+        <div class="sidebar__profile-email">
+          <span>gavinnegron@icloud.com</span>
+        </div>
+       </div>
+     </div>
+      <div class="sidebar__links">
+        <div class="sidebar__links-header">
+          <span>Dashboard</span>
+        </div>
+           <div class="d-flex align-items-center flex-column">
+            <div class="sidebar__links-item active">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-book-open-cover" style="color: #ffffff;"></i>
               </div>
-              <div class="sidebar__bottom-list-item">
-                <div class="sidebar__bottom-list-item-icon">
-                  <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Revenue</a>
-                </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">My Courses</a>
               </div>
-              <div class="sidebar__bottom-list-item">
-                <div class="sidebar__bottom-list-item-icon">
-                  <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Notifications</a>
-                </div>
+            </div>
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-list-check" style="color: #ffffff;"></i>
               </div>
-              <div class="sidebar__bottom-list-item">
-                <div class="sidebar__bottom-list-item-icon">
-                  <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Analytics</a>
-                </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Progress</a>
               </div>
-              <div class="sidebar__bottom-list-item">
-                <div class="sidebar__bottom-list-item-icon">
-                  <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Like</a>
-                </div>
+            </div>
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-calendar-days" style="color: #ffffff;"></i>
               </div>
-              <div class="sidebar__bottom-list-item">
-                <div class="sidebar__bottom-list-item-icon">
-                  <i class="fa-solid fa-chevron-left" style="color: #ffffff;"></i>
-                </div>
-                <div class="sidebar__bottom-list-item-text">
-                  <a href="/">Wallet</a>
-                </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Calendar</a>
               </div>
+            </div>
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-graduation-cap" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Certificates</a>
+              </div>
+            </div>
+           </div>
+           <div class="sidebar__links-header">
+            <span>Account</span>
+          </div>
+          <div class="d-flex align-items-center flex-column">
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Notifications</a>
+              </div>
+            </div>
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Support</a>
+              </div>
+            </div>
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-gear" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Settings</a>
+              </div>
+            </div>
+          </div>
+          <span class="sidebar__links-line"></span>
+          <div class="d-flex align-items-center flex-column">
+            <div class="sidebar__links-item">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <a href="/" draggable="false">Logout</a>
+              </div>
+            </div>
+            <div class="sidebar__links-item toggle">
+              <div class="sidebar__links-item-icon">
+                <i class="fa-solid fa-moon" style="color: #ffffff;"></i>
+              </div>
+              <div class="sidebar__links-item-text">
+                <span>Dark Mode</span>
+              </div>
+              <div class="sidebar__links-item-toggle">
+                <i class="fa-solid fa-2xl fa-toggle-on" style="color: #ffffff;"></i>
+              </div>
+            </div>
+          </div>  
+       </div>
+</aside>
+
+<!--
+  <div class="sidebar__search">
+        <div class="sidebar__search-icon d-flex align-items-center">
+          <i class="fa-solid fa-search" style="color: #ffffff;"></i>
+        </div>
+        <div class="sidebar__search-input">
+          <input type="search" placeholder="Search: ">
         </div>
       </div>
-</aside>
+-->
