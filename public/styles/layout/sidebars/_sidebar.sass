@@ -1,11 +1,11 @@
 .sidebar
     position: fixed
     width: 300px
-    height: 100vh
     background-color: $sidebar-primary
     border-right: $sidebar__border
     z-index: 1000
     @include disable-select
+    height: 100%
 
     &__top
         background-color: #0c0c0c
@@ -15,7 +15,8 @@
             height: 69px
             display: flex
             align-items: center
-            padding-left: 50px
+            justify-content: center
+            width: 100%
             @include disable-select
 
             &-name a
@@ -39,54 +40,33 @@
             right: -13px
             height: 25px
             width: 25px
-            background: $sidebar-arrow
+            background-color: $sidebar-arrow
             border-radius: 50%
             color: white
             border: solid 1px $sidebar-arrow__border
 
-    &__search
-        @include center
-        margin: 20px 0 5px
+    &__links     
+        margin-top: 10px
+        max-height: calc(100% - 300px)
+        overflow-y: scroll
 
-        &-icon
-            height: 100%
-            background-color: $sidebar__search
-            padding: 10px
-            font-size: 20px
-            border: solid 1px $sidebar__search-border
-            border-radius: 6px
-            border-right: none
-            border-radius: 6px 0 0 6px
-
-        &-input input
-                outline: none
-                font-size: 17px
-                padding: 10px 20px 10px 0
-                background-color: $sidebar__search 
-                border: solid 1px $sidebar__search-border
-                color: $sidebar__search-color
-                border-left: none
-                border-radius: 0 6px 6px 0
-
-    &__links        
-        &-line
-            background-color: #3c3c3c
-            width: 100%
-            height: 1px
-            display: flex
-            margin-top: 20px
-
-        &-header
-            text-align: left
-            color: #ccc
-            font-family: $nunito
-            font-size: 20px
-            margin-left: 20px
-            margin-top: 15px
+        &:after
+            content: ""
+            position: absolute
+            bottom: 0
+            left: 0
+            right: 0
+            height: 30px
+            background-image: linear-gradient(rgba(255, 255, 255, 0), $sidebar-primary)
+            pointer-events: none
+            z-index: 5
+            opacity: 0
+            transition: opacity 0.3s ease
+        &:hover:after
+            opacity: 1
 
         &-item
             width: 90%
-            background-color: #232323
             margin-top: 10px
             padding: 15px
             display: flex
@@ -94,6 +74,13 @@
             flex-direction: row
             cursor: pointer
             transition: background-color 0.25s ease-in-out
+            height: 55px
+
+            &.active
+                background-color: #2b2b2b
+
+                &:hover
+                    background-color: #2b2b2b
             
             &:hover
                 background-color: #40404040
@@ -101,24 +88,8 @@
             a:hover
                 text-decoration: none
 
-            &.active
-                background-image: $btn-tertiary-gradient
-
             &.toggle:hover
                 background-color: #232323
-
-            &.search
-                background-color: #40404040
-                padding: 0
-
-                i
-                    padding-left: 15px
-
-                input
-                    background-color: transparent
-                    outline: none
-                    color: #4d4d4d
-                    padding: 15px
 
             &-text
                 color: white
@@ -132,27 +103,28 @@
             &-toggle 
                 @include center
                 margin-left: 90px
+
+    &__bottom
+        position: fixed
+        bottom: 0
+        background-color: $sidebar-primary
+        border-top: solid 1px #3c3c3c
+        width: 300px
     
     &__profile    
         width: 100%
         @include center
         margin-top: 25px
 
-        &-icon
+        img
+            cursor: pointer
+            display: flex
             width: 55px
             height: 55px
-            @include center
-            cursor: pointer
-
-            &-img
-                display: flex
-        
-                img
-                    width: 100%
-                    border-radius: 50%
-                    border: solid 2px #fff
-                    background: rgb(90, 112, 248)
-                    background-image: linear-gradient(rgb(90, 112, 248), rgb(129, 84, 255))
+            border-radius: 50%
+            border: solid 2px #fff
+            background: rgb(90, 112, 248)
+            background-image: linear-gradient(rgb(90, 112, 248), rgb(129, 84, 255))
 
         &-name
             color: #fff
@@ -165,3 +137,34 @@
             font-family: $poppins
             font-size: 14px
             margin-left: 10px
+
+    &:is(.active)
+            width: 78px
+
+            .sidebar
+                &__top-logo
+                    &-name
+                        display: none
+                    
+                    &-img img
+                        display: flex
+                
+                &__profile
+                    &-name, &-email
+                        display: none
+
+                &__links-item
+                    width: 55px
+                    justify-content: center
+
+                    &-text
+                        display: none
+
+                    &-icon
+                        padding-right: 0
+
+                    &-toggle
+                        display: none
+                
+                &__bottom
+                    width: 78px

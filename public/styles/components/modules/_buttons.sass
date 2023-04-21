@@ -7,36 +7,39 @@
     text-decoration: none
     transition: background-color 0.25s ease-in-out
 
-.btn-primary
-    background-color: $btn-primary
-    color: $btn-color
+    &-primary
+        background-color: $btn-primary
+        color: $btn-color
 
-    &:hover
-        background-color: $btn-primary--hover
+        &:hover
+            background-color: $btn-primary--hover
 
-.btn-secondary
-    background-color: $btn-secondary
-    background-image: $btn-secondary-gradient
-    color: $btn-color
+        &--gradient
+            color: $btn-color
+            background-color: $btn-primary
+            background-image: $btn-primary-gradient
 
-    &:hover
-        background-color: $btn-secondary--hover
+    &-secondary
+        background-color: $btn-secondary
+        background-image: $btn-secondary
+        color: $btn-color
 
-.btn-tertiary
-    background-color: $btn-tertiary
-    color: $btn-color
+        &:hover
+            background-color: $btn-secondary--hover
 
-    &:hover
-        background-color: $btn-tertiary--hover
+        &--gradient
+            color: $btn-color
+            background-color: $btn-secondary
+            background-image: $btn-secondary-gradient
 
-.btn-status 
-    height: 35px
-    border-radius: 2px
-    font-family: 'Nunito'
-    font-weight: bold
-    text-decoration: none
-    transition: background-color 0.25s ease-in-out
+    &-tertiary
+        background-color: $btn-tertiary
+        color: $btn-color
 
-    &--online
-        background-color: #edfdfa
-        color: #2b9986
+        &:hover
+            background-color: $btn-tertiary--hover
+
+        &--gradient
+            color: $btn-color
+            background-color: $btn-tertiary
+            background-image: $btn-tertiary-gradient
