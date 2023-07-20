@@ -1,9 +1,21 @@
 const dashboard = (() => {
     const init = () => {
-      if (window.innerWidth < 992) {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.add('active');
+      function sidebarScreenWidth() {
+        if (window.innerWidth < 992) 
+        {
+          const sidebar = document.querySelector('.sidebar');
+          sidebar.classList.add('active');
+        } else 
+        {
+          if (window.innerWidth >= 992) 
+          {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('active');
+          }
+        }
       }
+      sidebarScreenWidth();
+      window.addEventListener('resize', sidebarScreenWidth);
     };
   
     return {

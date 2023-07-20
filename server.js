@@ -38,9 +38,6 @@ async function routeHandler(folderName) {
 }
 routeHandler('./src/routes');
 
-// Error Handler (404)
-
-
 const port = process.env.PORT;
 // Connect to server
 const server = app.listen(port || 2001, () =>
