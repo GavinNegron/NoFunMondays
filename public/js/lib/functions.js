@@ -143,3 +143,46 @@ export function TogglePasswordVisibility(passwordField, passwordToggle) {
     $(passwordField).prop("type", "password")
   }
 }
+
+// ToggleActive
+export function ToggleActive(className) {
+  $(className).toggleClass('active');
+}
+
+//SetSidebarState
+export function SetSidebarState(state) {
+  const body = document.body;
+
+  if (state == "closed")
+  {
+    body.classList.add('SidebarActive');
+    $('.sidebar__top-arrow').find('.fa-chevron-left').removeClass('fa-chevron-left').addClass('fa-chevron-right');
+  } else if (state == "open") {
+    body.classList.remove('SidebarActive');
+    $('.sidebar__top-arrow').find('.fa-chevron-right').removeClass('fa-chevron-right').addClass('fa-chevron-left');
+  }
+}
+
+//ToggleSidebarState
+export function ToggleSidebarState() {
+  const body = document.body;
+  if(body.classList.contains("SidebarActive")) {
+    SetSidebarState("open") 
+  } else {
+    SetSidebarState("closed")
+  }
+}
+
+// SetSidebarScreenWidth
+export function SetSidebarScreenWidth() {
+  if (window.innerWidth < 992) 
+  {
+    SetSidebarState("closed");
+  } else 
+  {
+    if (window.innerWidth >= 992) 
+    {
+      SetSidebarState("open");
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import loader from '/js/app/modules/loader.js';
-import landing from '/js/app/modules/landing.js';
+import { TextCarousel } from "/js/lib/functions.js";
 
 loader.init();
-landing.init();
+
+let sentances = ["Circle of Fifths", "Intervals", "Scales", "Modes", "Chords", "Jazz Improvisation", "Transposition", "Time/Key Signatures"];
+TextCarousel(sentances, "#text-carousel");

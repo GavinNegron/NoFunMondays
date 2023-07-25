@@ -38,10 +38,11 @@ async function routeHandler(folderName) {
 }
 routeHandler('./src/routes');
 
-const port = process.env.PORT;
+const port = process.env.PORT || 2001;
 // Connect to server
-const server = app.listen(port || 2001, () =>
-    console.log(`Server Up and running on port ${port}`)
+const server = app.listen(port, () =>
+    console.log(`Server Up and running on port ${port}`),
+    console.log(`Open website: http://localhost:${port}`)
 );
 
 process.on('unhandledRejection', (err, promise) => {

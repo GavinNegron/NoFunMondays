@@ -1,4 +1,4 @@
-import { SetMainHeight, HideLoadingScreen } from "../../lib/functions/functions.js";
+import { SetMainHeight, HideLoadingScreen } from "../../lib/functions.js";
 import navbar from '/js/app/modules/navbar.js';
 
 const loader = (() => {

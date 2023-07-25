@@ -1,4 +1,4 @@
-import { HamburgerToggle } from "../../lib/functions/functions.js";
+import { HamburgerToggle } from "../../lib/functions.js";
 
 const navbar = (() => {
     const init = () => {

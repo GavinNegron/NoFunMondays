@@ -140,33 +140,33 @@
             font-size: 14px
             margin-left: 10px
 
-    &:is(.active)
+body:is(.SidebarActive)
+        .sidebar
             width: 78px
-
-            .sidebar
-                &__top-logo
-                    &-name
-                        display: none
-                    
-                    &-img img
-                        display: flex
+            &__top-logo
                 
-                &__profile
-                    &-name, &-email
-                        display: none
-
-                &__links-item
-                    width: 55px
-                    justify-content: center
-
-                    &-text
-                        display: none
-
-                    &-icon
-                        padding-right: 0
-
-                    &-toggle
-                        display: none
+                &-name
+                    display: none
                 
-                &__bottom
-                    width: 78px
+                &-img img
+                    display: flex
+            
+            &__profile
+                &-name, &-email
+                    display: none
+
+            &__links-item
+                width: 55px
+                justify-content: center
+
+                &-text
+                    display: none
+
+                &-icon
+                    padding-right: 0
+
+                &-toggle
+                    display: none
+            
+            &__bottom
+                width: 78px
