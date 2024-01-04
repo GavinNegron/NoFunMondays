@@ -15,7 +15,66 @@
     <%- include('templates/loading.ejs') %>
     <%- include('templates/navbar.ejs') %>
   <main class="main">
-    <%- include('templates/register.ejs') %>
+    <section class="container-register forms">
+      <form class="register">
+          <div class="register__header">
+              <span>Sign Up</span>
+          </div>
+          <div class="register__input">
+              <div class="register__input-field">
+                  <input type="text" placeholder="Email">
+              </div>
+              <div class="register__input-field">
+                  <input type="password" placeholder="Password">
+                  <i class="fa-regular fa-eye-slash"></i>
+              </div>
+          </div>
+          <div class="register__btn">
+              <input type="submit" class="btn btn-primary" value="Sign Up">
+          </div>
+          <div class="register__login">
+              <span>Already have an account? <a href="/login">Login</a></span>
+          </div>
+      </div>
+          <div class="register__line"></div>
+          <div class="register__media">
+              <div class="register__media-item">
+                  <div id="g_id_onload"
+                      data-client_id="225821881027-qqevi5i666sf7v75l00t7i7oldnf51ho.apps.googleusercontent.com"
+                      data-register_uri="http://localhost:3000/register"
+                      data-ux_mode="popup">
+                  </div>
+  
+                  <div class="g_id_signin"
+                      data-type="icon"
+                      data-size="large"
+                      data-theme="outline"
+                      data-text="sign_in_with"
+                      data-shape="rectangular"
+                      data-logo_alignment="left">
+                  </div>
+                  <div id="google-sign-in" class="register__media-item-google">
+                      <div class="register__media-item-google__img">
+                          <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 48 48'%3E%3Cdefs%3E%3Cpath id='a' d='M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z'/%3E%3C/defs%3E%3CclipPath id='b'%3E%3Cuse xlink:href='%23a' overflow='visible'/%3E%3C/clipPath%3E%3Cpath clip-path='url(%23b)' fill='%23FBBC05' d='M0 37V11l17 13z'/%3E%3Cpath clip-path='url(%23b)' fill='%23EA4335' d='M0 11l17 13 7-6.1L48 14V0H0z'/%3E%3Cpath clip-path='url(%23b)' fill='%2334A853' d='M0 37l30-23 7.9 1L48 0v48H0z'/%3E%3Cpath clip-path='url(%23b)' fill='%234285F4' d='M48 48L17 24l-4-3 35-10z'/%3E%3C/svg%3E">
+                      </div>
+                      <div class="register__media-item-google__text">
+                          <span>Sign in with Google</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="register__media-item">
+                  <div id="microsoft-sign-in" class="register__media-item-microsoft">
+                      <div class="register__media-item-microsoft__img">
+                          <img src="/img/microsoft.svg">
+                      </div>
+                      <div class="register__media-item-microsoft__text">
+                          <span>Sign in with Microsoft</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </section>
   </main>
     <%- include('templates/footer.ejs') %> 
 </body>

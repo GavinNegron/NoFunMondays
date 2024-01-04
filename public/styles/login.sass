@@ -2,4 +2,116 @@
 @import 'components/modules/grid'
 @import 'layout/navbar'
 @import 'layout/footer'
-@import 'components/main/login'
+
+.container-login
+  height: 100vh
+  width: 100%
+  display: flex
+  justify-content: center
+  font-family: $poppins
+
+.login
+  position: absolute
+  max-width: 85vw
+  width: 400px
+  padding: 30px
+  border-radius: 6px
+  background: #FFF
+  margin-top: 5rem
+  flex-direction: column
+  @include center
+
+  &__header
+    font-size: 28px
+    font-weight: bold
+    color: #232836
+    text-align: center
+
+  &__input
+    width: 100%
+
+    &-field
+      position: relative
+      height: 50px
+      margin-top: 20px
+      border-radius: 6px
+
+      input
+        height: 100%
+        width: 100%
+        border: none
+        font-size: 16px
+        font-weight: 400
+        border-radius: 6px
+        outline: none
+        padding: 0 15px
+        border: 1px solid #CACACA
+
+        &:focus
+          border-bottom-width: 2px
+
+      i
+        position: absolute
+        top: 50%
+        right: 10px
+        transform: translateY(-50%)
+        font-size: 18px
+        color: #8b8b8b
+        cursor: pointer
+        padding: 5px
+
+  &__forgot
+    text-align: center
+    margin-top: 10px
+    color: $links-tertiary
+
+  &__btn
+    margin-top: 10px
+    width: 100%
+
+    input
+      height: 50px
+      width: 100%
+      font-size: 16px
+      border-radius: 6px
+      border: none
+
+  &__register
+    text-align: center
+    margin-top: 10px
+
+    a
+      color: $links-tertiary
+
+  &__media
+    width: 75%
+    @include center
+    flex-direction: column
+
+    &-item
+      display: flex
+      cursor: pointer
+      margin: 12px 0 0 0
+      width: 100%
+
+      &-google, &-microsoft
+        display: flex
+        flex-direction: row
+        font-family: "Segoe UI", Arial, sans-serif
+        font-size: 15px
+        font-weight: 600
+        color: #5e5e5e
+        background-color: #fff
+        height: 41px
+        align-items: center
+        width: 100%
+        border: solid 1px #8c8c8c
+        border-radius: 3px
+
+        &__img
+          width: 24px
+          height: 24px
+          margin: 0 12px
+
+.g_id_signin
+   display: none

@@ -15,8 +15,20 @@
 <body>
     <%- include('templates/loading.ejs') %>
     <main class="main db">
-        <%- include('templates/sidebars/sidebar.ejs') %>
-        <%- include('templates/dashboard.ejs') %>
+        <%- include('templates/sidebar.ejs') %>
+        <div class="dashboard">
+          <div class="dashboard__header">
+              <span>Dashboard</span>
+          </div>
+         <div class="dashboard__grid container-fluid d-flex">
+          <div class="col-5">
+      
+          </div>
+          <div class="col-7">
+      
+          </div>
+         </div>
+      </div>
     </main>
 </body>
 <script defer src="/js/vendor/jquery.js" type="module"></script>
