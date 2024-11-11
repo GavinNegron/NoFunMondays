@@ -1,0 +1,29 @@
+.socials 
+    display: flex
+    justify-content: center
+    align-items: center
+    float: right
+
+    &-item
+        width: 40px
+        height: 40px
+        border-radius: 50%
+        text-align: center
+        line-height: 42px
+        list-style: none
+        font-size: 20px
+        color: #fff
+        margin-right: 15px
+        cursor: pointer
+
+        &[data-color="#7289da"]
+            background-color: $discord
+
+        &[data-color="#ff0000"]
+            background-color: $youtube
+
+        &[data-color="#1da1f2"]
+            background-color: $twitter
+
+        &[data-color="#333333"]
+            background-color: $email
