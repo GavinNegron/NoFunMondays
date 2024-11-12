@@ -4,7 +4,6 @@
     background-color: $sidebar-primary
     border-right: $sidebar__border
     z-index: 1000
-    @include disable-select
     height: 100%
 
     &__top
@@ -17,7 +16,6 @@
             align-items: center
             justify-content: center
             width: 100%
-            @include disable-select
 
             &-name a
                 font-family: $ubuntu
@@ -34,7 +32,6 @@
                 max-height: 45px
 
         &-arrow
-            @include center
             cursor: pointer
             position: absolute
             right: -13px
@@ -97,11 +94,9 @@
                 position: relative
 
             &-icon
-                @include center
                 padding-right: 15px
 
             &-toggle 
-                @include center
                 margin-left: 90px
 
     &__bottom
@@ -115,7 +110,6 @@
     
     &__profile    
         width: 100%
-        @include center
         margin-top: 25px
 
         img
