@@ -10,33 +10,40 @@
   position: relative
 
   &__logo
+    display: flex
+    align-items: center
 
-    &-name a
+    &-name
       font-family: 'Sour Gummy'
       font-weight: 900
       font-size: 26px
 
-    &-img img
+    &-img
       display: none
       max-width: 45px
       max-height: 45px
 
   &__menu
+    display: flex
     gap: 1rem
     justify-content: flex-end
 
-    .socials
-      padding-left: 20px
-
-    &__left  
+    &-left
       display: flex
-      gap: 1rem
+      gap: 1.7rem
+
+    &-right
+      display: flex
+
+  &__link
+    font-family: inherit
+    color: inherit
 
   &__hamburger
     display: none
     cursor: pointer
 
-    img
+    &-img
       max-width: 45px
       max-height: 45px
 
@@ -58,28 +65,20 @@
     &-link
       font-size: 1.2rem
       padding: 1rem 0
-      position: relative
-      right: 0
       border-bottom: 1px solid $navbar__dropdown-link-border
 
       &:hover
-        cursor: default
-
-      a:hover
         cursor: pointer
 
       &:last-child
         border-bottom: none
 
   @media (max-width: 1188px)
-      justify-content: center
-      gap: 1rem
-      
-      .col-sm-10
-        justify-content: center
-        
-      &__logo
-        display: none
+    justify-content: center
+    gap: 1rem
+
+    &__logo
+      display: none
 
   @media (max-width: 928px)
     .socials
@@ -94,22 +93,14 @@
       justify-content: start
 
     &__hamburger
-      display: block
+      display: flex
 
-    &__menu__left 
+    &__menu-left
       display: none
 
-   
   @media (max-width: 538px)
-    
-    &__menu__right
+    &__menu-right
       display: none
-
-  @media (max-width: 325px)
-      justify-content: flex-end
-      
-      &__logo
-        display: none
 
   @media (min-width: 740px)
     &__dropdown.active

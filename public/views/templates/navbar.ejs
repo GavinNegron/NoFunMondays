@@ -1,45 +1,32 @@
 <nav class="container-fluid navbar">
   <div class="navbar__logo">
-      <div class="navbar__logo-name">
-        <a href="/">NoFunMondays</a>
+      <a href="/" class="navbar__logo-name">NoFunMondays</a>
+      <img src="/img/placeholder.png" alt="Home" class="navbar__logo-img">
+  </div>
+  
+  <div class="navbar__menu d-flex center">
+      <div class="navbar__menu-left">
+          <a href="/about" class="navbar__link">Home</a>
+          <a href="/about" class="navbar__link">Blog</a>
+          <a href="/blog" class="navbar__link">Games</a>
+          <a href="/login" class="navbar__link">Leaks</a>
+          <a href="/login" class="navbar__link">Contact</a>
       </div>
-      <div class="navbar__logo-img">
-        <img src="/img/placeholder.png" alt="Home">
+      <div class="navbar__menu-right d-flex">
+          <%- include('./search') %>
+          <%- include('./socials') %>
       </div>
   </div>
- <div class="d-flex navbar__menu center">
-   <div class="navbar__menu__left">
-    <a href="/about" class="links-navigation">Home</a>
-    <a href="/about" class="links-navigation">Blog</a>
-    <a href="/blog" class="links-navigation">Games</a>
-    <a href="/login" class="links-navigation">Leaks</a>
-    <a href="/login" class="links-navigation">Contact</a>
-   </div>
-   <div class="d-flex navbar__menu__right">
-      <%- include('./search') %>
-      <%- include('./socials') %>
+  
+  <div class="navbar__hamburger">
+    <img src="/img/hamburger-icon.png" class="navbar__hamburger-img">
   </div>
- </div>
- <div class="navbar__hamburger">
-  <div class="navbar__hamburger-img center">
-    <img src="/img/hamburger-icon.png">
+  
+  <div class="navbar__dropdown">
+      <a href="/" class="navbar__dropdown-link">Home</a>
+      <a href="/blog" class="navbar__dropdown-link">Blog</a>
+      <a href="/learn" class="navbar__dropdown-link">Games</a>
+      <a href="/about" class="navbar__dropdown-link">Leaks</a>
+      <a href="/contact-us" class="navbar__dropdown-link">Contact</a>
   </div>
-</div>
- <div class="navbar__dropdown">
-    <div class="navbar__dropdown-link">
-      <a href="/">Home</a>
-    </div>
-    <div class="navbar__dropdown-link">
-      <a href="/blog">Blog</a>
-    </div>
-    <div class="navbar__dropdown-link">
-      <a href="/learn">Games</a>
-    </div>
-    <div class="navbar__dropdown-link">
-      <a href="/about">Leaks</a>
-    </div>
-    <div class="navbar__dropdown-link">
-      <a href="/contact-us">Contact</a>
-    </div>
-</div>
 </nav>
