@@ -1,49 +1,17 @@
 <footer class="footer">
-    <div class="container-fluid">
-        <div class="row footer__top">
-            <div class="col-lg-6 col-sm-12 center col-xs-12">
-                <div class="footer__top-about">
-                    <div class="footer__top-about-header header-footer">
-                        <span>About</span>
-                    </div>
-                    <div class="footer__top-about-description">
-                        <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia blanditiis earum autem ex similique? Id a fuga repellendus temporibus quos maiores soluta ducimus quam, quidem quaerat totam facere quis porro recusandae atque est illum voluptate distinctio nihil minima esse possimus?</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 center">
-                <div class="footer__top-links">
-                    <div class="footer__top-links-item-header header-footer">
-                        <span>Navigation</span>
-                    </div>
-                    <ul>
-                        <li class="footer__top-links-item"><a href="/">Placeholder</a></li>
-                        <li class="footer__top-links-item"><a href="/">Placeholder</a></li>
-                        <li class="footer__top-links-item"><a href="/">Placeholder</a></li>
-                        <li class="footer__top-links-item"><a href="/">Placeholder</a></li>                
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 center">
-                <form class="footer__top-newsletter center" action="/" method="post">
-                    <span class="footer__top-newsletter-header header-footer">Newsletter</span>
-                    <input class="footer__top-newsletter-name" type="text" placeholder="Your Name:"></input>
-                    <input class="footer__top-newsletter-email" type="email" placeholder="Your Email:"></input>
-                    <input class="footer__top-newsletter-submit btn btn-secondary" type="submit" placeholder="Subscribe"></input>
-                </form>
-            </div>
-        </div>
-        <div class="row footer__bottom">
-            <div class="col">
-                <div class="footer__bottom-copyright">
-                    <span>&copy; 2024 Lorem, ipsum. All rights reserved.</span>
-                </div>
-            </div>
-            <div class="col">
-                <div>
-                    <%- include('./socials') %>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="container-fluid">
+      <div class="footer__top center">
+          <div class="footer__logo">
+              <p>NoFunMondays</p>
+          </div>
+          <div class="footer__socials">
+              <%- include('./socials') %>
+          </div>
+      </div>
+      <div class="footer__bottom center">
+          <div class="footer__copyright">
+              <span>&copy; 2024 Lorem, ipsum. All rights reserved.</span>
+          </div>
+      </div>
+  </div>
 </footer>

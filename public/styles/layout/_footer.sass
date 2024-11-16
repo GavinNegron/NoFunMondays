@@ -4,60 +4,37 @@
     display: flex
     flex-direction: column
     background-color: $footer-primary
-    border-top: solid 1px $footer-border
+    border-top: 1px solid $footer-border
     font-family: $poppins
     color: $footer-color
 
     &__top
         display: flex
-        flex-direction: row
+        flex-direction: column
+        padding: 30px
+        gap: 20px
 
-        &-about
-            margin: 2rem
+    &__logo
+        font-family: "Sour Gummy"
+        font-weight: 900
+        font-size: 36px
 
-            &-description
-                line-height: $md-lh
-
-        &-links 
-            margin: 2rem
-            list-style: none
-
-            &-item
-                line-height: $lg-lh
-                list-style: none
-                
-                &:hover
-                    text-decoration: underline
-
-        &-newsletter 
-            margin: 2rem
-            flex-direction: column
-
-            input
-                color: white
-                flex: 1
-                width: 180px
-                margin: .5rem 0
-                padding: 0.5rem
-                border-radius: 5px
-                border: solid 1px rgb(255 255 255 / 54%)
-
-            input:not(.btn-secondary)
-                background-color: #232222   
+    &__socials
+        display: flex
+        justify-content: center
+        gap: 1rem
 
     &__bottom
-        display: flex
-        justify-content: space-between
-        align-items: center
-        width: 100%
         padding: 1rem
-        border-top: solid 1px $footer__bottom-border
         background-color: $footer-secondary
-
-        &-copyright
-            font-size: .9rem
-            float: left
-
-        
-    @media (max-width: 576px)
         text-align: center
+
+    &__copyright
+        font-size: 0.9rem
+
+    @media (max-width: 576px)
+        &__top
+            text-align: center
+
+        &__bottom
+            text-align: center
