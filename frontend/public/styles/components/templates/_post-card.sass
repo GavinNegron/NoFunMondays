@@ -1,0 +1,81 @@
+.post-card
+    display: flex
+    width: 100%
+    min-height: 380px
+    transition: transform 0.3s ease
+    margin-bottom: 36px
+    box-shadow: 0 0 7px 2px #171717
+    flex-direction: column
+
+    &__left
+        width: 100%
+        
+    &__img
+        overflow: hidden
+        width: 100%
+
+        a
+            display: flex
+            height: 280px
+            background: url("/img/placeholder.png") center/cover no-repeat
+            transition: transform, opacity .4s ease 
+
+            &:hover, .post-card__title a:hover
+                transform: scale(1.1)
+                opacity: 0.6
+            
+    &__right
+        width: 100%
+        background-color: #121212
+
+    &__content
+        color: white
+        font-family: 'Open Sans'
+        padding: 40px
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+    &__title
+        font-weight: 700
+        font-size: 20px
+        padding-bottom: 15px
+
+    &__description
+        font-size: 16px
+        font-weight: 300
+        padding-bottom: 25px
+
+    &__date
+        font-size: 16px
+        font-weight: 400
+        font-style: italic
+        padding-top: 25px
+        border-top: 1px solid #535353
+
+    @media (max-width: 992px)
+        &__img a
+            height: 100%
+
+        &:nth-child(even)
+            flex-direction: row-reverse !important
+
+    @media (max-width: 768px)
+        flex-direction: column
+        width: 100%
+
+        &__img
+            max-height: 200px
+            height: 200px
+
+        &:nth-child(even)
+            flex-direction: column !important
+
+        &__title
+            font-size: 20px
+
+        &__description
+            font-size: 16px
+
+        &__date
+            font-size: 16px
