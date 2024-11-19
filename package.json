@@ -113,6 +113,7 @@
     "minipass": "^3.1.6",
     "minizlib": "^2.1.2",
     "mkdirp": "^1.0.4",
+    "moment": "^2.30.1",
     "mongodb": "^4.16.0",
     "mongodb-connection-string-url": "^2.6.0",
     "mongoose": "^6.10.4",

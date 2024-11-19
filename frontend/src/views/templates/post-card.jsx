@@ -1,41 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import moment from 'moment';
 
 function PostCard() {
-    const [post, setPosts] = useState([]); // Array to store posts
-    const [error, setError] = useState(''); // To store error messages
+  const [post, setPosts] = useState([]);
+  const [error, setError] = useState(''); 
 
-    useEffect(() => {
-        axios.get('/api/posts/') 
-            .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((err) => {
-                setError(err.response?.data?.message || 'Failed to fetch posts');
-            });
-    }, []);
+  useEffect(() => {
+    console.log('Fetching posts...');
+    axios
+      .get('/api/posts/')  
+      .then((response) => {
+        console.log('Posts fetched successfully:', response.data);
+        setPosts(response.data);
+      })
+      .catch((err) => {
+        console.error('Error fetching posts:', err);
+        setError(err.response?.data?.message || 'Failed to fetch posts');
+      });
+  }, []);
+  
+  const formatDate = (date) => {
+    return moment(date).format('MM/DD/YYYY');
+  }
+
   return (
     <>
-    <div class="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
-        <div class="post-card__left d-flex">
-            <div class="post-card__img">
-                <a href="/blog-post"></a>
+      {error && <div className="error">{error}</div>} 
+      {post.map((post, index) => (
+        <div key={index} className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
+          <div className="post-card__left d-flex">
+            <div className="post-card__img">
+              <a style = {{
+                backgroundImage: `url(${post.imageUrl})`
+              }}href="/blog-post"></a>
             </div>
-        </div>
-        <div class="post-card__right d-flex">
-            <div class="post-card__content">
-                <div class="post-card__title">
-                    <a href="/blog-post">{error}{post.title}</a>
-                </div>
-                <div class="post-card__description">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto modi quas excepturi dolorem exercitationem libero minima beatae rem veritatis deserunt veniam eius, aliquam nesciunt nisi.</p>
-                </div>
-                <div class="post-card__date">
-                    <p>Lorem ipsum dolor sit amet.</p>
-                </div>
+          </div>
+          <div className="post-card__right d-flex">
+            <div className="post-card__content">
+              <div className="post-card__title">
+                <a href="/blog-post">{post.title}</a>
+              </div>
+              <div className="post-card__description">
+                <p>{post.description}</p>
+              </div>
+              <div className="post-card__date">
+                <p>{formatDate(post.createdAt)}</p>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
+      ))}
     </>
   );
 }
