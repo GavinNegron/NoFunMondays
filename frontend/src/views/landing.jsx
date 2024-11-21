@@ -7,9 +7,8 @@ function Landing() {
 
   return (
     <>
-    <link rel="stylesheet" href="/css/landing.css"></link>
     <Navbar />
-    <main class="main">
+    <main className="main">
     <PostGrid />
     </main>
     <Footer />

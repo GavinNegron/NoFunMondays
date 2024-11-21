@@ -8,7 +8,7 @@ export function HamburgerToggle()
   $(".navbar__hamburger-img").on("click", function() {
     dropdown.toggleClass("active");
     navbar.toggleClass("active");
-    if (dropdown.toggleClass("active")) {
+    if (dropdown.hasClass("active")) {
       dropdown.fadeIn();
       menuIcon.attr("src", "/img/hamburger-open.png");
     } else {
@@ -91,20 +91,6 @@ export function MicrosoftLogin() {
   });
 }
 
-// HideLoadingScreen
-export function HideLoadingScreen() {
-  const loadingScreen = document.querySelector('.loading-screen');
-
-  // Check if the element exists before trying to modify its style
-  if (loadingScreen) {
-    setTimeout(function() {
-        loadingScreen.style.display = 'none';
-    }, 500);
-  } else {
-    console.warn('Loading screen element not found.');
-  }
-}
-
 // TogglePasswordVisibility
 export function TogglePasswordVisibility(passwordField, passwordToggle) {
   if($(passwordField).prop("type") === "password")
@@ -120,8 +106,8 @@ export function TogglePasswordVisibility(passwordField, passwordToggle) {
 }
 
 // ToggleActive
-export function ToggleActive(Class) {
-  $(Class).toggleClass('active');
+export function ToggleActive(className) {
+  $(className).toggleClass('active');
 }
 
 //SetSidebarState
@@ -130,10 +116,10 @@ export function SetSidebarState(state) {
 
   if (state == "closed")
   {
-    body.ClassList.add('SidebarActive');
+    body.classList.add('SidebarActive');
     $('.sidebar__top-arrow').find('.fa-chevron-left').removeClass('fa-chevron-left').addClass('fa-chevron-right');
   } else if (state == "open") {
-    body.ClassList.remove('SidebarActive');
+    body.classList.remove('SidebarActive');
     $('.sidebar__top-arrow').find('.fa-chevron-right').removeClass('fa-chevron-right').addClass('fa-chevron-left');
   }
 }
@@ -141,7 +127,7 @@ export function SetSidebarState(state) {
 //ToggleSidebarState
 export function ToggleSidebarState() {
   const body = document.body;
-  if(body.ClassList.contains("SidebarActive")) {
+  if(body.classList.contains("SidebarActive")) {
     SetSidebarState("open") 
   } else {
     SetSidebarState("closed")

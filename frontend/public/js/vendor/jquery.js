@@ -62,11 +62,11 @@ var push = arr.push;
 
 var indexOf = arr.indexOf;
 
-var Class2type = {};
+var class2type = {};
 
-var toString = Class2type.toString;
+var toString = class2type.toString;
 
-var hasOwn = Class2type.hasOwnProperty;
+var hasOwn = class2type.hasOwnProperty;
 
 var fnToString = hasOwn.toString;
 
@@ -79,7 +79,7 @@ var isFunction = function isFunction( obj ) {
 		// Support: Chrome <=57, Firefox <=52
 		// In some browsers, typeof returns "function" for HTML <object> elements
 		// (i.e., `typeof document.createElement( "object" ) === "function"`).
-		// We don't want to Classify *any* DOM node as a function.
+		// We don't want to classify *any* DOM node as a function.
 		// Support: QtWeb <=3.8.5, WebKit <=534.34, wkhtmltopdf tool <=0.12.5
 		// Plus for old WebKit, typeof returns "function" for HTML collections
 		// (e.g., `typeof document.getElementsByTagName("div") === "function"`). (gh-4756)
@@ -141,7 +141,7 @@ function toType( obj ) {
 
 	// Support: Android <=2.3 only (functionish RegExp)
 	return typeof obj === "object" || typeof obj === "function" ?
-		Class2type[ toString.call( obj ) ] || "object" :
+		class2type[ toString.call( obj ) ] || "object" :
 		typeof obj;
 }
 /* global Symbol */
@@ -498,10 +498,10 @@ if ( typeof Symbol === "function" ) {
 	jQuery.fn[ Symbol.iterator ] = arr[ Symbol.iterator ];
 }
 
-// Populate the Class2type map
+// Populate the class2type map
 jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symbol".split( " " ),
 	function( _i, name ) {
-		Class2type[ "[object " + name + "]" ] = name.toLowerCase();
+		class2type[ "[object " + name + "]" ] = name.toLowerCase();
 	} );
 
 function isArrayLike( obj ) {
@@ -559,7 +559,7 @@ var i,
 	preferredDoc = window.document,
 	dirruns = 0,
 	done = 0,
-	ClassCache = createCache(),
+	classCache = createCache(),
 	tokenCache = createCache(),
 	compilerCache = createCache(),
 	nonnativeSelectorCache = createCache(),
@@ -642,7 +642,7 @@ var i,
 
 	matchExpr = {
 		"ID": new RegExp( "^#(" + identifier + ")" ),
-		"Class": new RegExp( "^\\.(" + identifier + ")" ),
+		"CLASS": new RegExp( "^\\.(" + identifier + ")" ),
 		"TAG": new RegExp( "^(" + identifier + "|[*])" ),
 		"ATTR": new RegExp( "^" + attributes ),
 		"PSEUDO": new RegExp( "^" + pseudos ),
@@ -664,7 +664,7 @@ var i,
 
 	rnative = /^[^{]+\{\s*\[native \w/,
 
-	// Easily-parseable/retrievable ID or TAG or Class selectors
+	// Easily-parseable/retrievable ID or TAG or CLASS selectors
 	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
 	rsibling = /[+~]/,
@@ -822,10 +822,10 @@ function Sizzle( selector, context, results, seed ) {
 					return results;
 
 				// Class selector
-				} else if ( ( m = match[ 3 ] ) && support.getElementsByClass &&
-					context.getElementsByClass ) {
+				} else if ( ( m = match[ 3 ] ) && support.getElementsByClassName &&
+					context.getElementsByClassName ) {
 
-					push.apply( results, context.getElementsByClass( m ) );
+					push.apply( results, context.getElementsByClassName( m ) );
 					return results;
 				}
 			}
@@ -1165,7 +1165,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Support: IE 8 - 11+, Edge 12 - 18+, Chrome <=16 - 25 only, Firefox <=3.6 - 31 only,
 	// Safari 4 - 5 only, Opera <=11.6 - 12.x only
-	// IE/Edge & older browsers don't support the :scope pseudo-Class.
+	// IE/Edge & older browsers don't support the :scope pseudo-class.
 	// Support: Safari 6.0 only
 	// Safari 6.0 supports :scope but it's an alias of :root there.
 	support.scope = assert( function( el ) {
@@ -1199,8 +1199,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Verify that getAttribute really returns attributes and not properties
 	// (excepting IE8 booleans)
 	support.attributes = assert( function( el ) {
-		el.Class = "i";
-		return !el.getAttribute( "Class" );
+		el.className = "i";
+		return !el.getAttribute( "className" );
 	} );
 
 	/* getElement(s)By*
@@ -1213,7 +1213,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	} );
 
 	// Support: IE<9
-	support.getElementsByClass = rnative.test( document.getElementsByClass );
+	support.getElementsByClassName = rnative.test( document.getElementsByClassName );
 
 	// Support: IE<10
 	// Check if getElementById returns elements by name
@@ -1313,9 +1313,9 @@ setDocument = Sizzle.setDocument = function( node ) {
 		};
 
 	// Class
-	Expr.find[ "Class" ] = support.getElementsByClass && function( Class, context ) {
-		if ( typeof context.getElementsByClass !== "undefined" && documentIsHTML ) {
-			return context.getElementsByClass( Class );
+	Expr.find[ "CLASS" ] = support.getElementsByClassName && function( className, context ) {
+		if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
+			return context.getElementsByClassName( className );
 		}
 	};
 
@@ -1462,7 +1462,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 		// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
 		// Our regular `try-catch` mechanism fails to detect natively-unsupported
-		// pseudo-Classes inside `:has()` (such as `:has(:contains("Foo"))`)
+		// pseudo-classes inside `:has()` (such as `:has(:contains("Foo"))`)
 		// in browsers that parse the `:has()` argument as a forgiving selector list.
 		// https://drafts.csswg.org/selectors/#relational now requires the argument
 		// to be parsed unforgivingly, but browsers have not yet fully adjusted.
@@ -1905,17 +1905,17 @@ Expr = Sizzle.selectors = {
 				};
 		},
 
-		"Class": function( Class ) {
-			var pattern = ClassCache[ Class + " " ];
+		"CLASS": function( className ) {
+			var pattern = classCache[ className + " " ];
 
 			return pattern ||
 				( pattern = new RegExp( "(^|" + whitespace +
-					")" + Class + "(" + whitespace + "|$)" ) ) && ClassCache(
-						Class, function( elem ) {
+					")" + className + "(" + whitespace + "|$)" ) ) && classCache(
+						className, function( elem ) {
 							return pattern.test(
-								typeof elem.Class === "string" && elem.Class ||
+								typeof elem.className === "string" && elem.className ||
 								typeof elem.getAttribute !== "undefined" &&
-									elem.getAttribute( "Class" ) ||
+									elem.getAttribute( "class" ) ||
 								""
 							);
 				} );
@@ -2085,8 +2085,8 @@ Expr = Sizzle.selectors = {
 
 		"PSEUDO": function( pseudo, argument ) {
 
-			// pseudo-Class names are case-insensitive
-			// http://www.w3.org/TR/selectors/#pseudo-Classes
+			// pseudo-class names are case-insensitive
+			// http://www.w3.org/TR/selectors/#pseudo-classes
 			// Prioritize by case sensitivity in case custom pseudos are added with uppercase letters
 			// Remember that setFilters inherits from pseudos
 			var args,
@@ -8275,7 +8275,7 @@ jQuery.extend( {
 
 	propFix: {
 		"for": "htmlFor",
-		"Class": "Class"
+		"class": "className"
 	}
 } );
 
@@ -8342,10 +8342,10 @@ jQuery.each( [
 
 
 function getClass( elem ) {
-	return elem.getAttribute && elem.getAttribute( "Class" ) || "";
+	return elem.getAttribute && elem.getAttribute( "class" ) || "";
 }
 
-function ClassesToArray( value ) {
+function classesToArray( value ) {
 	if ( Array.isArray( value ) ) {
 		return value;
 	}
@@ -8357,7 +8357,7 @@ function ClassesToArray( value ) {
 
 jQuery.fn.extend( {
 	addClass: function( value ) {
-		var Classs, cur, curValue, Class, i, finalValue;
+		var classNames, cur, curValue, className, i, finalValue;
 
 		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
@@ -8365,25 +8365,25 @@ jQuery.fn.extend( {
 			} );
 		}
 
-		Classs = ClassesToArray( value );
+		classNames = classesToArray( value );
 
-		if ( Classs.length ) {
+		if ( classNames.length ) {
 			return this.each( function() {
 				curValue = getClass( this );
 				cur = this.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
-					for ( i = 0; i < Classs.length; i++ ) {
-						Class = Classs[ i ];
-						if ( cur.indexOf( " " + Class + " " ) < 0 ) {
-							cur += Class + " ";
+					for ( i = 0; i < classNames.length; i++ ) {
+						className = classNames[ i ];
+						if ( cur.indexOf( " " + className + " " ) < 0 ) {
+							cur += className + " ";
 						}
 					}
 
 					// Only assign if different to avoid unneeded rendering.
 					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
-						this.setAttribute( "Class", finalValue );
+						this.setAttribute( "class", finalValue );
 					}
 				}
 			} );
@@ -8393,7 +8393,7 @@ jQuery.fn.extend( {
 	},
 
 	removeClass: function( value ) {
-		var Classs, cur, curValue, Class, i, finalValue;
+		var classNames, cur, curValue, className, i, finalValue;
 
 		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
@@ -8402,12 +8402,12 @@ jQuery.fn.extend( {
 		}
 
 		if ( !arguments.length ) {
-			return this.attr( "Class", "" );
+			return this.attr( "class", "" );
 		}
 
-		Classs = ClassesToArray( value );
+		classNames = classesToArray( value );
 
-		if ( Classs.length ) {
+		if ( classNames.length ) {
 			return this.each( function() {
 				curValue = getClass( this );
 
@@ -8415,19 +8415,19 @@ jQuery.fn.extend( {
 				cur = this.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
-					for ( i = 0; i < Classs.length; i++ ) {
-						Class = Classs[ i ];
+					for ( i = 0; i < classNames.length; i++ ) {
+						className = classNames[ i ];
 
 						// Remove *all* instances
-						while ( cur.indexOf( " " + Class + " " ) > -1 ) {
-							cur = cur.replace( " " + Class + " ", " " );
+						while ( cur.indexOf( " " + className + " " ) > -1 ) {
+							cur = cur.replace( " " + className + " ", " " );
 						}
 					}
 
 					// Only assign if different to avoid unneeded rendering.
 					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
-						this.setAttribute( "Class", finalValue );
+						this.setAttribute( "class", finalValue );
 					}
 				}
 			} );
@@ -8437,7 +8437,7 @@ jQuery.fn.extend( {
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var Classs, Class, i, self,
+		var classNames, className, i, self,
 			type = typeof value,
 			isValidValue = type === "string" || Array.isArray( value );
 
@@ -8454,43 +8454,43 @@ jQuery.fn.extend( {
 			return stateVal ? this.addClass( value ) : this.removeClass( value );
 		}
 
-		Classs = ClassesToArray( value );
+		classNames = classesToArray( value );
 
 		return this.each( function() {
 			if ( isValidValue ) {
 
-				// Toggle individual Class names
+				// Toggle individual class names
 				self = jQuery( this );
 
-				for ( i = 0; i < Classs.length; i++ ) {
-					Class = Classs[ i ];
+				for ( i = 0; i < classNames.length; i++ ) {
+					className = classNames[ i ];
 
-					// Check each Class given, space separated list
-					if ( self.hasClass( Class ) ) {
-						self.removeClass( Class );
+					// Check each className given, space separated list
+					if ( self.hasClass( className ) ) {
+						self.removeClass( className );
 					} else {
-						self.addClass( Class );
+						self.addClass( className );
 					}
 				}
 
-			// Toggle whole Class name
+			// Toggle whole class name
 			} else if ( value === undefined || type === "boolean" ) {
-				Class = getClass( this );
-				if ( Class ) {
+				className = getClass( this );
+				if ( className ) {
 
-					// Store Class if set
-					dataPriv.set( this, "__Class__", Class );
+					// Store className if set
+					dataPriv.set( this, "__className__", className );
 				}
 
-				// If the element has a Class name or if we're passed `false`,
-				// then remove the whole Class (if there was one, the above saved it).
+				// If the element has a class name or if we're passed `false`,
+				// then remove the whole classname (if there was one, the above saved it).
 				// Otherwise bring back whatever was previously saved (if anything),
 				// falling back to the empty string if nothing was stored.
 				if ( this.setAttribute ) {
-					this.setAttribute( "Class",
-						Class || value === false ?
+					this.setAttribute( "class",
+						className || value === false ?
 							"" :
-							dataPriv.get( this, "__Class__" ) || ""
+							dataPriv.get( this, "__className__" ) || ""
 					);
 				}
 			}
@@ -8498,13 +8498,13 @@ jQuery.fn.extend( {
 	},
 
 	hasClass: function( selector ) {
-		var Class, elem,
+		var className, elem,
 			i = 0;
 
-		Class = " " + selector + " ";
+		className = " " + selector + " ";
 		while ( ( elem = this[ i++ ] ) ) {
 			if ( elem.nodeType === 1 &&
-				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( Class ) > -1 ) {
+				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
 				return true;
 			}
 		}
