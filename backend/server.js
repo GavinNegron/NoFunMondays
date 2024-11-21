@@ -30,8 +30,11 @@ app.use(session({
     saveUninitialized: true
 }));
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // Enable CORS for the frontend (React) on port 3000 during development
+=======
+>>>>>>> parent of fb91f89 (Updated featured post to not show up in recent posts)
 =======
 >>>>>>> parent of fb91f89 (Updated featured post to not show up in recent posts)
 app.use(cors({
