@@ -1,14 +1,16 @@
-function loading() {
-
+function Loading() {
   return (
     <>
-       <div class="loading-screen">
-        <div class="loading-screen__icon">
-            test<i class="fa-solid fa-music fa-bounce fa-2xl" style="color: #ffffff;"></i>
+      <div className="loading-screen">
+        <div className="loading-screen__icon">
+          <i 
+            className="fa-solid fa-music fa-bounce fa-2xl" 
+            style={{ color: '#ffffff' }} 
+          ></i>
         </div>
-    </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default loading
+export default Loading;

@@ -3,9 +3,13 @@ const Posts = require('../models/Posts')
 // getRecentPost()
 const getRecentPost = async (req, res) => {
     try {
-        const posts = await Posts.find()
-            .sort({ createdAt: -1 }) 
-            .limit(8);
+        const { limit = 8 } = req.query;
+        const featuredPost = await Posts.findOne({ featured: true });
+
+        const posts = await Posts.find({ _id: { $ne: featuredPost?._id }})
+            .sort({ createdAt: -1 })
+            .limit(parseInt(limit))
+            .lean();
 
         res.status(200).json(posts);
     } catch (error) {

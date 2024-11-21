@@ -1,57 +1,50 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import postService from './postService'; // Import the postService to fetch posts
 
-// Fetch all posts
+// fetchPosts
 export const fetchPosts = createAsyncThunk('posts/fetch', async (_, thunkAPI) => {
   try {
-    return await postService.fetchPosts(); // Fetch posts from the service
+    // Call the service function to fetch posts
+    return await postService.fetchPosts();
   } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || 'Failed to fetch posts'
-    );
+    // Handle errors and return the error message
+    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch posts');
   }
 });
 
-// Fetch the featured post
+// fetchFeaturedPost
 export const fetchFeaturedPost = createAsyncThunk('posts/fetchFeatured', async (_, thunkAPI) => {
   try {
-    return await postService.fetchFeaturedPost(); // Fetch featured post from the service
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || 'Failed to fetch featured post'
-    );
+    return await postService.fetchFeaturedPost();
+  } catch(error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch featured post')
   }
-});
+})
 
-// Initial state
-const initialState = {
-  posts: [], // Array to store all posts
-  featuredPost: null, // Featured post data
-  isLoading: false, // Loading state
-  error: null, // Error message
-};
-
-// Create the slice
+// postSlice
 const postSlice = createSlice({
   name: 'posts',
-  initialState,
-  reducers: {},
+  initialState: {
+    posts: [], 
+    featuredPost: null,
+    isLoading: false, 
+    error: null, 
+  },
+  reducers: {}, 
   extraReducers: (builder) => {
     builder
-      // Fetch all posts
       .addCase(fetchPosts.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
+        state.error = null; 
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.posts = Array.isArray(action.payload) ? action.payload : []; // Ensure payload is an array
+        state.isLoading = false; 
+        state.posts = action.payload; 
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+        state.isLoading = false; 
+        state.error = action.payload; 
       })
-      // Fetch the featured post
       .addCase(fetchFeaturedPost.pending, (state) => {
         state.isLoading = true;
         state.error = null;
