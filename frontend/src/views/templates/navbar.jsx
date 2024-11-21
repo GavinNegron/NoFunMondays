@@ -5,36 +5,36 @@ function navbar() {
 
 return (
   <>
-     <nav class="container-fluid navbar">
-  <div class="navbar__logo">
-      <a href="/" class="navbar__logo-name">NoFunMondays</a>
-      <img src="/img/placeholder.png" alt="Home" class="navbar__logo-img"></img>
+     <nav className="container-fluid navbar">
+  <div className="navbar__logo">
+      <a href="/" className="navbar__logo-name">NoFunMondays</a>
+      <img src="/img/placeholder.png" alt="Home" className="navbar__logo-img"></img>
   </div>
   
-  <div class="navbar__menu d-flex center">
-      <div class="navbar__menu-left">
-          <a href="/about" class="navbar__link">Home</a>
-          <a href="/about" class="navbar__link">Blog</a>
-          <a href="/blog" class="navbar__link">Games</a>
-          <a href="/login" class="navbar__link">Leaks</a>
-          <a href="/login" class="navbar__link">Contact</a>
+  <div className="navbar__menu d-flex center">
+      <div className="navbar__menu-left">
+          <a href="/about" className="navbar__link">Home</a>
+          <a href="/about" className="navbar__link">Blog</a>
+          <a href="/blog" className="navbar__link">Games</a>
+          <a href="/login" className="navbar__link">Leaks</a>
+          <a href="/login" className="navbar__link">Contact</a>
       </div>
-      <div class="navbar__menu-right d-flex">
+      <div className="navbar__menu-right d-flex">
           <Search />
           <Socials />
       </div>
   </div>
   
-  <div class="navbar__hamburger">
-    <img src="/img/hamburger-icon.png" class="navbar__hamburger-img"></img>
+  <div className="navbar__hamburger">
+    <img src="/img/hamburger-icon.png" className="navbar__hamburger-img" alt='menu-icon'></img>
   </div>
   
-  <div class="navbar__dropdown">
-      <a href="/" class="navbar__dropdown-link">Home</a>
-      <a href="/blog" class="navbar__dropdown-link">Blog</a>
-      <a href="/learn" class="navbar__dropdown-link">Games</a>
-      <a href="/about" class="navbar__dropdown-link">Leaks</a>
-      <a href="/contact-us" class="navbar__dropdown-link">Contact</a>
+  <div className="navbar__dropdown">
+      <a href="/" className="navbar__dropdown-link">Home</a>
+      <a href="/blog" className="navbar__dropdown-link">Blog</a>
+      <a href="/learn" className="navbar__dropdown-link">Games</a>
+      <a href="/about" className="navbar__dropdown-link">Leaks</a>
+      <a href="/contact-us" className="navbar__dropdown-link">Contact</a>
   </div>
 </nav>
   </>

@@ -91,20 +91,6 @@ export function MicrosoftLogin() {
   });
 }
 
-// HideLoadingScreen
-export function HideLoadingScreen() {
-  const loadingScreen = document.querySelector('.loading-screen');
-
-  // Check if the element exists before trying to modify its style
-  if (loadingScreen) {
-    setTimeout(function() {
-        loadingScreen.style.display = 'none';
-    }, 500);
-  } else {
-    console.warn('Loading screen element not found.');
-  }
-}
-
 // TogglePasswordVisibility
 export function TogglePasswordVisibility(passwordField, passwordToggle) {
   if($(passwordField).prop("type") === "password")
