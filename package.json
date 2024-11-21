@@ -196,7 +196,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/server.js",
     "postcommit": "npm version patch --no-git-tag-version",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "heroku-postbuild": "npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC"
