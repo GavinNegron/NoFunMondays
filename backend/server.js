@@ -21,7 +21,7 @@ app.disable('x-powered-by');
 
 // Serve React build directory for static assets
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'frontend/build')));  // Adjust if your React app's build directory is different
+    app.use(express.static(path.join(__dirname, '../frontend/build')));  // Adjust path to 'frontend/build'
 }
 
 // Session setup
@@ -56,7 +56,7 @@ routeHandler(path.join(__dirname, '/routes'));
 // Fallback route to serve React's index.html for SPA
 app.get('*', (req, res) => {
     if (process.env.NODE_ENV === 'production') {
-        res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));  // Ensure correct path to your React app's build
+        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));  // Ensure correct path to frontend/build
     } else {
         res.send('App is running, but React frontend is not built yet.');
     }
