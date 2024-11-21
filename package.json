@@ -194,7 +194,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon backend/server.js",
+    "start": "node backend/server.js",
     "postcommit": "npm version patch --no-git-tag-version",
     "client": "npm start --prefix frontend"
   },
