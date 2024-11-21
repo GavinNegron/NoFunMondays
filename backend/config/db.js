@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.set('strictQuery', true);
+
 const dbConn = async () => {
     try {
         await mongoose.connect(process.env.DB_CONNECT, {
@@ -9,7 +11,7 @@ const dbConn = async () => {
         console.log('MongoDB connected successfully');
     } catch (err) {
         console.error('MongoDB connection error:', err);
-        process.exit(1); // Exit process if connection fails
+        process.exit(1);
     }
 };
 
