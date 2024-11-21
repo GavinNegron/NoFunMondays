@@ -22,13 +22,13 @@ function FeaturedPost() {
 
   return (
     <>
-    <div class="featured-post">
-        <div class="featured-post__header">
+    <div className="featured-post">
+        <div className="featured-post__header">
             <p>Featured Article:</p>
         </div>
-        <div class="featured-post__inner d-flex col-12">
-            <div class="featured-post__left d-flex col-12 col-md-12 col-lg-7">
-                <div class="featured-post__img">
+        <div className="featured-post__inner d-flex col-12">
+            <div className="featured-post__left d-flex col-12 col-md-12 col-lg-7">
+                <div className="featured-post__img">
                 <a
                     style={{ backgroundImage: `url(${featuredPost.imageUrl})`,}}
                     href="/blog-post"
@@ -36,15 +36,15 @@ function FeaturedPost() {
                 </a>
                 </div>
             </div>
-            <div class="featured-post__right d-flex col-12 col-md-12 col-lg-5">
-                <div class="featured-post__content">
-                    <div class="featured-post__title">
+            <div className="featured-post__right d-flex col-12 col-md-12 col-lg-5">
+                <div className="featured-post__content">
+                    <div className="featured-post__title">
                         <a href="blog-post">{featuredPost.title}</a>
                     </div>
-                    <div class="featured-post__description">
+                    <div className="featured-post__description">
                         <p>{featuredPost.description}</p>
                     </div>
-                    <div class="featured-post__date">
+                    <div className="featured-post__date">
                         <p>{featuredPost.createdAt}</p>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ function Landing() {
   return (
     <>
     <Navbar />
-    <main class="main">
+    <main className="main">
     <PostGrid />
     </main>
     <Footer />

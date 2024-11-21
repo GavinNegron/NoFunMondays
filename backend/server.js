@@ -23,6 +23,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 app.use(cors({
     origin: 'http://localhost:3000', // Allow the frontend on port 3000
     methods: ['GET', 'POST'],       // Allow specific methods
