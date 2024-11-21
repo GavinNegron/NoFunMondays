@@ -1,7 +1,18 @@
-import React from 'react';
-import PostCard from './post-card'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../../features/posts/postSlice';
+import PostCard from './post-card';
 
 function RecentPosts() {
+  const dispatch = useDispatch();
+  const { posts, isLoading, error } = useSelector((state) => state.posts); 
+
+  useEffect(() => {
+    dispatch(fetchPosts()); 
+  }, [dispatch]);
+  
+  if (isLoading) return <div>Loading posts...</div>; 
+  if (error) return <div className="error">{error}</div>; 
 
   return (
     <>
@@ -10,10 +21,9 @@ function RecentPosts() {
             <p>Recent Blog Posts</p>
         </div>
         <div class="recent-posts__inner">
-        <PostCard/>
-        <PostCard/>
-        <PostCard/>
-        <PostCard/>
+        {posts.map((post) => {
+          return <PostCard key={post._id} post={post}/>
+        })}
         </div>
     </div>
     </>

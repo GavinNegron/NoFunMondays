@@ -11,11 +11,18 @@ const blogPostSchema = new mongoose.Schema({
     },
     createdAt: { 
         type: Date, 
+        default: Date.now,
         required: true,
-        default: Date.now
+
     },
     imageUrl: {
         type: String,
+        required: true,
+    },
+    featured: {
+        type: Boolean,
+        default: false,
+        unique: true,
         required: true
     }
 })
