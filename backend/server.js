@@ -18,7 +18,7 @@ app.use(express.static('Public'));  // Serve any public files from 'Public' fold
 
 // Set up for serving the React app's static files after build
 // Ensure the React build folder is correctly placed after running 'npm run build' in the frontend directory
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));  // Serve the React static build files
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));  // Serve the React static build files
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -57,7 +57,7 @@ routeHandler(path.join(__dirname, '/routes'));
 // Handle all other routes (for React Router)
 // This serves the index.html file for all unmatched routes, ensuring that React's routing works
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));  // Serve the React index.html for all unmatched routes
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));  // Corrected path to serve the React index.html
 });
 
 const port = process.env.PORT || 2001;
