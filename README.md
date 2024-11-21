@@ -1,2 +1,2 @@
-# MusicTheoryWebsite
+# NoFunMondays
  
