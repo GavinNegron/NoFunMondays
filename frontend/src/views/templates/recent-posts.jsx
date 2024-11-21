@@ -16,11 +16,11 @@ function RecentPosts() {
 
   return (
     <>
-    <div className="recent-posts">
-        <div className="recent-posts__header">
+    <div class="recent-posts">
+        <div class="recent-posts__header">
             <p>Recent Blog Posts</p>
         </div>
-        <div className="recent-posts__inner">
+        <div class="recent-posts__inner">
         {posts.map((post) => {
           return <PostCard key={post._id} post={post}/>
         })}

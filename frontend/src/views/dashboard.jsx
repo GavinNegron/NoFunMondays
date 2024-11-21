@@ -8,17 +8,17 @@ function Dashboard() {
   return (
     <>
     <Navbar />
-    <main className="main db">
+    <main class="main db">
         <Sidebar />
-        <div className="dashboard">
-          <div className="dashboard__header">
+        <div class="dashboard">
+          <div class="dashboard__header">
               <span>Dashboard</span>
           </div>
-         <div className="dashboard__grid container-fluid d-flex">
-          <div className="col-5">
+         <div class="dashboard__grid container-fluid d-flex">
+          <div class="col-5">
       
           </div>
-          <div className="col-7">
+          <div class="col-7">
       
           </div>
          </div>
