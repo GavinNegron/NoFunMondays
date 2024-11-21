@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../public/css/404.css'
 
 function NotFound() {
   return (
