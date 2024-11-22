@@ -1,4 +1,5 @@
-const Posts = require('../models/Posts')
+const Posts = require('../models/Posts');
+const axios = require('axios');
 
 // getRecentPost()
 const getRecentPost = async (req, res) => {
@@ -51,16 +52,32 @@ const setFeaturedPost = async (req, res) => {
 
 // setPost()
 const setPost = async (req, res) => {
+    const { title, description, imageUrl } = req.body;
+
+    if (!imageUrl) {
+        return res.status(400).json({ error: 'Image URL is required' });
+    }
+
     try {
-        const { title, description, imageUrl } = req.body;
-        const posts = await Posts.create({
+        // Fetch the image from the URL (this is the important part)
+        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+
+        // Extract the image content type (e.g., image/png, image/jpeg)
+        const contentType = response.headers['content-type'];
+
+        // Create a new post with the image data
+        const post = await Posts.create({
             title,
-        description,
-        imageUrl,
-        }) 
-        res.status(200).json(posts)
+            description,
+            imageUrl,  // Save the original URL
+            imgData: Buffer.from(response.data),  // Save the binary image data in MongoDB
+            imgContentType: contentType  // Save the MIME type
+        });
+
+        res.status(201).json(post);  // Respond with the created post
     } catch (error) {
-        res.status(500).json({ message: `Server Error: \n ${error}`});
+        console.error('Error handling image:', error.message);
+        res.status(500).json({ error: 'Unable to process image' });
     }
 }
 
@@ -86,11 +103,29 @@ const deletePost = async (req, res) => {
     res.status(200).json({ id: req.params.id });
 }
 
+// getImage()
+const getImage = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post || !post.imgData) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+
+        res.set('Content-Type', post.imgContentType); // Set the correct MIME type
+        res.send(post.imgData); // Send the image data as a response
+    } catch (error) {
+        console.error('Error fetching image:', error.message);
+        res.status(500).json({ error: 'Unable to fetch image' });
+    }
+}
+
 module.exports = {
     getRecentPost, 
     getFeaturedPost, 
     setFeaturedPost, 
     setPost, 
     updatePost, 
-    deletePost
+    deletePost, 
+    getImage,
 }
