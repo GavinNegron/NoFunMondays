@@ -39,43 +39,6 @@ app.use(
 // Serve static files from the React frontend build directory
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// Proxy Image and Store Route
-app.post('/api/posts', async (req, res) => {
-    const { imageUrl, ...postData } = req.body;
-
-    if (!imageUrl) {
-        return res.status(400).json({ error: 'Image URL is required' });
-    }
-
-    try {
-        // Fetch the image from the external URL
-        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-
-        // Define a path to store the image
-        const fileName = `image-${Date.now()}.png`; // Adjust extension based on content type
-        const filePath = path.join(__dirname, 'public/images', fileName);
-
-        // Save the image locally
-        fs.writeFileSync(filePath, response.data);
-
-        // Generate the URL for the stored image
-        const proxiedImageUrl = `/images/${fileName}`; // Adjust based on your static file path
-
-        // Save the post data to the database (with the new image URL)
-        const post = new Post({
-            ...postData,
-            imageUrl: proxiedImageUrl, // Replace the original image URL
-        });
-        await post.save();
-
-        // Respond with the new post
-        res.status(201).json(post);
-    } catch (error) {
-        console.error('Error handling image:', error.message);
-        res.status(500).json({ error: 'Unable to process image' });
-    }
-});
-
 // Route Handler
 async function routeHandler(folderName) {
     const files = await fs.promises.readdir(folderName);
