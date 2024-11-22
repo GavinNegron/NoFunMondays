@@ -29,6 +29,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type'], // Allow certain headers
   }));
 
+// Serve static files from the React frontend build directory
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
 // Route Handler
 async function routeHandler(folderName) {
     const files = await fs.promises.readdir(folderName);
@@ -43,6 +46,9 @@ async function routeHandler(folderName) {
     }
 }
 routeHandler(path.join(__dirname, '/routes'));
+
+// Catch-all route to serve index.html for all non-API requests
+
 
 const port = process.env.PORT || 2001;
 // Connect to server
