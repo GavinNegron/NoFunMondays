@@ -1,5 +1,5 @@
 const Posts = require('../../models/Posts');
-const { getRecentPost, getFeaturedPost, setFeaturedPost, setPost, updatePost, deletePost } = require('../../controllers/postController')
+const { getRecentPost, getFeaturedPost, setFeaturedPost, setPost, updatePost, deletePost, getImage } = require('../../controllers/postController')
 
 module.exports = function(app){
     app.get('/api/posts/', getRecentPost)
@@ -13,4 +13,6 @@ module.exports = function(app){
     app.put('/api/posts/:id', updatePost)
 
     app.delete('/api/posts/:id', deletePost)
+
+    app.get('/api/posts/:id/image', getImage)
 };
