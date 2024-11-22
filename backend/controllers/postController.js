@@ -1,8 +1,19 @@
 const Posts = require('../models/Posts');
 const axios = require('axios');
 
+// getPosts()
+const getPosts = async (req, res) => {
+    try {
+        const posts = await Posts.find();
+
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: `Server Error: \n ${error}` });
+    }
+};
+
 // getRecentPost()
-const getRecentPost = async (req, res) => {
+const getRecentPosts = async (req, res) => {
     try {
         const { limit = 8 } = req.query;
         const featuredPost = await Posts.findOne({ featured: true });
@@ -35,7 +46,6 @@ const getFeaturedPost = async (req, res) => {
 const setFeaturedPost = async (req, res) => {
     try {
         const { postId } = req.params;
-        console.log(postId)
         // Set all other posts labeled as featured to false
         await Posts.updateMany({}, { featured: false });
 
@@ -121,11 +131,12 @@ const getImage = async (req, res) => {
 }
 
 module.exports = {
-    getRecentPost, 
+    getRecentPosts, 
     getFeaturedPost, 
     setFeaturedPost, 
     setPost, 
     updatePost, 
     deletePost, 
     getImage,
+    getPosts
 }

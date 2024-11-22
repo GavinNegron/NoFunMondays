@@ -13,7 +13,6 @@ const blogPostSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now,
         required: true,
-
     },
     imageUrl: {
         type: String,
@@ -22,9 +21,8 @@ const blogPostSchema = new mongoose.Schema({
     featured: {
         type: Boolean,
         default: false,
-        unique: true,
         required: true
-    }
-})
+    },
+});
 
 module.exports = mongoose.model('Posts', blogPostSchema);

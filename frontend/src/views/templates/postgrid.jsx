@@ -6,7 +6,7 @@ function PostGrid() {
 
   return (
     <>
-    <div className="d-flex center postgrid">
+    <div className="postgrid center d-flex">
     <div className="postgrid__inner">
         <FeaturedPost/>
         <RecentPosts/>

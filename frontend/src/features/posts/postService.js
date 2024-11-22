@@ -3,7 +3,7 @@ import axios from 'axios'; // Import axios for HTTP requests
 // fetchPosts
 const fetchPosts = async () => {
   // Send a GET request to the backend's recent posts endpoint with limit of 8 posts
-  const response = await axios.get('/api/posts', {
+  const response = await axios.get('/api/posts/recent', {
     params: {
       limit: 8, // Pass the limit to the backend
     },
