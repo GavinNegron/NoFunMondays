@@ -1,16 +1,25 @@
 const Posts = require('../models/Posts');
-const axios = require('axios');
 const { Storage } = require('@google-cloud/storage');
-const { googleCloud } = require('../config/config');
+require('dotenv').config();
+const axios = require('axios');
 
 const storage = new Storage({
-    keyFilename: googleCloud.keyFilename,
-    projectId: googleCloud.projectId,
+    keyFilename: undefined, // Don't use keyFilename if we are using env variables for sensitive fields
+    credentials: {
+        type: 'service_account',
+        project_id: process.env.GOOGLE_PROJECT_ID,
+        private_key_id: process.env.PRIVATE_KEY_ID,
+        private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), // Ensure line breaks are preserved
+        client_email: process.env.CLIENT_EMAIL,
+        client_id: process.env.CLIENT_ID,
+        auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+        token_uri: 'https://oauth2.googleapis.com/token',
+        auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+        client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/admin-805%40nofunmondays.iam.gserviceaccount.com',
+    },
 });
 
-const bucketName = googleCloud.bucketName;
-
-
+const bucketName = "nofunmondays";
 
 
 // getPosts()
