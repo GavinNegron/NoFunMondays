@@ -1,5 +1,17 @@
 const Posts = require('../models/Posts');
 const axios = require('axios');
+const { Storage } = require('@google-cloud/storage');
+const { googleCloud } = require('../config/config');
+
+const storage = new Storage({
+    keyFilename: googleCloud.keyFilename,
+    projectId: googleCloud.projectId,
+});
+
+const bucketName = googleCloud.bucketName;
+
+
+
 
 // getPosts()
 const getPosts = async (req, res) => {
@@ -69,22 +81,34 @@ const setPost = async (req, res) => {
     }
 
     try {
-        // Fetch the image from the URL (this is the important part)
+        // Fetch the image from the provided URL
         const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
 
-        // Extract the image content type (e.g., image/png, image/jpeg)
+        // Extract the content type of the image
         const contentType = response.headers['content-type'];
 
-        // Create a new post with the image data
+        // Generate a unique file name for the image
+        const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+
+        // Upload the image to Google Cloud Storage
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(fileName);
+
+        await file.save(response.data, {
+            metadata: { contentType },
+        });
+
+        // Construct the public URL of the uploaded image
+        const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+
+        // Save the post to the database
         const post = await Posts.create({
             title,
             description,
-            imageUrl,  // Save the original URL
-            imgData: Buffer.from(response.data),  // Save the binary image data in MongoDB
-            imgContentType: contentType  // Save the MIME type
+            imageUrl: publicUrl, // Use the URL from Google Cloud Storage
         });
 
-        res.status(201).json(post);  // Respond with the created post
+        res.status(201).json(post);
     } catch (error) {
         console.error('Error handling image:', error.message);
         res.status(500).json({ error: 'Unable to process image' });
@@ -113,23 +137,6 @@ const deletePost = async (req, res) => {
     res.status(200).json({ id: req.params.id });
 }
 
-// getImage()
-const getImage = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
-
-        if (!post || !post.imgData) {
-            return res.status(404).json({ error: 'Image not found' });
-        }
-
-        res.set('Content-Type', post.imgContentType); // Set the correct MIME type
-        res.send(post.imgData); // Send the image data as a response
-    } catch (error) {
-        console.error('Error fetching image:', error.message);
-        res.status(500).json({ error: 'Unable to fetch image' });
-    }
-}
-
 module.exports = {
     getRecentPosts, 
     getFeaturedPost, 
@@ -137,6 +144,5 @@ module.exports = {
     setPost, 
     updatePost, 
     deletePost, 
-    getImage,
-    getPosts
+    getPosts,
 }
