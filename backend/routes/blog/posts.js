@@ -15,6 +15,4 @@ module.exports = function(app){
     app.put('/api/posts/:id', updatePost)
 
     app.delete('/api/posts/:id', deletePost)
-
-    app.get('/api/posts/:id/image', getImage)
 };
