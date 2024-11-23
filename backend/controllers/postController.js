@@ -20,7 +20,6 @@ const storage = new Storage({
 });
 
 const bucketName = "nofunmondays";
-
 // getPosts()
 const getPosts = async (req, res) => {
     try {
