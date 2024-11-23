@@ -110,8 +110,7 @@ const setPost = async (req, res) => {
 
         res.status(201).json(post);
     } catch (error) {
-        console.error('Error handling image:', error.message);
-        res.status(500).json({ error: 'Unable to process image' });
+        res.status(500).json({ error: error.message });
     }
 }
 
