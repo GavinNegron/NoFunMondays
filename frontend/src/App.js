@@ -13,7 +13,7 @@ function App() {
     const fetchData = async () => {
       try {
         // Fetch your data here if needed (e.g., posts or any initial setup)
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulated loading time
+        await new Promise(resolve => setTimeout(resolve, 200)); // Simulated loading time
         setLoading(false);
       } catch (error) {
         console.error("Error during data fetching:", error);
@@ -27,6 +27,7 @@ function App() {
   if (loading) {
     return <Loading />;
   }
+
 
   return (
     <Router>

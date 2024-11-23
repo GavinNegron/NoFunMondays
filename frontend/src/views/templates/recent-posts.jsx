@@ -11,9 +11,6 @@ function RecentPosts() {
     dispatch(fetchPosts()); 
   }, [dispatch]);
   
-  if (isLoading) return <div>Loading posts...</div>; 
-  if (error) return <div className="error">{error}</div>; 
-
   return (
     <>
     <div className="recent-posts">
