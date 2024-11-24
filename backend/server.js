@@ -54,6 +54,10 @@ async function routeHandler(folderName) {
 }
 routeHandler(path.join(__dirname, '/routes'));
 
+app.get(/^(?!\/api\/).*/, (req, res) => {
+    res.sendFile(path.join(reactBuildPath, 'index.html'));
+});
+
 const port = process.env.PORT || 2001;
 const server = app.listen(port, () => {
     console.log(`Server Up and running on port ${port}`);
