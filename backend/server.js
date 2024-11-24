@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios'); // For HTTP requests
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -14,7 +13,6 @@ dbConn();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.json());
 app.use(express.static('Public'));
 app.use('/images', express.static(path.join(__dirname, 'public/images'))); 
@@ -38,7 +36,8 @@ app.use(
 );
 
 // Serve static files from the React frontend build directory
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+const reactBuildPath = path.join(__dirname, '../frontend/build');
+app.use(express.static(reactBuildPath));
 
 // Route Handler
 async function routeHandler(folderName) {
@@ -55,15 +54,18 @@ async function routeHandler(folderName) {
 }
 routeHandler(path.join(__dirname, '/routes'));
 
+// React fallback for unmatched routes (excluding known API routes)
+app.get(/^(?!\/api\/).*/, (req, res) => {
+    res.sendFile(path.join(reactBuildPath, 'index.html'));
+});
 
 const port = process.env.PORT || 2001;
-// Connect to server
 const server = app.listen(port, () => {
     console.log(`Server Up and running on port ${port}`);
     console.log(`Open website: http://localhost:${port}`);
 });
 
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err) => {
     console.log(`Error: ${err}`);
     server.close(() => process.exit(1));
 });
