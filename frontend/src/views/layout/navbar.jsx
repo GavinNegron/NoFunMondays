@@ -1,5 +1,5 @@
-import Socials from './socials'
-import Search from './search'
+import Socials from '../templates/base/socials'
+import Search from '../templates/base/search'
 
 function navbar() {
 

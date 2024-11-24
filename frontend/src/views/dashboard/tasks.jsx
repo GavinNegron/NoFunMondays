@@ -1,14 +1,13 @@
-import React from 'react';
-import Navbar from './layout/navbar'
-import Footer from './layout/footer'
-import Sidebar from './layout/sidebar'
+import React from 'react'
+import Navbar from '../layout/navbar'
+import Footer from '../layout/footer'
+import Sidebar from '../layout/sidebar'
 
-function Dashboard() {
-
+const DTasks = () => {
   return (
-    <>
+    <div>
       <link rel="stylesheet" href="/css/dashboard.css"></link>
-    <Navbar />
+      <Navbar />
     <main className="main db">
         <Sidebar />
         <div className="dashboard">
@@ -26,8 +25,8 @@ function Dashboard() {
       </div>
     </main>
     <Footer />
-    </>
-  );
+    </div>
+  )
 }
 
-export default Dashboard;
+export default DTasks

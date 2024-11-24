@@ -1,6 +1,19 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function Sidebar() {
+  const location = useLocation(); // Get the current location (path)
+
+  // Links to be rendered in the sidebar
+  const links = [
+    { text: "Dashboard", href: "/dashboard", iconName: "chart-simple" },
+    { text: "Posts", href: "/dashboard/posts", iconName: "newspaper" },
+    { text: "Users", href: "/dashboard/users", iconName: "users-gear" },
+    { text: "Notifications", href: "/dashboard/notifications", iconName: "bell" },
+    { text: "Tasks", href: "/dashboard/tasks", iconName: "clipboard-list" },
+    { text: "Settings", href: "/dashboard/settings", iconName: "gear" },
+  ];
+
   return (
     <aside className="sidebar">
       <div className="sidebar__top d-flex align-items-center">
@@ -26,25 +39,22 @@ function Sidebar() {
       </div>
 
       <div className="sidebar__links">
-        {[
-          { text: "Dashboard", href: "/dashboard", iconName: "chart-simple" },
-          { text: "Posts", href: "/dashboard/posts", iconName: "newspaper" },
-          { text: "Users", href: "/dashboard/users", iconName: "users-gear" },
-          { text: "Notifications", href: "/dashboard/notifications", iconName: "bell" },
-          { text: "Tasks", href: "/dashboard/tasks", iconName: "clipboard-list" },
-          { text: "Settings", href: "/dashboard/settings", iconName: "gear" },
-        ].map((link, index) => (
-          <div key={index} className={`sidebar__links-item ${index === 0 ? "active" : ""}`}>
+        {links.map((link, index) => (
+          <Link 
+            key={index} 
+            to={link.href} 
+            className={`sidebar__links-item ${location.pathname === link.href ? "active" : ""}`} 
+            draggable="false"
+          >
             <div className="sidebar__links-item-icon">
               <i className={`fa-solid fa-${link.iconName}`} style={{ color: "#ffffff" }}></i>
             </div>
             <div className="sidebar__links-item-text">
-              <a href={link.href} draggable="false">{link.text}</a>
+              {link.text}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-
 
       <div className="sidebar__bottom d-flex align-items-center flex-column">
         <span className="sidebar__links-line"></span>
