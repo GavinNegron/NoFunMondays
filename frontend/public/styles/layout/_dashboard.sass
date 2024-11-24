@@ -1,0 +1,19 @@
+.navbar
+    position: sticky
+
+.dashboard
+    font-family: $poppins
+    font-weight: bold
+    min-height: 100vh
+    position: absolute
+    right: 0
+    width: calc( 100% - 300px )
+
+    &__header
+        color: white
+        margin: 20px 40px
+        font-size: 30px
+
+body.SidebarActive
+    .dashboard
+        width: calc( 100% - 78px )

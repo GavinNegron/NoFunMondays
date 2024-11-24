@@ -7,6 +7,7 @@ function Dashboard() {
 
   return (
     <>
+      <link rel="stylesheet" href="/css/dashboard.css"></link>
     <Navbar />
     <main className="main db">
         <Sidebar />

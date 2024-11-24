@@ -1,0 +1,62 @@
+.error-404
+    flex-direction: column
+    height: 100vh
+    padding: 0 2rem
+    display: flex
+    justify-content: center
+    align-items: center
+    background-image: url(https://wallpapercave.com/wp/wp2342826.jpg)
+    background-repeat: no-repeat
+    background-size: cover
+    color: white
+
+    &__header 
+        margin-bottom: 1rem
+
+        span
+            -webkit-background-clip: text
+            background-clip: text
+            font-size: clamp(5rem, 30vw, 15rem)
+            font-family: 'Libre Franklin'
+            line-height: 0
+
+    &__description span 
+        font-family: $poppins
+        font-weight: bold
+        font-size: clamp(18px, 6vw, 2rem)
+        margin-top: -5rem
+
+    &__pun span 
+        font-family: $poppins
+        font-size: clamp(12px, 4vw, 1.5rem)
+
+
+    &__btn 
+        padding-top: 20px
+        
+
+.fortnite__btn 
+    position: relative
+    font-size: 1.6rem
+    margin: 0 auto
+    background: rgba(0, 0, 0, 0)
+    color: #000
+    font-family: 'Libre Franklin', sans-serif
+    text-transform: uppercase
+    width: 250px
+    padding: 10px
+    text-align: center
+    cursor: pointer
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, .5)
+    background-color: #f0ed63
+
+
+
+
+.fortnite__btn  span 
+    position: relative
+    z-index: 100
+    background-color: #f0ed63
+
+    a
+        text-decoration: none

@@ -1,23 +1,26 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFeaturedPost } from '../../features/posts/postSlice';
+const moment = require('moment');
 
 function FeaturedPost() {
   const dispatch = useDispatch();
-  const { featuredPost, error, isLoading } = useSelector((state) => state.posts);
+  const { featuredPost, isLoading } = useSelector((state) => state.posts);
 
   useEffect(() => {
     if (!featuredPost && !isLoading) {
-      dispatch(fetchFeaturedPost()); // Fetch the featured post if it's not already loaded
+      dispatch(fetchFeaturedPost()); 
     }
   }, [dispatch, featuredPost, isLoading]);
 
-  // Only render if featuredPost is available
   if (!featuredPost) {
-    return null; // Don't render anything until the featuredPost is available
+    return null; 
   }
 
-  // Render the featured post when it's available
+  const formatDate = (date) => {
+    return moment(date).format('MM/DD/YYYY');
+  };
+
   return (
     <div className="featured-post">
       <div className="featured-post__header">
@@ -44,7 +47,7 @@ function FeaturedPost() {
               <p>{featuredPost.description}</p>
             </div>
             <div className="featured-post__date">
-              <p>{featuredPost.createdAt}</p>
+              <p>{formatDate(featuredPost.createdAt)}</p>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import PostCard from './post-card';
 
 function RecentPosts() {
   const dispatch = useDispatch();
-  const { posts, isLoading, error } = useSelector((state) => state.posts); 
+  const { posts } = useSelector((state) => state.posts); 
 
   useEffect(() => {
     dispatch(fetchPosts()); 
