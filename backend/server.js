@@ -14,9 +14,10 @@ dbConn();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.json());
 app.use(express.static('Public'));
-app.use('/images', express.static(path.join(__dirname, 'public/images'))); // Serve images
+app.use('/images', express.static(path.join(__dirname, 'public/images'))); 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 app.disable('x-powered-by');
