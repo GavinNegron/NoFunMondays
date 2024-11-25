@@ -3,7 +3,7 @@ import Navbar from '../layout/navbar'
 import Footer from '../layout/footer'
 import Sidebar from '../layout/sidebar'
 
-const DSettings = () => {
+function DSettings() {
   return (
     <div>
       <link rel="stylesheet" href="/css/dashboard.css"></link>

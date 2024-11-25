@@ -3,7 +3,7 @@ import Navbar from '../layout/navbar'
 import Footer from '../layout/footer'
 import Sidebar from '../layout/sidebar'
 
-const DPosts = () => {
+function DPosts() {
   return (
     <div>
       <link rel="stylesheet" href="/css/dashboard.css"></link>
@@ -12,7 +12,7 @@ const DPosts = () => {
         <Sidebar />
         <div className="dashboard">
           <div className="dashboard__header">
-              <span>Dashboard</span>
+              <span>Posts</span>
           </div>
          <div className="dashboard__grid container-fluid d-flex">
           <div className="col-5">

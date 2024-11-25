@@ -3,7 +3,9 @@ import { SetSidebarScreenWidth, ToggleSidebarState } from '../lib/functions.js';
 
 loader.init();
 
-// Sets the sidebar to be collapsed or open depending on screen width.
+window.SetSidebarScreenWidth = SetSidebarScreenWidth;
+window.ToggleSidebarState = ToggleSidebarState;
+
 SetSidebarScreenWidth();
 window.addEventListener('resize', SetSidebarScreenWidth);
 

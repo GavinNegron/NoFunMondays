@@ -13,22 +13,8 @@ import NotFound from './views/404';
 function App() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const initializeApp = async () => {
-      try {
-        await new Promise(resolve => setTimeout(resolve, 3000)); 
-        setLoading(false); 
-      } catch (error) {
-        console.error('Error during app initialization:', error);
-        setLoading(false); 
-      }
-    };
-
-    initializeApp();
-  }, []);
-
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <RoutesWrapper loading={loading} setLoading={setLoading} />
     </Router>
   );
@@ -41,7 +27,7 @@ function RoutesWrapper({ loading, setLoading }) {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false); 
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [location, setLoading]); 
 

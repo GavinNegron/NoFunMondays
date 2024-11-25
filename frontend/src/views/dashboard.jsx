@@ -13,7 +13,7 @@ function Dashboard() {
         <Sidebar />
         <div className="dashboard">
           <div className="dashboard__header">
-              <span>Dashboard</span>
+              <span>Overview</span>
           </div>
          <div className="dashboard__grid container-fluid d-flex">
           <div className="col-5">
