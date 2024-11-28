@@ -1,19 +1,167 @@
 .navbar
     position: sticky
 
-.dashboard
-    font-family: $poppins
-    font-weight: bold
-    min-height: 100vh
-    position: absolute
-    right: 0
-    width: calc( 100% - 300px )
-
-    &__header
-        color: white
-        margin: 20px 40px
-        font-size: 30px
-
 body.SidebarActive
     .dashboard
         width: calc( 100% - 78px )
+        margin-left: 78px
+
+.main
+    display: flex
+    flex-direction: column
+
+.dashboard
+    font-family: $poppins
+    margin-left: 300px
+    font-weight: bold
+    min-height: 100vh
+    position: relative
+    right: 0
+    width: calc( 100% - 300px )
+    display: flex
+    flex-direction: column
+    color: white
+
+    &__header
+        margin: 20px 40px
+        font-size: 30px
+
+    &__load
+        display: flex
+        margin-bottom: 50px
+
+    &__posts
+        width: 90%
+        display: flex
+        align-self: center
+        margin-bottom: 30px
+
+        &__icon
+            display: flex
+            gap: 1rem
+            justify-content: center
+
+            p
+                padding: 2px 7px
+                border-radius: 3px
+                font-weight: 600
+
+                a
+                    text-decoration: none
+
+        table
+            border-spacing: 0 10px
+            font-size: 1rem
+            width: 100%
+            overflow: hidden
+            text-align: center
+
+            thead th
+                background-color: #009879
+                font-weight: bold
+
+                i
+                    padding-left: 2px
+
+            tbody tr
+                background-color: #121212
+
+                img
+                    width: 110px
+                    height: 70px
+                    object-fit: cover
+                    border-radius: 2px
+                    vertical-align: middle
+
+
+                td
+                    font-weight: 300
+                
+                    &:first-of-type
+                        border-top-left-radius: 2px
+                        border-bottom-left-radius: 2px
+                        background-color: #009879
+                        width: 50px
+
+                    &:last-of-type
+                        border-top-right-radius: 2px
+                        border-bottom-right-radius: 2px
+
+                    &:nth-of-type(2)
+                        white-space: nowrap
+                        overflow: hidden
+                        text-overflow: ellipsis
+
+                &:last-of-type
+                    border-bottom: solid 2px #009879
+
+            th, td
+                padding: 10px 15px
+
+    &__filters
+        min-width: 275px
+        width: 500px
+        height: calc(100% - 20px)
+        margin: 10px 0 0 30px
+        border-radius: 3px
+        background-color: #121212
+        text-align: center
+        padding: 50px 0
+        
+        &__header p
+            color: white
+            font-family: $poppins
+            font-weight: 700
+            font-size: 24px
+            margin: 0
+        
+        &__input
+            width: 100%
+            display: flex
+            flex-direction: column
+            align-content: center
+            flex-wrap: wrap
+
+            &__item
+                margin-top: 20px
+                display: flex
+                flex-direction: column
+                width: 75%
+
+            label
+                font-weight: 300
+
+            select
+                outline: none
+                border: solid 1px #2b2b2b
+                background-color: #1b1c1f
+                padding: 10px 5px
+                border-radius: 3px
+                color: white
+                margin-top: 10px
+                font-weight: 300
+
+#edit
+    background-color: #6A96FF
+
+#delete
+    background-color: #FF576B
+
+.fortnite__btn 
+    position: relative
+    font-size: 1.2rem
+    margin: 0 auto
+    color: #000000
+    border: none
+    border-radius: 0
+    font-family: "Libre Franklin", sans-serif
+    text-transform: uppercase
+    width: 175px
+    padding: 10px
+    text-align: center
+    cursor: pointer
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, .5)
+    background-color: #f0ed63
+
+    &:hover
+        text-decoration: none

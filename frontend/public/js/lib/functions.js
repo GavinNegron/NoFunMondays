@@ -25,15 +25,6 @@ export function HamburgerToggle()
   });
 }
 
-// SetMainHeight()
-export function SetMainHeight()
-{
-    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-    const footerHeight = document.querySelector('.footer').offsetHeight;
-    const main = document.querySelector('.main');
-    main.style.minHeight = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
-}
-
 // TypeSentance
 export async function TypeSentence(sentence, eleRef, delay = 100) {
   const letters = sentence.split("");

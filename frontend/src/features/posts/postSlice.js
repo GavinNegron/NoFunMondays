@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import postService from './postService'; // Import the postService to fetch posts
+import postService from './postService';
 
-// fetchPosts
-export const fetchPosts = createAsyncThunk('posts/fetch', async (_, thunkAPI) => {
+// fetchPosts with dynamic limit
+export const fetchPosts = createAsyncThunk('posts/fetch', async (limit, thunkAPI) => {
   try {
-    // Call the service function to fetch posts
-    return await postService.fetchPosts();
+    return await postService.fetchPosts(limit); // Pass the limit to the service function
   } catch (error) {
-    // Handle errors and return the error message
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch posts');
   }
 });
@@ -16,34 +14,34 @@ export const fetchPosts = createAsyncThunk('posts/fetch', async (_, thunkAPI) =>
 export const fetchFeaturedPost = createAsyncThunk('posts/fetchFeatured', async (_, thunkAPI) => {
   try {
     return await postService.fetchFeaturedPost();
-  } catch(error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch featured post')
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch featured post');
   }
-})
+});
 
 // postSlice
 const postSlice = createSlice({
   name: 'posts',
   initialState: {
-    posts: [], 
+    posts: [],
     featuredPost: null,
-    isLoading: false, 
-    error: null, 
+    isLoading: false,
+    error: null,
   },
-  reducers: {}, 
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
         state.isLoading = true;
-        state.error = null; 
+        state.error = null;
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.isLoading = false; 
-        state.posts = action.payload; 
+        state.isLoading = false;
+        state.posts = action.payload;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.isLoading = false; 
-        state.error = action.payload; 
+        state.isLoading = false;
+        state.error = action.payload;
       })
       .addCase(fetchFeaturedPost.pending, (state) => {
         state.isLoading = true;

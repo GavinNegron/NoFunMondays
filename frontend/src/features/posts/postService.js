@@ -1,26 +1,20 @@
-import axios from 'axios'; // Import axios for HTTP requests
+import axios from 'axios';
 
-// fetchPosts
-const fetchPosts = async () => {
-  // Send a GET request to the backend's recent posts endpoint with limit of 8 posts
+const fetchPosts = async (limit) => {
   const response = await axios.get('/api/posts/recent', {
-    params: {
-      limit: 8, // Pass the limit to the backend
-    },
+    params: { limit }, // Dynamically pass the limit
   });
-
-  return response.data; // Return the list of posts
+  return response.data;
 };
 
-// fetchFeaturedPost
 const fetchFeaturedPost = async () => {
   const response = await axios.get('/api/posts/featured');
   return response.data;
-}
+};
 
 const postService = {
-  fetchPosts, 
+  fetchPosts,
   fetchFeaturedPost,
-}
+};
 
 export default postService;
