@@ -3,12 +3,12 @@ import Navbar from '../layout/navbar';
 import Footer from '../layout/footer';
 import Sidebar from '../layout/sidebar';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../features/posts/postSlice';
+import { fetchPosts, deletePost, fetchFeaturedPost } from '../../features/posts/postSlice';
 
 function DPosts() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
-  const [postLimit, setPostLimit] = useState(4); // Initial post limit
+  const { posts, isLoading, error } = useSelector((state) => state.posts);
+  const [postLimit, setPostLimit] = useState(5); // Initial post limit
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -41,6 +41,21 @@ function DPosts() {
     setPostLimit((prev) => prev + 4); // Increase post limit by 4
   };
 
+  const handleDelete = async (postId) => {
+    const isConfirmed = window.confirm('Are you sure you want to delete this post?');
+    
+    if (!isConfirmed) {
+      return; 
+    }
+    try {
+      await dispatch(deletePost(postId)); 
+      console.log('Post deleted:', postId);
+      dispatch(fetchPosts(postLimit)); 
+    } catch (error) {
+      console.log('Error deleting post:', error);
+    }
+  };
+
   return (
     <div>
       <link rel="stylesheet" href="/css/dashboard.css"></link>
@@ -52,6 +67,7 @@ function DPosts() {
             <span>Posts</span>
           </div>
           <div className="dashboard__posts">
+            {error && <p className="error-message">{error}</p>}
             <table>
               <thead>
                 <tr>
@@ -96,14 +112,14 @@ function DPosts() {
                     <td>
                       <div className="dashboard__posts__icon">
                         <p id="edit">
-                          <a href="/">Edit</a>
+                          <a href="">Edit</a>
                         </p>
                       </div>
                     </td>
                     <td>
                       <div className="dashboard__posts__icon">
                         <p id="delete">
-                          <a href="/">Delete</a>
+                          <a href="#" onClick={() => handleDelete(post._id)}>Delete</a>
                         </p>
                       </div>
                     </td>

@@ -12,9 +12,17 @@ const fetchFeaturedPost = async () => {
   return response.data;
 };
 
+const deletePost = async (postId) => {
+  const response = await axios.delete(`/api/posts/${postId}`);
+  console.log(response);  // Log the response for debugging
+  return response.data;   // Return the data to be used in the component
+};
+
+
 const postService = {
   fetchPosts,
   fetchFeaturedPost,
+  deletePost,
 };
 
 export default postService;
