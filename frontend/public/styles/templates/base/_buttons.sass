@@ -17,3 +17,39 @@
 
     & a:hover
         text-decoration: none
+
+// Publish Button
+@mixin publish-btn
+    background-color: #5fab9a
+    color: white
+    font-weight: 700
+    font-family: 'poppins'
+    height: 30px
+    border-radius: 15px
+    padding: 5px 10px
+    transition: 0.3s all
+
+    &:hover
+        background-color: #91cdc0b0
+
+// Status Button
+@mixin status-btn
+    color: #fff
+    font-weight: 700
+    font-family: "poppins"
+    height: 30px
+    border-radius: 15px
+    padding: 5px 10px
+    transition: .3s all
+
+    &--published
+        display: block
+        background-color: #5fab9a
+
+    &--draft
+        display: none
+        background-color: #6a96ff
+        
+    &--archived
+        display: none
+        background-color: #ff576b 

@@ -5,7 +5,7 @@ import Sidebar from '../layout/sidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts, deletePost } from '../../features/posts/postSlice';
 import { Helmet } from 'react-helmet-async';
-import preloadPageResources from '../../utilities/loading'; // Import preload utility
+import preloadPageResources from '../../utilities/loading'; 
 import LoadingScreen from '../templates/base/loading';
 
 function DPosts() {
@@ -14,18 +14,18 @@ function DPosts() {
   const [postLimit, setPostLimit] = useState(5);
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [loadingState, setLoadingState] = useState(true); // Manage loading state
+  const [loadingState, setLoadingState] = useState(true); 
 
   useEffect(() => {
     const loadResources = async () => {
       const cssFiles = ['/css/dashboard.css'];
-      await preloadPageResources(cssFiles); // Preload CSS files
-      dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); // Fetch posts after preloading
-      setLoadingState(false); // Set loading state to false after fetching
+      await preloadPageResources(cssFiles); 
+      dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); 
+      setLoadingState(false);
     };
     
-    loadResources(); // Execute the loading resources function
-  }, [dispatch, postLimit]); // Re-run when postLimit changes
+    loadResources();
+  }, [dispatch, postLimit]);
 
   useEffect(() => {
     if (posts.length > 0) {
@@ -59,7 +59,7 @@ function DPosts() {
   };
 
   if (loadingState) {
-    return <LoadingScreen />; // Show loading screen while data is being fetched
+    return <LoadingScreen />; 
   }
 
   return (
@@ -140,7 +140,7 @@ function DPosts() {
                       <td className="edit">
                         <div className="dashboard__posts__icon">
                           <p id="edit">
-                            <a href="/">Edit</a>
+                            <a href={`/dashboard/posts/edit/${post.slug}`}>Edit</a>
                           </p>
                         </div>
                       </td>

@@ -10,6 +10,7 @@ import DTasks from './views/dashboard/tasks'
 import DSettings from './views/dashboard/settings'
 import NotFound from './views/404/404'
 import BlogPost from './views/blog/blog-post'
+import EditPost from './views/dashboard/edit/edit-post'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboard/notifications" element={<DNotifications />} />
           <Route path="/dashboard/tasks" element={<DTasks />} />
           <Route path="/dashboard/settings" element={<DSettings />} />
+          <Route path="/dashboard/posts/edit/:slug" element={<EditPost />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
