@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Socials from '../templates/base/socials'
 
 function Footer() {
-
   return (
     <>
     <footer className="footer">

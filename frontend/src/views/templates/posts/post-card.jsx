@@ -13,7 +13,7 @@ function PostCard( {post} ) {
             <div className="post-card__img">
             <a
               style={{ backgroundImage: `url(${post.imageUrl})`,}}
-                href="/blog-post"
+                href={`/blog/${post.slug}`}
                 aria-label={` ${post.title} `} >
             </a>
             </div>
@@ -21,7 +21,7 @@ function PostCard( {post} ) {
           <div className="post-card__right d-flex">
             <div className="post-card__content">
               <div className="post-card__title">
-                <a href="/blog-post">{post.title}</a>
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
               </div>
               <div className="post-card__description">
                 <p>{post.description}</p>

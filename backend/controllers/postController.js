@@ -35,14 +35,18 @@ const getPosts = async (req, res) => {
 // Get recent posts with a limit
 const getRecentPosts = async (req, res) => {
     try {
-        const { limit = 8 } = req.query;
-        const featuredPost = await Posts.findOne({ featured: true });
+        const { limit = 8, excludeFeatured = false } = req.query;
+        
+        let postsQuery = Posts.find().sort({ createdAt: -1 }).limit(parseInt(limit));
 
-        const posts = await Posts.find({ _id: { $ne: featuredPost?._id } })
-            .sort({ createdAt: -1 })
-            .limit(parseInt(limit))
-            .lean();
+        if (excludeFeatured === 'true') {
+            const featuredPost = await Posts.findOne({ featured: true });
+            if (featuredPost) {
+                postsQuery = postsQuery.where('_id').ne(featuredPost._id); // Exclude the featured post
+            }
+        }
 
+        const posts = await postsQuery.lean();
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: `Server Error: \n ${error}` });
@@ -78,12 +82,19 @@ const setFeaturedPost = async (req, res) => {
 
 // Create a new post
 const setPost = async (req, res) => {
+    
     const { title, description, imageUrl } = req.body;
 
     if (!imageUrl) {
         return res.status(400).json({ error: 'Image URL is required' });
     }
-
+    function generateSlug(title) {
+        return title
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-') // Replace spaces with dashes
+          .replace(/[^a-z0-9-]/g, '') // Remove invalid characters
+      }
     try {
         const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
         const contentType = response.headers['content-type'];
@@ -98,6 +109,7 @@ const setPost = async (req, res) => {
             title,
             description,
             imageUrl: publicUrl,
+            slug: generateSlug(title),
         });
 
         res.status(201).json(post);
@@ -115,7 +127,6 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     try {
         const { id } = req.params;  // Get postId from the URL parameter
-        console.log('Received ID:', id);  // Log the ID for debugging
 
         if (!ObjectId.isValid(id)) {
             return res.status(400).json({ message: 'Invalid post ID' });

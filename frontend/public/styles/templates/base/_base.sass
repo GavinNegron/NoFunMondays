@@ -1,3 +1,12 @@
+*,
+*::before,
+*::after
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  border: 0
+  text-rendering: optimizeLegibility
+  
 a
     text-decoration: none
     cursor: pointer
@@ -5,7 +14,7 @@ a
     transition: color 0.25s ease-in-out
 
     &:hover
-        text-decoration: underline
+        text-decoration: none
 
 button, input[type = "submit"]
     cursor: pointer
@@ -45,3 +54,23 @@ input[type="search"]::-webkit-search-cancel-button
         
     ::moz-scrollbar-track 
         opacity: 1
+
+input[type='checkbox']
+    appearance: none
+    background-color: #fff
+    width: 1.15em
+    height: 1.15em
+    border-radius: 2px
+    display: grid
+    place-content: center
+    outline: solid 1px #00000012
+
+    
+    &:checked
+        background-color: #6a96ff
+        
+        &::before
+            content: '✔'
+            font-size: 14px
+            color: white
+          

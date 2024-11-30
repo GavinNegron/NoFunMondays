@@ -3,18 +3,29 @@ import Navbar from '../layout/navbar';
 import Footer from '../layout/footer';
 import Sidebar from '../layout/sidebar';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts, deletePost, fetchFeaturedPost } from '../../features/posts/postSlice';
+import { fetchPosts, deletePost } from '../../features/posts/postSlice';
+import { Helmet } from 'react-helmet-async';
+import preloadPageResources from '../../utilities/loading'; // Import preload utility
+import LoadingScreen from '../templates/base/loading';
 
 function DPosts() {
   const dispatch = useDispatch();
-  const { posts, isLoading, error } = useSelector((state) => state.posts);
-  const [postLimit, setPostLimit] = useState(5); // Initial post limit
+  const { posts } = useSelector((state) => state.posts);
+  const [postLimit, setPostLimit] = useState(5);
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [loadingState, setLoadingState] = useState(true); // Manage loading state
 
   useEffect(() => {
-    dispatch(fetchPosts(postLimit)); // Fetch posts with the current limit
-  }, [dispatch, postLimit]);
+    const loadResources = async () => {
+      const cssFiles = ['/css/dashboard.css'];
+      await preloadPageResources(cssFiles); // Preload CSS files
+      dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); // Fetch posts after preloading
+      setLoadingState(false); // Set loading state to false after fetching
+    };
+    
+    loadResources(); // Execute the loading resources function
+  }, [dispatch, postLimit]); // Re-run when postLimit changes
 
   useEffect(() => {
     if (posts.length > 0) {
@@ -24,119 +35,139 @@ function DPosts() {
 
   const handleSelectAll = () => {
     setSelectedAll((prev) => !prev);
-    setSelectedItems((prev) =>
-      !selectedAll ? posts.map((post) => post._id) : []
-    );
+    setSelectedItems(!selectedAll ? posts.map((post) => post._id) : []);
   };
 
   const handleCheckboxChange = (postId) => {
     setSelectedItems((prev) =>
-      prev.includes(postId)
-        ? prev.filter((id) => id !== postId)
-        : [...prev, postId]
+      prev.includes(postId) ? prev.filter((id) => id !== postId) : [...prev, postId]
     );
   };
 
   const handleLoadMore = () => {
-    setPostLimit((prev) => prev + 4); // Increase post limit by 4
+    setPostLimit((prev) => prev + 4);
   };
 
   const handleDelete = async (postId) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this post?');
-    
-    if (!isConfirmed) {
-      return; 
-    }
+    if (!isConfirmed) return;
+
     try {
-      await dispatch(deletePost(postId)); 
-      console.log('Post deleted:', postId);
-      dispatch(fetchPosts(postLimit)); 
-    } catch (error) {
-      console.log('Error deleting post:', error);
-    }
+      await dispatch(deletePost(postId));
+      dispatch(fetchPosts({ limit: postLimit }));
+    } catch (error) {}
   };
 
+  if (loadingState) {
+    return <LoadingScreen />; // Show loading screen while data is being fetched
+  }
+
   return (
-    <div>
-      <link rel="stylesheet" href="/css/dashboard.css"></link>
-      <Navbar />
-      <main className="main db">
-        <Sidebar />
-        <div className="dashboard">
-          <div className="dashboard__header">
-            <span>Posts</span>
-          </div>
-          <div className="dashboard__posts">
-            {error && <p className="error-message">{error}</p>}
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <input
-                      id="selectAll"
-                      type="checkbox"
-                      checked={selectedAll}
-                      onChange={handleSelectAll}
-                    />
-                  </th>
-                  <th>Image</th>
-                  <th>Title <i className="fa-solid fa-arrow-up"></i></th>
-                  <th>User</th>
-                  <th>Date</th>
-                  <th>Views</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {posts.map((post) => (
-                  <tr key={post._id}>
-                    <td>
+    <>
+      <Helmet>
+        <title>Posts</title>
+        <link rel="stylesheet" href="/css/dashboard.css" />
+      </Helmet>
+      <div>
+        <Navbar />
+        <main className="main db">
+          <Sidebar />
+          <div className="dashboard">
+            <div className="dashboard__header">
+              <span>Posts</span>
+            </div>
+            <div className="dashboard__filters">
+              <div className="dashboard__filters-item">
+                <input type="checkbox" />
+                <span>Featured</span>
+              </div>
+              <span>|</span>
+              <div className="dashboard__filters-item">
+                <span>Status:</span>
+                <select name="status">
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+            </div>
+            <div className="dashboard__posts">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
                       <input
-                        className="item"
+                        id="selectAll"
                         type="checkbox"
-                        checked={selectedItems.includes(post._id)}
-                        onChange={() => handleCheckboxChange(post._id)}
+                        checked={selectedAll}
+                        onChange={handleSelectAll}
                       />
-                    </td>
-                    <td>
-                      <img
-                        src={post.imageUrl || 'https://via.placeholder.com/150'}
-                        alt={post.title || 'Post image'}
-                      />
-                    </td>
-                    <td>{post.title}</td>
-                    <td>{post.user || 'Unknown'}</td>
-                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
-                    <td>{post.views || 0}</td>
-                    <td>
-                      <div className="dashboard__posts__icon">
-                        <p id="edit">
-                          <a href="">Edit</a>
-                        </p>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="dashboard__posts__icon">
-                        <p id="delete">
-                          <a href="#" onClick={() => handleDelete(post._id)}>Delete</a>
-                        </p>
-                      </div>
-                    </td>
+                    </th>
+                    <th className="image">Image</th>
+                    <th className="title">
+                      Title <i className="fa-solid fa-arrow-up"></i>
+                    </th>
+                    <th className="date">Date</th>
+                    <th className="views">Views</th>
+                    <th className="status">Status</th>
+                    <th className="edit">Edit</th>
+                    <th className="delete">Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {posts.map((post) => (
+                    <tr key={post._id}>
+                      <td>
+                        <input
+                          className="dashboard__checkbox"
+                          type="checkbox"
+                          checked={selectedItems.includes(post._id)}
+                          onChange={() => handleCheckboxChange(post._id)}
+                        />
+                      </td>
+                      <td className="image">
+                        <img
+                          src={post.imageUrl || 'https://via.placeholder.com/150'}
+                          alt={post.title || 'Post image'}
+                          className="dashboard__posts-image"
+                        />
+                      </td>
+                      <td className="title">{post.title}</td>
+                      <td className="date">{new Date(post.createdAt).toLocaleDateString()}</td>
+                      <td className="views">{post.views || 0}</td>
+                      <td className="status">
+                        <i>{post.status || 'Published'}</i>
+                      </td>
+                      <td className="edit">
+                        <div className="dashboard__posts__icon">
+                          <p id="edit">
+                            <a href="/">Edit</a>
+                          </p>
+                        </div>
+                      </td>
+                      <td className="delete">
+                        <div className="dashboard__posts__icon">
+                          <p id="delete">
+                            <a href="#delete" onClick={() => handleDelete(post._id)}>
+                              Delete
+                            </a>
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="dashboard__load">
+              <button className="fortnite-btn" onClick={handleLoadMore}>
+                Load More Posts
+              </button>
+            </div>
           </div>
-          <div className="dashboard__load">
-            <button className="fortnite__btn" onClick={handleLoadMore}>
-              Load More Posts
-            </button>
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

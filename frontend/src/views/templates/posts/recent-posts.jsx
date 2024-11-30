@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts } from '../../../features/posts/postSlice';
 import PostCard from './post-card';
@@ -6,10 +6,16 @@ import PostCard from './post-card';
 function RecentPosts() {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts); 
+  const [postLimit, setPostLimit] = useState(6); 
 
   useEffect(() => {
-    dispatch(fetchPosts()); 
-  }, [dispatch]);
+    dispatch(fetchPosts({ limit: postLimit, excludeFeatured: true }));
+  }, [dispatch, postLimit]);
+
+  const handleLoadMore = () => {
+    setPostLimit((prev) => prev + 4);
+  };
+
   
   return (
     <>
@@ -22,6 +28,11 @@ function RecentPosts() {
           return <PostCard key={post._id} post={post}/>
         })}
         </div>
+    </div>
+    <div className="recent-posts__load">
+          <button className="fortnite-btn" onClick={handleLoadMore}>
+            Load More Posts
+          </button>
     </div>
     </>
   );

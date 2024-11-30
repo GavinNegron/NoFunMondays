@@ -2,9 +2,16 @@ import React from 'react'
 import Navbar from '../layout/navbar'
 import Footer from '../layout/footer'
 import Sidebar from '../layout/sidebar'
+import { Helmet } from 'react-helmet-async'
 
-function DTasks() {
+const DTasks = () => {
+  
   return (
+   <>
+    <Helmet>
+    <title>Tasks</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+  </Helmet>
     <div>
       <link rel="stylesheet" href="/css/dashboard.css"></link>
       <Navbar />
@@ -12,7 +19,7 @@ function DTasks() {
         <Sidebar />
         <div className="dashboard">
           <div className="dashboard__header">
-              <span>Dashboard</span>
+              <span>Tasks</span>
           </div>
          <div className="dashboard__grid container-fluid d-flex">
           <div className="col-5">
@@ -26,6 +33,7 @@ function DTasks() {
     </main>
     <Footer />
     </div>
+   </>
   )
 }
 

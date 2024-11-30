@@ -1,40 +1,32 @@
-.navbar
-    position: sticky
-
-body.SidebarActive
-    .dashboard
-        width: calc( 100% - 78px )
-        margin-left: 78px
-
-.main
-    display: flex
-    flex-direction: column
-
 .dashboard
-    font-family: $poppins
-    margin-left: 300px
-    font-weight: bold
-    min-height: 100vh
-    position: relative
-    right: 0
-    width: calc( 100% - 300px )
-    display: flex
-    flex-direction: column
-    color: white
-
-    &__header
-        margin: 20px 40px
-        font-size: 30px
-
-    &__load
+    &__filters
         display: flex
-        margin-bottom: 50px
+        flex-direction: row
+        align-items: center
+        gap: 1rem
+        align-self: center
+        width: 90%
+        font-size: 16px
+
+        &-item
+            display: flex
+            flex-direction: row
+            align-items: center
+            gap: 10px
+
+            select
+                background: #2b2b2b
+                color: white
+                border-radius: 3px
+                padding: 3px
+                outline: none
 
     &__posts
         width: 90%
         display: flex
         align-self: center
         margin-bottom: 30px
+        flex-direction: column
 
         &__icon
             display: flex
@@ -48,6 +40,12 @@ body.SidebarActive
 
                 a
                     text-decoration: none
+
+            #edit
+                background-color: #6A96FF
+
+            #delete
+                background-color: #FF576B
 
         table
             border-spacing: 0 10px
@@ -71,8 +69,6 @@ body.SidebarActive
                     height: 70px
                     object-fit: cover
                     border-radius: 2px
-                    vertical-align: middle
-
 
                 td
                     font-weight: 300
@@ -87,9 +83,10 @@ body.SidebarActive
                         border-top-right-radius: 2px
                         border-bottom-right-radius: 2px
 
-                    &:nth-of-type(2)
+                    &:nth-of-type(3)
                         white-space: nowrap
                         overflow: hidden
+                        max-width: 200px
                         text-overflow: ellipsis
 
                 &:last-of-type
@@ -98,34 +95,19 @@ body.SidebarActive
             th, td
                 padding: 10px 15px
 
-    &__filters
-        min-width: 275px
-        width: 500px
-        height: calc(100% - 20px)
-        margin: 10px 0 0 30px
-        border-radius: 3px
-        background-color: #121212
-        text-align: center
-        padding: 50px 0
-        
-        &__header p
-            color: white
-            font-family: $poppins
-            font-weight: 700
-            font-size: 24px
-            margin: 0
-        
+    &__load
+        display: flex
+        justify-content: center
+        margin-top: 20px
+
         &__input
-            width: 100%
             display: flex
             flex-direction: column
             align-content: center
-            flex-wrap: wrap
+            width: 100%
 
             &__item
                 margin-top: 20px
-                display: flex
-                flex-direction: column
                 width: 75%
 
             label
@@ -140,28 +122,3 @@ body.SidebarActive
                 color: white
                 margin-top: 10px
                 font-weight: 300
-
-#edit
-    background-color: #6A96FF
-
-#delete
-    background-color: #FF576B
-
-.fortnite__btn 
-    position: relative
-    font-size: 1.2rem
-    margin: 0 auto
-    color: #000000
-    border: none
-    border-radius: 0
-    font-family: "Libre Franklin", sans-serif
-    text-transform: uppercase
-    width: 175px
-    padding: 10px
-    text-align: center
-    cursor: pointer
-    box-shadow: 0 0 12px 4px rgba(0, 0, 0, .5)
-    background-color: #f0ed63
-
-    &:hover
-        text-decoration: none

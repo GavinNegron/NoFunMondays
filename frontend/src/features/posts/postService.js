@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const fetchPosts = async (limit) => {
+const fetchPosts = async (limit, excludeFeatured = false) => {
   const response = await axios.get('/api/posts/recent', {
-    params: { limit }, // Dynamically pass the limit
+    params: { limit, excludeFeatured },
   });
   return response.data;
 };

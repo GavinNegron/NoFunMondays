@@ -32,7 +32,7 @@ function FeaturedPost() {
             {featuredPost.imageUrl && (
               <a
                 style={{ backgroundImage: `url(${featuredPost.imageUrl})` }}
-                href="/blog-post"
+                href={`/blog/${featuredPost.slug}`}
                 aria-label={` ${featuredPost.title} `}
               ></a>
             )}
@@ -41,7 +41,7 @@ function FeaturedPost() {
         <div className="featured-post__right d-flex col-12 col-md-12 col-lg-5">
           <div className="featured-post__content">
             <div className="featured-post__title">
-              <a href="blog-post">{featuredPost.title}</a>
+              <a href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</a>
             </div>
             <div className="featured-post__description">
               <p>{featuredPost.description}</p>
