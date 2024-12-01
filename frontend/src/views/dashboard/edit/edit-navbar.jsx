@@ -45,7 +45,7 @@ function EditNavbar({ post }) {
             <div className="editor-navbar__item__tools d-flex align-items-center">
                     <div className="editor-navbar__item">
                         <a href='#f'>
-                            <i data-tooltip-id="tip-tools" class="fa-solid fa-wrench"></i>
+                            <i data-tooltip-id="tip-tools" className="fa-solid fa-wrench"></i>
                             <Tooltip 
                                 id="tip-tools" 
                                 header="Tools:" 
@@ -58,23 +58,21 @@ function EditNavbar({ post }) {
                 <div className="editor-navbar__item__undoredo d-flex align-items-center">
                     <div className="editor-navbar__item">
                         <a href='#f'>
-                            <i data-tooltip-id="tip-undo" class="fa-solid fa-rotate-left"></i>
+                            <i data-tooltip-id="tip-undo" className="fa-solid fa-rotate-left"></i>
                             <Tooltip 
                                 id="tip-undo" 
                                 header="Undo" 
                                 place="bottom"
-                                fontWeight='500'
                             />
                         </a>
                     </div>
                     <div className="editor-navbar__item">
                         <a href='#f'>
-                            <i data-tooltip-id="tip-redo" class="fa-solid fa-rotate-right"></i>
+                            <i data-tooltip-id="tip-redo" className="fa-solid fa-rotate-right"></i>
                             <Tooltip 
                                 id="tip-redo" 
                                 header="Redo" 
                                 place="bottom"
-                                fontWeight='500'
                             />
                         </a>
                     </div>

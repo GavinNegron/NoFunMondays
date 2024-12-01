@@ -25,17 +25,17 @@
             overflow: hidden
             height: 400px
             
-            img
-                display: flex
-                min-height: 400px
-                background: url("/img/placeholder.png") center/cover no-repeat
-                transition: all 0.4s ease 
-                width: 100%
+        img
+            display: flex
+            min-height: 400px
+            background: url("/img/placeholder.png") center/cover no-repeat
+            transition: all 0.4s ease 
+            width: 100%
 
         &__content  
             width: 100%
             background-color: #121212
-            padding: 30px 20px
+            padding: 15px
             font-family: $poppins
 
             &__header
@@ -73,3 +73,94 @@
     width: calc(100% - 78px)
     margin-bottom: 70px
     top: 50px
+
+
+
+
+
+
+
+// GRID -----------------------------------------------------------
+.item
+    transition: 0s all !important
+    -moz-window-dragging: no-drag
+    -webkit-user-drag: none
+    user-select: none
+
+    &-img
+        position: relative
+
+        &:hover
+            border: solid 1px #ff6565
+
+            &::before
+                content: 'Image'
+                position: absolute
+                left: -1px
+                top: -23px
+                color: white
+                height: 23px
+                font-size: 12px
+                font-weight: bold
+                background: #ff6565
+                padding: 5px
+                z-index: 10
+                display: flex
+                align-items: center
+                justify-content: center
+            
+            &::after
+                content: ""
+                background: #ff656548
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                z-index: 1
+
+    &-header
+            position: relative
+
+            &:hover
+                border: solid 1px #ffaf65
+                background-color: #ffaf6507
+
+                &::before
+                    content: 'Header'
+                    position: absolute
+                    left: -1px
+                    top: -23px
+                    color: white
+                    height: 23px
+                    font-size: 12px
+                    font-weight: bold
+                    background: #ffaf65
+                    padding: 5px
+                    z-index: 1000
+                    display: flex
+                    align-items: center
+                    justify-content: center
+
+    &-text
+            position: relative
+
+            &:hover
+                border: solid 1px #57b617
+                background-color: #57b61707
+
+                &::before
+                    content: 'Text'
+                    position: absolute
+                    left: -1px
+                    top: -23px
+                    color: white
+                    height: 23px
+                    font-size: 12px
+                    font-weight: bold
+                    background: #57b617
+                    padding: 5px
+                    z-index: 1000
+                    display: flex
+                    align-items: center
+                    justify-content: center

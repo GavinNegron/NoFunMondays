@@ -68,18 +68,25 @@ function BlogPost() {
                     <span>Dashboard</span>
                   </a>
               </div>
-          </div>
+           </div>
           <div className="post">
             <div className="post__inner">
-              <div className="post__inner__header d-flex">
-                <img src={post.imageUrl} alt={post.title} />
-              </div>
               <div className="post__inner__content">
+                <div className="item item-img">
+                  <img src={post.imageUrl} alt={post.title} />
+                </div>
                 <div className="post__inner__content__header">
-                  <p>{post.title}</p>
+                  <div className="item item-header">
+                    <header>{post.title}</header>
+                  </div>
                 </div>
                 <div className="post__inner__content__description">
-                  <p>{post.description}</p>
+                  <div className="item item-text">
+                    <p>{post.description}</p>
+                  </div>
+                  <div className="item item-text">
+                    <p>test</p>
+                  </div>
                 </div>
               </div>
             </div>
