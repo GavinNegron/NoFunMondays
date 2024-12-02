@@ -91,17 +91,17 @@ function BlogPost() {
 
     $('.blog-post-content').addClass('navActive')
   }
-  const handleClickOutside = (event) => {
+  const handleClickOutside(item) = (event) => {
     if (!event.target.closest('.addElement')) {
-      $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeOut(200);
+      $(item).stop(true, true).animate({}).fadeOut(200);
     }
   };
   
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleClickOutside('.editor-sidebar__add-elements');
   
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside('.editor-sidebar__add-elements');
     };
   }, []);
   return (
