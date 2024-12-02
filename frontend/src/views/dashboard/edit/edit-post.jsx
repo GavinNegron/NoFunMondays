@@ -34,7 +34,8 @@ function BlogPost() {
           setPost(matchedPost);
           setElements([
             { id: 'img', type: 'image', draggable: false, content: matchedPost.imageUrl },
-            { id: 'text1', type: 'h1', content: matchedPost.title }
+            { id: 'text1', type: 'h1', content: matchedPost.title },
+            { id: 'description', type: 'text', content: matchedPost.description }
           ]);
         } else {
           setNotFound(true);
