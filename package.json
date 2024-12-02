@@ -59,7 +59,7 @@
     "encodeurl": "^1.0.2",
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
-    "express": "^4.17.3",
+    "express": "^4.21.1",
     "express-session": "^1.17.2",
     "fast-xml-parser": "^4.1.2",
     "filelist": "^1.0.2",
