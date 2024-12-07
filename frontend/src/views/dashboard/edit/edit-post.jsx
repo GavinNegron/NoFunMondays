@@ -5,10 +5,12 @@ import Navbar from '../../layout/navbar';
 import { Helmet } from 'react-helmet-async';
 import loading from '../../../utilities/loading';
 import LoadingScreen from '../../templates/base/loading';
-import EditorSidebar from './edit-sidebar';
-import EditorNavbar from './edit-navbar';
-import EditorNavbar2 from './edit-editornav';
+import EditorSidebar from './layout/sidebar';
+import EditorNavbar from './layout/nav1';
+import EditStyles from './layout/styles';
 import $ from 'jquery';
+import { handleClickOutside } from '../../../utilities/domUtils';
+import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
 
 function BlogPost() {
   const { slug } = useParams();
@@ -16,6 +18,12 @@ function BlogPost() {
   const [loadingState, setLoadingState] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [elements, setElements] = useState([]);
+  const [selectedElement, setSelectedElement] = useState(null);
+  const [elementStyles, setElementStyles] = useState({
+    color: '',
+    margin: '',
+    fontFamily: '',
+  });
 
   useEffect(() => {
     const handleLoading = async () => {
@@ -32,7 +40,7 @@ function BlogPost() {
 
         if (matchedPost) {
           setPost(matchedPost);
-          setElements([
+          setElements([ 
             { id: 'img', type: 'image', draggable: false, content: matchedPost.imageUrl },
             { id: 'text1', type: 'h1', content: matchedPost.title },
             { id: 'description', type: 'text', content: matchedPost.description }
@@ -50,29 +58,6 @@ function BlogPost() {
     handleLoading();
   }, [slug]);
 
-  const handleDragStart = (e, type) => {
-    e.dataTransfer.setData("text/plain", type);
-  };
-
-  const handleDrop = (e, targetId) => {
-    e.preventDefault();
-    const draggedType = e.dataTransfer.getData("text/plain");
-    const newElement = {
-      id: `${draggedType}-${Date.now()}`,
-      type: draggedType,
-      content: `New ${draggedType.toUpperCase()}`
-    };
-
-    const targetIndex = elements.findIndex((el) => el.id === targetId);
-    const updatedElements = [...elements];
-    updatedElements.splice(targetIndex, 0, newElement);
-    setElements(updatedElements);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
   const renderElement = (element) => {
     switch (element.type) {
       case 'image':
@@ -86,24 +71,49 @@ function BlogPost() {
     }
   };
 
-  const handleBlogPostElement = () => {
-    $('.editornav').stop(true, true).fadeIn()
-
-    $('.blog-post-content').addClass('navActive')
-  }
-  const handleClickOutside(item) = (event) => {
-    if (!event.target.closest('.addElement')) {
-      $(item).stop(true, true).animate({}).fadeOut(200);
+  const handleBlogPostElement = (element) => {
+    if (!element) {
+      $('.edit-styles').stop(true, true).fadeOut();
+    return
     }
+  
+    setSelectedElement(element);
+  
+    setElementStyles({
+      color: element.style?.color || '',
+      margin: element.style?.margin || '',
+      fontFamily: element.style?.fontFamily || '',
+    });
+  
+    $('.edit-styles').css('display', 'flex').hide().stop(true, true).fadeToggle();
   };
   
+  const handleStyleChange = (property, value) => {
+    if (selectedElement) {
+      selectedElement.style[property] = value;
+      setElementStyles(prevStyles => ({
+        ...prevStyles,
+        [property]: value,
+      }));
+    }
+  };
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside('.editor-sidebar__add-elements');
+    const handleClick = (event) => {
+      const isInsideAddElements = event.target.closest('.editor-sidebar__add-elements') || event.target.closest('.addElement');
+      if (isInsideAddElements) return;
+  
+      if (!isInsideAddElements) {
+        $('.editor-sidebar__add-elements').stop(true, true).fadeOut();
+      }
+    };
+  
+    document.addEventListener('click', handleClick);
   
     return () => {
-      document.removeEventListener('click', handleClickOutside('.editor-sidebar__add-elements');
+      document.removeEventListener('click', handleClick);
     };
   }, []);
+  
   return (
     <div className="blog-post-container">
       {loadingState && <LoadingScreen />}
@@ -114,9 +124,12 @@ function BlogPost() {
           <Helmet>
             <title>{post?.title || 'Blog Post'}</title>
           </Helmet>
-          <Navbar />
-          <EditorNavbar post={post} />
-          <EditorNavbar2/>
+          <Navbar/>
+          <EditorNavbar post={post}/>
+          <EditStyles 
+            elementStyles={elementStyles} 
+            handleStyleChange={handleStyleChange} 
+          />
           <EditorSidebar handleDragStart={handleDragStart} />
           <div className="blog-post-content">
             <div className="blog-post-main">
@@ -124,9 +137,9 @@ function BlogPost() {
                 <div
                   key={element.id}
                   className={`blog-post-element ${element.type}`}
-                  onDrop={(e) => handleDrop(e, element.id)}
+                  onDrop={(e) => handleDrop(e, element.id, elements, setElements)}
                   onDragOver={handleDragOver}
-                  onClick={handleBlogPostElement}
+                  onClick={(event) => handleBlogPostElement(event.target)} // Updated to pass the clicked element
                 >
                   {renderElement(element)}
                 </div>
@@ -140,3 +153,4 @@ function BlogPost() {
 }
 
 export default BlogPost;
+

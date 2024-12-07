@@ -39,7 +39,7 @@ const CustomTooltip = ({ id, header, description, place, fontWeight }) => {
           padding: '12px',
           margin: margin,
           maxWidth: '200px', 
-          zIndex: 5000
+          zIndex: 2000
         }}
         offset={offset}  
         boundary="viewport" 
