@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import NotFound from '../../404/404';
 import Navbar from '../../layout/navbar';
@@ -9,7 +9,6 @@ import EditorSidebar from './layout/sidebar';
 import EditorNavbar from './layout/nav1';
 import EditStyles from './layout/styles';
 import $ from 'jquery';
-import { handleClickOutside } from '../../../utilities/domUtils';
 import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
 
 function BlogPost() {
@@ -24,6 +23,9 @@ function BlogPost() {
     margin: '',
     fontFamily: '',
   });
+
+  // Define the blogPostMainRef here
+  const blogPostMainRef = useRef(null);
 
   useEffect(() => {
     const handleLoading = async () => {
@@ -40,7 +42,7 @@ function BlogPost() {
 
         if (matchedPost) {
           setPost(matchedPost);
-          setElements([ 
+          setElements([
             { id: 'img', type: 'image', draggable: false, content: matchedPost.imageUrl },
             { id: 'text1', type: 'h1', content: matchedPost.title },
             { id: 'description', type: 'text', content: matchedPost.description }
@@ -73,8 +75,8 @@ function BlogPost() {
 
   const handleBlogPostElement = (element) => {
     if (!element) {
-      $('.edit-styles').stop(true, true).fadeOut();
-    return
+      $('.edit-styles').stop(true, true).fadeOut(); 
+      return;
     }
   
     setSelectedElement(element);
@@ -85,9 +87,17 @@ function BlogPost() {
       fontFamily: element.style?.fontFamily || '',
     });
   
-    $('.edit-styles').css('display', 'flex').hide().stop(true, true).fadeToggle();
+    // Only fade the edit-styles container in if it's not already visible
+    if ($('.edit-styles').is(':visible')) {
+      // If the element is already visible, stop here
+      return;
+    }
+  
+    $('.edit-styles').css('display', 'flex').hide().stop(true, true).fadeIn(); // Fade in the element
   };
   
+  
+
   const handleStyleChange = (property, value) => {
     if (selectedElement) {
       selectedElement.style[property] = value;
@@ -97,23 +107,24 @@ function BlogPost() {
       }));
     }
   };
+
   useEffect(() => {
     const handleClick = (event) => {
       const isInsideAddElements = event.target.closest('.editor-sidebar__add-elements') || event.target.closest('.addElement');
       if (isInsideAddElements) return;
-  
+
       if (!isInsideAddElements) {
         $('.editor-sidebar__add-elements').stop(true, true).fadeOut();
       }
     };
-  
+
     document.addEventListener('click', handleClick);
-  
+
     return () => {
       document.removeEventListener('click', handleClick);
     };
   }, []);
-  
+
   return (
     <div className="blog-post-container">
       {loadingState && <LoadingScreen />}
@@ -124,22 +135,24 @@ function BlogPost() {
           <Helmet>
             <title>{post?.title || 'Blog Post'}</title>
           </Helmet>
-          <Navbar/>
-          <EditorNavbar post={post}/>
-          <EditStyles 
-            elementStyles={elementStyles} 
-            handleStyleChange={handleStyleChange} 
+          <Navbar />
+          <EditorNavbar post={post} />
+          <EditStyles
+            elementStyles={elementStyles}
+            handleStyleChange={handleStyleChange}
+            handleBlogPostElement={handleBlogPostElement}
+            blogPostMainRef={blogPostMainRef} 
           />
           <EditorSidebar handleDragStart={handleDragStart} />
           <div className="blog-post-content">
-            <div className="blog-post-main">
+            <div className="blog-post-main" ref={blogPostMainRef}>
               {elements.map((element) => (
                 <div
                   key={element.id}
                   className={`blog-post-element ${element.type}`}
                   onDrop={(e) => handleDrop(e, element.id, elements, setElements)}
                   onDragOver={handleDragOver}
-                  onClick={(event) => handleBlogPostElement(event.target)} // Updated to pass the clicked element
+                  onClick={(event) => handleBlogPostElement(event.target)}
                 >
                   {renderElement(element)}
                 </div>
@@ -153,4 +166,3 @@ function BlogPost() {
 }
 
 export default BlogPost;
-
