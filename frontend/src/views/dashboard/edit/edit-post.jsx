@@ -17,6 +17,8 @@ import ImageStyles from './layout/image-styles';
 import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
 import loading from '../../../utilities/loading';
 
+// Data
+import elements from '../../../data/elements.json'
 
 // BlogPost
 function BlogPost() {
@@ -91,9 +93,7 @@ function BlogPost() {
       fontFamily: element.style?.fontFamily || '',
     });
   
-    const text = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6',  'text'];
-
-    if (text.some(cls => element.classList.contains(cls))) {
+    if (elements.text.some(cls => element.classList.contains(cls))) {
       if ($('.edit-text-styles').is(':visible')) {
         return;
       }
