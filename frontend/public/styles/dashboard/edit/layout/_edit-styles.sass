@@ -8,6 +8,15 @@
     border: solid 1px #2b2b2b
     box-shadow: 0px 0px 6px 3px #00000010
 
+    &__container
+      display: flex
+      flex-direction: column
+      overflow-y: scroll
+      padding-bottom: 20px
+
+      &::-webkit-scrollbar 
+        width: 5px
+
     &__header
       color: white
       display: flex
@@ -41,6 +50,23 @@
         outline: none
         padding: 2px 5px
         border-radius: 4px
+
+      &__icons
+        display: flex
+        flex-direction: row
+        justify-content: space-evenly
+        border-bottom: solid 1px #2b2b2b
+        padding: 0 22px
+        height: 40px
+
+
+        i
+          cursor: pointer
+          height: 100%
+          width: 32px
+          justify-content: space-evenly
+          align-items: center
+          display: flex
 
       &--color
         display: flex

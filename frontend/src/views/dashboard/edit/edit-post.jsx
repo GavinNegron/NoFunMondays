@@ -7,7 +7,8 @@ import loading from '../../../utilities/loading';
 import LoadingScreen from '../../templates/base/loading';
 import EditorSidebar from './layout/sidebar';
 import EditorNavbar from './layout/nav1';
-import EditStyles from './layout/styles';
+import TextStyles from './layout/text-styles';
+import ImageStyles from './layout/image-styles';
 import $ from 'jquery';
 import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
 
@@ -24,7 +25,6 @@ function BlogPost() {
     fontFamily: '',
   });
 
-  // Define the blogPostMainRef here
   const blogPostMainRef = useRef(null);
 
   useEffect(() => {
@@ -42,11 +42,7 @@ function BlogPost() {
 
         if (matchedPost) {
           setPost(matchedPost);
-          setElements([
-            { id: 'img', type: 'image', draggable: false, content: matchedPost.imageUrl },
-            { id: 'text1', type: 'h1', content: matchedPost.title },
-            { id: 'description', type: 'text', content: matchedPost.description }
-          ]);
+          setElements(matchedPost.elements || []);
         } else {
           setNotFound(true);
         }
@@ -75,10 +71,11 @@ function BlogPost() {
 
   const handleBlogPostElement = (element) => {
     if (!element) {
-      $('.edit-styles').stop(true, true).fadeOut(); 
+      $('.edit-text-styles').stop(true, true).fadeOut(); 
+      $('.edit-image-styles').stop(true, true).fadeOut(); 
       return;
     }
-  
+    
     setSelectedElement(element);
   
     setElementStyles({
@@ -87,16 +84,25 @@ function BlogPost() {
       fontFamily: element.style?.fontFamily || '',
     });
   
-    // Only fade the edit-styles container in if it's not already visible
-    if ($('.edit-styles').is(':visible')) {
-      // If the element is already visible, stop here
-      return;
+    const text = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6',  'text'];
+
+    if (text.some(cls => element.classList.contains(cls))) {
+      if ($('.edit-text-styles').is(':visible')) {
+        return;
+      }
+      
+      $('.edit-image-styles').stop(true, true).fadeOut();
+      $('.edit-text-styles').css('display', 'flex').hide().stop(true, true).fadeIn();
     }
-  
-    $('.edit-styles').css('display', 'flex').hide().stop(true, true).fadeIn(); // Fade in the element
+    if (element.classList.contains('image')) {
+      if ($('.edit-image-styles').is(':visible')) {
+        return;
+      }
+
+      $('.edit-text-styles').stop(true, true).fadeOut();
+      $('.edit-image-styles').css('display', 'flex').hide().stop(true, true).fadeIn();
+    }
   };
-  
-  
 
   const handleStyleChange = (property, value) => {
     if (selectedElement) {
@@ -105,6 +111,71 @@ function BlogPost() {
         ...prevStyles,
         [property]: value,
       }));
+      updatePostElements(); // Update the post elements when style changes
+    }
+  };
+
+  const addElement = (type, content) => {
+    const newElement = {
+      id: Date.now().toString(),
+      type,
+      content,
+      style: {},
+    };
+    setElements([...elements, newElement]);
+    updatePostElements(); // Save the new element to the database
+  };
+
+  const updatePostElements = async () => {
+    if (post) {
+      const updatedPost = { 
+        ...post, 
+        elements: elements.map(element => ({
+          ...element,
+          style: element.style || {} // Ensure the style object exists
+        }))
+      };
+      try {
+        const response = await fetch(`/api/posts/${post._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedPost),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to update post');
+        }
+        const data = await response.json();
+        setPost(data);
+      } catch (error) {
+        console.error('Error updating post:', error);
+      }
+    }
+  };
+
+  const publishPost = async () => {
+    if (post) {
+      const updatedPost = { 
+        ...post, 
+        elements: elements.map(element => ({
+          ...element,
+          style: element.style || {} // Ensure the style object exists
+        }))
+      };
+      try {
+        const response = await fetch(`/api/posts/publish/${post._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedPost),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to publish post');
+        }
+        const data = await response.json();
+        console.log('Post published:', data);  // Log the result of publishing
+        setPost(data);
+      } catch (error) {
+        console.error('Error publishing post:', error);
+      }
     }
   };
 
@@ -137,7 +208,14 @@ function BlogPost() {
           </Helmet>
           <Navbar />
           <EditorNavbar post={post} />
-          <EditStyles
+          <TextStyles
+            elementStyles={elementStyles}
+            handleStyleChange={handleStyleChange}
+            handleBlogPostElement={handleBlogPostElement}
+            blogPostMainRef={blogPostMainRef} 
+            selectedElement={selectedElement}
+          />
+          <ImageStyles
             elementStyles={elementStyles}
             handleStyleChange={handleStyleChange}
             handleBlogPostElement={handleBlogPostElement}
@@ -152,13 +230,15 @@ function BlogPost() {
                   className={`blog-post-element ${element.type}`}
                   onDrop={(e) => handleDrop(e, element.id, elements, setElements)}
                   onDragOver={handleDragOver}
-                  onClick={(event) => handleBlogPostElement(event.target)}
+                  onClick={(event) => handleBlogPostElement(event.currentTarget)}
+                  tabindex='0'
                 >
                   {renderElement(element)}
                 </div>
               ))}
             </div>
           </div>
+          <button onClick={publishPost} className="publish-button">Publish</button>
         </>
       )}
     </div>

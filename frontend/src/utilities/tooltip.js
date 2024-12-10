@@ -1,9 +1,8 @@
 import React from 'react';
-import { Tooltip } from 'react-tooltip';  // Corrected import
+import { Tooltip } from 'react-tooltip';  
 import 'react-tooltip/dist/react-tooltip.css';
 
-const CustomTooltip = ({ id, header, description, place, fontWeight }) => {
-  let offset = [0, 0];  
+const CustomTooltip = ({ id, header, description, place, fontWeight, background, color, offset }) => {
   let margin;
   let weight;
   
@@ -31,25 +30,26 @@ const CustomTooltip = ({ id, header, description, place, fontWeight }) => {
         effect="solid"
         className="custom-tooltip"
         style={{
-          backgroundColor: '#121212',
-          color: '#ddd',
+          backgroundColor: background || '#121212',
+          color: color || '#ddd',
           fontSize: '14px',
           fontFamily: 'Poppins',
           borderRadius: '5px',
           padding: '12px',
           margin: margin,
           maxWidth: '200px', 
-          zIndex: 2000
+          zIndex: 2000,
         }}
         offset={offset}  
         boundary="viewport" 
+        zIndex="100000"
         >
         <div>
           <strong 
             className="tooltip-header" 
             style={{
               fontWeight: weight || '700',
-              color: '#fff',
+              color: color || '#fff',
               fontSize: '16px'
             }}
           >
@@ -60,7 +60,7 @@ const CustomTooltip = ({ id, header, description, place, fontWeight }) => {
             className="tooltip-description" 
             style={{
               fontWeight: fontWeight || '400',
-              color: '#ccc'
+              color: color || '#ccc'
             }}
           >
             {description}

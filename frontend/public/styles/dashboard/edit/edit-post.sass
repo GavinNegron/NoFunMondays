@@ -54,8 +54,9 @@
 
 .image
     position: relative
-
-    &:hover
+    height: 400px
+    
+    &:hover, &:focus
         border: solid 1px #ff6565
 
         &::before
@@ -87,7 +88,7 @@
 .h1, .h2, .h3, .h4, .h5, .h6, .text
     position: relative
 
-    &:hover
+    &:hover, &:focus
         border: solid 1px #ffaf65
         background-color: #ffaf6507
 
@@ -107,23 +108,38 @@
             align-items: center
             justify-content: center
 
-.text:hover::before
-    content: 'Default Text'
+.text
+    &:hover::before,
+    &:focus::before
+        content: 'Default Text'
 
-.h1:hover::before
-    content: 'Header 1'
+.h1
+    &:hover::before,
+    &:focus::before
+        content: 'Default Text'
+        content: 'Header 1'
 
 .h2:hover::before
-    content: 'Header 2'
+    &:hover::before,
+    &:focus::before
+        content: 'Header 2'
 
 .h3:hover::before
-    content: 'Header 3'
+    &:hover::before,
+    &:focus::before
+        content: 'Header 3'
 
 .h4:hover::before
-    content: 'Header 4'
+    &:hover::before,
+    &:focus::before
+        content: 'Header 4'
 
 .h5:hover::before
-    content: 'Header 5'
+    &:hover::before,
+    &:focus::before
+        content: 'Header 5'
 
 .h6:hover::before
-    content: 'Header 6'
+    &:hover::before,
+    &:focus::before
+        content: 'Header 6'

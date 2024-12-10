@@ -26,6 +26,18 @@ const blogPostSchema = new mongoose.Schema({
     slug: {
         type: String, 
         required: true
+    },
+    elements: [
+        {
+            id: { type: String, required: true }, 
+            type: { type: String, required: true }, 
+            content: { type: String, required: true },
+            style: { type: Object, default: {} },
+        },
+    ],
+    customCss: {  // Added customCss field to store the custom CSS
+        type: String,  // Store the custom CSS as a string
+        default: ''
     }
 });
 

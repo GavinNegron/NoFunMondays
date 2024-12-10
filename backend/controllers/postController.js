@@ -24,33 +24,32 @@ const bucketName = "nofunmondays";
 
 // Get all posts
 const getPosts = async (req, res) => {
-    try {
-        const posts = await Posts.find();
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(500).json({ message: `Server Error: \n ${error}` });
-    }
+  try {
+      const posts = await Posts.find().lean();
+      res.status(200).json(posts);
+  } catch (error) {
+      res.status(500).json({ message: `Server Error: \n ${error}` });
+  }
 };
 
 // Get recent posts with a limit
 const getRecentPosts = async (req, res) => {
-    try {
-        const { limit = 8, excludeFeatured = false } = req.query;
-        
-        let postsQuery = Posts.find().sort({ createdAt: -1 }).limit(parseInt(limit));
+  try {
+      const { limit = 8, excludeFeatured = false } = req.query;
+      let postsQuery = Posts.find().sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
 
-        if (excludeFeatured === 'true') {
-            const featuredPost = await Posts.findOne({ featured: true });
-            if (featuredPost) {
-                postsQuery = postsQuery.where('_id').ne(featuredPost._id); // Exclude the featured post
-            }
-        }
+      if (excludeFeatured === 'true') {
+          const featuredPost = await Posts.findOne({ featured: true }).lean();
+          if (featuredPost) {
+              postsQuery = postsQuery.where('_id').ne(featuredPost._id); 
+          }
+      }
 
-        const posts = await postsQuery.lean();
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(500).json({ message: `Server Error: \n ${error}` });
-    }
+      const posts = await postsQuery;
+      res.status(200).json(posts);
+  } catch (error) {
+      res.status(500).json({ message: `Server Error: \n ${error}` });
+  }
 };
 
 // Get featured post
@@ -82,51 +81,85 @@ const setFeaturedPost = async (req, res) => {
 
 // Create a new post
 const setPost = async (req, res) => {
-    
-    const { title, description, imageUrl } = req.body;
+  const { title, description, imageUrl, elements, customCss } = req.body;
 
-    if (!imageUrl) {
-        return res.status(400).json({ error: 'Image URL is required' });
-    }
-    function generateSlug(title) {
-        return title
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, '-') // Replace spaces with dashes
-          .replace(/[^a-z0-9-]/g, '') // Remove invalid characters
-      }
-    try {
-        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-        const contentType = response.headers['content-type'];
-        const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
-        const bucket = storage.bucket(bucketName);
-        const file = bucket.file(fileName);
+  if (!title || !description || !elements || !imageUrl) {
+      return res.status(400).json({ error: 'Title, description, elements, and image URL are required' });
+  }
 
-        await file.save(response.data, { metadata: { contentType } });
-        const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+  function generateSlug(title) {
+      return title
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-') 
+        .replace(/[^a-z0-9-]/g, '')
+  }
 
-        const post = await Posts.create({
-            title,
-            description,
-            imageUrl: publicUrl,
-            slug: generateSlug(title),
-        });
+  try {
+      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+      const contentType = response.headers['content-type'];
+      const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      const bucket = storage.bucket(bucketName);
+      const file = bucket.file(fileName);
 
-        res.status(201).json(post);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+      await file.save(response.data, { metadata: { contentType } });
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+
+      const post = await Posts.create({
+          title,
+          description,
+          imageUrl: publicUrl,
+          slug: generateSlug(title),
+          elements,
+          customCss: customCss || '', 
+      });
+
+      res.status(201).json(post);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };
 
-// Update a post (currently a placeholder)
+// Update a post
 const updatePost = async (req, res) => {
-    res.status(200).json({ message: 'Test Update' });
+  const { id } = req.params;
+  const { title, description, imageUrl, elements, customCss } = req.body;
+
+  if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid post ID' });
+  }
+
+  try {
+      const post = await Posts.findById(id);
+      if (!post) {
+          return res.status(404).json({ message: 'Post not found' });
+      }
+
+      const updates = { title, description, elements, customCss: customCss || post.customCss };
+
+      if (imageUrl && imageUrl !== post.imageUrl) {
+          const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+          const contentType = response.headers['content-type'];
+          const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+          const bucket = storage.bucket(bucketName);
+          const file = bucket.file(fileName);
+
+          await file.save(response.data, { metadata: { contentType } });
+          updates.imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      }
+
+      const updatedPost = await Posts.findByIdAndUpdate(id, updates, { new: true });
+
+      res.status(200).json(updatedPost);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };
 
 // Delete a post
 const deletePost = async (req, res) => {
     try {
-        const { id } = req.params;  // Get postId from the URL parameter
+        const { id } = req.params;
 
         if (!ObjectId.isValid(id)) {
             return res.status(400).json({ message: 'Invalid post ID' });
