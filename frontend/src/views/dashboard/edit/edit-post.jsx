@@ -1,17 +1,24 @@
+// React
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import $ from 'jquery';
+
+// Templates
+import LoadingScreen from '../../templates/base/loading';
 import NotFound from '../../404/404';
 import Navbar from '../../layout/navbar';
-import { Helmet } from 'react-helmet-async';
-import loading from '../../../utilities/loading';
-import LoadingScreen from '../../templates/base/loading';
-import EditorSidebar from './layout/sidebar';
 import EditorNavbar from './layout/nav1';
+import EditorSidebar from './layout/sidebar';
 import TextStyles from './layout/text-styles';
 import ImageStyles from './layout/image-styles';
-import $ from 'jquery';
-import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
 
+// Utils
+import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils';
+import loading from '../../../utilities/loading';
+
+
+// BlogPost
 function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
