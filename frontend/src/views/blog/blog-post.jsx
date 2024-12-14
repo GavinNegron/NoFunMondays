@@ -14,13 +14,6 @@ function BlogPost() {
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    // Set a flag to prevent fetching when already fetched
-    const isAlreadyFetched = post && post.slug === slug
-    if (isAlreadyFetched) {
-      setLoadingState(false)
-      return
-    }
-
     const handleLoading = async () => {
       await Promise.all([loading(['/css/blog-post.css']), new Promise(resolve => setTimeout(resolve, 1000))])
 
@@ -46,7 +39,7 @@ function BlogPost() {
     }
 
     handleLoading()
-  }, [slug, post]) // We do not want this to trigger unnecessary fetching
+  }, [slug])
 
   if (loadingState) {
     return <LoadingScreen />
@@ -56,15 +49,18 @@ function BlogPost() {
     return <NotFound />
   }
 
-  // Inject custom CSS if available in the post object
   const customCss = post.customCss || ''
+
+  const generateElementId = (elementType, index) => {
+    return `${elementType}-${post._id}-${index}`
+  }
 
   return (
     <>   
       <Helmet>
         <title>{post.title}</title>
         <link rel="stylesheet" href="/css/blog-post.css" />
-        {customCss && <style>{customCss}</style>} {/* Inject custom CSS here */}
+        {post && customCss && <style>{customCss}</style>}
       </Helmet>
       <Navbar />
       <main className="main">
@@ -77,16 +73,35 @@ function BlogPost() {
               <div className="post__inner__content__header">
                 <p>{post.title}</p>
               </div>
-              <div className="post__inner__content__description">
-                <p>{post.description}</p>
-              </div>
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
+                  const elementId = `${element.type}${post._id}${index}`; 
+
                   switch (element.type) {
-                   
+                    case 'text':
+                      return (
+                        <div key={index} id={elementId} className="text-element" style={element.style}>
+                          {element.content}
+                        </div>
+                      );
+                    case 'header':
+                      return (
+                        <div key={index} id={elementId} className="header-element" style={element.style}>
+                          {element.content}
+                        </div>
+                      );
+                    case 'image':
+                      return (
+                        <div key={index} id={elementId} className="image-element" style={element.style}>
+                          <img src={element.content} alt={`Element ${index}`} />
+                        </div>
+                      );
+                    default:
+                      return <div key={index} id={elementId}>{element.content}</div>;
                   }
                 })}
               </div>
+
             </div>
           </div>
         </div>

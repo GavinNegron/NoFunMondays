@@ -30,13 +30,10 @@
     width: 55%
     background-color: #121212
     width: 768px
+    box-shadow: 0 0 7px 2px #171717
 
-.image img
-    width: 100%
-    height: 100%
-    object-fit: cover
-    object-position: center
-    display: block
+    &__inner
+        padding: 30px 20px
 
 .text
     font-size: 20px
@@ -49,49 +46,10 @@
     -webkit-user-drag: none
     user-select: none
 
-.image, .h1, .h2, .h3, .h4, .h5, .h6, .text
+.image, .h1, .h2, .h3, .h4, .h5, .h6, .text, .banner, .title
     font-family: 'Poppins'
 
-.image
-    position: relative
-    height: 400px
-    
     &:hover, &:focus
-        border: solid 1px #ff6565
-
-        &::before
-            content: 'Image'
-            position: absolute
-            left: -1px
-            top: -23px
-            color: white
-            height: 23px
-            font-size: 12px
-            font-weight: bold
-            background: #ff6565
-            padding: 5px
-            z-index: 999
-            display: flex
-            align-items: center
-            justify-content: center
-
-        &::after
-            content: ""
-            background: #ff656548
-            position: absolute
-            top: 0
-            left: 0
-            right: 0
-            bottom: 0
-            z-index: 1
-
-.h1, .h2, .h3, .h4, .h5, .h6, .text
-    position: relative
-
-    &:hover, &:focus
-        border: solid 1px #ffaf65
-        background-color: #ffaf6507
-
         &::before
             content: ''
             position: absolute
@@ -101,12 +59,56 @@
             height: 23px
             font-size: 12px
             font-weight: bold
-            background: #ffaf65
             padding: 5px
             z-index: 1000
             display: flex
             align-items: center
             justify-content: center
+
+        &::after
+            content: ""
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            z-index: 1         
+
+.title
+    font-size: 32px
+    text-align: center
+    font-weight: bold
+    color: #fff
+
+.image, .banner
+    position: relative
+    height: 400px
+
+    img
+        width: 100%
+        height: 100%
+        object-fit: cover
+        object-position: center
+        display: block
+    
+    &:hover, &:focus
+        border: solid 1px #ff6565
+
+        &::before
+            background: #ff6565
+
+        &::after
+            background: #ff656548
+
+.h1, .h2, .h3, .h4, .h5, .h6, .text, .title
+    position: relative
+
+    &:hover, &:focus
+        border: solid 1px #ffaf65
+        background-color: #ffaf6507
+
+        &::before
+            background: #ffaf65
 
 .text
     &:hover::before,
@@ -116,30 +118,39 @@
 .h1
     &:hover::before,
     &:focus::before
-        content: 'Default Text'
         content: 'Header 1'
 
-.h2:hover::before
+.h2
     &:hover::before,
     &:focus::before
         content: 'Header 2'
 
-.h3:hover::before
+.h3
     &:hover::before,
     &:focus::before
         content: 'Header 3'
 
-.h4:hover::before
+.h4
     &:hover::before,
     &:focus::before
         content: 'Header 4'
 
-.h5:hover::before
+.h5
     &:hover::before,
     &:focus::before
         content: 'Header 5'
 
-.h6:hover::before
+.h6
     &:hover::before,
     &:focus::before
         content: 'Header 6'
+
+.title
+    &:hover::before,
+    &:focus::before
+        content: 'Title'
+
+.banner
+    &:hover::before,
+    &:focus::before
+        content: 'Banner'

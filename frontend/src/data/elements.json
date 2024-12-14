@@ -1,5 +1,39 @@
 {
-  "text": [ "h1", "h2", "h3", "h4", "h5", "h6", "text" ],
-  
-  "": [ "", "", "" ],
+  "text": [
+    {
+      "classes": [
+        { "class": "default-text", "text": "Default Text" },
+        { "class": "h1", "text": "Header 1" },
+        { "class": "h2", "text": "Header 2" },
+        { "class": "h3", "text": "Header 3" },
+        { "class": "h4", "text": "Header 4" },
+        { "class": "h5", "text": "Header 5" },
+        { "class": "h6", "text": "Header 6" },
+        { "class": "title", "text": "Title", "exclude": true },
+        { "class": "banner", "text": "Banner", "exclude": true }
+      ]
+    }
+  ],
+  "image": [
+    {
+      "classes": ["img-class"]
+    }
+  ],
+  "fontOptions": [
+    "Poppins", "Roboto", "Open Sans", "Lora", "Montserrat", "Arial", "Verdana", "Times New Roman", 
+    "Georgia", "Courier New", "Tahoma", "Trebuchet MS", "Impact", "Comic Sans MS", 
+    "Lucida Sans", "Calibri", "Palatino", "Garamond", "Century Gothic", "Futura", 
+    "Helvetica", "Arial Black", "Arial Narrow", "Brush Script MT", "Sans-serif"
+  ],
+  "fontWeightOptions": [
+    "100", "200", "300", "400", "500", "600", "700", "800", "900"
+  ],
+  "alignmentOptions": [
+    { "value": "left", "icon": "fa-align-left", "tooltip": "Align Left" },
+    { "value": "center", "icon": "fa-align-center", "tooltip": "Align Center" },
+    { "value": "right", "icon": "fa-align-right", "tooltip": "Align Right" }
+  ],
+  "colorOptions": [
+    "black", "white", "red", "orange", "yellow", "green", "blue", "purple"
+  ]
 }
