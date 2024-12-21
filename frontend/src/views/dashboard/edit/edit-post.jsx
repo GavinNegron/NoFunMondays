@@ -84,32 +84,25 @@ function BlogPostEditor() {
         const data = await response.json()
         setPost(data)
         setErrorMessage('')
-        console.log('Post updated successfully:', data)
       } catch (error) {
         setErrorMessage('Error updating post. Please try again.')
-        console.error('Error updating post:', error)
       }
     }
   }
 
-  const debouncedUpdatePostElements = debounce(() => {
-    console.log('Calling debounced update')
-    updatePostElements()
-  }, 500)
+  const debouncedUpdatePostElements = debounce(updatePostElements, 500)
 
   const publishPost = async () => {
     if (post) {
-      const updatedTitle = post.title; // Get the updated title from state
-  
-      let updatedCustomCss = '';
-      const stylesMap = new Map();
-      const textClasses = elements.text.flatMap(item => item.classes.map(cls => cls.class));
-  
-      const updatedElements = postElements.map((element) => {
-        const elementDom = document.getElementById(element.id);
-  
+      let updatedCustomCss = ''
+      const stylesMap = new Map()
+      const textClasses = elements.text.flatMap(item => item.classes.map(cls => cls.class))
+
+      const updatedElements = postElements.map(element => {
+        const elementDom = document.getElementById(element.id)
+
         if (elementDom) {
-          const computedStyles = window.getComputedStyle(elementDom);
+          const computedStyles = window.getComputedStyle(elementDom)
           const styleObject = {
             color: computedStyles.color,
             margin: computedStyles.margin,
@@ -119,25 +112,25 @@ function BlogPostEditor() {
             fontStyle: computedStyles.fontStyle,
             textDecoration: computedStyles.textDecoration,
             textAlign: computedStyles.textAlign,
-          };
-  
-          stylesMap.set(element.id, styleObject);
-  
-          const elementType = Array.from(elementDom.classList).find(cls => textClasses.includes(cls)) || 'default-text';
-  
+          }
+
+          stylesMap.set(element.id, styleObject)
+
+          const elementType = Array.from(elementDom.classList).find(cls => textClasses.includes(cls)) || 'default-text'
+
           return {
             ...element,
             type: elementType,
             content: elementDom.innerText || element.content,
-            style: { ...styleObject },  // Save the updated styles here
-          };
+            style: { ...styleObject },
+          }
         }
-  
-        return element;
-      });
-  
+
+        return element
+      })
+
       stylesMap.forEach((style, id) => {
-        const cssClass = `#${id}`;
+        const cssClass = `#${id}`
         const cssRules = `
           ${cssClass} {
             color: ${style.color};
@@ -149,68 +142,54 @@ function BlogPostEditor() {
             text-decoration: ${style.textDecoration};
             text-align: ${style.textAlign};
           }
-        `;
-        updatedCustomCss += cssRules;
-      });
-  
+        `
+        updatedCustomCss += cssRules
+      })
+
       const updatedPost = {
         ...post,
-        title: updatedTitle,  // Include the updated title here
-        elements: updatedElements, 
-        customCss: updatedCustomCss, 
-      };
-  
+        elements: updatedElements,
+        customCss: updatedCustomCss,
+      }
+
       try {
         const response = await fetch(`/api/posts/${post._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedPost),
-        });
-  
-        if (!response.ok) throw new Error('Failed to update post');
-  
-        const data = await response.json();
-        setPost(data); // Update the post state with the newly updated post from the backend
-        console.log('Post updated successfully:', data);
+        })
+
+        if (!response.ok) throw new Error('Failed to update post')
+
+        const data = await response.json()
+        setPost(data)
       } catch (error) {
-        console.error('Error updating post:', error);
+        console.error('Error updating post:', error)
       }
     }
-  };
-  
- const handleStyleChange = (property, value) => {
-  if (selectedElement) {
-    selectedElement.style[property] = value;
-    setElementStyles(prevStyles => ({ ...prevStyles, [property]: value }));
-    setPostElements(prevPostElements => {
-      return prevPostElements.map((element) =>
-        element.id === selectedElement.id
-          ? { ...element, style: { ...element.style, [property]: value } }
-          : element
-      );
-    });
   }
-}
+
+  const handleStyleChange = (property, value) => {
+    if (selectedElement) {
+      selectedElement.style[property] = value
+      setElementStyles(prevStyles => ({ ...prevStyles, [property]: value }))
+      setPostElements(prevPostElements =>
+        prevPostElements.map(element =>
+          element.id === selectedElement.id ? { ...element, style: { ...element.style, [property]: value } } : element
+        )
+      )
+    }
+  }
 
   const handleKeyDown = (event) => {
-    if (event.target.isContentEditable) {
-      if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
-        event.preventDefault()  // Prevent deletion of element itself
-        return
-      }
-    }
-  
     if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !event.target.isContentEditable) {
-      setPostElements((prevPostElements) =>
-        prevPostElements.filter((element) => element.id !== selectedElement.id)
+      setPostElements(prevPostElements =>
+        prevPostElements.filter(element => element.id !== selectedElement.id)
       )
-  
-      setDeletedElements((prevDeleted) => [...prevDeleted, selectedElement])
+      setDeletedElements(prevDeleted => [...prevDeleted, selectedElement])
       setSelectedElement(null)
     }
   }
-  
-  
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
@@ -224,125 +203,106 @@ function BlogPostEditor() {
       $('.edit-text-styles, .edit-image-styles').stop(true, true).fadeOut()
       return
     }
-  
-    setSelectedElement(element) 
+
+    setSelectedElement(element)
     setElementStyles({
       color: element.style?.color || '',
       margin: element.style?.margin || '',
       fontFamily: element.style?.fontFamily || '',
     })
-  
+
     const textClasses = elements.text[0]?.classes.map(item => item.class) || []
     const imageClasses = elements.image[0]?.classes || []
-  
+
     if (textClasses.some(cls => element.classList.contains(cls))) {
       if ($('.edit-text-styles').is(':visible')) return
       $('.edit-image-styles').stop(true, true).fadeOut()
       $('.edit-text-styles').css('display', 'flex').hide().stop(true, true).fadeIn()
     }
-  
+
     if (imageClasses.some(cls => element.classList.contains(cls))) {
       if ($('.edit-image-styles').is(':visible')) return
       $('.edit-text-styles').stop(true, true).fadeOut()
       $('.edit-image-styles').css('display', 'flex').hide().stop(true, true).fadeIn()
     }
   }
-  
+
   const handleDoubleClick = (event) => {
-    const element = event.currentTarget;
-  
-    const textClasses = elements.text[0]?.classes.map(item => item.class) || [];
-    const imageClasses = elements.image[0]?.classes || [];
-  
+    const element = event.currentTarget
+
+    const textClasses = elements.text[0]?.classes.map(item => item.class) || []
+    const imageClasses = elements.image[0]?.classes || []
+
     if (textClasses.some(cls => element.classList.contains(cls))) {
-      element.contentEditable = true;
-      element.style.outline = 'none'; 
-      element.spellcheck = false; 
-      element.focus();
-  
-      const selection = window.getSelection();
-      const range = document.createRange();
-      selection.removeAllRanges();
-  
-      const rect = element.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const offsetY = event.clientY - rect.top;
-      const textNode = element.firstChild;
-  
+      element.contentEditable = true
+      element.style.outline = 'none'
+      element.spellcheck = false
+      element.focus()
+
+      const selection = window.getSelection()
+      const range = document.createRange()
+      selection.removeAllRanges()
+
+      const rect = element.getBoundingClientRect()
+      const offsetX = event.clientX - rect.left
+      const offsetY = event.clientY - rect.top
+      const textNode = element.firstChild
+
       if (textNode) {
-        let charIndex = 0;
-        let charWidth = 0;
-        const span = document.createElement('span');
-        span.style.visibility = 'hidden';
-        span.style.whiteSpace = 'pre';
-        document.body.appendChild(span);
-  
+        let charIndex = 0
+        let charWidth = 0
+        const span = document.createElement('span')
+        span.style.visibility = 'hidden'
+        span.style.whiteSpace = 'pre'
+        document.body.appendChild(span)
+
         for (let i = 0; i < textNode.length; i++) {
-          span.textContent = textNode.nodeValue.slice(0, i + 1);
-          const charRect = span.getBoundingClientRect();
-  
+          span.textContent = textNode.nodeValue.slice(0, i + 1)
+          const charRect = span.getBoundingClientRect()
+
           if (offsetX >= charRect.left && offsetX <= charRect.right) {
-            charIndex = i;
-            break;
+            charIndex = i
+            break
           }
         }
-  
-        document.body.removeChild(span);
-        range.setStart(textNode, charIndex);
-        range.setEnd(textNode, charIndex);
-        selection.addRange(range);
+
+        document.body.removeChild(span)
+        range.setStart(textNode, charIndex)
+        range.setEnd(textNode, charIndex)
+        selection.addRange(range)
       }
-  
+
       element.addEventListener('blur', () => {
-        element.contentEditable = false;
+        element.contentEditable = false
         setPostElements(prevPostElements =>
           prevPostElements.map(el => el.id === element.id ? { ...el, content: element.innerText } : el)
-        );
-  
-        // Update title in state if the title element was edited
+        )
         if (element.classList.contains('blog-post-main__title')) {
-          setPost(prevPost => ({ ...prevPost, title: element.innerText }));
+          setPost(prevPost => ({ ...prevPost, title: element.innerText }))
         }
-      });
-  
+      })
+
       element.addEventListener('keydown', (e) => {
         if (e.key === 'Backspace' || e.key === 'Delete') {
-          e.stopPropagation();
+          e.stopPropagation()
         }
         if (e.key === 'Enter') {
-          element.contentEditable = false;
+          element.contentEditable = false
           setPostElements(prevPostElements =>
             prevPostElements.map(el => el.id === element.id ? { ...el, content: element.innerText } : el)
-          );
-          // Update title in state if the title element was edited
+          )
           if (element.classList.contains('blog-post-main__title')) {
-            setPost(prevPost => ({ ...prevPost, title: element.innerText }));
+            setPost(prevPost => ({ ...prevPost, title: element.innerText }))
           }
         }
-      });
-    } else if (imageClasses.some(cls => element.classList.contains(cls))) {
-      console.log("Image clicked");
+      })
     }
-  };
-  
-  
-  
-  const getCharacterWidth = (node, index) => {
-    const span = document.createElement('span');
-    span.textContent = node.nodeValue[index];
-    document.body.appendChild(span);
-    const width = span.offsetWidth;
-    document.body.removeChild(span);
-    return width;
-  };
-  
-  
-  
-  
+  }
+
   const renderElement = (element, index) => {
     const elementId = `${element.id}`
     element.id = elementId
-  
+
     return (
       <div
         id={elementId}
@@ -350,19 +310,19 @@ function BlogPostEditor() {
         className={`blog-post-element ${element.type === 'text' ? element.tag : element.type}`}
         onDrop={(e) => handleDrop(e, elementId, postElements, setPostElements)}
         onDragOver={handleDragOver}
-        onClick={(event) => handleBlogPostElement(event.currentTarget)} 
-        onDoubleClick={handleDoubleClick} 
+        onClick={(event) => handleBlogPostElement(event.currentTarget)}
+        onDoubleClick={handleDoubleClick}
         tabIndex="0"
       >
         {element.type === 'image' ? (
           <img src={element.src} alt={element.alt} />
         ) : (
-          <p>{element.content}</p> 
+          <p>{element.content}</p>
         )}
       </div>
     )
   }
-  
+
   const customCss = post?.customCss || ''
   return (
     <div className="blog-post-container">
@@ -406,7 +366,7 @@ function BlogPostEditor() {
                   className="blog-post-main__title blog-post-element title"
                   tabIndex="0"
                   onClick={() => $('.edit-text-styles, .edit-image-styles').stop(true, true).fadeOut('fast')}
-                  onDoubleClick={handleDoubleClick} 
+                  onDoubleClick={handleDoubleClick}
                 >
                   <span>{post?.title}</span>
                 </div>
