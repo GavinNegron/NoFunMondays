@@ -20,13 +20,13 @@
     }
   ],
   "fontOptions": [
-    "Poppins", "Roboto", "Open Sans", "Lora", "Montserrat", "Arial", "Verdana", "Times New Roman", 
-    "Georgia", "Courier New", "Tahoma", "Trebuchet MS", "Impact", "Comic Sans MS", 
-    "Lucida Sans", "Calibri", "Palatino", "Garamond", "Century Gothic", "Futura", 
-    "Helvetica", "Arial Black", "Arial Narrow", "Brush Script MT", "Sans-serif"
+    "Outfit", "Source Code Pro", "Noto Sans", "Nunito", "Poppins", "Roboto", "Open Sans","Arial", "Verdana"
   ],
   "fontWeightOptions": [
     "100", "200", "300", "400", "500", "600", "700", "800", "900"
+  ],
+  "fontSizeOptions": [
+    "18", "24", "32", "38"
   ],
   "alignmentOptions": [
     { "value": "left", "icon": "fa-align-left", "tooltip": "Align Left" },

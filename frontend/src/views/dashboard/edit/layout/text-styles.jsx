@@ -1,19 +1,19 @@
-// React
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { BlockPicker } from 'react-color';
 
-// Utils
 import Tooltip from '../../../../utilities/tooltip';
-
-// Data
-import elements from '../../../../data/elements.json'
+import elements from '../../../../data/elements.json';
 
 const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(elementStyles?.color || '#000000');
-  const [fontSize, setFontSize] = useState(18); // Default to 18px instead of null
-  const [currentType, setCurrentType] = useState(elementStyles?.class || 'default-text');  
+  const [style, setStyle] = useState({
+    color: elementStyles?.color || '#000000',
+    fontSize: elementStyles?.fontSize || 18,
+    fontFamily: elementStyles?.fontFamily || '',
+    fontWeight: elementStyles?.fontWeight || 'normal',
+    currentType: elementStyles?.class || 'default-text',
+  });
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef(null);
   const elementRef = useRef(null);
@@ -21,14 +21,16 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
   useEffect(() => {
     if (elementRef.current) {
       const computedStyle = window.getComputedStyle(elementRef.current);
-      const elementFontSize = computedStyle.fontSize;
-      if (elementFontSize) setFontSize(parseInt(elementFontSize, 10));
+      setStyle(prevStyle => ({
+        ...prevStyle,
+        fontSize: parseInt(computedStyle.fontSize, 10) || 18,
+      }));
     }
   }, [elementId]);
 
   useEffect(() => {
-    if (elementStyles?.color !== selectedColor) setSelectedColor(elementStyles?.color || '#000000');
-  }, [elementId, elementStyles?.color, selectedColor]);
+    if (elementStyles?.color !== style.color) setStyle(prevStyle => ({ ...prevStyle, color: elementStyles?.color || '#000000' }));
+  }, [elementId, elementStyles?.color, style.color]);
 
   useEffect(() => {
     const updatePosition = () => {
@@ -48,6 +50,25 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
 
     return () => window.removeEventListener('load', onWindowLoad);
   }, [blogPostMainRef]);
+
+  useEffect(() => {
+    if (selectedElement) {
+      const computedStyle = window.getComputedStyle(selectedElement);
+  
+      setStyle(prevStyle => ({
+        ...prevStyle,
+        color: computedStyle.color || '#000000',
+        fontSize: parseInt(computedStyle.fontSize, 10) || 18,
+        fontFamily: computedStyle.fontFamily || '',
+        fontWeight: computedStyle.fontWeight || 'normal',
+      }));
+
+      const elementType = Array.from(selectedElement.classList).find(className =>
+        ['default-text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(className)
+      ) || 'default-text';
+      setStyle(prevStyle => ({ ...prevStyle, currentType: elementType }));
+    }
+  }, [selectedElement, elementId]);
 
   const handleMouseDown = (e) => {
     const element = e.target.closest('.edit-styles');
@@ -73,8 +94,8 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
       const boundedX = Math.max(20, Math.min(window.innerWidth - elementWidth - 20, newX)); 
       const boundedY = Math.max(20, Math.min(window.innerHeight - elementHeight - 20, newY)); 
       setPosition(prev => ({ ...prev, x: boundedX, y: boundedY, })); 
-    } }, 
-    [isDragging, position.offsetX, position.offsetY]);
+    } 
+  }, [isDragging, position.offsetX, position.offsetY]);
 
   const handleMouseUp = () => setIsDragging(false);
 
@@ -104,31 +125,46 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
     };
   }, []);
 
-  const handleFamilyChange = (e) => handleStyleChange('fontFamily', e.target.value);
-  const handleWeightChange = (e) => handleStyleChange('fontWeight', e.target.value);
-  const handleColorChange = (color) => handleStyleChange('color', color.hex);
+  const handleFamilyChange = (e) => {
+    const newFontFamily = e.target.value;
+    setStyle(prevStyle => ({ ...prevStyle, fontFamily: newFontFamily }));
+    handleStyleChange('fontFamily', newFontFamily);
+  };
+
+  const handleWeightChange = (e) => {
+    const newFontWeight = e.target.value;
+    setStyle(prevStyle => ({ ...prevStyle, fontWeight: newFontWeight }));
+    handleStyleChange('fontWeight', newFontWeight);
+  };
+
+  const handleColorChange = (color) => {
+    setStyle(prevStyle => ({ ...prevStyle, color: color.hex }));
+    handleStyleChange('color', color.hex);
+  };
 
   const handleBoldChange = () => {
     const isBold = window.getComputedStyle(selectedElement).fontWeight;
-    handleStyleChange('fontWeight', isBold === 'bold' || isBold === '700' ? 'normal' : 'bold');
+    const newFontWeight = isBold === 'bold' || isBold === '700' ? 'normal' : 'bold';
+    setStyle(prevStyle => ({ ...prevStyle, fontWeight: newFontWeight }));
+    handleStyleChange('fontWeight', newFontWeight);
   };
 
   const handleItalicChange = () => {
     const isItalic = window.getComputedStyle(selectedElement).fontStyle === 'italic';
-    handleStyleChange('fontStyle', isItalic ? 'normal' : 'italic');
+    const newFontStyle = isItalic ? 'normal' : 'italic';
+    handleStyleChange('fontStyle', newFontStyle);
   };
 
   const handleUnderlineChange = () => {
     const textDecoration = window.getComputedStyle(selectedElement).textDecoration;
-    handleStyleChange('textDecoration', textDecoration.includes('underline') ? 'none' : 'underline');
+    const newTextDecoration = textDecoration.includes('underline') ? 'none' : 'underline';
+    handleStyleChange('textDecoration', newTextDecoration);
   };
-
-  const handleSizeSliderChange = (e) => handleStyleChange('fontSize', `${e.target.value}px`);
 
   const handleSizeInputChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
     if (!isNaN(newSize)) {
-      setFontSize(newSize);
+      setStyle(prevStyle => ({ ...prevStyle, fontSize: newSize }));
       handleStyleChange('fontSize', `${newSize}px`);
     }
   };
@@ -138,10 +174,10 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
   const handleAlignChange = (alignment) => {
     selectedElement.style.textAlign = alignment;
   };
+
   const handleTypeChange = (e) => {
     const selectedClass = e.target.value;
-    setCurrentType(selectedClass);
-
+    setStyle(prevStyle => ({ ...prevStyle, currentType: selectedClass }));
     if (selectedElement) {
       selectedElement.classList.forEach((className) => {
         if (className.startsWith('h') || className === 'default-text') {
@@ -149,8 +185,11 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         }
       });
       selectedElement.classList.add(selectedClass);
+      handleStyleChange('class', selectedClass);
     }
   };
+  
+
   return (
     <div className="edit-styles edit-text-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
       <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={handleMouseDown} ref={elementRef}>
@@ -168,7 +207,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
         {showColorPicker && (
           <div className="color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
-            <BlockPicker color={selectedColor} onChange={handleColorChange} colors={elements.colorOptions} />
+            <BlockPicker color={style.color} onChange={handleColorChange} colors={elements.colorOptions} />
           </div>
         )}
       </div>
@@ -182,16 +221,8 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
       </div>
       <div className="edit-styles__container">
         <div className="edit-styles__item">
-          <p>Type: </p>
-          <select onChange={handleTypeChange}>
-            {elements.text[0].classes.filter(item => !item.exclude).map((item, index) => (
-              <option value={item.class} key={index}>{item.text}</option>
-            ))}
-          </select>
-        </div>
-        <div className="edit-styles__item">
           <p>Font Family: </p>
-          <select value={elementStyles?.fontFamily || ''} onChange={handleFamilyChange}>
+          <select value={style.fontFamily} onChange={handleFamilyChange}>
             {elements.fontOptions.map((font, index) => (
               <option key={index} value={font} style={{ fontFamily: font }}>
                 {font}
@@ -200,8 +231,16 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
           </select>
         </div>
         <div className="edit-styles__item">
+          <p>Type: </p>
+          <select value={style.currentType} onChange={handleTypeChange}>
+            {elements.text[0].classes.filter(item => !item.exclude).map((item, index) => (
+              <option value={item.class} key={index}>{item.text}</option>
+            ))}
+          </select>
+        </div>
+        <div className="edit-styles__item">
           <p>Font Weight: </p>
-          <select onChange={handleWeightChange}>
+          <select value={style.fontWeight} onChange={handleWeightChange}>
             {elements.fontWeightOptions.map((weight, index) => (
               <option value={weight} key={index}>{weight}</option>
             ))}
@@ -209,8 +248,11 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         </div>
         <div className="edit-styles__item">
           <p>Font Size: </p>
-          <input type="range" min="8" max="72" value={fontSize} onChange={handleSizeSliderChange} />
-          <input type="number" value={fontSize} min="8" max="72" onChange={handleSizeInputChange} />
+          <select value={style.fontSize} onChange={handleSizeInputChange}>
+            {elements.fontSizeOptions.map((size, index) => (
+              <option value={size} key={index}>{size}</option>
+            ))}
+          </select>
         </div>
       </div>
     </div>

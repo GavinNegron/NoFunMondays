@@ -33,9 +33,9 @@
     box-shadow: 0 0 7px 2px #171717
 
     &__inner
-        padding: 30px 20px
+        padding: 30px 55px
 
-.text
+.default-text
     font-size: 20px
 
 
@@ -46,7 +46,7 @@
     -webkit-user-drag: none
     user-select: none
 
-.image, .h1, .h2, .h3, .h4, .h5, .h6, .text, .banner, .title
+.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title
     font-family: 'Poppins'
 
     &:hover, &:focus
@@ -100,7 +100,7 @@
         &::after
             background: #ff656548
 
-.h1, .h2, .h3, .h4, .h5, .h6, .text, .title
+.h1, .h2, .h3, .h4, .h5, .h6, .default-text, .title
     position: relative
 
     &:hover, &:focus
@@ -110,37 +110,43 @@
         &::before
             background: #ffaf65
 
-.text
+.default-text
     &:hover::before,
     &:focus::before
         content: 'Default Text'
 
 .h1
+    font-size: 34px !important
     &:hover::before,
     &:focus::before
         content: 'Header 1'
 
 .h2
+    font-size: 26px !important
     &:hover::before,
     &:focus::before
         content: 'Header 2'
 
 .h3
+    font-size: 20px !important
     &:hover::before,
     &:focus::before
         content: 'Header 3'
 
 .h4
+    font-size: 18px !important
     &:hover::before,
     &:focus::before
         content: 'Header 4'
 
 .h5
+    font-size: 15px !important
     &:hover::before,
     &:focus::before
         content: 'Header 5'
 
 .h6
+    font-size: 12px !important
     &:hover::before,
     &:focus::before
         content: 'Header 6'

@@ -1,5 +1,15 @@
+const generateRandomHexId = (length = 24) => {
+  let result = '';
+  const characters = '0123456789abcdef'; // Hexadecimal characters
+  
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  return result;
+}
+
 export const handleDragStart = (e, elementData) => {
-  console.log('Drag started with data:', elementData)
   const data = {
     type: elementData,
     content: elementData, 
@@ -13,26 +23,21 @@ export const handleDrop = (e, targetElementId, postElements, setPostElements) =>
   let newElementData
   try {
     newElementData = JSON.parse(e.dataTransfer.getData('text/plain'))
-    console.log('Dropped data:', newElementData)
   } catch (error) {
-    console.error('Invalid drag data:', error)
     return
   }
 
   const newElement = {
     ...newElementData,
-    id: `${newElementData.type}-${Date.now()}`,
+    id: generateRandomHexId(),
     style: {},
   }
-
-  console.log('New element to be added:', newElement)
 
   const elementExists = postElements.some(element => 
     element.content === newElement.content && element.type === newElement.type
   )
 
   if (elementExists) {
-    console.log('Element already exists, not adding.')
     return
   }
 

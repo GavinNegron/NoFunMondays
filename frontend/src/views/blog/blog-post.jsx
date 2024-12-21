@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import NotFound from '../404/404'
@@ -75,7 +76,7 @@ function BlogPost() {
               </div>
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
-                  const elementId = `${element.type}${post._id}${index}`; 
+                  const elementId = `${element.id}`;
 
                   switch (element.type) {
                     case 'text':

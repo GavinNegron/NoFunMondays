@@ -3,7 +3,7 @@ import Tooltip from '../../../../utilities/tooltip';
 import $ from 'jquery';
 
 function EditSidebar({ handleDragStart }) {
-  const [activeElement, setActiveElement] = useState('text'); // Set "text" as the default active element
+  const [activeElement, setActiveElement] = useState('text');
 
   const handleAddElementsClick = () => {
     $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeToggle(200);
@@ -43,9 +43,9 @@ function EditSidebar({ handleDragStart }) {
                   {activeElement === 'text' && (
                     <div className="editor-sidebar__add-elements__right__text">
                       <a
-                        className="text"
+                        className="default-text"
                         draggable="true"
-                        onDragStart={(e) => handleDragStart(e, 'text')}
+                        onDragStart={(e) => handleDragStart(e, 'default-text')}
                       >
                         Add default text 
                       </a>
