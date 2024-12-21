@@ -1,136 +1,110 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { BlockPicker } from 'react-color';
+// React
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { BlockPicker } from 'react-color'
 
-import Tooltip from '../../../../utilities/tooltip';
-import elements from '../../../../data/elements.json';
+// Utilities
+import Tooltip from '../../../../utilities/tooltip'
+import { handleMouseMove, handleMouseUp, handleMouseDown, handleClickOutside } from '../../../../utilities/posts/editorFunctions'
 import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
 
+// Data
+import elements from '../../../../data/elements.json'
+
 const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef, selectedElement }) => {
-  const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
+  const [isDragging, setIsDragging] = useState(false)
   const [style, setStyle] = useState({
     color: elementStyles?.color || '#000000',
     fontSize: elementStyles?.fontSize || 18,
     fontFamily: elementStyles?.fontFamily || '',
     fontWeight: elementStyles?.fontWeight || 'normal',
     currentType: elementStyles?.class || 'default-text',
-  });
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const colorPickerRef = useRef(null);
-  const elementRef = useRef(null);
+  })
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const colorPickerRef = useRef(null)
+  const elementRef = useRef(null)
 
   useEffect(() => {
     if (elementRef.current) {
-      const computedStyle = window.getComputedStyle(elementRef.current);
+      const computedStyle = window.getComputedStyle(elementRef.current)
       setStyle(prevStyle => ({
         ...prevStyle,
         fontSize: parseInt(computedStyle.fontSize, 10) || 18,
-      }));
+      }))
     }
-  }, [elementId]);
+  }, [elementId])
 
   useEffect(() => {
-    if (elementStyles?.color !== style.color) setStyle(prevStyle => ({ ...prevStyle, color: elementStyles?.color || '#000000' }));
-  }, [elementId, elementStyles?.color, style.color]);
+    if (elementStyles?.color !== style.color) setStyle(prevStyle => ({ ...prevStyle, color: elementStyles?.color || '#000000' }))
+  }, [elementId, elementStyles?.color, style.color])
 
   useEffect(() => {
     const updatePosition = () => {
       if (blogPostMainRef.current) {
-        const rect = blogPostMainRef.current.getBoundingClientRect();
-        const xPos = rect.left;
-        setPosition(prev => ({ ...prev, x: xPos - 275 }));
+        const rect = blogPostMainRef.current.getBoundingClientRect()
+        const xPos = rect.left
+        setPosition(prev => ({ ...prev, x: xPos - 275 }))
       }
-    };
+    }
 
     const onWindowLoad = () => {
-      setTimeout(updatePosition, 100);  
-    };
+      setTimeout(updatePosition, 100)  
+    }
 
-    if (window.document.readyState === 'complete') onWindowLoad();
-    else window.addEventListener('load', onWindowLoad);
+    if (window.document.readyState === 'complete') onWindowLoad()
+    else window.addEventListener('load', onWindowLoad)
 
-    return () => window.removeEventListener('load', onWindowLoad);
-  }, [blogPostMainRef]);
+    return () => window.removeEventListener('load', onWindowLoad)
+  }, [blogPostMainRef])
 
   useEffect(() => {
     if (selectedElement) {
-      const computedStyle = window.getComputedStyle(selectedElement);
-  
+      const computedStyle = window.getComputedStyle(selectedElement)
+
       setStyle(prevStyle => ({
         ...prevStyle,
         color: computedStyle.color || '#000000',
         fontSize: parseInt(computedStyle.fontSize, 10) || 18,
         fontFamily: computedStyle.fontFamily || '',
         fontWeight: computedStyle.fontWeight || 'normal',
-      }));
+      }))
 
       const elementType = Array.from(selectedElement.classList).find(className =>
         ['default-text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(className)
-      ) || 'default-text';
-      setStyle(prevStyle => ({ ...prevStyle, currentType: elementType }));
+      ) || 'default-text'
+      setStyle(prevStyle => ({ ...prevStyle, currentType: elementType }))
     }
-  }, [selectedElement, elementId]);
-
-  const handleMouseDown = (e) => {
-    const element = e.target.closest('.edit-styles');
-    if (!element) return;
-
-    const rect = element.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    setIsDragging(true);
-    setPosition(prev => ({
-      ...prev,
-      offsetX,
-      offsetY,
-    }));
-  };
-
-  const handleMouseMove = useCallback((e) => { 
-    if (isDragging && elementRef.current) { 
-      const newX = e.clientX - position.offsetX; 
-      const newY = e.clientY - position.offsetY; 
-      const elementHeight = elementRef.current.offsetHeight; 
-      const elementWidth = elementRef.current.offsetWidth; 
-      const boundedX = Math.max(20, Math.min(window.innerWidth - elementWidth - 20, newX)); 
-      const boundedY = Math.max(20, Math.min(window.innerHeight - elementHeight - 20, newY)); 
-      setPosition(prev => ({ ...prev, x: boundedX, y: boundedY, })); 
-    } 
-  }, [isDragging, position.offsetX, position.offsetY]);
-
-  const handleMouseUp = () => setIsDragging(false);
+  }, [selectedElement, elementId])
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      const mouseMoveHandler = handleMouseMove(isDragging, position, setPosition, elementRef)
+      const mouseUpHandler = () => handleMouseUp(setIsDragging)
+  
+      document.addEventListener('mousemove', mouseMoveHandler)
+      document.addEventListener('mouseup', mouseUpHandler)
+  
+      return () => {
+        document.removeEventListener('mousemove', mouseMoveHandler)
+        document.removeEventListener('mouseup', mouseUpHandler)
+      }
     }
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, handleMouseMove]);
-
-  const handleClickOutside = (e, ref, callback) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      callback(false);
-    }
-  };
+  }, [isDragging, position, setIsDragging])
 
   useEffect(() => {
-    const handleColorPickerOutsideClick = (e) => handleClickOutside(e, colorPickerRef, setShowColorPicker);
+    const handleColorPickerOutsideClick = (e) => handleClickOutside(e, colorPickerRef, setShowColorPicker)
     
-    document.addEventListener('mousedown', handleColorPickerOutsideClick);
+    document.addEventListener('mousedown', handleColorPickerOutsideClick)
     return () => {
-      document.removeEventListener('mousedown', handleColorPickerOutsideClick);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleColorPickerOutsideClick)
+    }
+  }, [])
 
-  const toggleColorPicker = () => setShowColorPicker(!showColorPicker);
+  const toggleColorPicker = () => setShowColorPicker(!showColorPicker)
 
   return (
     <div className="edit-styles edit-text-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
-      <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={handleMouseDown} ref={elementRef}>
+      <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)} ref={elementRef}>
         <p>Edit Text:</p>
         <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
       </div>
@@ -194,7 +168,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditStyles;
+export default EditStyles
