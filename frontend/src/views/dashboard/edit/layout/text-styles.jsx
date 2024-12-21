@@ -3,6 +3,7 @@ import { BlockPicker } from 'react-color';
 
 import Tooltip from '../../../../utilities/tooltip';
 import elements from '../../../../data/elements.json';
+import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
 
 const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 });
@@ -125,70 +126,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
     };
   }, []);
 
-  const handleFamilyChange = (e) => {
-    const newFontFamily = e.target.value;
-    setStyle(prevStyle => ({ ...prevStyle, fontFamily: newFontFamily }));
-    handleStyleChange('fontFamily', newFontFamily);
-  };
-
-  const handleWeightChange = (e) => {
-    const newFontWeight = e.target.value;
-    setStyle(prevStyle => ({ ...prevStyle, fontWeight: newFontWeight }));
-    handleStyleChange('fontWeight', newFontWeight);
-  };
-
-  const handleColorChange = (color) => {
-    setStyle(prevStyle => ({ ...prevStyle, color: color.hex }));
-    handleStyleChange('color', color.hex);
-  };
-
-  const handleBoldChange = () => {
-    const isBold = window.getComputedStyle(selectedElement).fontWeight;
-    const newFontWeight = isBold === 'bold' || isBold === '700' ? 'normal' : 'bold';
-    setStyle(prevStyle => ({ ...prevStyle, fontWeight: newFontWeight }));
-    handleStyleChange('fontWeight', newFontWeight);
-  };
-
-  const handleItalicChange = () => {
-    const isItalic = window.getComputedStyle(selectedElement).fontStyle === 'italic';
-    const newFontStyle = isItalic ? 'normal' : 'italic';
-    handleStyleChange('fontStyle', newFontStyle);
-  };
-
-  const handleUnderlineChange = () => {
-    const textDecoration = window.getComputedStyle(selectedElement).textDecoration;
-    const newTextDecoration = textDecoration.includes('underline') ? 'none' : 'underline';
-    handleStyleChange('textDecoration', newTextDecoration);
-  };
-
-  const handleSizeInputChange = (e) => {
-    const newSize = parseInt(e.target.value, 10);
-    if (!isNaN(newSize)) {
-      setStyle(prevStyle => ({ ...prevStyle, fontSize: newSize }));
-      handleStyleChange('fontSize', `${newSize}px`);
-    }
-  };
-
   const toggleColorPicker = () => setShowColorPicker(!showColorPicker);
-
-  const handleAlignChange = (alignment) => {
-    selectedElement.style.textAlign = alignment;
-  };
-
-  const handleTypeChange = (e) => {
-    const selectedClass = e.target.value;
-    setStyle(prevStyle => ({ ...prevStyle, currentType: selectedClass }));
-    if (selectedElement) {
-      selectedElement.classList.forEach((className) => {
-        if (className.startsWith('h') || className === 'default-text') {
-          selectedElement.classList.remove(className);
-        }
-      });
-      selectedElement.classList.add(selectedClass);
-      handleStyleChange('class', selectedClass);
-    }
-  };
-  
 
   return (
     <div className="edit-styles edit-text-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
@@ -197,9 +135,9 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
       </div>
       <div className="edit-styles__item edit-styles__item__icons">
-        <i onClick={handleBoldChange} data-tooltip-id="tip-bold" className="fa-solid fa-bold"></i>
-        <i onClick={handleItalicChange} data-tooltip-id="tip-italic" className="fa-solid fa-italic"></i>
-        <i onClick={handleUnderlineChange} data-tooltip-id="tip-underline" className="fa-solid fa-underline"></i>
+        <i onClick={() => handleBoldChange(selectedElement, setStyle, handleStyleChange)} data-tooltip-id="tip-bold" className="fa-solid fa-bold"></i>
+        <i onClick={() => handleItalicChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-italic" className="fa-solid fa-italic"></i>
+        <i onClick={() => handleUnderlineChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-underline" className="fa-solid fa-underline"></i>
         <i data-tooltip-id="tip-color" onClick={toggleColorPicker} className="fa-solid fa-palette"></i>
         <Tooltip id="tip-bold" header="Bold" place="top" background="#242529" fontWeight="600" />
         <Tooltip id="tip-italic" header="Italic" place="top" background="#242529" fontWeight="600" />
@@ -207,14 +145,14 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
         {showColorPicker && (
           <div className="color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
-            <BlockPicker color={style.color} onChange={handleColorChange} colors={elements.colorOptions} />
+            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} colors={elements.colorOptions} />
           </div>
         )}
       </div>
       <div className="edit-styles__item edit-styles__item__icons">
-        <i onClick={() => handleAlignChange('left')} data-tooltip-id="tip-left" className="fa-solid fa-align-left"></i>
-        <i onClick={() => handleAlignChange('center')} data-tooltip-id="tip-center" className="fa-solid fa-align-center"></i>
-        <i onClick={() => handleAlignChange('right')} data-tooltip-id="tip-right" className="fa-solid fa-align-right"></i>
+        <i onClick={() => handleAlignChange('left', selectedElement)} data-tooltip-id="tip-left" className="fa-solid fa-align-left"></i>
+        <i onClick={() => handleAlignChange('center', selectedElement)} data-tooltip-id="tip-center" className="fa-solid fa-align-center"></i>
+        <i onClick={() => handleAlignChange('right', selectedElement)} data-tooltip-id="tip-right" className="fa-solid fa-align-right"></i>
         <Tooltip id="tip-left" header="Align Left" place="top" background="#242529" fontWeight="600" />
         <Tooltip id="tip-center" header="Align Center" place="top" background="#242529" fontWeight="600" />
         <Tooltip id="tip-right" header="Align Right" place="top" background="#242529" fontWeight="600" />
@@ -222,7 +160,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
       <div className="edit-styles__container">
         <div className="edit-styles__item">
           <p>Font Family: </p>
-          <select value={style.fontFamily} onChange={handleFamilyChange}>
+          <select value={style.fontFamily} onChange={(e) => handleFamilyChange(e, setStyle, handleStyleChange)}>
             {elements.fontOptions.map((font, index) => (
               <option key={index} value={font} style={{ fontFamily: font }}>
                 {font}
@@ -232,7 +170,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         </div>
         <div className="edit-styles__item">
           <p>Type: </p>
-          <select value={style.currentType} onChange={handleTypeChange}>
+          <select value={style.currentType} onChange={(e) => handleTypeChange(e, setStyle, handleStyleChange, selectedElement)}>
             {elements.text[0].classes.filter(item => !item.exclude).map((item, index) => (
               <option value={item.class} key={index}>{item.text}</option>
             ))}
@@ -240,7 +178,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         </div>
         <div className="edit-styles__item">
           <p>Font Weight: </p>
-          <select value={style.fontWeight} onChange={handleWeightChange}>
+          <select value={style.fontWeight} onChange={(e) => handleWeightChange(e, setStyle, handleStyleChange)}>
             {elements.fontWeightOptions.map((weight, index) => (
               <option value={weight} key={index}>{weight}</option>
             ))}
@@ -248,7 +186,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         </div>
         <div className="edit-styles__item">
           <p>Font Size: </p>
-          <select value={style.fontSize} onChange={handleSizeInputChange}>
+          <select value={style.fontSize} onChange={(e) => handleSizeInputChange(e, setStyle, handleStyleChange)}>
             {elements.fontSizeOptions.map((size, index) => (
               <option value={size} key={index}>{size}</option>
             ))}

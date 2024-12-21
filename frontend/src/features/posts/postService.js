@@ -18,11 +18,22 @@ const deletePost = async (postId) => {
   return response.data;   // Return the data to be used in the component
 };
 
+const updatePost = async (postId, updatedPost) => {
+  const response = await fetch(`/api/posts/${postId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedPost),
+  })
+
+  if (!response.ok) throw new Error('Failed to update post')
+  return await response.json()
+}
 
 const postService = {
   fetchPosts,
   fetchFeaturedPost,
   deletePost,
+  updatePost,
 };
 
 export default postService;
