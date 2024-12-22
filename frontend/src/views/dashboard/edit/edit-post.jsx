@@ -1,8 +1,6 @@
-// React
 import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import $ from 'jquery'
 
 // Layout
 import LoadingScreen from '../../templates/base/loading'
@@ -36,6 +34,7 @@ function BlogPostEditor() {
   const [elementStyles, setElementStyles] = useState({ color: '', margin: '', fontFamily: '' })
   const [errorMessage, setErrorMessage] = useState('')
   const [deletedElements, setDeletedElements] = useState([])
+  const [imageUrl, setImageUrl] = useState('') 
 
   const blogPostMainRef = useRef(null)
 
@@ -53,6 +52,7 @@ function BlogPostEditor() {
         if (matchedPost) {
           setPost(matchedPost)
           setPostElements(matchedPost.elements || [])
+          setImageUrl(matchedPost.imageUrl || '')  // Initialize imageUrl from post data
         } else {
           setNotFound(true)
         }
@@ -77,7 +77,6 @@ function BlogPostEditor() {
     }
   }
 
-  const customCss = post?.customCss || ''
   return (
     <div className="blog-post-container">
       {loadingState && <LoadingScreen />}
@@ -88,13 +87,14 @@ function BlogPostEditor() {
           <Helmet>
             <title>{post?.title || 'Blog Post'}</title>
           </Helmet>
-          <Navbar />
+          <Navbar imageUrl={imageUrl} /> 
           <EditorNavbar 
             post={post} 
             publishPost={publishPost} 
             postElements={postElements} 
             setPost={setPost} 
             setErrorMessage={setErrorMessage} 
+            imageUrl={imageUrl} 
           />
           <TextStyles
             elementStyles={elementStyles}
@@ -109,6 +109,11 @@ function BlogPostEditor() {
             handleStyleChange={handleStyleChange}
             handleBlogPostElement={handleBlogPostElement}
             blogPostMainRef={blogPostMainRef}
+            selectedElement={selectedElement}
+            setSelectedElement={setSelectedElement}
+            postId={post?._id}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}  
           />
           <EditorSidebar handleDragStart={handleDragStart} />
           <div className="blog-post-content">
@@ -118,14 +123,18 @@ function BlogPostEditor() {
               onDrop={(e) => handleDrop(e, null, postElements, setPostElements)}
               onDragOver={handleDragOver}
             >
-              <div className="blog-post-main__image blog-post-element banner" tabIndex="0">
-                <img src={post?.imageUrl} alt={post?.title} />
+              <div 
+                className="blog-post-element blog-post-main__image blog-post-element banner"
+                tabIndex="0"
+                onClick={(event) => handleBlogPostElement(event.currentTarget, setSelectedElement, setElementStyles, elements)}
+              >
+                <img src={imageUrl} alt={post?.title} />
               </div>
               <div className="blog-post-main__inner">
                 <div
-                  className="blog-post-main__title blog-post-element title"
+                  className="blog-post-element blog-post-main__title blog-post-element title"
                   tabIndex="0"
-                  onClick={() => $('.edit-text-styles, .edit-image-styles').stop(true, true).fadeOut('fast')}
+                  onClick={(event) => handleBlogPostElement(event.currentTarget, setSelectedElement, setElementStyles, elements)}
                   onDoubleClick={(e) => handleDoubleClick(e, selectedElement, setPostElements, setDeletedElements, setSelectedElement, setPost)}
                 >
                   <span>{post?.title}</span>

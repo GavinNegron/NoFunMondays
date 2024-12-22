@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const getElementStyles = (elementDom) => {
   if (!elementDom) return {};  // Ensure elementDom is not null or undefined
 
@@ -111,3 +113,7 @@ export const handleMarginChange = (e, direction, handleStyleChange, setStyle, st
     selectedElement.style[updatedStyleKey] = `${value}px`
   }
 }
+
+export const handleImageChange = async (newImageUrl, setImageUrl) => {
+  setImageUrl(newImageUrl);
+};

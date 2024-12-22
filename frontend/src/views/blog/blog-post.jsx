@@ -69,9 +69,7 @@ function BlogPost() {
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
                   const elementId = `${element.id}`;
-                  console.log('Element Style:', element.style); // Check the styles here
 
-                  // Apply styles as an object
                   const elementStyles = element.style ? element.style : {}
 
                   switch (element.type) {

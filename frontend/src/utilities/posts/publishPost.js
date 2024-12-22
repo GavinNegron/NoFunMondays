@@ -1,7 +1,7 @@
-import { getElementStyles, generateCustomCss } from '../posts/styleUtils.js'
+import { getElementStyles } from '../posts/styleUtils.js'
 import postService from '../../features/posts/postService'
 
-export const publishPost = async (post, postElements, setPost) => {
+export const publishPost = async (post, postElements, setPost, imageUrl) => {
   if (!post) return
 
   const stylesMap = new Map()
@@ -25,11 +25,10 @@ export const publishPost = async (post, postElements, setPost) => {
     return element
   })
 
-  const updatedCustomCss = generateCustomCss(stylesMap)
   const updatedPost = {
     ...post,
     elements: updatedElements,
-    customCss: updatedCustomCss,
+    imageUrl: imageUrl  
   }
 
   try {

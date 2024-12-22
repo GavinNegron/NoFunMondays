@@ -2,10 +2,10 @@ const Posts = require('../models/Posts');
 const { Storage } = require('@google-cloud/storage');
 require('dotenv').config();
 const axios = require('axios');
-const { ObjectId } = require('mongoose').Types;  // Import ObjectId for validation
-
+const { ObjectId } = require('mongoose').Types;
+const multer = require('multer');
 const storage = new Storage({
-    keyFilename: undefined, 
+    keyFilename: undefined,
     credentials: {
         type: 'service_account',
         project_id: process.env.GOOGLE_PROJECT_ID,
@@ -21,6 +21,10 @@ const storage = new Storage({
 });
 
 const bucketName = "nofunmondays";
+
+// Set up multer for file handling (in-memory storage for image uploads)
+const multerStorage = multer.memoryStorage();
+const upload = multer({ storage: multerStorage });
 
 // Get all posts
 const getPosts = async (req, res) => {
@@ -96,14 +100,29 @@ const setPost = async (req, res) => {
   }
 
   try {
-      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-      const contentType = response.headers['content-type'];
-      const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
-      const bucket = storage.bucket(bucketName);
-      const file = bucket.file(fileName);
+      let publicUrl;
 
-      await file.save(response.data, { metadata: { contentType } });
-      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      // Handle URL image or file upload
+      if (imageUrl.startsWith('http')) {
+          const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+          const contentType = response.headers['content-type'];
+          const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+          const bucket = storage.bucket(bucketName);
+          const file = bucket.file(fileName);
+
+          await file.save(response.data, { metadata: { contentType } });
+          publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      } else {
+          // Handle base64 encoded image upload
+          const buffer = Buffer.from(imageUrl, 'base64');
+          const contentType = 'image/jpeg';  // Adjust content type based on the file type
+          const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+          const bucket = storage.bucket(bucketName);
+          const file = bucket.file(fileName);
+
+          await file.save(buffer, { metadata: { contentType } });
+          publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      }
 
       const post = await Posts.create({
           title,
@@ -177,7 +196,6 @@ const deletePost = async (req, res) => {
     }
 };
 
-
 // Delete a post element
 const deletePostElement = async (req, res) => {
     const { id, elementId } = req.params
@@ -200,6 +218,42 @@ const deletePostElement = async (req, res) => {
     }
 };
 
+// Update a post's image
+const updatePostImage = async (req, res) => {
+    const { id } = req.params;
+    const { imageUrl } = req.body;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid post ID' });
+    }
+
+    try {
+      const post = await Posts.findById(id);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      if (imageUrl && imageUrl !== post.imageUrl) {
+        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const contentType = response.headers['content-type'];
+        const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(fileName);
+
+        await file.save(response.data, { metadata: { contentType } });
+        const newImageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+
+        post.imageUrl = newImageUrl;
+        await post.save();
+        return res.status(200).json({ message: 'Image URL updated successfully', imageUrl: newImageUrl });
+      }
+
+      res.status(400).json({ message: 'Image URL is the same as the current one' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     getRecentPosts, 
     getFeaturedPost, 
@@ -209,4 +263,5 @@ module.exports = {
     deletePost, 
     deletePostElement,
     getPosts,
+    updatePostImage
 };

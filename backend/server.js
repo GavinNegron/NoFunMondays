@@ -13,11 +13,14 @@ dbConn();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '10mb' })) // For JSON payloads
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })) // For form data
 app.use(express.json());
 app.use(express.static('Public'));
 app.use('/images', express.static(path.join(__dirname, 'public/images'))); 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
+
 app.disable('x-powered-by');
 app.use(
     session({

@@ -14,7 +14,6 @@ const fetchFeaturedPost = async () => {
 
 const deletePost = async (postId) => {
   const response = await axios.delete(`/api/posts/${postId}`);
-  console.log(response); 
   return response.data;   
 };
 

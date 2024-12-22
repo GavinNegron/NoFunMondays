@@ -9,14 +9,16 @@
         { "class": "h4", "text": "Header 4" },
         { "class": "h5", "text": "Header 5" },
         { "class": "h6", "text": "Header 6" },
-        { "class": "title", "text": "Title", "exclude": true },
-        { "class": "banner", "text": "Banner", "exclude": true }
+        { "class": "title", "text": "Title", "exclude": true }
+        
       ]
     }
   ],
   "image": [
     {
-      "classes": ["img-class"]
+      "classes": [
+        { "class": "banner", "text": "Banner", "exclude": false }
+      ]
     }
   ],
   "fontOptions": [

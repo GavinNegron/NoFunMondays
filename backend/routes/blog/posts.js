@@ -1,5 +1,5 @@
 const Posts = require('../../models/Posts');
-const { getRecentPosts, getFeaturedPost, setFeaturedPost, setPost, updatePost, deletePost, deletePostElement, getPosts} = require('../../controllers/postController')
+const { getRecentPosts, getFeaturedPost, setFeaturedPost, setPost, updatePost, deletePost, deletePostElement, getPosts, updatePostImage} = require('../../controllers/postController')
 
 module.exports = function(app){
     app.get('/api/posts/', getPosts)
@@ -17,4 +17,6 @@ module.exports = function(app){
     app.delete('/api/posts/:id', deletePost)
 
     app.delete('/api/posts/:id/elements/:elementId', deletePostElement)
+
+    app.patch('/api/posts/:id/image', updatePostImage)
 };

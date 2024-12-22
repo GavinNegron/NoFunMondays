@@ -1,171 +1,99 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { SketchPicker } from 'react-color';
+import { useState, useEffect, useRef } from 'react'
 
-const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef }) => {
-  const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(elementStyles?.color || '#000000');
-  const [fontSize, setFontSize] = useState(null); 
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const colorPickerRef = useRef(null);
-  const elementRef = useRef(null);
+// Utilities
+import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../utilities/posts/editorFunctions'
+import { handleImageChange } from '../../../../utilities/posts/styleUtils'
 
-  const fontOptions = [
-    "Poppins", "Roboto", "Open Sans", "Lora", "Montserrat", "Arial", "Verdana", "Times New Roman", 
-    "Georgia", "Courier New", "Tahoma", "Trebuchet MS", "Impact", "Comic Sans MS", 
-    "Lucida Sans", "Calibri", "Palatino", "Garamond", "Century Gothic", "Futura", 
-    "Helvetica", "Arial Black", "Arial Narrow", "Brush Script MT", "Sans-serif"
-  ];
+const EditStyles = ({ elementStyles, handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl }) => {
+  const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const elementRef = useRef(null)
+  const fileInputRef = useRef(null)
 
-  useEffect(() => {
-    if (elementRef.current) {
-      const computedStyle = window.getComputedStyle(elementRef.current);
-      const elementFontSize = computedStyle.fontSize;
-      if (elementFontSize) {
-        setFontSize(parseInt(elementFontSize, 10));
-      }
-    }
-  }, [elementId]);
-
-  useEffect(() => {
-    if (elementStyles?.color !== selectedColor) {
-      setSelectedColor(elementStyles?.color || '#000000');
-    }
-  }, [elementId, elementStyles?.color, selectedColor]);
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024 // 5 MB in bytes
 
   useEffect(() => {
     const updatePosition = () => {
       if (blogPostMainRef.current) {
-        const rect = blogPostMainRef.current.getBoundingClientRect();
-        const xPos = rect.left;
-        setPosition(prev => ({ ...prev, x: xPos - 275 }));
+        const rect = blogPostMainRef.current.getBoundingClientRect()
+        const xPos = rect.left
+        setPosition(prev => ({ ...prev, x: xPos - 275 }))
       }
-    };
+    }
 
     const onWindowLoad = () => {
-      setTimeout(() => {
-        updatePosition();
-      }, 100);  
-    };
-
-    if (window.document.readyState === 'complete') {
-      onWindowLoad();  
-    } else {
-      window.addEventListener('load', onWindowLoad);
+      setTimeout(updatePosition, 100)
     }
 
-    return () => {
-      window.removeEventListener('load', onWindowLoad);  
-    };
-  }, [blogPostMainRef]); 
+    if (window.document.readyState === 'complete') onWindowLoad()
+    else window.addEventListener('load', onWindowLoad)
 
-  const handleHeaderMouseDown = (e) => {
-    const element = e.target.closest('.edit-styles');
-    if (!element) return;
-
-    const rect = element.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-
-    setIsDragging(true);
-    setPosition(prev => ({
-      ...prev,
-      offsetX,
-      offsetY,
-    }));
-  };
-
-  const handleMouseMove = useCallback((e) => {
-    if (isDragging) {
-      setPosition(prev => ({
-        ...prev,
-        x: e.clientX - prev.offsetX,
-        y: e.clientY - prev.offsetY,
-      }));
-    }
-  }, [isDragging]);
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
+    return () => window.removeEventListener('load', onWindowLoad)
+  }, [blogPostMainRef])
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    }
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, handleMouseMove]);
+      const mouseMoveHandler = handleMouseMove(isDragging, position, setPosition, elementRef)
+      const mouseUpHandler = () => handleMouseUp(setIsDragging)
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (colorPickerRef.current && !colorPickerRef.current.contains(e.target)) {
-        setShowColorPicker(false);
+      document.addEventListener('mousemove', mouseMoveHandler)
+      document.addEventListener('mouseup', mouseUpHandler)
+
+      return () => {
+        document.removeEventListener('mousemove', mouseMoveHandler)
+        document.removeEventListener('mouseup', mouseUpHandler)
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleFontFamilyChange = (e) => {
-    handleStyleChange('fontFamily', e.target.value);
-  };
-
-  const handleFontWeightChange = (e) => {
-    handleStyleChange('fontWeight', e.target.value);
-  };
-
-  const handleColorChange = (color) => {
-    setSelectedColor(color.hex);
-    handleStyleChange('color', color.hex);
-  };
-
-  const handleFontSizeSliderChange = (e) => {
-    const newSize = parseInt(e.target.value, 10);
-    setFontSize(newSize);
-    handleStyleChange('fontSize', `${newSize}px`);
-  };
-
-  const handleFontSizeInputChange = (e) => {
-    const newSize = parseInt(e.target.value, 10);
-    if (!isNaN(newSize)) {
-      setFontSize(newSize);
-      handleStyleChange('fontSize', `${newSize}px`);
     }
-  };
+  }, [isDragging, position, setIsDragging])
 
-  const toggleColorPicker = () => {
-    setShowColorPicker(!showColorPicker);
-  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert('File size exceeds the 10 MB limit. Please choose a smaller file.')
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        handleImageChange(reader.result, setImageUrl)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   return (
-    <div
-      className="edit-styles edit-image-styles"
-      style={{
-        position: 'absolute',
-        top: `${position.y}px`,
-        left: `${position.x}px`,
-      }}
-    >
-      <div
-        className="edit-styles__header"
-        style={{ cursor: isDragging ? 'grabbing' : 'move' }}
-        onMouseDown={handleHeaderMouseDown}
-      >
+    <div className="edit-styles edit-image-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
+      <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)} ref={elementRef}>
         <p>Edit Image:</p>
         <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
       </div>
-       
- 
-      <div ref={elementRef}></div> 
+      <div className="edit-styles__image">
+    
+      <div className="edit-styles__image__preview">
+        {imageUrl && (
+          <>
+            <p>Select Image:</p>
+            <img
+              src={imageUrl}
+              alt="Selected preview"
+              style={{ maxWidth: '100%' }}
+              onClick={() => fileInputRef.current?.click()} 
+            />
+            <input
+              ref={fileInputRef}
+              type="file"
+              id="imageFile"
+              onChange={handleFileChange}
+              accept="image/*"
+              style={{ display: 'none' }}
+            />
+          </>
+        )}
+      </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditStyles;
+export default EditStyles

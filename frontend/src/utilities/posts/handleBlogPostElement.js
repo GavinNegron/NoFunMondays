@@ -1,7 +1,6 @@
 import $ from 'jquery'
 
 export const handleBlogPostElement = (element, setSelectedElement, setElementStyles, elements) => {
-  
   if (!element) {
     $('.edit-text-styles, .edit-image-styles').stop(true, true).fadeOut()
     return
@@ -14,18 +13,18 @@ export const handleBlogPostElement = (element, setSelectedElement, setElementSty
     fontFamily: element.style?.fontFamily || '',
   })
 
-  const textClasses = elements.text[0]?.classes.map(item => item.class) || []
-  const imageClasses = elements.image[0]?.classes || []
+  const textClasses = elements.text[0]?.classes.map(item => item.class) 
+  const imageClasses = elements.image[0]?.classes.map(item => item.class) 
 
   if (textClasses.some(cls => element.classList.contains(cls))) {
     if ($('.edit-text-styles').is(':visible')) return
-    $('.edit-image-styles').stop(true, true).fadeOut()
-    $('.edit-text-styles').css('display', 'flex').hide().stop(true, true).fadeIn()
+    $('.edit-image-styles').stop(true, true).hide()
+    $('.edit-text-styles').css('display', 'flex').show()
   }
-
+  
   if (imageClasses.some(cls => element.classList.contains(cls))) {
     if ($('.edit-image-styles').is(':visible')) return
-    $('.edit-text-styles').stop(true, true).fadeOut()
-    $('.edit-image-styles').css('display', 'flex').hide().stop(true, true).fadeIn()
+    $('.edit-text-styles').stop(true, true).hide()
+    $('.edit-image-styles').css('display', 'flex').show()
   }
 }
