@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import NotFound from '../404/404'
@@ -50,18 +49,11 @@ function BlogPost() {
     return <NotFound />
   }
 
-  const customCss = post.customCss || ''
-
-  const generateElementId = (elementType, index) => {
-    return `${elementType}-${post._id}-${index}`
-  }
-
   return (
     <>   
       <Helmet>
         <title>{post.title}</title>
         <link rel="stylesheet" href="/css/blog-post.css" />
-        {post && customCss && <style>{customCss}</style>}
       </Helmet>
       <Navbar />
       <main className="main">
@@ -77,32 +69,35 @@ function BlogPost() {
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
                   const elementId = `${element.id}`;
+                  console.log('Element Style:', element.style); // Check the styles here
+
+                  // Apply styles as an object
+                  const elementStyles = element.style ? element.style : {}
 
                   switch (element.type) {
                     case 'text':
                       return (
-                        <div key={index} id={elementId} className="text-element" style={element.style}>
+                        <div key={index} id={elementId} className="text-element" style={elementStyles}>
                           {element.content}
                         </div>
                       );
                     case 'header':
                       return (
-                        <div key={index} id={elementId} className="header-element" style={element.style}>
+                        <div key={index} id={elementId} className="header-element" style={elementStyles}>
                           {element.content}
                         </div>
                       );
                     case 'image':
                       return (
-                        <div key={index} id={elementId} className="image-element" style={element.style}>
+                        <div key={index} id={elementId} className="image-element" style={elementStyles}>
                           <img src={element.content} alt={`Element ${index}`} />
                         </div>
                       );
                     default:
-                      return <div key={index} id={elementId}>{element.content}</div>;
+                      return <div key={index} id={elementId} style={elementStyles}>{element.content}</div>;
                   }
                 })}
               </div>
-
             </div>
           </div>
         </div>

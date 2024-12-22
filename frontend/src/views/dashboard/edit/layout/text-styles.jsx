@@ -5,7 +5,7 @@ import { BlockPicker } from 'react-color'
 // Utilities
 import Tooltip from '../../../../utilities/tooltip'
 import { handleMouseMove, handleMouseUp, handleMouseDown, handleClickOutside } from '../../../../utilities/posts/editorFunctions'
-import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
+import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
 
 // Data
 import elements from '../../../../data/elements.json'
@@ -19,6 +19,10 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
     fontFamily: elementStyles?.fontFamily || '',
     fontWeight: elementStyles?.fontWeight || 'normal',
     currentType: elementStyles?.class || 'default-text',
+    marginTop: elementStyles?.marginTop || 0,
+    marginLeft: elementStyles?.marginLeft || 0,
+    marginBottom: elementStyles?.marginBottom || 0,
+    marginRight: elementStyles?.marginRight || 0,
   })
   const [showColorPicker, setShowColorPicker] = useState(false)
   const colorPickerRef = useRef(null)
@@ -60,19 +64,18 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
   useEffect(() => {
     if (selectedElement) {
       const computedStyle = window.getComputedStyle(selectedElement)
-
+  
       setStyle(prevStyle => ({
         ...prevStyle,
         color: computedStyle.color || '#000000',
         fontSize: parseInt(computedStyle.fontSize, 10) || 18,
         fontFamily: computedStyle.fontFamily || '',
         fontWeight: computedStyle.fontWeight || 'normal',
+        marginTop: parseInt(computedStyle.marginTop, 10) || 0,
+        marginLeft: parseInt(computedStyle.marginLeft, 10) || 0,
+        marginBottom: parseInt(computedStyle.marginBottom, 10) || 0,
+        marginRight: parseInt(computedStyle.marginRight, 10) || 0,
       }))
-
-      const elementType = Array.from(selectedElement.classList).find(className =>
-        ['default-text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(className)
-      ) || 'default-text'
-      setStyle(prevStyle => ({ ...prevStyle, currentType: elementType }))
     }
   }, [selectedElement, elementId])
 
@@ -159,13 +162,44 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
           </select>
         </div>
         <div className="edit-styles__item">
-          <p>Font Size: </p>
-          <select value={style.fontSize} onChange={(e) => handleSizeInputChange(e, setStyle, handleStyleChange)}>
-            {elements.fontSizeOptions.map((size, index) => (
-              <option value={size} key={index}>{size}</option>
-            ))}
-          </select>
+          <p>Margin: </p>
+          <div className="edit-styles__margin">
+          <div className='edit-styles__margin__item'>
+            <label>Top</label>
+            <input 
+              type="number" 
+              min='0'
+              value={style.marginTop || ''} 
+              onChange={(e) => handleMarginChange(e, 'top', handleStyleChange, setStyle, style, selectedElement)} 
+            />
+          </div>
+          <div className='edit-styles__margin__item'>
+            <label>Left</label>
+            <input 
+              type="number" 
+              value={style.marginLeft || ''} 
+              onChange={(e) => handleMarginChange(e, 'left', handleStyleChange, setStyle, style, selectedElement)} 
+            />
+          </div>
+          <div className='edit-styles__margin__item'>
+            <label>Bottom</label>
+            <input 
+              type="number" 
+              value={style.marginBottom || ''} 
+              onChange={(e) => handleMarginChange(e, 'bottom', handleStyleChange, setStyle, style, selectedElement)} 
+            />
+          </div>
+          <div className='edit-styles__margin__item'>
+            <label>Right</label>
+            <input 
+              type="number" 
+              value={style.marginRight || ''} 
+              onChange={(e) => handleMarginChange(e, 'right', handleStyleChange, setStyle, style, selectedElement)} 
+            />
+          </div>
+          </div>
         </div>
+
       </div>
     </div>
   )

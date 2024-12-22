@@ -67,11 +67,11 @@ function BlogPostEditor() {
 
   const handleStyleChange = (property, value) => {
     if (selectedElement) {
-      selectedElement.style[property] = value
-      setElementStyles(prevStyles => ({ ...prevStyles, [property]: value }))
       setPostElements(prevPostElements =>
         prevPostElements.map(element =>
-          element.id === selectedElement.id ? { ...element, style: { ...element.style, [property]: value } } : element
+          element.id === selectedElement.id
+            ? { ...element, style: { ...element.style, [property]: value } }
+            : element
         )
       )
     }
@@ -87,7 +87,6 @@ function BlogPostEditor() {
         <>
           <Helmet>
             <title>{post?.title || 'Blog Post'}</title>
-            {post && customCss && <style>{customCss}</style>}
           </Helmet>
           <Navbar />
           <EditorNavbar 

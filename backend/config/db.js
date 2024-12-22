@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-// Add the strictQuery setting before the connection
 mongoose.set('strictQuery', true);
 
 const dbConn = async () => {
@@ -13,7 +12,7 @@ const dbConn = async () => {
         console.log('MongoDB connected successfully');
     } catch (err) {
         console.error('MongoDB connection error:', err);
-        process.exit(1); // Exit process if connection fails
+        process.exit(1); 
     }
 };
 

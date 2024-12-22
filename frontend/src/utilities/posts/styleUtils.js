@@ -96,3 +96,18 @@ export const handleTypeChange = (e, setStyle, handleStyleChange, selectedElement
     handleStyleChange('class', selectedClass);
   }
 };
+
+export const handleMarginChange = (e, direction, handleStyleChange, setStyle, style, selectedElement) => {
+  const value = parseInt(e.target.value, 10) || 0
+  const updatedStyleKey = `margin${direction.charAt(0).toUpperCase() + direction.slice(1)}`
+
+  setStyle(prevStyle => {
+    const updatedStyle = { ...prevStyle, [updatedStyleKey]: value }
+    handleStyleChange(updatedStyleKey, value)
+    return updatedStyle
+  })
+
+  if (selectedElement) {
+    selectedElement.style[updatedStyleKey] = `${value}px`
+  }
+}

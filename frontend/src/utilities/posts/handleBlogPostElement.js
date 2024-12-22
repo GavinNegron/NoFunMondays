@@ -1,7 +1,6 @@
 import $ from 'jquery'
 
 export const handleBlogPostElement = (element, setSelectedElement, setElementStyles, elements) => {
-  console.log('setSelectedElement:', setSelectedElement); // Check if it's a function
   
   if (!element) {
     $('.edit-text-styles, .edit-image-styles').stop(true, true).fadeOut()

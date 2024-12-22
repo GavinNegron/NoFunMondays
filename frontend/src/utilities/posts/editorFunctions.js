@@ -12,8 +12,6 @@ export const handleKeyDown = (event, selectedElement, setPostElements, setDelete
 }
 
 export const handleDoubleClick = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement, setPost) => {
-  console.log('Double-click triggered', event)
-
   const element = event.currentTarget
   setSelectedElement(element)
 

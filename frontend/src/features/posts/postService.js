@@ -14,8 +14,8 @@ const fetchFeaturedPost = async () => {
 
 const deletePost = async (postId) => {
   const response = await axios.delete(`/api/posts/${postId}`);
-  console.log(response);  // Log the response for debugging
-  return response.data;   // Return the data to be used in the component
+  console.log(response); 
+  return response.data;   
 };
 
 const updatePost = async (postId, updatedPost) => {
