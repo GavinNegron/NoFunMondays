@@ -1,12 +1,12 @@
 // React
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BlockPicker } from 'react-color'
 
 // Utilities
 import Tooltip from '../../../../utilities/tooltip'
-import { handleMouseMove, handleMouseUp, handleMouseDown, handleClickOutside } from '../../../../utilities/posts/editorFunctions'
+import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../utilities/posts/editorFunctions'
 import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
-
+import { handleClickOutside } from '../../../../utilities/domUtils'
 // Data
 import elements from '../../../../data/elements.json'
 
@@ -95,7 +95,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
   }, [isDragging, position, setIsDragging])
 
   useEffect(() => {
-    const handleColorPickerOutsideClick = (e) => handleClickOutside(e, colorPickerRef, setShowColorPicker)
+    const handleColorPickerOutsideClick = (e) => handleClickOutside(colorPickerRef.current, e, '.color-picker-container')
     
     document.addEventListener('mousedown', handleColorPickerOutsideClick)
     return () => {
@@ -106,7 +106,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
   const toggleColorPicker = () => setShowColorPicker(!showColorPicker)
 
   return (
-    <div className="edit-styles edit-text-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
+    <div className="edit-styles edit-text-styles" style={{ position: 'fixed', top: `${position.y}px`, left: `${position.x}px` }}>
       <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)} ref={elementRef}>
         <p>Edit Text:</p>
         <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
@@ -138,7 +138,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <div className="edit-styles__item">
           <p>Font Family: </p>
           <select value={style.fontFamily} onChange={(e) => handleFamilyChange(e, setStyle, handleStyleChange)}>
-            {elements.fontOptions.map((font, index) => (
+            {elements.fontOptions.options.map((font, index) => (
               <option key={index} value={font} style={{ fontFamily: font }}>
                 {font}
               </option>
@@ -148,15 +148,15 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <div className="edit-styles__item">
           <p>Type: </p>
           <select value={style.currentType} onChange={(e) => handleTypeChange(e, setStyle, handleStyleChange, selectedElement)}>
-            {elements.text[0].classes.filter(item => !item.exclude).map((item, index) => (
-              <option value={item.class} key={index}>{item.text}</option>
-            ))}
+          {elements.text.classes?.filter(item => !item.exclude).map((item, index) => (
+            <option value={item.class} key={index}>{item.text}</option>
+          ))}
           </select>
         </div>
         <div className="edit-styles__item">
           <p>Font Weight: </p>
           <select value={style.fontWeight} onChange={(e) => handleWeightChange(e, setStyle, handleStyleChange)}>
-            {elements.fontWeightOptions.map((weight, index) => (
+            {elements.fontWeightOptions.options.map((weight, index) => (
               <option value={weight} key={index}>{weight}</option>
             ))}
           </select>
@@ -199,7 +199,15 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
           </div>
           </div>
         </div>
-
+        <div className="edit-styles__item">
+          <p>Font Size: </p>
+          <input 
+            type="number" 
+            min="1" 
+            value={style.fontSize || 0} 
+            onChange={(e) => handleSizeInputChange(e, setStyle, handleStyleChange)} 
+          />
+        </div>
       </div>
     </div>
   )

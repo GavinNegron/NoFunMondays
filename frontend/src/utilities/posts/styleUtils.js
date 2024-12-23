@@ -115,5 +115,5 @@ export const handleMarginChange = (e, direction, handleStyleChange, setStyle, st
 }
 
 export const handleImageChange = async (newImageUrl, setImageUrl) => {
-  setImageUrl(newImageUrl);
+  
 };

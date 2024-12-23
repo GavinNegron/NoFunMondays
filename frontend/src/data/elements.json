@@ -1,41 +1,98 @@
 {
-  "text": [
-    {
-      "classes": [
-        { "class": "default-text", "text": "Default Text" },
-        { "class": "h1", "text": "Header 1" },
-        { "class": "h2", "text": "Header 2" },
-        { "class": "h3", "text": "Header 3" },
-        { "class": "h4", "text": "Header 4" },
-        { "class": "h5", "text": "Header 5" },
-        { "class": "h6", "text": "Header 6" },
-        { "class": "title", "text": "Title", "exclude": true }
-        
-      ]
-    }
-  ],
-  "image": [
-    {
-      "classes": [
-        { "class": "banner", "text": "Banner", "exclude": false }
-      ]
-    }
-  ],
-  "fontOptions": [
-    "Outfit", "Source Code Pro", "Noto Sans", "Nunito", "Poppins", "Roboto", "Open Sans","Arial", "Verdana"
-  ],
-  "fontWeightOptions": [
-    "100", "200", "300", "400", "500", "600", "700", "800", "900"
-  ],
-  "fontSizeOptions": [
-    "18", "24", "32", "38"
-  ],
-  "alignmentOptions": [
-    { "value": "left", "icon": "fa-align-left", "tooltip": "Align Left" },
-    { "value": "center", "icon": "fa-align-center", "tooltip": "Align Center" },
-    { "value": "right", "icon": "fa-align-right", "tooltip": "Align Right" }
-  ],
-  "colorOptions": [
-    "black", "white", "red", "orange", "yellow", "green", "blue", "purple"
-  ]
+  "text": {
+    "classes": [
+      { "class": "default-text", "text": "Default Text" },
+      { "class": "h1", "text": "Header 1" },
+      { "class": "h2", "text": "Header 2" },
+      { "class": "h3", "text": "Header 3" },
+      { "class": "h4", "text": "Header 4" },
+      { "class": "h5", "text": "Header 5" },
+      { "class": "h6", "text": "Header 6" },
+      { "class": "title", "text": "Title", "exclude": true }
+    ]
+  },
+  "image": {
+    "classes": [
+      { "class": "image", "text": "Image" },
+      { "class": "banner", "text": "Banner", "exclude": true }
+    ]
+  },
+  "button": {
+    "classes": [
+      { "class": "banner", "text": "Banner" }
+    ]
+  },
+  "icon": {
+    "classes": [
+      { "class": "banner", "text": "Banner", "exclude": false }
+    ]
+  },
+  "form": {
+    "classes": [
+      { "class": "banner", "text": "Banner", "exclude": false }
+    ]
+  },
+  "video": {
+    "classes": [
+      { "class": "banner", "text": "Banner", "exclude": false }
+    ]
+  },
+  "fontOptions": {
+    "exclude": true,
+    "options": [
+      "Outfit",
+      "Source Code Pro",
+      "Noto Sans",
+      "Nunito",
+      "Poppins",
+      "Roboto",
+      "Open Sans",
+      "Arial",
+      "Verdana"
+    ]
+  },
+  "fontWeightOptions": {
+    "exclude": true,
+    "options": [
+      "100",
+      "200",
+      "300",
+      "400",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900"
+    ]
+  },
+  "fontSizeOptions": {
+    "exclude": true,
+    "options": [
+      "18",
+      "24",
+      "32",
+      "38"
+    ]
+  },
+  "alignmentOptions": {
+    "exclude": true,
+    "options": [
+      { "value": "left", "icon": "fa-align-left", "tooltip": "Align Left" },
+      { "value": "center", "icon": "fa-align-center", "tooltip": "Align Center" },
+      { "value": "right", "icon": "fa-align-right", "tooltip": "Align Right" }
+    ]
+  },
+  "colorOptions": {
+    "exclude": true,
+    "options": [
+      "black",
+      "white",
+      "red",
+      "orange",
+      "yellow",
+      "green",
+      "blue",
+      "purple"
+    ]
+  }
 }

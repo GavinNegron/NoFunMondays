@@ -1,3 +1,5 @@
+import $ from "jquery"
+
 const generateRandomHexId = (length = 24) => {
   let result = '';
   const characters = '0123456789abcdef'; // Hexadecimal characters
@@ -18,6 +20,8 @@ export const handleDragStart = (e, elementData) => {
 }
 
 export const handleDrop = (e, targetElementId, postElements, setPostElements) => {
+  $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeOut('fast');
+
   e.preventDefault()
 
   let newElementData

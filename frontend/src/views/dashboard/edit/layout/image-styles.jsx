@@ -1,16 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-
-// Utilities
 import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../utilities/posts/editorFunctions'
-import { handleImageChange } from '../../../../utilities/posts/styleUtils'
 
-const EditStyles = ({ elementStyles, handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl }) => {
+const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
+  const [previewImage, setPreviewImage] = useState('') // State to store preview image
   const elementRef = useRef(null)
   const fileInputRef = useRef(null)
-
-  const MAX_IMAGE_SIZE = 10 * 1024 * 1024 // 5 MB in bytes
 
   useEffect(() => {
     const updatePosition = () => {
@@ -49,48 +45,78 @@ const EditStyles = ({ elementStyles, handleBlogPostElement, blogPostMainRef, set
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
-      if (file.size > MAX_IMAGE_SIZE) {
-        alert('File size exceeds the 10 MB limit. Please choose a smaller file.')
-        return
-      }
-
       const reader = new FileReader()
+
       reader.onloadend = () => {
-        handleImageChange(reader.result, setImageUrl)
+        const base64Image = reader.result
+
+        if (selectedElement?.classList.contains('banner')) {
+          setImageUrl(base64Image)
+          setPreviewImage(base64Image) // Update preview image for banner
+        } else if (selectedElement?.classList.contains('image')) {
+          const imgElement = selectedElement.querySelector('img')
+          imgElement.src = base64Image
+          setPreviewImage(base64Image) // Update preview image for selected element
+        }
       }
       reader.readAsDataURL(file)
     }
   }
 
+  const closeEditor = () => handleBlogPostElement(null)
+
+  // Whenever selectedElement changes, reset the preview image based on its current image
+  useEffect(() => {
+    if (selectedElement) {
+      if (selectedElement.classList.contains('banner') && imageUrl) {
+        setPreviewImage(imageUrl) // Set preview image for the banner
+      } else if (selectedElement.classList.contains('image')) {
+        const imgElement = selectedElement.querySelector('img')
+        if (imgElement) {
+          setPreviewImage(imgElement.src) // Set preview image for the image element
+        }
+      }
+    }
+  }, [selectedElement, imageUrl])
+
+  const renderImageSelector = () => (
+    <>
+      <p>Select Image:</p>
+      <img
+        src={previewImage || (selectedElement?.classList.contains('banner') ? imageUrl : selectedElement?.querySelector('img')?.src) || ''}
+        alt="Selected preview"
+        style={{ maxWidth: '100%' }}
+        onClick={() => fileInputRef.current?.click()} 
+      />
+      <input
+        ref={fileInputRef}
+        type="file"
+        id="imageFile"
+        onChange={handleFileChange}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+    </>
+  )
+
   return (
-    <div className="edit-styles edit-image-styles" style={{ position: 'absolute', top: `${position.y}px`, left: `${position.x}px` }}>
-      <div className="edit-styles__header" style={{ cursor: isDragging ? 'grabbing' : 'move' }} onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)} ref={elementRef}>
+    <div
+      className="edit-styles edit-image-styles"
+      style={{ position: 'fixed', top: `${position.y}px`, left: `${position.x}px` }}
+    >
+      <div
+        className="edit-styles__header"
+        style={{ cursor: isDragging ? 'grabbing' : 'move' }}
+        onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)}
+        ref={elementRef}
+      >
         <p>Edit Image:</p>
-        <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
+        <i onClick={closeEditor} className="fa-solid fa-light fa-xmark"></i>
       </div>
       <div className="edit-styles__image">
-    
-      <div className="edit-styles__image__preview">
-        {imageUrl && (
-          <>
-            <p>Select Image:</p>
-            <img
-              src={imageUrl}
-              alt="Selected preview"
-              style={{ maxWidth: '100%' }}
-              onClick={() => fileInputRef.current?.click()} 
-            />
-            <input
-              ref={fileInputRef}
-              type="file"
-              id="imageFile"
-              onChange={handleFileChange}
-              accept="image/*"
-              style={{ display: 'none' }}
-            />
-          </>
-        )}
-      </div>
+        <div className="edit-styles__image__preview">
+          {(selectedElement?.classList.contains('image') || (selectedElement?.classList.contains('banner') && imageUrl)) && renderImageSelector()}
+        </div>
       </div>
     </div>
   )

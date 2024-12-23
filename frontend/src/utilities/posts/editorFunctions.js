@@ -1,8 +1,10 @@
 
 import elements from '../../data/elements'
 
-export const handleKeyDown = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement) => {
+export const handleDelete = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement) => {
+  console.log('1')
   if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !event.target.isContentEditable) {
+    console.log('2')
     setPostElements(prevPostElements =>
       prevPostElements.filter(element => element.id !== selectedElement.id)
     )
@@ -15,8 +17,7 @@ export const handleDoubleClick = (event, selectedElement, setPostElements, setDe
   const element = event.currentTarget
   setSelectedElement(element)
 
-  const textClasses = elements.text[0]?.classes.map(item => item.class) || []
-  const imageClasses = elements.image[0]?.classes || []
+  const textClasses = elements.text.classes.map(item => item.class)
 
   if (textClasses.some(cls => element.classList.contains(cls))) {
     element.contentEditable = true
@@ -114,10 +115,4 @@ export const handleMouseMove = (isDragging, position, setPosition, elementRef) =
 
 export const handleMouseUp = (setIsDragging) => {
   setIsDragging(false)
-}
-
-export const handleClickOutside = (e, ref, callback) => {
-  if (ref.current && !ref.current.contains(e.target)) {
-    callback(false)
-  }
 }

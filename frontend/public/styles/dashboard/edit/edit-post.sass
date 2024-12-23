@@ -31,6 +31,7 @@
     background-color: #121212
     width: 768px
     box-shadow: 0 0 7px 2px #171717
+    z-index: 100
 
     &__inner
         padding: 30px 55px
@@ -155,6 +156,11 @@
     &:hover::before,
     &:focus::before
         content: 'Title'
+
+.image
+    &:hover::before,
+    &:focus::before
+        content: 'Image'
 
 .banner
     &:hover::before,

@@ -1,20 +1,18 @@
 import $ from 'jquery';
 
 /**
- * Handles clicking outside a specific DOM element and optionally runs a callback function.
- * @param {string} selector - The CSS selector for the target element
+ * Handles clicking outside a specific DOM element and fades it out.
+ * @param {HTMLElement} element - The target element to check for outside clicks
  * @param {Event} event - The click event
- * @param {string} addElementSelector - The selector for the element that will trigger the fade effect (optional)
- * @param {function} callback - The function to execute when clicking outside the target element (optional)
  */
-export const handleClickOutside = (selector, event, addElementSelector) => {
-  const element = document.querySelector(selector);
-  const closestElement = event.target.closest(addElementSelector);
+export const handleClickOutside = (element, event) => {
+  const closestElement = event.target.closest('.editor-sidebar__add-elements');
 
-  if (element && !closestElement) {
-    $(element).stop(true, true).fadeOut(200);
+  // Only fade out if the closest element is not the target element
+  if (!closestElement) {
+    $('.editor-sidebar__add-elements').stop(true, true).fadeOut(200);
   }
-};
+}
 
 /**
  * Adds a class to a specific DOM element
@@ -22,11 +20,11 @@ export const handleClickOutside = (selector, event, addElementSelector) => {
  * @param {string} className - The class to add
  */
 export const addClassToElement = (selector, className) => {
-  const element = document.querySelector(selector);
+  const element = document.querySelector(selector)
   if (element) {
-    element.classList.add(className);
+    element.classList.add(className)
   }
-};
+}
 
 /**
  * Removes a class from a specific DOM element
@@ -34,8 +32,8 @@ export const addClassToElement = (selector, className) => {
  * @param {string} className - The class to remove
  */
 export const removeClassFromElement = (selector, className) => {
-  const element = document.querySelector(selector);
+  const element = document.querySelector(selector)
   if (element) {
-    element.classList.remove(className);
+    element.classList.remove(className)
   }
-};
+}

@@ -6,6 +6,7 @@ import Footer from '../layout/footer'
 import { Helmet } from 'react-helmet-async'
 import loading from '../../utilities/loading'
 import LoadingScreen from '../templates/base/loading'
+import { renderBlogElements } from '../../utilities/posts/renderBlogElements'
 
 function BlogPost() {
   const { slug } = useParams()
@@ -60,7 +61,7 @@ function BlogPost() {
         <div className="post">
           <div className="post__inner">
             <div className="post__inner__header d-flex">
-              <img src={post.imageUrl} alt={post.title} />
+              <img src={post.imageUrl} alt={post.title} draggable='false'/>
             </div>
             <div className="post__inner__content">
               <div className="post__inner__content__header">
@@ -68,32 +69,12 @@ function BlogPost() {
               </div>
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
-                  const elementId = `${element.id}`;
-
-                  const elementStyles = element.style ? element.style : {}
-
-                  switch (element.type) {
-                    case 'text':
-                      return (
-                        <div key={index} id={elementId} className="text-element" style={elementStyles}>
-                          {element.content}
-                        </div>
-                      );
-                    case 'header':
-                      return (
-                        <div key={index} id={elementId} className="header-element" style={elementStyles}>
-                          {element.content}
-                        </div>
-                      );
-                    case 'image':
-                      return (
-                        <div key={index} id={elementId} className="image-element" style={elementStyles}>
-                          <img src={element.content} alt={`Element ${index}`} />
-                        </div>
-                      );
-                    default:
-                      return <div key={index} id={elementId} style={elementStyles}>{element.content}</div>;
-                  }
+                  return renderBlogElements(
+                    element,
+                    index,
+                    post.elements,
+                    setPost, 
+                  )
                 })}
               </div>
             </div>

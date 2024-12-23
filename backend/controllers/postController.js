@@ -3,7 +3,6 @@ const { Storage } = require('@google-cloud/storage');
 require('dotenv').config();
 const axios = require('axios');
 const { ObjectId } = require('mongoose').Types;
-const multer = require('multer');
 const storage = new Storage({
     keyFilename: undefined,
     credentials: {
@@ -22,9 +21,15 @@ const storage = new Storage({
 
 const bucketName = "nofunmondays";
 
-// Set up multer for file handling (in-memory storage for image uploads)
-const multerStorage = multer.memoryStorage();
-const upload = multer({ storage: multerStorage });
+function generateSlug(title) {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .substring(0, 80)  
+}
+
 
 // Get all posts
 const getPosts = async (req, res) => {
@@ -91,14 +96,6 @@ const setPost = async (req, res) => {
       return res.status(400).json({ error: 'Title, description, elements, and image URL are required' });
   }
 
-  function generateSlug(title) {
-      return title
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, '-') 
-        .replace(/[^a-z0-9-]/g, '')
-  }
-
   try {
       let publicUrl;
 
@@ -145,33 +142,55 @@ const updatePost = async (req, res) => {
   const { title, description, imageUrl, elements, customCss } = req.body;
 
   if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'Invalid post ID' });
+    return res.status(400).json({ message: 'Invalid post ID' });
   }
 
   try {
-      const post = await Posts.findById(id);
-      if (!post) {
-          return res.status(404).json({ message: 'Post not found' });
+    const post = await Posts.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const updates = { title, description, elements, customCss: customCss || post.customCss };
+
+    // Only update the image if it's different
+    if (imageUrl && imageUrl !== post.imageUrl) {
+      let publicUrl;
+
+      // If imageUrl is a base64 string
+      if (imageUrl.startsWith('data:image')) {
+        const buffer = Buffer.from(imageUrl.split(',')[1], 'base64');
+        const contentType = 'image/jpeg';  // Adjust if needed based on the image type
+        const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(fileName);
+
+        await file.save(buffer, { metadata: { contentType } });
+        publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      } else if (imageUrl.startsWith('http')) {  // If it's a URL
+        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const contentType = response.headers['content-type'];
+        const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(fileName);
+
+        await file.save(response.data, { metadata: { contentType } });
+        publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
       }
 
-      const updates = { title, description, elements, customCss: customCss || post.customCss };
+      updates.imageUrl = publicUrl;
+    }
 
-      if (imageUrl && imageUrl !== post.imageUrl) {
-          const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-          const contentType = response.headers['content-type'];
-          const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
-          const bucket = storage.bucket(bucketName);
-          const file = bucket.file(fileName);
+    // Regenerate the slug if the title has changed
+    if (title && title !== post.title) {
+      updates.slug = generateSlug(title);
+    }
 
-          await file.save(response.data, { metadata: { contentType } });
-          updates.imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
-      }
+    const updatedPost = await Posts.findByIdAndUpdate(id, updates, { new: true });
 
-      const updatedPost = await Posts.findByIdAndUpdate(id, updates, { new: true });
-
-      res.status(200).json(updatedPost);
+    res.status(200).json(updatedPost);
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 

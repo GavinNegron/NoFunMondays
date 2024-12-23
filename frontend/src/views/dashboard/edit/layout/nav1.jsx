@@ -1,7 +1,7 @@
 import React from 'react';
 import Tooltip from '../../../../utilities/tooltip';
 
-function EditNavbar({ post, publishPost, postElements, setPost, imageUrl }) {
+function EditNavbar({ post, publishPost, postElements, setPost, imageUrl, navigate }) {
   const postSlug = post?.slug; 
   
   return (
@@ -100,7 +100,7 @@ function EditNavbar({ post, publishPost, postElements, setPost, imageUrl }) {
               data-tooltip-id='tip-publish'
               className='publish-btn'
               onClick={() => {
-                publishPost(post, postElements, setPost, imageUrl);  
+                publishPost(post, postElements, setPost, navigate, imageUrl);  
               }}
             >
               Publish

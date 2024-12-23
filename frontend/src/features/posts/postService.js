@@ -24,9 +24,16 @@ const updatePost = async (postId, updatedPost) => {
     body: JSON.stringify(updatedPost),
   })
 
-  if (!response.ok) throw new Error('Failed to update post')
-  return await response.json()
+  if (!response.ok) {
+    const errorDetails = await response.text()
+    console.error('Failed to update post. Server response:', response.status, errorDetails)
+    throw new Error('Failed to update post')
+  }
+
+  const result = await response.json()
+  return result
 }
+
 
 const postService = {
   fetchPosts,
