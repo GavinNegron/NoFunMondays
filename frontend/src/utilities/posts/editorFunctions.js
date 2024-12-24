@@ -18,8 +18,11 @@ export const handleDoubleClick = (event, selectedElement, setPostElements, setDe
   setSelectedElement(element)
 
   const textClasses = elements.text.classes.map(item => item.class)
+  const listClasses = elements.lists.classes.map(item => item.class)
 
-  if (textClasses.some(cls => element.classList.contains(cls))) {
+  const editableClasses = [...textClasses, ...listClasses]
+
+  if (editableClasses.some(cls => element.classList.contains(cls))) {
     element.contentEditable = true
     element.style.outline = 'none'
     element.spellcheck = false

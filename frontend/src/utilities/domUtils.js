@@ -6,7 +6,7 @@ import $ from 'jquery';
  * @param {Event} event - The click event
  */
 export const handleClickOutside = (element, event) => {
-  const closestElement = event.target.closest('.editor-sidebar__add-elements');
+  const closestElement = event.target.closest('.editor-sidebar__add-elements') || event.target.closest('.addElement');
 
   // Only fade out if the closest element is not the target element
   if (!closestElement) {

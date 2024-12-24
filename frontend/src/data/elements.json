@@ -17,19 +17,19 @@
       { "class": "banner", "text": "Banner", "exclude": true }
     ]
   },
-  "button": {
+  "lists": {
     "classes": [
-      { "class": "banner", "text": "Banner" }
+      { "class": "bullet", "text": "Bullet Points" }
     ]
   },
   "icon": {
     "classes": [
-      { "class": "banner", "text": "Banner", "exclude": false }
+      { "class": "banner", "text": "Banner"}
     ]
   },
   "form": {
     "classes": [
-      { "class": "banner", "text": "Banner", "exclude": false }
+      { "class": "banner", "text": "Banner" }
     ]
   },
   "video": {

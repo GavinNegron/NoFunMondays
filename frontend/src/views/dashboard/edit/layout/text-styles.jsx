@@ -122,7 +122,7 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
         {showColorPicker && (
           <div className="color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
-            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} colors={elements.colorOptions} />
+            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} colors={elements.colorOptions.options} />
           </div>
         )}
       </div>

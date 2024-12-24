@@ -47,7 +47,7 @@
     -webkit-user-drag: none
     user-select: none
 
-.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title
+.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title, .bullet
     font-family: 'Poppins'
 
     &:hover, &:focus
@@ -116,6 +116,16 @@
     &:focus::before
         content: 'Default Text'
 
+.bullet
+    position: relative
+
+    &:hover, &:focus
+        border: solid 1px #2eb86c
+        background-color: #ffaf6507
+
+        &::before
+            background: #2eb86c
+                
 .h1
     font-size: 34px !important
     &:hover::before,
@@ -166,3 +176,8 @@
     &:hover::before,
     &:focus::before
         content: 'Banner'
+
+.bullet
+    &:hover::before,
+    &:focus::before
+        content: 'Bullet Points'
