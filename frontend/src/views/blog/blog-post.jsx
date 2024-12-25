@@ -6,7 +6,7 @@ import Footer from '../layout/footer'
 import { Helmet } from 'react-helmet-async'
 import loading from '../../utilities/loading'
 import LoadingScreen from '../templates/base/loading'
-import { renderBlogElements } from '../../utilities/posts/renderBlogElements'
+import { renderBlogElements } from '../../utilities/posts/postElement/renderBlogElements'
 
 function BlogPost() {
   const { slug } = useParams()

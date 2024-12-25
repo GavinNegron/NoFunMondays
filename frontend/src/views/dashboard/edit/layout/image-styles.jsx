@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../utilities/posts/editorFunctions'
+import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../utilities/posts/editor/editorFunctions'
 
 const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
-  const [previewImage, setPreviewImage] = useState('') // State to store preview image
+  const [previewImage, setPreviewImage] = useState('')
   const elementRef = useRef(null)
   const fileInputRef = useRef(null)
 
@@ -52,11 +52,11 @@ const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, image
 
         if (selectedElement?.classList.contains('banner')) {
           setImageUrl(base64Image)
-          setPreviewImage(base64Image) // Update preview image for banner
+          setPreviewImage(base64Image) 
         } else if (selectedElement?.classList.contains('image')) {
           const imgElement = selectedElement.querySelector('img')
           imgElement.src = base64Image
-          setPreviewImage(base64Image) // Update preview image for selected element
+          setPreviewImage(base64Image) 
         }
       }
       reader.readAsDataURL(file)
@@ -65,15 +65,14 @@ const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, image
 
   const closeEditor = () => handleBlogPostElement(null)
 
-  // Whenever selectedElement changes, reset the preview image based on its current image
   useEffect(() => {
     if (selectedElement) {
       if (selectedElement.classList.contains('banner') && imageUrl) {
-        setPreviewImage(imageUrl) // Set preview image for the banner
+        setPreviewImage(imageUrl)
       } else if (selectedElement.classList.contains('image')) {
         const imgElement = selectedElement.querySelector('img')
         if (imgElement) {
-          setPreviewImage(imgElement.src) // Set preview image for the image element
+          setPreviewImage(imgElement.src) 
         }
       }
     }

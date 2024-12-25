@@ -3,7 +3,7 @@ import Navbar from '../layout/navbar';
 import Footer from '../layout/footer';
 import Sidebar from '../layout/sidebar';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts, deletePost } from '../../features/posts/postSlice';
+import { fetchPosts, deletePost } from '../../features/posts/postSlice/index';
 import { Helmet } from 'react-helmet-async';
 import preloadPageResources from '../../utilities/loading'; 
 import LoadingScreen from '../templates/base/loading';

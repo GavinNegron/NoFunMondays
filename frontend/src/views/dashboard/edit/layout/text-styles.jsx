@@ -4,8 +4,8 @@ import { BlockPicker } from 'react-color'
 
 // Utilities
 import Tooltip from '../../../../utilities/tooltip'
-import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../utilities/posts/editorFunctions'
-import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/styleUtils'
+import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../utilities/posts/editor/editorFunctions'
+import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/editor/styleUtils'
 import { handleClickOutside } from '../../../../utilities/domUtils'
 // Data
 import elements from '../../../../data/elements.json'

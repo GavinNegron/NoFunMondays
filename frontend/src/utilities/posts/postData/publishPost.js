@@ -1,6 +1,7 @@
-import { getElementStyles } from '../posts/styleUtils.js'
-import postService from '../../features/posts/postService'
-import elementClassConfig from '../../data/elements' // The JSON file with class configurations
+import { getElementStyles } from '../editor/styleUtils';
+import postService from '../../../features/posts/postService';
+import elementClassConfig from '../../../data/elements'; 
+import DOMPurify from 'dompurify';
 
 export const publishPost = async (post, postElements, setPost, navigate, imageUrl) => {
   if (!post) return;
@@ -20,24 +21,20 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
       stylesMap.set(element.id, styleObject);
 
       let elementType;
-      let imageUrl = null;
+      let elementImageUrl = null;
 
-      // Check for image class
       if (elementDom.classList.contains('image')) {
         elementType = 'image';
-
         const imgElement = elementDom.querySelector('img');
         if (imgElement) {
-          imageUrl = imgElement.src;
+          elementImageUrl = imgElement.src;
         }
       } else {
-        // Find the specific class in the JSON configuration
         const matchedClass = Object.keys(elementClassConfig).find(key =>
           Array.isArray(elementClassConfig[key]?.classes) &&
           elementClassConfig[key].classes.some(clsObj => elementDom.classList.contains(clsObj.class))
         );
 
-        // If a match is found, we return the class name, not the category key
         if (matchedClass) {
           const matchedClsObj = elementClassConfig[matchedClass].classes.find(clsObj =>
             elementDom.classList.contains(clsObj.class)
@@ -48,15 +45,26 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
         }
       }
 
-      const content = elementType === 'image' ? 'image' : (elementDom.innerText || element.content);
+      let content = elementDom.innerText || element.content;
+      content = DOMPurify.sanitize(content);
 
-      return {
+      const updatedElement = {
         ...element,
         type: elementType,
-        content,
-        imageUrl,
+        content: elementType === 'bullet' ? null : content, 
         style: { ...styleObject },
       };
+
+      if (elementType === 'image') {
+        updatedElement.imageUrl = elementImageUrl;
+      }
+
+      if (elementType === 'bullet') {
+        const liElements = Array.from(elementDom.querySelectorAll('ul li'));
+        updatedElement.listItems = liElements.map(li => li.textContent)
+      }
+
+      return updatedElement;
     }
     return element;
   });

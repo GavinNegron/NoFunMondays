@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchFeaturedPost } from '../../../features/posts/postSlice';
+import { fetchFeaturedPost } from '../../../features/posts/postSlice/index';
 const moment = require('moment');
 
 function FeaturedPost() {

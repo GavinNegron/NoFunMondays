@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import postService from './postService';
+import postService from '../postService';
 
 // fetchPosts with dynamic limit
 export const fetchPosts = createAsyncThunk('posts/fetch', async ({ limit, excludeFeatured = false }, thunkAPI) => {

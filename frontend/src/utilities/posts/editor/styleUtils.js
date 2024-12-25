@@ -16,27 +16,6 @@ export const getElementStyles = (elementDom) => {
   }
 }
 
-export const generateCustomCss = (stylesMap) => {
-  let customCss = ''
-  stylesMap.forEach((style, id) => {
-    const cssClass = `#${id}`
-    customCss += `
-      ${cssClass} {
-        color: ${style.color};
-        margin: ${style.margin};
-        font-family: ${style.fontFamily};
-        font-size: ${style.fontSize};
-        font-weight: ${style.fontWeight};
-        font-style: ${style.fontStyle};
-        text-decoration: ${style.textDecoration};
-        text-align: ${style.textAlign};
-      }
-    `
-  })
-  return customCss
-}
-
-
 export const handleFamilyChange = (e, setStyle, handleStyleChange) => {
   const newFontFamily = e.target.value;
   setStyle(prevStyle => ({ ...prevStyle, fontFamily: newFontFamily }));

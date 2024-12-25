@@ -1,10 +1,8 @@
 
-import elements from '../../data/elements'
+import elements from '../../../data/elements'
 
 export const handleDelete = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement) => {
-  console.log('1')
   if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !event.target.isContentEditable) {
-    console.log('2')
     setPostElements(prevPostElements =>
       prevPostElements.filter(element => element.id !== selectedElement.id)
     )
@@ -13,7 +11,7 @@ export const handleDelete = (event, selectedElement, setPostElements, setDeleted
   }
 }
 
-export const handleDoubleClick = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement, setPost) => {
+export const handleDoubleClick = (event, setSelectedElement, setPost, setPostElements) => {
   const element = event.currentTarget
   setSelectedElement(element)
 

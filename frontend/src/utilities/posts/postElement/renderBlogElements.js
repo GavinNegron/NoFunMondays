@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const renderBlogElements = (element, index, postElements, setPostElements, setSelectedElement, setElementStyles, elements, handleDoubleClick, selectedElement, setDeletedElements, setPost, setImageUrl) => {
+export const renderBlogElements = (element) => {
   const elementId = `${element.id}`
 
   return (
@@ -22,3 +22,4 @@ export const renderBlogElements = (element, index, postElements, setPostElements
     </div>
   )
 }
+
