@@ -1,17 +1,27 @@
 // React
 import { useState, useEffect, useRef } from 'react'
 import { BlockPicker } from 'react-color'
+import { useEditorContext } from '../../../../../contexts/EditorContext';
 
 // Utilities
 import Tooltip from '../../../../../utilities/tooltip'
 import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../../utilities/posts/editor/editorFunctions'
 import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../../utilities/posts/editor/styleUtils'
 import { handleClickOutside } from '../../../../../utilities/domUtils'
+import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement';
 
 // Data
 import elements from '../../../../../data/elements.json'
 
-const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef, selectedElement }) => {
+const EditStyles = () => {
+  const {
+    elementId, 
+    elementStyles, 
+    handleStyleChange, 
+    blogPostMainRef, 
+    selectedElement
+  } = useEditorContext()
+
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [style, setStyle] = useState({

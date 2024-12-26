@@ -2,13 +2,11 @@
 import elements from '../../../data/elements'
 
 export const handleDelete = (event, selectedElement, setPostElements, setDeletedElements, setSelectedElement) => {
-  if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !event.target.isContentEditable) {
     setPostElements(prevPostElements =>
       prevPostElements.filter(element => element.id !== selectedElement.id)
     )
     setDeletedElements(prevDeleted => [...prevDeleted, selectedElement])
     setSelectedElement(null)
-  }
 }
 
 export const handleDoubleClick = (event, setSelectedElement, setPost, setPostElements) => {

@@ -1,9 +1,15 @@
+// React
 import React, { useState } from 'react';
 import Tooltip from '../../../../utilities/tooltip';
 import $ from 'jquery';
+
+// Data
 import elements from '../../../../data/elements';
 
-function EditSidebar({ handleDragStart }) {
+// Utilities
+import { handleDragStart } from '../../../../utilities/dragUtils';
+
+function EditSidebar() {
   const [activeElement, setActiveElement] = useState('text');
 
   const handleAddElementsClick = () => {

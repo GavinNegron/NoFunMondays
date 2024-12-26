@@ -1,9 +1,18 @@
 import React from 'react';
 import Tooltip from '../../../../utilities/tooltip';
+import { useEditorContext } from '../../../../contexts/EditorContext';
 
-function EditNavbar({ post, publishPost, postElements, setPost, imageUrl, navigate }) {
+function EditNavbar() {
+    const {
+      post,
+      publishPost,
+      postElements,
+      setPost,
+      imageUrl,
+      navigate
+    } = useEditorContext();
+    
   const postSlug = post?.slug; 
-  
   return (
     <>
       <div className="editor-navbar col-12">

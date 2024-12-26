@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'  // Import HelmetProvider
+import { EditorProvider } from './contexts/EditorContext' 
+import { HelmetProvider } from 'react-helmet-async'  
 import Landing from './views/landing/landing'
 import Dashboard from './views/dashboard/dashboard'
 import DPosts from './views/dashboard/posts'
@@ -16,18 +17,20 @@ function App() {
   return (
     <HelmetProvider> 
       <Router>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/posts" element={<DPosts />} />
-          <Route path="/dashboard/users" element={<DUsers />} />
-          <Route path="/dashboard/notifications" element={<DNotifications />} />
-          <Route path="/dashboard/tasks" element={<DTasks />} />
-          <Route path="/dashboard/settings" element={<DSettings />} />
-          <Route path="/dashboard/posts/edit/:slug" element={<EditPost />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <EditorProvider>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/posts" element={<DPosts />} />
+            <Route path="/dashboard/users" element={<DUsers />} />
+            <Route path="/dashboard/notifications" element={<DNotifications />} />
+            <Route path="/dashboard/tasks" element={<DTasks />} />
+            <Route path="/dashboard/settings" element={<DSettings />} />
+            <Route path="/dashboard/posts/edit/:slug" element={<EditPost />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </EditorProvider>
       </Router>
     </HelmetProvider>
   )

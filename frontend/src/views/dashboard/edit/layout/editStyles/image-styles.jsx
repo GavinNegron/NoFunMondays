@@ -1,7 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../utilities/posts/editor/editorFunctions'
+import { useEditorContext } from '../../../../../contexts/EditorContext'
+import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement'
 
-const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl, selectedElement }) => {
+const EditStyles = () => {
+  const {
+     blogPostMainRef,
+     setImageUrl,
+     imageUrl,
+     selectedElement
+  } = useEditorContext();
+
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [previewImage, setPreviewImage] = useState('')

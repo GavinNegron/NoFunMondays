@@ -1,6 +1,7 @@
 import $ from 'jquery'
+import elements from '../../../data/elements.json'
 
-export const handleBlogPostElement = (element, setSelectedElement, setElementStyles, elements) => {
+export const handleBlogPostElement = (element, setSelectedElement, setElementStyles) => {
   $('.editor-sidebar__add-elements').stop(true, true).fadeOut('fast')
   if (!element) {
     $('.edit-text-styles, .edit-image-styles, .edit-list-styles').stop(true, true).fadeOut('fast')

@@ -19,7 +19,7 @@ export const handleDragStart = (e, elementData) => {
   e.dataTransfer.setData('text/plain', JSON.stringify(data))
 }
 
-export const handleDrop = (e, targetElementId, postElements, setPostElements) => {
+export const handleDrop = (e, postElements, setPostElements) => {
   $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeOut('fast');
 
   e.preventDefault()

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import $ from 'jquery';
 
 export const getElementStyles = (elementDom) => {
-  if (!elementDom) return {};  // Ensure elementDom is not null or undefined
+  if (!elementDom) return {}; 
 
   const computedStyles = window.getComputedStyle(elementDom)
   return {
@@ -96,3 +96,25 @@ export const handleMarginChange = (e, direction, handleStyleChange, setStyle, st
 export const handleImageChange = async (newImageUrl, setImageUrl) => {
   
 };
+
+export const handleListChange = (event, index, selectedElement, inputValues, setInputValues, handleDelete, setPostElements, setDeletedElements, setSelectedElement) => {
+  if (selectedElement) {
+    console.log('clicked')
+    const liElements = selectedElement.querySelectorAll('ul li')
+    const liToDelete = liElements[index]
+
+    if (liToDelete) {
+      liToDelete.remove()
+    }
+
+    const updatedValues = inputValues.filter((_, i) => i !== index)
+    setInputValues(updatedValues)
+
+    if (updatedValues.length === 0) {
+      handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement)
+      $('.edit-list-styles').stop(true, true).fadeOut('fast')
+    } else {
+      setSelectedElement(selectedElement)
+    }
+  }
+}
