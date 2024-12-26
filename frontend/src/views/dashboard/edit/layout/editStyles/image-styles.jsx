@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../utilities/posts/editor/editorFunctions'
+import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../utilities/posts/editor/editorFunctions'
 
 const EditStyles = ({ handleBlogPostElement, blogPostMainRef, setImageUrl, imageUrl, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })

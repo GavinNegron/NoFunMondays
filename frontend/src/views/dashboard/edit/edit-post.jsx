@@ -8,9 +8,9 @@ import NotFound from '../../404/404'
 import Navbar from '../../layout/navbar'
 import EditorNavbar from './layout/nav1'
 import EditorSidebar from './layout/sidebar'
-import TextStyles from './layout/text-styles'
-import ImageStyles from './layout/image-styles'
-import ListStyles from './layout/list-styles'
+import TextStyles from './layout/editStyles/text-styles'
+import ImageStyles from './layout/editStyles/image-styles'
+import ListStyles from './layout/editStyles/list-styles'
 
 // Utilities
 import { handleDragStart, handleDrop, handleDragOver } from '../../../utilities/dragUtils'
@@ -117,6 +117,8 @@ function BlogPostEditor() {
             blogPostMainRef={blogPostMainRef}
             selectedElement={selectedElement}
             setSelectedElement={setSelectedElement}
+            handleStyleChange={handleStyleChange}
+            elementStyles={elementStyles}
           />
           <EditorSidebar
             handleDragStart={handleDragStart}

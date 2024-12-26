@@ -7,6 +7,7 @@ import { fetchPosts, deletePost } from '../../features/posts/postSlice/index';
 import { Helmet } from 'react-helmet-async';
 import preloadPageResources from '../../utilities/loading'; 
 import LoadingScreen from '../templates/base/loading';
+import NotFound from '../404/404';
 
 function DPosts() {
   const dispatch = useDispatch();

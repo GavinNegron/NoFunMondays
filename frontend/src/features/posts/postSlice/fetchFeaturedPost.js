@@ -5,6 +5,9 @@ export const fetchFeaturedPost = createAsyncThunk('posts/fetchFeatured', async (
   try {
     return await postService.fetchFeaturedPost();
   } catch (error) {
+    if (error.response?.status === 404) {
+      return null; 
+    }
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch featured post');
   }
 });

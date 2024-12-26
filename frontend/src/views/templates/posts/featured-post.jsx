@@ -8,11 +8,11 @@ function FeaturedPost() {
   const { featuredPost, isLoading } = useSelector((state) => state.posts);
 
   useEffect(() => {
-    if (!featuredPost && !isLoading) {
-      dispatch(fetchFeaturedPost()); 
+    if (featuredPost === undefined && !isLoading) {
+      dispatch(fetchFeaturedPost());
     }
   }, [dispatch, featuredPost, isLoading]);
-
+  
   if (!featuredPost) {
     return null; 
   }

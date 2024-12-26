@@ -3,12 +3,13 @@ import { useState, useEffect, useRef } from 'react'
 import { BlockPicker } from 'react-color'
 
 // Utilities
-import Tooltip from '../../../../utilities/tooltip'
-import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../utilities/posts/editor/editorFunctions'
-import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../utilities/posts/editor/styleUtils'
-import { handleClickOutside } from '../../../../utilities/domUtils'
+import Tooltip from '../../../../../utilities/tooltip'
+import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../../utilities/posts/editor/editorFunctions'
+import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleMarginChange, handleColorChange, handleAlignChange, handleTypeChange, handleFamilyChange, handleWeightChange, handleSizeInputChange } from '../../../../../utilities/posts/editor/styleUtils'
+import { handleClickOutside } from '../../../../../utilities/domUtils'
+
 // Data
-import elements from '../../../../data/elements.json'
+import elements from '../../../../../data/elements.json'
 
 const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPostElement, blogPostMainRef, selectedElement }) => {
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
@@ -111,22 +112,18 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
         <p>Edit Text:</p>
         <i onClick={() => handleBlogPostElement(null)} className="fa-solid fa-light fa-xmark"></i>
       </div>
-      <div className="edit-styles__item edit-styles__item__icons">
-        <i onClick={() => handleBoldChange(selectedElement, setStyle, handleStyleChange)} data-tooltip-id="tip-bold" className="fa-solid fa-bold"></i>
-        <i onClick={() => handleItalicChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-italic" className="fa-solid fa-italic"></i>
-        <i onClick={() => handleUnderlineChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-underline" className="fa-solid fa-underline"></i>
-        <i data-tooltip-id="tip-color" onClick={toggleColorPicker} className="fa-solid fa-palette"></i>
-        <Tooltip id="tip-bold" header="Bold" place="top" background="#242529" fontWeight="600" />
-        <Tooltip id="tip-italic" header="Italic" place="top" background="#242529" fontWeight="600" />
-        <Tooltip id="tip-underline" header="Underline" place="top" background="#242529" fontWeight="600" />
-        <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
-        {showColorPicker && (
-          <div className="color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
-            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} colors={elements.colorOptions.options} />
-          </div>
-        )}
-      </div>
-      <div className="edit-styles__item edit-styles__item__icons">
+      <div className="edit-styles__icons">
+      <i onClick={() => handleBoldChange(selectedElement, setStyle, handleStyleChange)} data-tooltip-id="tip-bold" className="fa-solid fa-bold"></i>
+      <i onClick={() => handleItalicChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-italic" className="fa-solid fa-italic"></i>
+      <i onClick={() => handleUnderlineChange(selectedElement, handleStyleChange)} data-tooltip-id="tip-underline" className="fa-solid fa-underline"></i>
+      <i data-tooltip-id="tip-color" onClick={toggleColorPicker} className="fa-solid fa-palette"></i>
+      {showColorPicker && (
+        <div className="color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
+          <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} />
+        </div>
+      )}
+    </div>
+      <div className="edit-styles__icons">
         <i onClick={() => handleAlignChange('left', selectedElement)} data-tooltip-id="tip-left" className="fa-solid fa-align-left"></i>
         <i onClick={() => handleAlignChange('center', selectedElement)} data-tooltip-id="tip-center" className="fa-solid fa-align-center"></i>
         <i onClick={() => handleAlignChange('right', selectedElement)} data-tooltip-id="tip-right" className="fa-solid fa-align-right"></i>
@@ -153,6 +150,16 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
           ))}
           </select>
         </div>
+        <div className="edit-styles__item">
+            <p>Font Size: </p>
+            <input
+              className="edit-styles__item__size"
+              type="number"
+              min="1"
+              value={style.fontSize || 0}
+              onChange={(e) => handleSizeInputChange(e, setStyle, handleStyleChange)}
+            />
+          </div>
         <div className="edit-styles__item">
           <p>Font Weight: </p>
           <select value={style.fontWeight} onChange={(e) => handleWeightChange(e, setStyle, handleStyleChange)}>
@@ -198,15 +205,6 @@ const EditStyles = ({ elementId, elementStyles, handleStyleChange, handleBlogPos
             />
           </div>
           </div>
-        </div>
-        <div className="edit-styles__item">
-          <p>Font Size: </p>
-          <input 
-            type="number" 
-            min="1" 
-            value={style.fontSize || 0} 
-            onChange={(e) => handleSizeInputChange(e, setStyle, handleStyleChange)} 
-          />
         </div>
       </div>
     </div>
