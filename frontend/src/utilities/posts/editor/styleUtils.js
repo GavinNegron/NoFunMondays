@@ -29,7 +29,6 @@ export const handleWeightChange = (e, setStyle, handleStyleChange) => {
 };
 
 export const handleColorChange = (color, setStyle, handleStyleChange) => {
-  console.log('color is', color)
   setStyle(prevStyle => ({ ...prevStyle, color: color.hex }));
   handleStyleChange('color', color.hex);
 };

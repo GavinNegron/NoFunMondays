@@ -5,7 +5,6 @@ import { useEditorContext } from '../../../contexts/EditorContext'
 import { handleDoubleClick } from '../editor/editorFunctions'
 
 const RenderElements = ({ element }) => {
-  console.log(element)
   const {
     postElements,
     setPostElements,

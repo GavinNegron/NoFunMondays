@@ -1,4 +1,5 @@
-import React, { useEffect, Suspense, lazy } from 'react'
+// React
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useEditorContext } from '../../../contexts/EditorContext';
 import { Helmet } from 'react-helmet-async'
@@ -12,19 +13,19 @@ import EditorSidebar from './layout/sidebar'
 
 // Utilities
 import { handleDrop, handleDragOver } from '../../../utilities/dragUtils'
-import loading from '../../../utilities/loading'
 import { handleBlogPostElement } from '../../../utilities/posts/postElement/handleBlogPostElement'
 import RenderElements from '../../../utilities/posts/postElement/renderElements'
 import { handleDoubleClick, handleDelete } from '../../../utilities/posts/editor/editorFunctions'
 import { fetchPost } from '../../../utilities/posts/postData/fetchPost'
+import preloadPageResources from '../../../utilities/loading';
 
-// Lazy loading components
-const TextStyles = lazy(() => import('./layout/editStyles/text-styles'));
-const ImageStyles = lazy(() => import('./layout/editStyles/image-styles'));
-const ListStyles = lazy(() => import('./layout/editStyles/list-styles'));
+// Layout
+import TextStyles from './layout/editStyles/text-styles' 
+import ImageStyles from './layout/editStyles/image-styles' 
+import ListStyles from './layout/editStyles/list-styles' 
 
 function BlogPostEditor() {
-  const { slug } = useParams();
+  const { slug } = useParams()
   const {
     post,
     setPost,
@@ -42,13 +43,19 @@ function BlogPostEditor() {
     setImageUrl,
     setDeletedElements,
     blogPostMainRef,
-  } = useEditorContext();
+  } = useEditorContext()
 
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([loading(['/css/edit-post.css']), new Promise(resolve => setTimeout(resolve, 500))])
-      await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
-      setLoadingState(false)
+      setLoadingState(true)
+      try {
+        await preloadPageResources(['/css/edit-post.css'])
+        await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
+      } catch (error) {
+        console.error('Loading error:', error)
+      } finally {
+        setLoadingState(false)
+      }
     }
     handleLoading()
   }, [slug, setImageUrl, setLoadingState, setPost, setPostElements, setNotFound])
@@ -58,7 +65,6 @@ function BlogPostEditor() {
       if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
         const activeElement = document.activeElement
         const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`)
-
         if (selectedElementNode && activeElement === selectedElementNode) {
           handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement)
         }
@@ -66,7 +72,6 @@ function BlogPostEditor() {
     }
 
     document.addEventListener('keydown', handleKeyDown)
-
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
@@ -84,11 +89,6 @@ function BlogPostEditor() {
           </Helmet>
           <Navbar />
           <EditorNavbar />
-          <Suspense fallback={<LoadingScreen />}>
-            <TextStyles />
-            <ImageStyles />
-            <ListStyles />
-          </Suspense>
           <EditorSidebar />
           <div className="blog-post-content">
             <div
@@ -102,7 +102,7 @@ function BlogPostEditor() {
                 tabIndex="0"
                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
               >
-                <img src={imageUrl} alt={post?.title} />
+                {imageUrl && <img src={imageUrl} alt={post?.title} />}
               </div>
               <div className="blog-post-main__inner">
                 <div
@@ -114,12 +114,15 @@ function BlogPostEditor() {
                   <span>{post?.title}</span>
                 </div>
                 {postElements.map((element) =>
-                  <RenderElements key={element.id} element={element} />              
+                  <RenderElements key={element.id} element={element} />
                 )}
               </div>
             </div>
           </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <TextStyles />
+              <ImageStyles />
+              <ListStyles />
         </>
       )}
     </div>
