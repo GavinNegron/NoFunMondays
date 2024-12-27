@@ -8,7 +8,6 @@ import { handleClickOutside } from '../../../../../utilities/domUtils'
 import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement'
 
 // Elements
-import List from './elements/list'
 import Family from './elements/family'
 import Size from './elements/size'
 import Weight from './elements/weight'
@@ -95,7 +94,6 @@ const EditStyles = () => {
         </div>
         <Icons/>
         <div className="edit-styles__container">
-          <List/>
           <Family/>
           <Size/>
           <Weight/>

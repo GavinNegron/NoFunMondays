@@ -82,8 +82,10 @@ const EditStyles = () => {
         <p>Edit Image:</p>
         <i onClick={closeEditor} className="fa-solid fa-light fa-xmark"></i>
       </div>
+      <div className="edit-styles-container">
       <Image/>
       <Margin/>
+      </div>
     </div>
   )
 }

@@ -30,7 +30,6 @@ export const handleDoubleClick = (event, setSelectedElement, setPost, setPostEle
 
     const rect = element.getBoundingClientRect()
     const offsetX = event.clientX - rect.left
-    const offsetY = event.clientY - rect.top
     const textNode = element.firstChild
 
     if (textNode) {

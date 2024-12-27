@@ -1,6 +1,5 @@
 @import '../../templates/base/variables'
 @import '../../templates/base/base'
-@import '../../templates/base/utilities'
 @import '../../templates/base/typography'
 @import '../../templates/base/socials'
 @import '../../templates/base/search'
@@ -42,10 +41,7 @@
 
 // GRID -----------------------------------------------------------
 .blog-post-element
-    transition: 0s all !important
-    -moz-window-dragging: no-drag
-    -webkit-user-drag: none
-    user-select: none
+    
 
 .image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title, .bullet
     font-family: 'Poppins'
@@ -65,15 +61,6 @@
             display: flex
             align-items: center
             justify-content: center
-
-        &::after
-            content: ""
-            position: absolute
-            top: 0
-            left: 0
-            right: 0
-            bottom: 0
-            z-index: 1         
 
 .title
     font-size: 32px
