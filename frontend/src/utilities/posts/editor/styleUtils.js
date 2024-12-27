@@ -29,6 +29,7 @@ export const handleWeightChange = (e, setStyle, handleStyleChange) => {
 };
 
 export const handleColorChange = (color, setStyle, handleStyleChange) => {
+  console.log('color is', color)
   setStyle(prevStyle => ({ ...prevStyle, color: color.hex }));
   handleStyleChange('color', color.hex);
 };
@@ -93,13 +94,8 @@ export const handleMarginChange = (e, direction, handleStyleChange, setStyle, st
   }
 }
 
-export const handleImageChange = async (newImageUrl, setImageUrl) => {
-  
-};
-
 export const handleListChange = (event, index, selectedElement, inputValues, setInputValues, handleDelete, setPostElements, setDeletedElements, setSelectedElement) => {
   if (selectedElement) {
-    console.log('clicked')
     const liElements = selectedElement.querySelectorAll('ul li')
     const liToDelete = liElements[index]
 

@@ -3,19 +3,21 @@ import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../
 import { useEditorContext } from '../../../../../contexts/EditorContext'
 import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement'
 
+// Elements
+import Image from './elements/image'
+import Margin from './elements/margin'
+
 const EditStyles = () => {
   const {
      blogPostMainRef,
-     setImageUrl,
      imageUrl,
-     selectedElement
+     selectedElement,
+     setPreviewImage
   } = useEditorContext();
 
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
   const elementRef = useRef(null)
-  const fileInputRef = useRef(null)
 
   useEffect(() => {
     const updatePosition = () => {
@@ -51,27 +53,6 @@ const EditStyles = () => {
     }
   }, [isDragging, position, setIsDragging])
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-
-      reader.onloadend = () => {
-        const base64Image = reader.result
-
-        if (selectedElement?.classList.contains('banner')) {
-          setImageUrl(base64Image)
-          setPreviewImage(base64Image) 
-        } else if (selectedElement?.classList.contains('image')) {
-          const imgElement = selectedElement.querySelector('img')
-          imgElement.src = base64Image
-          setPreviewImage(base64Image) 
-        }
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
   const closeEditor = () => handleBlogPostElement(null)
 
   useEffect(() => {
@@ -87,26 +68,6 @@ const EditStyles = () => {
     }
   }, [selectedElement, imageUrl])
 
-  const renderImageSelector = () => (
-    <>
-      <p>Select Image:</p>
-      <img
-        src={previewImage || (selectedElement?.classList.contains('banner') ? imageUrl : selectedElement?.querySelector('img')?.src) || ''}
-        alt="Selected preview"
-        style={{ maxWidth: '100%' }}
-        onClick={() => fileInputRef.current?.click()} 
-      />
-      <input
-        ref={fileInputRef}
-        type="file"
-        id="imageFile"
-        onChange={handleFileChange}
-        accept="image/*"
-        style={{ display: 'none' }}
-      />
-    </>
-  )
-
   return (
     <div
       className="edit-styles edit-image-styles"
@@ -121,11 +82,8 @@ const EditStyles = () => {
         <p>Edit Image:</p>
         <i onClick={closeEditor} className="fa-solid fa-light fa-xmark"></i>
       </div>
-      <div className="edit-styles__image">
-        <div className="edit-styles__image__preview">
-          {(selectedElement?.classList.contains('image') || (selectedElement?.classList.contains('banner') && imageUrl)) && renderImageSelector()}
-        </div>
-      </div>
+      <Image/>
+      <Margin/>
     </div>
   )
 }

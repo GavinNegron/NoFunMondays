@@ -4,7 +4,8 @@ import { handleBlogPostElement } from './handleBlogPostElement'
 import { useEditorContext } from '../../../contexts/EditorContext'
 import { handleDoubleClick } from '../editor/editorFunctions'
 
-const RenderElement = ({ element }) => {
+const RenderElements = ({ element }) => {
+  console.log(element)
   const {
     postElements,
     setPostElements,
@@ -60,4 +61,4 @@ const RenderElement = ({ element }) => {
   )
 }
 
-export default RenderElement
+export default RenderElements

@@ -13,9 +13,27 @@ export const EditorProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [deletedElements, setDeletedElements] = useState([]);
-  const navigate = useNavigate();
-
+  const [inputValues, setInputValues] = useState([])
+  const [previewImage, setPreviewImage] = useState('')
+  const [style, setStyle] = useState({
+    color: elementStyles?.color || '#000000',
+    fontSize: elementStyles?.fontSize || 18,
+    fontFamily: elementStyles?.fontFamily || '',
+    fontWeight: elementStyles?.fontWeight || 'normal',
+    currentType: elementStyles?.class || 'default-text',
+    marginTop: elementStyles?.marginTop || 0,
+    marginLeft: elementStyles?.marginLeft || 0,
+    marginBottom: elementStyles?.marginBottom || 0,
+    marginRight: elementStyles?.marginRight || 0,
+  })
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  
   const blogPostMainRef = useRef(null);
+  const colorPickerRef = useRef(null)
+  const fileInputRef = useRef(null)
+
+  const toggleColorPicker = () => setShowColorPicker(!showColorPicker)
+  const navigate = useNavigate();
 
   const handleStyleChange = useCallback((property, value) => {
     if (selectedElement) {
@@ -28,6 +46,47 @@ export const EditorProvider = ({ children }) => {
       );
     }
   }, [selectedElement, setPostElements]);
+  
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        const base64Image = reader.result
+
+        if (selectedElement?.classList.contains('banner')) {
+          setImageUrl(base64Image)
+          setPreviewImage(base64Image) 
+        } else if (selectedElement?.classList.contains('image')) {
+          const imgElement = selectedElement.querySelector('img')
+          imgElement.src = base64Image
+          setPreviewImage(base64Image) 
+        }
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const renderImageSelector = () => (
+    <>
+      <p>Select Image:</p>
+      <img
+        src={previewImage || (selectedElement?.classList.contains('banner') ? imageUrl : selectedElement?.querySelector('img')?.src) || ''}
+        alt="Selected preview"
+        style={{ maxWidth: '100%' }}
+        onClick={() => fileInputRef.current?.click()} 
+      />
+      <input
+        ref={fileInputRef}
+        type="file"
+        id="imageFile"
+        onChange={handleFileChange}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+    </>
+  )
 
   return (
     <EditorContext.Provider
@@ -53,6 +112,17 @@ export const EditorProvider = ({ children }) => {
         blogPostMainRef,
         navigate,
         handleStyleChange, 
+        inputValues,
+        setInputValues,
+        style,
+        setStyle,
+        toggleColorPicker,
+        showColorPicker,
+        setShowColorPicker,
+        colorPickerRef,
+        renderImageSelector,
+        previewImage,
+        setPreviewImage
       }}
     >
       {children}

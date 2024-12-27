@@ -6,7 +6,7 @@ import Footer from '../layout/footer'
 import { Helmet } from 'react-helmet-async'
 import loading from '../../utilities/loading'
 import LoadingScreen from '../templates/base/loading'
-import { renderBlogElements } from '../../utilities/posts/postElement/renderBlogElements'
+import RenderElements from '../../utilities/posts/postElement/renderElements'
 
 function BlogPost() {
   const { slug } = useParams()
@@ -68,14 +68,8 @@ function BlogPost() {
                 <p>{post.title}</p>
               </div>
               <div className="post__inner__content__elements">
-                {post.elements && post.elements.length > 0 && post.elements.map((element, index) => {
-                  return renderBlogElements(
-                    element,
-                    index,
-                    post.elements,
-                    setPost, 
-                  )
-                })}
+                {post.elements && post.elements.length > 0 && post.elements.map((element) => {
+                  return <RenderElements key={element.id} element={element} />                   })}
               </div>
             </div>
           </div>

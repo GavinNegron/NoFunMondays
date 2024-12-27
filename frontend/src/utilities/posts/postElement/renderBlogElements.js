@@ -19,6 +19,20 @@ export const renderBlogElements = (element) => {
       ) : (
         <p>{element.content}</p>
       )}
+        {element.type === 'bullet' ? (
+          <div className="bullet-point">
+          <ul>
+            {(element.listItems && element.listItems.length > 0)
+              ? element.listItems.map((item, idx) => (
+                  <li key={`${element.id}-item-${idx}`}>{item}</li>
+                ))
+              : <li>List Item 1</li>
+            }
+          </ul>
+        </div>
+      ) : (
+        <p>test</p>
+      )}
     </div>
   )
 }

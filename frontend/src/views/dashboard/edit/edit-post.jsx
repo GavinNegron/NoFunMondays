@@ -14,7 +14,7 @@ import EditorSidebar from './layout/sidebar'
 import { handleDrop, handleDragOver } from '../../../utilities/dragUtils'
 import loading from '../../../utilities/loading'
 import { handleBlogPostElement } from '../../../utilities/posts/postElement/handleBlogPostElement'
-import RenderElement from '../../../utilities/posts/postElement/renderElement'
+import RenderElements from '../../../utilities/posts/postElement/renderElements'
 import { handleDoubleClick, handleDelete } from '../../../utilities/posts/editor/editorFunctions'
 import { fetchPost } from '../../../utilities/posts/postData/fetchPost'
 
@@ -113,8 +113,8 @@ function BlogPostEditor() {
                 >
                   <span>{post?.title}</span>
                 </div>
-                {postElements.map((element, index) =>
-                  <RenderElement key={element.id} element={element} index={index} />              
+                {postElements.map((element) =>
+                  <RenderElements key={element.id} element={element} />              
                 )}
               </div>
             </div>

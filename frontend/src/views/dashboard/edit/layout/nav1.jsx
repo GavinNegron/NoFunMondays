@@ -1,11 +1,11 @@
 import React from 'react';
 import Tooltip from '../../../../utilities/tooltip';
 import { useEditorContext } from '../../../../contexts/EditorContext';
+import { publishPost } from '../../../../utilities/posts/postData/publishPost';
 
 function EditNavbar() {
     const {
       post,
-      publishPost,
       postElements,
       setPost,
       imageUrl,
