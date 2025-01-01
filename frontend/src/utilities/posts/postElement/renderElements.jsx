@@ -36,6 +36,10 @@ const RenderElements = ({ element }) => {
             </ul>
           </div>
         )
+        case 'divider':
+        return (
+            <span className='divider__container'></span>
+        )
       case 'text':
       default:
         return <p>{element.content}</p>

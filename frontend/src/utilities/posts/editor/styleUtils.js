@@ -79,7 +79,6 @@ export const handleTypeChange = (e, setStyle, handleStyleChange, selectedElement
 };
 
 export const handleMarginChange = (e, direction, handleStyleChange, setStyle, style, selectedElement) => {
-  console.log('test')
   let value = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10) || 0
   const updatedStyleKey = `margin${direction.charAt(0).toUpperCase() + direction.slice(1)}`
 

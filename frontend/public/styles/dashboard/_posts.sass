@@ -1,11 +1,17 @@
+@import './templates/new-post'
+
 .dashboard
+    &__top
+        width: 90%
+        display: flex
+        justify-content: space-between
+
     &__filters
         display: flex
         flex-direction: row
         align-items: center
         gap: 1rem
         align-self: center
-        width: 90%
         font-size: 16px
 
         &-item
@@ -21,6 +27,16 @@
                 padding: 3px
                 outline: none
 
+    &__new-post a
+        display: flex
+        align-items: center
+        gap: 0.5rem
+
+        &-item
+            display: flex
+            align-items: center
+            gap: 0.5rem
+            
     &__posts
         width: 90%
         display: flex
@@ -28,7 +44,7 @@
         margin-bottom: 30px
         flex-direction: column
 
-        &__icon
+        &-icon
             display: flex
             gap: 1rem
             justify-content: center
@@ -40,11 +56,13 @@
 
                 a
                     text-decoration: none
+                    padding: 1px 5px
+                    border-radius: 2px
 
-            #edit
+            &--edit
                 background-color: #6A96FF
 
-            #delete
+            &--delete
                 background-color: #FF576B
 
         table
@@ -100,13 +118,13 @@
         justify-content: center
         margin-top: 20px
 
-        &__input
+        &-input
             display: flex
             flex-direction: column
             align-content: center
             width: 100%
 
-            &__item
+            &-item
                 margin-top: 20px
                 width: 75%
 

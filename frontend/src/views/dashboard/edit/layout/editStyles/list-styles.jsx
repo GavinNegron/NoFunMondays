@@ -4,7 +4,6 @@ import { useEditorContext } from '../../../../../contexts/EditorContext'
 
 // Utilities
 import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../utilities/posts/editor/editorFunctions'
-import { handleClickOutside } from '../../../../../utilities/domUtils'
 import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement'
 
 // Elements
@@ -18,7 +17,6 @@ const EditStyles = () => {
   const {
      blogPostMainRef,
      selectedElement,
-     colorPickerRef,
      setInputValues,
   } = useEditorContext();
   
@@ -69,15 +67,6 @@ const EditStyles = () => {
       setInputValues(initialValues)
     }
   }, [selectedElement])
-
-  useEffect(() => {
-    const handleColorPickerOutsideClick = (e) => handleClickOutside(colorPickerRef.current, e, '.edit-styles__color-picker-container')
-
-    document.addEventListener('mousedown', handleColorPickerOutsideClick)
-    return () => {
-      document.removeEventListener('mousedown', handleColorPickerOutsideClick)
-    }
-  }, [])
 
   const closeEditor = () => handleBlogPostElement(null)
 

@@ -18,6 +18,7 @@ import RenderElements from '../../../utilities/posts/postElement/renderElements'
 import { handleDoubleClick, handleDelete } from '../../../utilities/posts/editor/editorFunctions'
 import { fetchPost } from '../../../utilities/posts/postData/fetchPost'
 import preloadPageResources from '../../../utilities/loading';
+import { handleClickOutside } from '../../../utilities/domUtils'
 
 // Layout
 import TextStyles from './layout/editStyles/text-styles' 
@@ -43,6 +44,8 @@ function BlogPostEditor() {
     setImageUrl,
     setDeletedElements,
     blogPostMainRef,
+    setShowColorPicker,
+    showColorPicker
   } = useEditorContext()
 
   useEffect(() => {
@@ -77,6 +80,22 @@ function BlogPostEditor() {
     }
   }, [selectedElement, setPostElements, setSelectedElement, setDeletedElements])
 
+  useEffect(() => {
+    const handleClick = (e) => {
+      handleClickOutside(e, '.edit-styles__color-picker-container', '.fa-palette');
+      
+      if(!e.target.closest('.fa-palette')) {
+        setShowColorPicker(false)
+      }
+    }
+  
+    document.addEventListener('mousedown', handleClick);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
+  
   return (
     <div className="blog-post-container">
       {loadingState && <LoadingScreen />}
@@ -90,6 +109,16 @@ function BlogPostEditor() {
           <Navbar />
           <EditorNavbar />
           <EditorSidebar />
+          <div className="editor-container">
+              <div className="editor">
+                  <div className="editor__back">
+                      <a href="/dashboard/posts">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Dashboard</span>
+                      </a>
+                  </div>
+              </div>
+              </div>
           <div className="blog-post-content">
             <div
               className="blog-post-main"

@@ -3,11 +3,8 @@ const mongoose = require('mongoose')
 const blogPostSchema = new mongoose.Schema({
   title: { 
     type: String, 
-    required: true 
-  },
-  description: { 
-    type: String, 
-    required: true 
+    required: true,
+    unique: true 
   },
   createdAt: { 
     type: Date, 
@@ -25,6 +22,11 @@ const blogPostSchema = new mongoose.Schema({
   },
   slug: {
     type: String, 
+    required: true,
+    unique: true
+  },
+  status: {
+    type: String,
     required: true
   },
   elements: [

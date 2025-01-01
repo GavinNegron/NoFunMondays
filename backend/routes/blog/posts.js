@@ -2,11 +2,12 @@ const { getPosts } = require('../../controllers/posts/getPosts');
 const { getRecentPosts } = require('../../controllers/posts/getRecentPosts');
 const { getFeaturedPosts } = require('../../controllers/posts/getFeaturedPosts');
 const { setFeaturedPost } = require('../../controllers/posts/setFeaturedPost');
-const { setPost } = require('../../controllers/posts/setPost');
+const { createPost } = require('../../controllers/posts/createPost');
 const { updatePost } = require('../../controllers/posts/updatePost');
 const { deletePost } = require('../../controllers/posts/deletePost');
 const { deletePostElement } = require('../../controllers/posts/deletePostElement');
 const { updatePostImage } = require('../../controllers/posts/updatePostImage');
+const { findTitle } = require('../../controllers/posts/findTitle');
 
 module.exports = function(app){
     
@@ -18,7 +19,7 @@ module.exports = function(app){
 
     app.put('/api/posts/featured/:postId', setFeaturedPost)
 
-    app.post('/api/posts/', setPost)
+    app.post('/api/posts/', createPost)
 
     app.put('/api/posts/:id', updatePost)
 
@@ -27,4 +28,6 @@ module.exports = function(app){
     app.delete('/api/posts/:id/elements/:elementId', deletePostElement)
 
     app.patch('/api/posts/:id/image', updatePostImage)
+
+    app.get('/api/posts/title', findTitle)
 };

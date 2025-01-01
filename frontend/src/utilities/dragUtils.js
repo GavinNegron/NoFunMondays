@@ -2,7 +2,7 @@ import $ from "jquery"
 
 const generateRandomHexId = (length = 24) => {
   let result = '';
-  const characters = '0123456789abcdef'; // Hexadecimal characters
+  const characters = '0123456789abcdef';
   
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));

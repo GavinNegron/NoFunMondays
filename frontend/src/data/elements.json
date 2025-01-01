@@ -22,9 +22,9 @@
       { "class": "bullet", "text": "Bullet Points" }
     ]
   },
-  "icon": {
+  "misc": {
     "classes": [
-      { "class": "banner", "text": "Banner"}
+      { "class": "divider", "text": "Divider"}
     ]
   },
   "form": {

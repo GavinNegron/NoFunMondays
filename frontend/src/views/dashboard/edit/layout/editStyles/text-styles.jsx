@@ -4,7 +4,6 @@ import { useEditorContext } from '../../../../../contexts/EditorContext';
 
 // Utilities
 import { handleMouseUp, handleMouseDown, handleMouseMove } from '../../../../../utilities/posts/editor/editorFunctions'
-import { handleClickOutside } from '../../../../../utilities/domUtils'
 import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement';
 
 // Elements
@@ -97,15 +96,6 @@ const EditStyles = () => {
       }
     }
   }, [isDragging, position, setIsDragging])
-
-  useEffect(() => {
-    const handleColorPickerOutsideClick = (e) => handleClickOutside(colorPickerRef.current, e, '.color-picker-container')
-    
-    document.addEventListener('mousedown', handleColorPickerOutsideClick)
-    return () => {
-      document.removeEventListener('mousedown', handleColorPickerOutsideClick)
-    }
-  }, [])
 
   return (
     <div className="edit-styles edit-text-styles" style={{ position: 'fixed', top: `${position.y}px`, left: `${position.x}px` }}>

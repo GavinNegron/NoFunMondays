@@ -12,6 +12,8 @@ export const EditorProvider = ({ children }) => {
   const [elementStyles, setElementStyles] = useState({ color: '', margin: '', fontFamily: '' });
   const [errorMessage, setErrorMessage] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
   const [deletedElements, setDeletedElements] = useState([]);
   const [inputValues, setInputValues] = useState([])
   const [previewImage, setPreviewImage] = useState('')
@@ -32,7 +34,9 @@ export const EditorProvider = ({ children }) => {
   const colorPickerRef = useRef(null)
   const fileInputRef = useRef(null)
 
-  const toggleColorPicker = () => setShowColorPicker(!showColorPicker)
+  const toggleColorPicker = (e) => {
+    setShowColorPicker(!showColorPicker)
+  }
   const navigate = useNavigate();
 
   const handleStyleChange = useCallback((property, value) => {
@@ -47,46 +51,63 @@ export const EditorProvider = ({ children }) => {
     }
   }, [selectedElement, setPostElements]);
   
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
+  const handleFileChange = (e, isNewPost = false) => {
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader()
-
+      const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Image = reader.result
+        const base64Image = reader.result;
+        setImage(base64Image);
 
-        if (selectedElement?.classList.contains('banner')) {
-          setImageUrl(base64Image)
-          setPreviewImage(base64Image) 
-        } else if (selectedElement?.classList.contains('image')) {
-          const imgElement = selectedElement.querySelector('img')
-          imgElement.src = base64Image
-          setPreviewImage(base64Image) 
+        if (isNewPost) {
+          setImageUrl(base64Image);
+          setPreviewImage(base64Image);
+        } else if (selectedElement) {
+          if (selectedElement.classList.contains('banner')) {
+            setImageUrl(base64Image);
+          } else if (selectedElement.classList.contains('image')) {
+            const imgElement = selectedElement.querySelector('img');
+            if (imgElement) imgElement.src = base64Image;
+          }
+          setPreviewImage(base64Image);
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
-
-  const renderImageSelector = () => (
-    <>
-      <p>Select Image:</p>
-      <img
-        src={previewImage || (selectedElement?.classList.contains('banner') ? imageUrl : selectedElement?.querySelector('img')?.src) || ''}
-        alt="Selected preview"
-        style={{ maxWidth: '100%' }}
-        onClick={() => fileInputRef.current?.click()} 
-      />
-      <input
-        ref={fileInputRef}
-        type="file"
-        id="imageFile"
-        onChange={handleFileChange}
-        accept="image/*"
-        style={{ display: 'none' }}
-      />
-    </>
-  )
+  };
+  
+  const renderImageSelector = (isNewPost = false) => {
+    const previewSrc =
+      previewImage ||
+      (isNewPost
+        ? '/img/placeholder.png'
+        : selectedElement?.classList.contains('banner')
+        ? imageUrl
+        : selectedElement?.querySelector('img')?.src) ||
+      '/img/placeholder.png';
+  
+    return (
+      <>
+        {!isNewPost && <p>Select Image:</p>}
+        <img
+          src={previewSrc}
+          alt="Selected preview"
+          style={{ maxWidth: '100%' }}
+          onClick={() => fileInputRef.current?.click()}
+        />
+        <input
+          ref={fileInputRef}
+          type="file"
+          id="imageFile"
+          onChange={(e) => handleFileChange(e, isNewPost)}
+          accept="image/*"
+          style={{ display: 'none' }}
+        />
+      </>
+    );
+  };
+  
+  
 
   return (
     <EditorContext.Provider
@@ -97,6 +118,10 @@ export const EditorProvider = ({ children }) => {
         setLoadingState,
         notFound,
         setNotFound,
+        setTitle, 
+        title,
+        setImage, 
+        image,
         postElements,
         setPostElements,
         selectedElement,

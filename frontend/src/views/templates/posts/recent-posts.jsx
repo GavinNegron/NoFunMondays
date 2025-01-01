@@ -30,9 +30,7 @@ function RecentPosts() {
         </div>
     </div>
     <div className="recent-posts__load">
-          <button className="fortnite-btn" onClick={handleLoadMore}>
-            Load More Posts
-          </button>
+          <button className="fortnite-btn" onClick={handleLoadMore()}>Load More Posts</button>
     </div>
     </>
   );

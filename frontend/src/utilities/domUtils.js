@@ -5,14 +5,17 @@ import $ from 'jquery';
  * @param {HTMLElement} element - The target element to check for outside clicks
  * @param {Event} event - The click event
  */
-export const handleClickOutside = (element, event) => {
-  const closestElement = event.target.closest('.editor-sidebar__add-elements') || event.target.closest('.addElement');
-
-  // Only fade out if the closest element is not the target element
+export const handleClickOutside = (event, targetClass, targetClassTwo, targetRemove) => {
+  const closestElement = event.target.closest(targetClass) || event.target.closest(targetClassTwo); 
   if (!closestElement) {
-    $('.editor-sidebar__add-elements').stop(true, true).fadeOut(200);
+    if (targetRemove) {
+      $(targetRemove).stop(true, true).fadeOut(200);
+    } else {
+      $(targetClass).stop(true, true).fadeOut(200);
+    }
   }
-}
+};
+
 
 /**
  * Adds a class to a specific DOM element
