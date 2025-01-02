@@ -113,7 +113,7 @@ function BlogPostEditor() {
               <div className="editor">
                   <div className="editor__back">
                       <a href="/dashboard/posts">
-                        <i class="fa-solid fa-arrow-left"></i>
+                        <i className="fa-solid fa-arrow-left"></i>
                         <span>Dashboard</span>
                       </a>
                   </div>

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Tooltip from '../../../../utilities/tooltip';
 import { useEditorContext } from '../../../../contexts/EditorContext';
-import { publishPost } from '../../../../utilities/posts/postData/publishPost';
+import $ from 'jquery';
+import Publish from '../../templates/publish';
 
 function EditNavbar() {
     const {
       post,
-      postElements,
-      setPost,
-      imageUrl,
-      navigate
     } = useEditorContext();
     
     const postSlug = post?.slug;
@@ -24,8 +21,15 @@ function EditNavbar() {
     if (isLoading || !post) {
         return <div>Loading...</div>; 
     }
-
+ 
     const postStatus = post.status;
+
+
+    const publishPost = async () => {
+        $("body").css("max-height", "100vh");
+        $("body").css("overflow", "hidden");
+        $(".publish").css("display", "flex");
+    }
 
     return (
         <>
@@ -114,7 +118,7 @@ function EditNavbar() {
                                 data-tooltip-id='tip-publish'
                                 className='publish-btn'
                                 onClick={() => {
-                                    publishPost(post, postElements, setPost, navigate, imageUrl);  
+                                    publishPost();  
                                 }}
                             >
                                 Publish
@@ -129,6 +133,7 @@ function EditNavbar() {
                     </div>
                 </div>
             </div>
+            <Publish />
         </>
     );
 }

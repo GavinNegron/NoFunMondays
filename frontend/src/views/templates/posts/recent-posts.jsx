@@ -16,22 +16,23 @@ function RecentPosts() {
     setPostLimit((prev) => prev + 4);
   };
 
-  
   return (
     <>
-    <div className="recent-posts">
+      <div className="recent-posts">
         <div className="recent-posts__header">
-            <p>Recent Blog Posts</p>
+          <p>Recent Blog Posts</p>
         </div>
         <div className="recent-posts__inner">
-        {posts.map((post) => {
-          return <PostCard key={post._id} post={post}/>
-        })}
+          {posts.map((post) => (
+            <PostCard key={post._id} post={post} />
+          ))}
         </div>
-    </div>
-    <div className="recent-posts__load">
-          <button className="fortnite-btn" onClick={handleLoadMore()}>Load More Posts</button>
-    </div>
+      </div>
+      <div className="recent-posts__load">
+        <button className="fortnite-btn" onClick={handleLoadMore}>
+          Load More Posts
+        </button>
+      </div>
     </>
   );
 }

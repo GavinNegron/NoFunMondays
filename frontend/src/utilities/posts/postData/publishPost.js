@@ -73,6 +73,7 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     ...post,
     imageUrl: bannerImageUrl,
     elements: updatedElements,
+    status: 'published'
   };
 
   try {
@@ -80,7 +81,7 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     setPost(data);
 
     if (navigate) {
-      navigate(`/dashboard/posts/edit/${data.slug}`);
+      navigate(`/blog/${data.slug}`);
     }
   } catch (error) {
     console.error('Error updating post:', error);

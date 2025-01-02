@@ -1,3 +1,4 @@
+const { lowerCase } = require('lodash')
 const mongoose = require('mongoose')
 
 const blogPostSchema = new mongoose.Schema({
@@ -27,7 +28,8 @@ const blogPostSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true
+    required: true,
+    lowerCase: true,
   },
   elements: [
     {

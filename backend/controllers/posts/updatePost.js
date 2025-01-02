@@ -6,7 +6,7 @@ const { ObjectId } = require('mongoose').Types;
 
 const updatePost = async (req, res) => {
   const { id } = req.params;
-  const { title, description, imageUrl, elements } = req.body;
+  const { title, imageUrl, elements, status } = req.body;
 
   if (!ObjectId.isValid(id)) {
     return res.status(400).json({ message: 'Invalid post ID' });
@@ -18,7 +18,7 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    const updates = { title, description, elements };
+    const updates = { title, elements, status };
 
     if (imageUrl && imageUrl !== post.imageUrl) {
       let publicUrl;
