@@ -41,7 +41,6 @@ function Dashboard() {
           </div>
           <div className="dashboard__grid container-fluid d-flex"></div>
         </div>
-        <Footer />
       </main>
     </>
   )

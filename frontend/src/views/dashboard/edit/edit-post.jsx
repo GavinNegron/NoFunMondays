@@ -18,7 +18,6 @@ import RenderElements from '../../../utilities/posts/postElement/renderElements'
 import { handleDoubleClick, handleDelete } from '../../../utilities/posts/editor/editorFunctions'
 import { fetchPost } from '../../../utilities/posts/postData/fetchPost'
 import preloadPageResources from '../../../utilities/loading';
-import { handleClickOutside } from '../../../utilities/domUtils'
 
 // Layout
 import TextStyles from './layout/editStyles/text-styles' 
@@ -45,7 +44,6 @@ function BlogPostEditor() {
     setDeletedElements,
     blogPostMainRef,
     setShowColorPicker,
-    showColorPicker
   } = useEditorContext()
 
   useEffect(() => {
@@ -82,10 +80,10 @@ function BlogPostEditor() {
 
   useEffect(() => {
     const handleClick = (e) => {
-      handleClickOutside(e, '.edit-styles__color-picker-container', '.fa-palette');
-      
       if(!e.target.closest('.fa-palette')) {
-        setShowColorPicker(false)
+        if(!e.target.closest('.edit-styles__color-picker-container')) {
+          setShowColorPicker(false);
+        }
       }
     }
   
@@ -131,7 +129,7 @@ function BlogPostEditor() {
                 tabIndex="0"
                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
               >
-                {imageUrl && <img src={imageUrl} alt={post?.title} />}
+                {imageUrl && <img src={imageUrl} alt={post?.title} draggable='false' />}
               </div>
               <div className="blog-post-main__inner">
                 <div

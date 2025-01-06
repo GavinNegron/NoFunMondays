@@ -31,7 +31,6 @@ const DSettings = () => {
          </div>
       </div>
     </main>
-    <Footer />
     </div>
    </>
   )

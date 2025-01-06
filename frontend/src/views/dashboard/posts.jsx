@@ -177,7 +177,6 @@ function DPosts() {
         </div>
           <NewPost/>
         </main>
-        <Footer />
       </div>
     </>
   );

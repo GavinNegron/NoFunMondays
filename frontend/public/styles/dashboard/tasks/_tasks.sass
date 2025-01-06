@@ -1,0 +1,39 @@
+.dashboard.tasks
+    flex-direction: row
+    
+.tasks
+    display: flex
+    height: 100%
+    flex-direction: column
+
+    &__inner
+        display: flex
+        width: 60%
+        height: 100%
+        flex-direction: column
+
+    &__grid
+        width: 100%
+        position: relative
+        left: 40px
+
+        &-new
+            width: 100%
+            border: solid 1px #3b3b3b
+            padding: 10px 15px
+            background-color: #1b1b1b
+            border-radius: 5px
+            display: flex
+            align-items: center
+            gap: 8px
+
+            a
+                gap: 10px
+                display: flex
+                align-items: center
+
+    &__edit
+        display: flex
+        width: 40%
+        height: 100%
+        justify-content: center

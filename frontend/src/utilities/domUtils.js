@@ -5,17 +5,13 @@ import $ from 'jquery';
  * @param {HTMLElement} element - The target element to check for outside clicks
  * @param {Event} event - The click event
  */
-export const handleClickOutside = (event, targetClass, targetClassTwo, targetRemove) => {
-  const closestElement = event.target.closest(targetClass) || event.target.closest(targetClassTwo); 
-  if (!closestElement) {
-    if (targetRemove) {
-      $(targetRemove).stop(true, true).fadeOut(200);
-    } else {
-      $(targetClass).stop(true, true).fadeOut(200);
-    }
+export const handleClickOutside = (event, targetClasses, targetRemove) => {
+  const targetArray = Array.isArray(targetClasses) ? targetClasses : [targetClasses];
+  const isClickInsideTarget = targetArray.some(targetClass => event.target.closest(targetClass));
+  if (!isClickInsideTarget && targetRemove) {
+    $(targetRemove).stop(true, true).fadeOut(200); 
   }
 };
-
 
 /**
  * Adds a class to a specific DOM element

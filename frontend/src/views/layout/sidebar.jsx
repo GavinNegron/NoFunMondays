@@ -34,7 +34,7 @@ function Sidebar() {
 
   const handleLinkClick = (e, href) => {
     e.preventDefault();
-    window.location.href = href; // Force a full page reload
+    window.location.href = href;
   };
 
   return (

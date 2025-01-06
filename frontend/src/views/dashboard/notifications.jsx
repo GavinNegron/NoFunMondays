@@ -31,7 +31,6 @@ const DNotifications = () => {
          </div>
       </div>
     </main>
-    <Footer />
     </div>
    </>
   )

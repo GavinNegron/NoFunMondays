@@ -23,7 +23,7 @@ function NewPost() {
     }, []);
 
     $(".new-post").on('click', (e) => {
-        handleClickOutside(e, '.new-post__inner', undefined, '.new-post');
+        handleClickOutside(e, '.new-post__inner', '.new-post');
     });
 
     const handleNewPost = async () => {

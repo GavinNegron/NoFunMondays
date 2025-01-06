@@ -31,7 +31,6 @@ const DUsers = () => {
          </div>
       </div>
     </main>
-    <Footer />
     </div>
    </>
   )

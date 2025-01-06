@@ -81,7 +81,7 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     setPost(data);
 
     if (navigate) {
-      navigate(`/blog/${data.slug}`);
+      window.open(`/blog/${data.slug}`);
     }
   } catch (error) {
     console.error('Error updating post:', error);

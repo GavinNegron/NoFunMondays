@@ -1,7 +1,8 @@
 // React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tooltip from '../../../../utilities/tooltip';
 import $ from 'jquery';
+import { handleClickOutside } from '../../../../utilities/domUtils';
 
 // Data
 import elements from '../../../../data/elements';
@@ -23,6 +24,18 @@ function EditSidebar() {
   };
 
   const includedKeys = Object.keys(elements).filter((key) => !elements[key]?.exclude);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      handleClickOutside(e, ['.addElement', '.editor-sidebar__add-elements'], '.editor-sidebar__add-elements')
+    }
+  
+    document.addEventListener('mousedown', handleClick);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
 
   return (
     <aside className="editor-sidebar">

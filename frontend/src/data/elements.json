@@ -40,15 +40,9 @@
   "fontOptions": {
     "exclude": true,
     "options": [
-      "Outfit",
-      "Source Code Pro",
       "Noto Sans",
       "Nunito",
-      "Poppins",
-      "Roboto",
-      "Open Sans",
-      "Arial",
-      "Verdana"
+      "Poppins"
     ]
   },
   "fontWeightOptions": {
