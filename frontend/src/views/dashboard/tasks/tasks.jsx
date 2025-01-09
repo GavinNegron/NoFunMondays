@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from '../../layout/navbar'
 import Sidebar from '../../layout/sidebar'
 import { Helmet } from 'react-helmet-async'
+import TasksToDo from './layout/tasksToDo'
+import Search from '../../templates/base/search'
 
 const DTasks = () => {
   
@@ -21,20 +23,15 @@ const DTasks = () => {
             <div className="dashboard__header">
               <span>Tasks</span>
             </div>
+            <div className="tasks__search">
+              <Search/>
+            </div>
             <div className="tasks__grid container-fluid d-flex">
-                <div className="tasks__grid-new">
-                  <a href="#">
-                    <i class="fa-solid fa-plus"></i> 
-                    <span>Add New Task</span>
-                  </a>
-                </div>
+                <TasksToDo title='To-Do'/>
+                <TasksToDo title='In Progress'/>
+                <TasksToDo title='Completed'/>
             </div>
           </div>
-            <div className="tasks__edit">
-              <div className="tasks__edit-title">
-                <span>Task: </span>
-              </div>
-            </div>
       </div>
     </main>
     </div>

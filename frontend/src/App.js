@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { EditorProvider } from './contexts/EditorContext' 
 import { HelmetProvider } from 'react-helmet-async'  
@@ -12,8 +12,11 @@ import DSettings from './views/dashboard/settings'
 import NotFound from './views/404/404'
 import BlogPost from './views/blog/blog-post'
 import EditPost from './views/dashboard/edit/edit-post'
+import preloadPageResources from './utilities/loading'
 
 function App() {
+
+  
   return (
     <HelmetProvider> 
       <Router>
