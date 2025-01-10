@@ -80,9 +80,6 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     const data = await postService.updatePost(post._id, updatedPost);
     setPost(data);
 
-    if (navigate) {
-      window.open(`/blog/${data.slug}`);
-    }
   } catch (error) {
     console.error('Error updating post:', error);
   }

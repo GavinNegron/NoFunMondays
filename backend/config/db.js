@@ -3,17 +3,23 @@ require('dotenv').config();
 
 mongoose.set('strictQuery', true);
 
-const dbConn = async () => {
-    try {
-        await mongoose.connect(process.env.DB_CONNECT, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log('MongoDB connected successfully');
-    } catch (err) {
-        console.error('MongoDB connection error:', err);
-        process.exit(1); 
-    }
+const connectToDatabase = (dbUrl, dbName) => {
+    const connection = mongoose.createConnection(dbUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+
+    connection.on('error', (err) => {
+        console.error(`ERROR connecting to ${dbName}: ${err}`);
+    });
+
+    return connection;
 };
 
-module.exports = dbConn;
+    const blogDB = () => connectToDatabase(process.env.DB_CONNECT_BLOG, 'Blog Database');
+    const adminDB = () => connectToDatabase(process.env.DB_CONNECT_ADMIN, 'Admin Database');
+
+module.exports = {
+    blogDB,
+    adminDB,
+};

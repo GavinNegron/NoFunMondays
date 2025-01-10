@@ -50,7 +50,7 @@ function BlogPostEditor() {
     const handleLoading = async () => {
       setLoadingState(true)
       try {
-        await preloadPageResources(['/css/edit-post.css'])
+        await preloadPageResources(['/css/edit-post.module.css'])
         await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
       } catch (error) {
         console.error('Loading error:', error)

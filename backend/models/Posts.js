@@ -1,5 +1,7 @@
-const { lowerCase } = require('lodash')
 const mongoose = require('mongoose')
+const { blogDB } = require('../config/db'); 
+
+const blog = blogDB(); 
 
 const blogPostSchema = new mongoose.Schema({
   title: { 
@@ -43,4 +45,4 @@ const blogPostSchema = new mongoose.Schema({
   ]
 })
 
-module.exports = mongoose.model('Posts', blogPostSchema)
+module.exports = blog.model('Posts', blogPostSchema);

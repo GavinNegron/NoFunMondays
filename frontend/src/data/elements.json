@@ -22,6 +22,11 @@
       { "class": "bullet", "text": "Bullet Points" }
     ]
   },
+  "embed": {
+    "classes": [
+      { "class": "twitter", "text": "Twitter"}
+    ]
+  },
   "misc": {
     "classes": [
       { "class": "divider", "text": "Divider"}

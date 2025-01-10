@@ -4,17 +4,30 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
-const dbConn = require('./config/db');
+const { blogDB, adminDB } = require('./config/db'); 
 
 const app = express();
 
-// Mongoose Connection
-dbConn();
+// Database Connections
+blogDB();
+adminDB();
+
+const blogDbConn = blogDB(); 
+const adminDbConn = adminDB(); 
+
+blogDbConn.on('connected', () => { 
+    console.log('MongoDB: Blog CONNECTED');   
+}); 
+
+adminDbConn.on('connected', () => { 
+    console.log('MongoDB: Admin CONNECTED'); 
+});
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '10mb' })) 
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })) 
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json());
 app.use(express.static('Public'));
 app.use('/images', express.static(path.join(__dirname, 'public/images'))); 
