@@ -13,8 +13,8 @@ dbConn();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '10mb' })) // For JSON payloads
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })) // For form data
+app.use(bodyParser.json({ limit: '10mb' })) 
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })) 
 app.use(express.json());
 app.use(express.static('Public'));
 app.use('/images', express.static(path.join(__dirname, 'public/images'))); 
@@ -32,17 +32,15 @@ app.use(
 
 app.use(
     cors({
-        origin: 'http://localhost:3000', // Allow the frontend on port 3000
-        methods: ['GET', 'POST'], // Allow specific methods
-        allowedHeaders: ['Content-Type'], // Allow certain headers
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'], 
+        allowedHeaders: ['Content-Type'], 
     })
 );
 
-// Serve static files from the React frontend build directory
 const reactBuildPath = path.join(__dirname, '../frontend/build');
 app.use(express.static(reactBuildPath));
 
-// Route Handler
 async function routeHandler(folderName) {
     const files = await fs.promises.readdir(folderName);
     for (const file of files) {

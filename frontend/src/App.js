@@ -2,21 +2,19 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { EditorProvider } from './contexts/EditorContext' 
 import { HelmetProvider } from 'react-helmet-async'  
-import Landing from './views/landing/landing'
-import Dashboard from './views/dashboard/dashboard'
-import DPosts from './views/dashboard/posts'
-import DUsers from './views/dashboard/users'
-import DNotifications from './views/dashboard/notifications'
-import DTasks from './views/dashboard/tasks/tasks'
-import DSettings from './views/dashboard/settings'
-import NotFound from './views/404/404'
-import BlogPost from './views/blog/blog-post'
-import EditPost from './views/dashboard/edit/edit-post'
-import preloadPageResources from './utilities/loading'
+import Landing from './pages/landing/landing'
+import Dashboard from './pages/dashboard/dashboard/dashboard'
+import DPosts from './pages/dashboard/posts/Posts'
+import DUsers from './pages/dashboard/users/users'
+import DNotifications from './pages/dashboard/notifications/notifications'
+import DTasks from './pages/dashboard/tasks/tasks'
+import DSettings from './pages/dashboard/settings/settings'
+import NotFound from './pages/404/404'
+import BlogPost from './pages/blog/blog-post'
+import EditPost from './pages/dashboard/posts/edit-post/edit-post'
 
 function App() {
 
-  
   return (
     <HelmetProvider> 
       <Router>
