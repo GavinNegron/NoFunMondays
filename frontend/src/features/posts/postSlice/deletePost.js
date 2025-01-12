@@ -1,10 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import postService from '../postService';
+import deletePostService from '../postService/deletePost';
 
 export const deletePost = createAsyncThunk('posts/delete', async (postId, thunkAPI) => {
   try {
-    const response = await postService.deletePost(postId);
-    return response;
+    return await deletePostService(postId);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to delete post');
   }

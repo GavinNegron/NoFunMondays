@@ -16,11 +16,11 @@ const blogDbConn = blogDB();
 const adminDbConn = adminDB(); 
 
 blogDbConn.on('connected', () => { 
-    console.log('MongoDB: Blog CONNECTED');   
+    console.log('MongoDB: Blog Database CONNECTED');   
 }); 
 
 adminDbConn.on('connected', () => { 
-    console.log('MongoDB: Admin CONNECTED'); 
+    console.log('MongoDB: Admin_Panel Database CONNECTED'); 
 });
 
 
@@ -68,14 +68,14 @@ async function routeHandler(folderName) {
 }
 routeHandler(path.join(__dirname, '/routes'));
 
-app.get(/^(?!\/api\/).*/, (req, res) => {
+app.get(/^(?!\/api\/).*/, (res) => {
     res.sendFile(path.join(reactBuildPath, 'index.html'));
 });
 
 const port = process.env.PORT || 2001;
 const server = app.listen(port, () => {
     console.log(`Server Up and running on port ${port}`);
-    console.log(`Open website: http://localhost:${port}`);
+    console.log(`CLIENT running: http://localhost:${port}`);
 });
 
 process.on('unhandledRejection', (err) => {

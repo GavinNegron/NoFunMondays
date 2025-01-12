@@ -92,24 +92,3 @@ export const handleMarginChange = (e, direction, handleStyleChange, setStyle, st
     selectedElement.style[updatedStyleKey] = `${value}px`
   }
 }
-
-export const handleListChange = (event, index, selectedElement, inputValues, setInputValues, handleDelete, setPostElements, setDeletedElements, setSelectedElement) => {
-  if (selectedElement) {
-    const liElements = selectedElement.querySelectorAll('ul li')
-    const liToDelete = liElements[index]
-
-    if (liToDelete) {
-      liToDelete.remove()
-    }
-
-    const updatedValues = inputValues.filter((_, i) => i !== index)
-    setInputValues(updatedValues)
-
-    if (updatedValues.length === 0) {
-      handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement)
-      $('.edit-list-styles').stop(true, true).fadeOut('fast')
-    } else {
-      setSelectedElement(selectedElement)
-    }
-  }
-}

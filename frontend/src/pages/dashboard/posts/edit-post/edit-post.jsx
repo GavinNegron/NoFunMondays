@@ -23,6 +23,7 @@ import preloadPageResources from '../../../../utilities/loading';
 import TextStyles from '../components/EditStyles/text-styles' 
 import ImageStyles from '../components/EditStyles/image-styles' 
 import ListStyles from '../components/EditStyles/list-styles' 
+import EmbedStyles from '../components/EditStyles/embed-styles' 
 
 function BlogPostEditor() {
   const { slug } = useParams()
@@ -150,6 +151,7 @@ function BlogPostEditor() {
               <TextStyles />
               <ImageStyles />
               <ListStyles />
+              <EmbedStyles />
         </>
       )}
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery'; 
 import { handleClickOutside } from '../../../../../utilities/domUtils';
-import postService from '../../../../../features/posts/postService';
+import { createPost, findTitle } from '../../../../../features/posts/postService';
 
 function NewPost() {
     const {
@@ -33,7 +33,7 @@ function NewPost() {
             return;
         }
         try {
-            const isTitleAvailable = await postService.findTitle(title);
+            const isTitleAvailable = await findTitle(title);
             if (!isTitleAvailable) {
                 if (isMounted) setError('Title already exists. Please choose a different title.');
                 return;
@@ -43,7 +43,7 @@ function NewPost() {
                 imageUrl: image,
                 status: 'draft', 
             };
-            const createdPost = await postService.createPost(post);
+            const createdPost = await createPost(post);
 
             if (isMounted) navigate(`/dashboard/posts/edit/${createdPost.slug}`);
         } catch (error) {

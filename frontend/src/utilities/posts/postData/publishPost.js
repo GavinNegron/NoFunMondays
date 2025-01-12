@@ -1,5 +1,5 @@
 import { getElementStyles } from '../editor/styleUtils';
-import postService from '../../../features/posts/postService';
+import { updatePost } from '../../../features/posts/postService';
 import elementClassConfig from '../../../data/elements'; 
 import DOMPurify from 'dompurify';
 
@@ -51,7 +51,7 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
       const updatedElement = {
         ...element,
         type: elementType,
-        content: elementType === 'bullet' ? null : content, 
+        content: elementType === 'bullet' ? null : content,
         style: { ...styleObject },
       };
 
@@ -61,7 +61,14 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
 
       if (elementType === 'bullet') {
         const liElements = Array.from(elementDom.querySelectorAll('ul li'));
-        updatedElement.listItems = liElements.map(li => li.textContent)
+        updatedElement.listItems = liElements.map(li => li.textContent);
+      }
+
+      if (elementType === 'twitter') {
+        const twitterInput = elementDom.querySelector('input.twitter');
+        if (twitterInput && twitterInput.value) {
+          updatedElement.twitterId = twitterInput.value;
+        }
       }
 
       return updatedElement;
@@ -73,11 +80,11 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     ...post,
     imageUrl: bannerImageUrl,
     elements: updatedElements,
-    status: 'published'
+    status: 'published',
   };
 
   try {
-    const data = await postService.updatePost(post._id, updatedPost);
+    const data = await updatePost(post._id, updatedPost);
     setPost(data);
 
   } catch (error) {

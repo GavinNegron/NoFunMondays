@@ -26,7 +26,7 @@ const editorSlice = createSlice({
       state.selectedElement = action.payload;
     },
     setInputValues: (state, action) => {
-      state.inputValues = action.payload; // Update the inputValues array in the Redux store
+      state.inputValues = action.payload; 
     }
   }
 });

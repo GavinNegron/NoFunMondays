@@ -154,6 +154,7 @@
     "react-router-dom": "^6.28.0",
     "react-scripts": "^5.0.1",
     "react-tooltip": "^5.28.0",
+    "react-twitter-embed": "^4.0.4",
     "readable-stream": "^3.6.0",
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",

@@ -1,17 +1,6 @@
-import fetchPosts from './fetchPosts';
-import fetchFeaturedPost from './fetchFeaturedPost';
-import deletePost from './deletePost';
-import updatePost from './updatePost';
-import createPost from './createPost';
-import findTitle from './findTitle';
-
-const postService = {
-  fetchPosts,
-  fetchFeaturedPost,
-  deletePost,
-  updatePost,
-  createPost,
-  findTitle,
-};
-
-export default postService;
+export { default as fetchPosts } from './fetchPosts';
+export { default as fetchFeaturedPost } from './fetchFeaturedPost';
+export { default as deletePost } from './deletePost';
+export { default as updatePost } from './updatePost';
+export { default as createPost } from './createPost';
+export { default as findTitle } from './findTitle';

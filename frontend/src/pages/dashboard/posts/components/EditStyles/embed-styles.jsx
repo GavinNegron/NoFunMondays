@@ -4,15 +4,12 @@ import { useEditorContext } from '../../../../../contexts/EditorContext'
 import { handleBlogPostElement } from '../../../../../utilities/posts/postElement/handleBlogPostElement'
 
 // Elements
-import Image from '../elements/image'
+import Embed from '../elements/embed'
 import Margin from '../elements/margin'
 
 const EditStyles = () => {
   const {
      blogPostMainRef,
-     imageUrl,
-     selectedElement,
-     setPreviewImage
   } = useEditorContext();
 
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
@@ -55,22 +52,9 @@ const EditStyles = () => {
 
   const closeEditor = () => handleBlogPostElement(null)
 
-  useEffect(() => {
-    if (selectedElement) {
-      if (selectedElement.classList.contains('banner') && imageUrl) {
-        setPreviewImage(imageUrl)
-      } else if (selectedElement.classList.contains('image')) {
-        const imgElement = selectedElement.querySelector('img')
-        if (imgElement) {
-          setPreviewImage(imgElement.src) 
-        }
-      }
-    }
-  }, [selectedElement, imageUrl])
-
   return (
     <div
-      className="edit-styles edit-image-styles"
+      className="edit-styles edit-embed-styles"
       style={{ position: 'fixed', top: `${position.y}px`, left: `${position.x}px` }}
     >
       <div
@@ -79,12 +63,12 @@ const EditStyles = () => {
         onMouseDown={(e) => handleMouseDown(e, setIsDragging, setPosition)}
         ref={elementRef}
       >
-        <p>Edit Image:</p>
+        <p>Edit Embed:</p>
         <i onClick={closeEditor} className="fa-solid fa-light fa-xmark"></i>
       </div>
       <div className="edit-styles__container">
-      <Image/>
-      <Margin/>
+        <Embed/>
+        <Margin/>
       </div>
     </div>
   )

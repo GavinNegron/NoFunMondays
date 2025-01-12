@@ -1,33 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import postService from '../postService';
-
-// fetchPosts with dynamic limit
-export const fetchPosts = createAsyncThunk('posts/fetch', async ({ limit, excludeFeatured = false }, thunkAPI) => {
-  try {
-    return await postService.fetchPosts(limit, excludeFeatured);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch posts');
-  }
-});
-
-// fetchFeaturedPost
-export const fetchFeaturedPost = createAsyncThunk('posts/fetchFeatured', async (_, thunkAPI) => {
-  try {
-    return await postService.fetchFeaturedPost();
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch featured post');
-  }
-});
-
-// deletePost
-export const deletePost = createAsyncThunk('posts/delete', async (postId, thunkAPI) => {
-  try {
-    const response = await postService.deletePost(postId);
-    return response; // Return the response data after deletion
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to delete post');
-  }
-});
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchPosts } from './fetchPosts'
+import { findTitle } from './findTitle'
+import { createPost } from './createPost'
+import { deletePost } from './deletePost'
+import { updatePost } from './updatePost'
+import { fetchFeaturedPost } from './fetchFeaturedPost'
 
 const postSlice = createSlice({
   name: 'posts',
@@ -58,11 +35,11 @@ const postSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.posts = state.posts.filter(post => post._id !== action.payload._id); // Remove the deleted post from the list
+        state.posts = state.posts.filter(post => post._id !== action.payload._id);
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload; // Store error message if deletion failed
+        state.error = action.payload; 
       })
       .addCase(fetchFeaturedPost.pending, (state) => {
         state.isLoading = true;
@@ -75,6 +52,44 @@ const postSlice = createSlice({
       .addCase(fetchFeaturedPost.rejected, (state, action) => {
         state.isLoading = false;
         state.featuredPost = null;
+        state.error = action.payload;
+      })
+      .addCase(updatePost.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = state.posts.map(post => 
+          post._id === action.payload._id ? action.payload : post
+        );
+      })
+      .addCase(updatePost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(createPost.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts.push(action.payload);
+      })
+      .addCase(createPost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(findTitle.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(findTitle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.titleAvailable = action.payload;
+      })
+      .addCase(findTitle.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },

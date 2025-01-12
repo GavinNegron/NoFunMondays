@@ -40,6 +40,7 @@ const blogPostSchema = new mongoose.Schema({
       content: { type: String, required: true },
       imageUrl: { type: String, required: false },
       listItems: { type: Array, required: false, default: undefined },
+      twitterId: { type: String, required: false, default: undefined },
       style: { type: Object, default: {} }
     },
   ]

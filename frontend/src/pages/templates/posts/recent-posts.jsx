@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../../features/posts/postSlice/index';
+import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
 import PostCard from './post-card';
 
 function RecentPosts() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts); 
+  const { posts, isLoading, error } = useSelector((state) => state.posts);
   const [postLimit, setPostLimit] = useState(6); 
 
   useEffect(() => {
@@ -23,13 +23,19 @@ function RecentPosts() {
           <p>Recent Blog Posts</p>
         </div>
         <div className="recent-posts__inner">
-          {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
-          ))}
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : (
+            posts?.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))
+          )}
         </div>
       </div>
       <div className="recent-posts__load">
-        <button className="fortnite-btn" onClick={handleLoadMore}>
+        <button className="fortnite-btn" onClick={handleLoadMore} disabled={isLoading}>
           Load More Posts
         </button>
       </div>
