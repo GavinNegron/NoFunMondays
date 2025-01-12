@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
 import { deletePost } from '../../../features/posts/postSlice/deletePost'; 
 import { Helmet } from 'react-helmet-async';
-import preloadPageResources from '../../../utilities/loading'; 
+import loading from '../../../utilities/loading'; 
 import LoadingScreen from '../../templates/base/loading';
 import NewPost from './components/NewPost/new-post';
 import $ from 'jquery';
@@ -19,14 +19,13 @@ function DPosts() {
   const [loadingState, setLoadingState] = useState(true); 
 
   useEffect(() => {
-    const loadResources = async () => {
-      const cssFiles = ['/css/posts.module.css'];
-      await preloadPageResources(cssFiles); 
+    const handleLoading = async () => {
+      await Promise.all([loading(['/css/posts.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
       dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); 
       setLoadingState(false);
     };
     
-    loadResources();
+    handleLoading();
   }, [dispatch, postLimit]);
 
   useEffect(() => {

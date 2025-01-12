@@ -17,7 +17,7 @@ import { handleBlogPostElement } from '../../../../utilities/posts/postElement/h
 import RenderElements from '../../../../utilities/posts/postElement/renderElements'
 import { handleDoubleClick, handleDelete } from '../../../../utilities/posts/editor/editorFunctions'
 import { fetchPost } from '../../../../utilities/posts/postData/fetchPost'
-import preloadPageResources from '../../../../utilities/loading';
+import loading from '../../../../utilities/loading';
 
 // Layout
 import TextStyles from '../components/EditStyles/text-styles' 
@@ -49,18 +49,32 @@ function BlogPostEditor() {
 
   useEffect(() => {
     const handleLoading = async () => {
-      setLoadingState(true)
+      await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
+
       try {
-        await preloadPageResources(['/css/edit-post.module.css'])
+        const response = await fetch('/api/posts')
         await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts')
+        }
+
+        const posts = await response.json()
+        const matchedPost = posts.find(p => p.slug === slug)
+
+        if (matchedPost) {
+          setPost(matchedPost)
+        } else {
+          setNotFound(true)
+        }
       } catch (error) {
-        console.error('Loading error:', error)
+        setNotFound(true)
       } finally {
         setLoadingState(false)
       }
     }
+
     handleLoading()
-  }, [slug, setImageUrl, setLoadingState, setPost, setPostElements, setNotFound])
+  }, [slug])
 
   useEffect(() => {
     const handleKeyDown = (event) => {

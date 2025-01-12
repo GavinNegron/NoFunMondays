@@ -16,7 +16,7 @@ function BlogPost() {
 
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([loading(['/css/blog-post.css']), new Promise(resolve => setTimeout(resolve, 1000))])
+      await Promise.all([loading(['/css/blog-post.css']), new Promise(resolve => setTimeout(resolve, 500))])
 
       try {
         const response = await fetch('/api/posts')

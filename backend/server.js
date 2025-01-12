@@ -75,7 +75,7 @@ app.get(/^(?!\/api\/).*/, (res) => {
 const port = process.env.PORT || 2001;
 const server = app.listen(port, () => {
     console.log(`Server Up and running on port ${port}`);
-    console.log(`CLIENT running: http://localhost:${port}`);
+    console.log(`Server running: http://localhost:${port}`);
 });
 
 process.on('unhandledRejection', (err) => {

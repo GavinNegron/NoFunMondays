@@ -35,11 +35,7 @@ const DTasks = () => {
             <div className="tasks__search">
               <Search/>
             </div>
-            <div className="tasks__grid container-fluid d-flex">
-                <TasksToDo title='To-Do'/>
-                <TasksToDo title='In Progress'/>
-                <TasksToDo title='Completed'/>
-            </div>
+              <TasksToDo/>
           </div>
       </div>
     </main>

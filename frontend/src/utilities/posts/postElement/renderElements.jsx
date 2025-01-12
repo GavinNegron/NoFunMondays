@@ -61,7 +61,6 @@ const RenderElements = ({ element }) => {
       case 'divider':
         return <span className="divider__container"></span>;
       case 'twitter':
-        console.log(twitterId)
         return twitterId ? (
           <TwitterEmbed tweetID={twitterId} />
         ) : (
