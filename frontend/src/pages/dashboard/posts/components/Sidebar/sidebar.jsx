@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Tooltip from '../../../../../utilities/tooltip';
 import $ from 'jquery';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
+import './sidebar.sass'
 
 // Data
 import elements from '../../../../../data/elements';

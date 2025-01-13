@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../layout/navbar';
-import Sidebar from '../../layout/sidebar';
+import Navbar from '../../layout/navbar/navbar';
+import Sidebar from '../../layout/sidebar/sidebar';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
 import { deletePost } from '../../../features/posts/postSlice/deletePost'; 

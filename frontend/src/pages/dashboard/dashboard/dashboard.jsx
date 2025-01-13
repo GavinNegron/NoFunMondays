@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
-import Navbar from '../../layout/navbar'
-import Sidebar from '../../layout/sidebar'
+import Navbar from '../../layout/navbar/navbar'
+import Sidebar from '../../layout/sidebar/sidebar'
 import loading from '../../../utilities/loading'
 import LoadingScreen from '../../templates/base/loading'
 

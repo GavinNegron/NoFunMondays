@@ -1,8 +1,8 @@
 .navbar
-  color: $navbar-color
-  font-family: $poppins
-  background-color: $navbar-primary
-  border-bottom: $navbar__border
+  color: #fff
+  font-family: 'Poppins'
+  background-color: #1b1b1b
+  border-bottom: solid 1px #3b3b3b
   padding: 0 70px
   position: fixed
 
@@ -55,8 +55,8 @@
     left: 0
     width: 100%
     text-align: center
-    background-color: $navbar__dropdown
-    box-shadow: $navbar__dropdown-shadow
+    background-color: #1b1b1d
+    box-shadow: 0px 8px 16px 0px #00000033, 0px 0 0px #000 inset
     z-index: 1000
 
     &.active
@@ -65,7 +65,7 @@
     &-link
       font-size: 1.2rem
       padding: 1rem 0
-      border-bottom: 1px solid $navbar__dropdown-link-border
+      border-bottom: 1px solid #4544447a
 
       &:hover
         cursor: pointer
@@ -107,5 +107,5 @@
       display: none
 
 .navbar.active
-  background: $navbar__dropdown
+  background: #1b1b1d
   border-bottom: solid 1px #aaaaaa

@@ -1,12 +1,8 @@
-@import '../../styles/templates/base/variables'
 @import '../../styles/templates/base/base'
-@import '../../styles/templates/base/typography'
 @import '../../styles/templates/base/socials'
 @import '../../styles/templates/base/search'
 @import '../../styles/layout/grid'
-@import '../../styles/layout/navbar'
 @import '../../styles/layout/layout'
-@import '../../styles/layout/footer'
 @import '../../styles/templates/posts/post-elements'
 
 .post
@@ -14,17 +10,21 @@
     justify-content: center
     padding: 50px 0
 
+    @media (max-width: 780px)
+        padding: 0
+
     &__inner
         width: 768px
         box-shadow: 0 0 7px 2px #171717
 
+        @media (max-width: 780px)
+            box-shadow: none
+
         &__header
             overflow: hidden
-            height: 400px
             
             img
                 display: flex
-                min-height: 400px
                 background: url("/img/placeholder.png") center no-repeat
                 transition: all 0.4s ease 
                 width: 100%
@@ -35,7 +35,10 @@
             width: 100%
             background-color: #121212
             padding: 30px 55px
-            font-family: $poppins
+            font-family: 'Poppins'
+
+            @media (max-width: 780px)
+                padding: 10px 25px
 
             &__header
                 font-size: 32px

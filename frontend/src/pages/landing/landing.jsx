@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../layout/navbar'
-import Footer from '../layout/footer'
+import Navbar from '../layout/navbar/navbar'
+import Footer from '../layout/footer/footer'
 import PostGrid from '../templates/posts/postgrid'
 
 function Landing() {

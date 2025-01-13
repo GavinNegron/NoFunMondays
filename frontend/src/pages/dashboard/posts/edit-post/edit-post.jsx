@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async'
 // Layout
 import LoadingScreen from '../../../templates/base/loading'
 import NotFound from '../../../404/404'
-import Navbar from '../../../layout/navbar'
+import Navbar from '../../../layout/navbar/navbar'
 import EditorNavbar from '../components/Nav/nav1'
 import EditorSidebar from '../components/Sidebar/sidebar'
 
