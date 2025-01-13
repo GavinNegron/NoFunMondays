@@ -1,4 +1,5 @@
 @import '../dashboard'
+@import './components/edit-task/edit-task'
 
 .dashboard
     flex-direction: row
@@ -14,7 +15,7 @@
 
     &__inner
         display: flex
-        width: 100%
+        width: calc(100% - 300px)
         height: 100%
         flex-direction: column
         padding: 20px 40px
@@ -51,7 +52,6 @@
             background-color: #33363d
             padding: 10px
             cursor: pointer
-            flex-basis: 49%
 
             &:nth-last-child(1):nth-child(odd)
                 margin: 0 auto 0 2px
@@ -69,8 +69,6 @@
             &-text
                 font-weight: 300
 
-            &-bottom
-        
     &__header  
         font-size: 16px
         font-weight: 500

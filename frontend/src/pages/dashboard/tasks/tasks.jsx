@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import TasksToDo from './layout/tasksToDo'
 import Search from '../../templates/base/search'
 import preloadPageResources from '../../../utilities/loading'; 
+import EditTask from './components/edit-task/edit-task'
 
 const DTasks = () => {
     const [loadingState, setLoadingState] = useState(true); 
@@ -37,6 +38,7 @@ const DTasks = () => {
             </div>
               <TasksToDo/>
           </div>
+          <EditTask/>
       </div>
     </main>
     </div>

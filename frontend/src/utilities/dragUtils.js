@@ -37,14 +37,6 @@ export const handleDrop = (e, postElements, setPostElements) => {
     style: {},
   }
 
-  const elementExists = postElements.some(element => 
-    element.content === newElement.content && element.type === newElement.type
-  )
-
-  if (elementExists) {
-    return
-  }
-
   setPostElements([...postElements, newElement])
 }
 

@@ -16,7 +16,7 @@ function BlogPost() {
 
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([loading(['/css/blog-post.css']), new Promise(resolve => setTimeout(resolve, 500))])
+      await Promise.all([loading(['/css/blog-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
 
       try {
         const response = await fetch('/api/posts')
@@ -49,12 +49,10 @@ function BlogPost() {
   if (notFound) {
     return <NotFound />
   }
-
   return (
     <>   
       <Helmet>
         <title>{post.title}</title>
-        <link rel="stylesheet" href="/css/blog-post.css" />
       </Helmet>
       <Navbar />
       <main className="main">
@@ -69,7 +67,8 @@ function BlogPost() {
               </div>
               <div className="post__inner__content__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element) => {
-                  return <RenderElements key={element.id} element={element} />                   })}
+                  return <RenderElements key={element.id} element={element} editor={false}/>  
+                })}
               </div>
             </div>
           </div>

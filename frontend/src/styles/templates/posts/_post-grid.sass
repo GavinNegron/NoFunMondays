@@ -1,0 +1,123 @@
+.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title, .bullet, .divider, .twitter
+    &:hover, &:focus
+        &::before
+            content: ''
+            position: absolute
+            left: -1px
+            top: -23px
+            color: white
+            height: 23px
+            font-size: 12px
+            font-weight: bold
+            padding: 5px
+            z-index: 1000
+            display: flex
+            align-items: center
+            justify-content: center
+
+.image, .banner
+    &:hover, &:focus
+        border: solid 1px #ff6565
+
+        &::before
+            background: #ff6565
+
+        &::after
+            background: #ff656548
+
+.h1, .h2, .h3, .h4, .h5, .h6, .default-text, .title
+    position: relative
+
+    &:hover, &:focus
+        border: solid 1px #ffaf65
+        background-color: #ffaf6507
+
+        &::before
+            background: #ffaf65
+
+.divider
+    &:hover, &:focus
+        border: solid 1px #7295e10e
+        background-color: #7295e10e
+
+        &::before
+            background: #6c80db
+
+    &:hover::before,
+    &:focus::before
+        content: 'Divider'
+
+.bullet
+    &:hover, &:focus
+        border: solid 1px #2eb86c
+        background-color: #ffaf6507
+
+        &::before
+            background: #2eb86c
+
+    &:hover::before,
+    &:focus::before
+        content: 'Bullet Points'
+
+.twitter
+    &:hover, &:focus
+        border: solid 1px #2eb86c
+        background-color: #ffaf6507
+
+        &::before
+            background: #2eb86c
+
+.default-text
+    &:hover::before,
+    &:focus::before
+        content: 'Default Text'
+
+.h1
+    &:hover::before,
+    &:focus::before
+        content: 'Header 1'
+
+.h2
+    &:hover::before,
+    &:focus::before
+        content: 'Header 2'
+
+.h3
+    &:hover::before,
+    &:focus::before
+        content: 'Header 3'
+
+.h4
+    &:hover::before,
+    &:focus::before
+        content: 'Header 4'
+
+.h5
+    &:hover::before,
+    &:focus::before
+        content: 'Header 5'
+
+.h6
+    &:hover::before,
+    &:focus::before
+        content: 'Header 6'
+
+.title
+    &:hover::before,
+    &:focus::before
+        content: 'Title'
+
+.image
+    &:hover::before,
+    &:focus::before
+        content: 'Image'
+
+.banner
+    &:hover::before,
+    &:focus::before
+        content: 'Banner'
+
+.twitter
+    &:hover::before,
+    &:focus::before
+        content: 'Twitter'

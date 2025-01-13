@@ -6,7 +6,7 @@ function NotFound() {
   const [loadingState, setLoadingState] = useState(true)
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([loading(['/css/404.css']), new Promise(resolve => setTimeout(resolve, 500))])
+      await Promise.all([loading(['/css/404.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
       setLoadingState(false)
     }
     handleLoading()

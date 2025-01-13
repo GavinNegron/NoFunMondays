@@ -156,7 +156,7 @@ function BlogPostEditor() {
                   <span>{post?.title}</span>
                 </div>
                 {postElements.map((element) =>
-                  <RenderElements key={element.id} element={element} />
+                  <RenderElements key={element.id} element={element} editor={true}/>
                 )}
               </div>
             </div>

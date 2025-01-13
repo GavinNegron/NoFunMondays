@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTasks } from '../../../../features/tasks/taskSlice/fetchTasks';
-import { handleDoubleClick } from '../../../../utilities/tasks/taskFunctions';
 import { useEditorContext } from '../../../../contexts/EditorContext';
+import $ from 'jquery'
 
 const TasksToDo = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,11 @@ const TasksToDo = () => {
   useEffect(() => {
     dispatch(fetchTasks({ limit: taskLimit, excludeFeatured: false }));
   }, [dispatch, taskLimit]);
+
+  const handleTaskClick = () => {
+    console.log('test')
+    $('.edit-task').stop(true, true).fadeIn('fast');
+  }
 
   return (
    <>
@@ -34,12 +39,12 @@ const TasksToDo = () => {
             <div>You have completed all tasks.</div>
           ) : (
             tasks.map((task) => (
-              <div className="list-group__grid__item" key={task._id}>
+              <div className="list-group__grid__item" key={task._id} onClick={handleTaskClick}>
                 <div className="list-group__grid__item-element list-group__grid__item-tag">
                   <span>{task.tag}</span>
                 </div>
                 <div className="list-group__grid__item-element list-group__grid__item-text">
-                  <span onDoubleClick={(e) => handleDoubleClick(e, setSelectedElement, setPost, setPostElements)}>
+                  <span>
                     {task.content}
                   </span>
                 </div>
