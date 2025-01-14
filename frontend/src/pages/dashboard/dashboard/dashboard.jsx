@@ -38,6 +38,7 @@ function Dashboard() {
           <div className="dashboard__header">
             <span>Overview</span>
           </div>
+          <div>This is a test</div>
           <div className="dashboard__grid container-fluid d-flex"></div>
         </div>
       </main>
