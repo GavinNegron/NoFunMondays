@@ -4,21 +4,26 @@ import Sidebar from '../../layout/sidebar/sidebar'
 import { Helmet } from 'react-helmet-async'
 import TasksToDo from './layout/tasksToDo'
 import Search from '../../templates/base/search'
-import preloadPageResources from '../../../utilities/loading'; 
+import loading from '../../../utilities/loading'; 
 import EditTask from './components/edit-task/edit-task'
+import LoadingScreen from '../../templates/base/loading'
 
 const DTasks = () => {
     const [loadingState, setLoadingState] = useState(true); 
   
-  useEffect(() => {
-    const loadResources = async () => {
-      const cssFiles = ['/css/tasks.module.css'];
-      await preloadPageResources(cssFiles); 
-      setLoadingState(false);
-    };
-    
-    loadResources();
-  },);
+    useEffect(() => {
+      const handleLoading = async () => {
+        await Promise.all([loading(['/css/tasks.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
+        setLoadingState(false);
+      };
+      
+      handleLoading();
+    });
+  
+    if (loadingState) {
+      return <LoadingScreen />; 
+    }
+
   return (
    <>
     <Helmet>
