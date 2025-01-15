@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useEditorContext } from '../../../contexts/EditorContext';
+import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery'; 
-import { handleClickOutside } from '../../../utilities/domUtils';
-import { publishPost } from '../../../utilities/posts/postData/publishPost';
+import { handleClickOutside } from '../../../../../utilities/domUtils';
+import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
+import './_publish.sass'
 
 function Publish() {
     const {

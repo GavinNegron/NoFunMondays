@@ -1,13 +1,22 @@
+// React
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
+
+// Layout
 import Navbar from '../../layout/navbar/navbar';
 import Sidebar from '../../layout/sidebar/sidebar';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
-import { deletePost } from '../../../features/posts/postSlice/deletePost'; 
-import { Helmet } from 'react-helmet-async';
-import loading from '../../../utilities/loading'; 
-import LoadingScreen from '../../templates/base/loading';
+
+// Components
 import NewPost from './components/NewPost/new-post';
+
+// Services
+import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
+import { deletePost } from '../../../features/posts/postSlice/deletePost';
+
+// Utilities
+import loading from '../../../utilities/loading'; 
+import LoadingScreen from '../../components/base/loading';
 
 function DPosts() {
   const dispatch = useDispatch();
@@ -26,7 +35,6 @@ function DPosts() {
       dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); 
       setLoadingState(false);
     };
-    
     handleLoading();
   }, [dispatch, postLimit]);
 
@@ -82,12 +90,12 @@ function DPosts() {
             </div>
             <div className="dashboard__top">
                 <div className="dashboard__filters">
-                    <div className="dashboard__filters-item">
+                    <div className="dashboard__filters__item">
                         <input type="checkbox" />
                         <span>Featured</span>
                     </div>
                     <span>|</span>
-                    <div className="dashboard__filters-item">
+                    <div className="dashboard__filters__item">
                         <span>Status:</span>
                         <select name="status">
                             <option value="published">Published</option>
@@ -96,7 +104,7 @@ function DPosts() {
                     </div>
                 </div>
                 <div className="dashboard__new-post">
-                    <div className="dashboard__new-post-item">
+                    <div className="dashboard__new-post__item">
                         <a href="#new-post" onClick={handleNewPost}>
                           <i className="fa-solid fa-plus"></i>
                           <span>New Post</span>
@@ -146,16 +154,16 @@ function DPosts() {
                   <i>{post.status || 'Published'}</i>
                 </td>
                 <td className="">
-                  <div id='edit' className="dashboard__posts-icon">
+                  <div id='edit' className="dashboard__posts__icon">
                     <p>
-                      <a className="dashboard__posts-icon--edit" href={`/dashboard/posts/edit/${post.slug}`}>Edit</a>
+                      <a className="dashboard__posts__icon--edit" href={`/dashboard/posts/edit/${post.slug}`}>Edit</a>
                     </p>
                   </div>
                 </td>
                 <td className="">
-                  <div id='delete' className="dashboard__posts-icon">
+                  <div id='delete' className="dashboard__posts__icon">
                     <p>
-                      <a className="dashboard__posts-icon--delete" href="#delete" onClick={() => handleDelete(post._id)}>
+                      <a className="dashboard__posts__icon--delete" href="#delete" onClick={() => handleDelete(post._id)}>
                         Delete
                       </a>
                     </p>
