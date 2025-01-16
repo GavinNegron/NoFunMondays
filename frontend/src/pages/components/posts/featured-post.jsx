@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFeaturedPost } from '../../../features/posts/postSlice/fetchFeaturedPost'; 
 const moment = require('moment');
@@ -6,12 +6,14 @@ const moment = require('moment');
 function FeaturedPost() {
   const dispatch = useDispatch();
   const { featuredPost, isLoading } = useSelector((state) => state.posts.fetchFeaturedPost);
+  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    if (featuredPost === null && !isLoading) {
+    if (!hasFetched && !featuredPost && !isLoading) {
+      setHasFetched(true);
       dispatch(fetchFeaturedPost());
     }
-  }, [dispatch, featuredPost, isLoading]);
+  }, [dispatch, featuredPost, isLoading, hasFetched]);
   
   if (!featuredPost) {
     return null; 

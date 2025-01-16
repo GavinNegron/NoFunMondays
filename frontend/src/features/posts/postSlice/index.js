@@ -7,7 +7,7 @@ import updatePost from './updatePost';
 import fetchFeaturedPost from './fetchFeaturedPost';
 import fetchSlug from './fetchSlug';
 
-const rootReducer = combineReducers({
+const postReducer = combineReducers({
   fetchPosts,
   findTitle,
   createPost,
@@ -17,4 +17,4 @@ const rootReducer = combineReducers({
   fetchSlug,
 });
 
-export default rootReducer;
+export default postReducer;

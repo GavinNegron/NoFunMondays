@@ -5,7 +5,7 @@ import PostCard from './post-card';
 
 function RecentPosts() {
   const dispatch = useDispatch();
-  const { posts, isLoading, error } = useSelector((state) => state.posts);
+  const { posts, isLoading, error } = useSelector((state) => state.posts.fetchPosts);
   const [postLimit, setPostLimit] = useState(6); 
 
   useEffect(() => {
@@ -15,7 +15,6 @@ function RecentPosts() {
   const handleLoadMore = () => {
     setPostLimit((prev) => prev + 4);
   };
-
   return (
     <>
       <div className="recent-posts">
