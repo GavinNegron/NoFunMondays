@@ -1,4 +1,3 @@
-// React
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useEditorContext } from '../../../../contexts/EditorContext';
@@ -24,6 +23,8 @@ import TextStyles from '../components/EditStyles/text-styles'
 import ImageStyles from '../components/EditStyles/image-styles' 
 import ListStyles from '../components/EditStyles/list-styles' 
 import EmbedStyles from '../components/EditStyles/embed-styles' 
+
+import { fetchPosts } from '../../../../features/posts/postSlice/fetchPosts';
 
 function BlogPostEditor() {
   const { slug } = useParams()
@@ -52,13 +53,9 @@ function BlogPostEditor() {
       await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
 
       try {
-        const response = await fetch('/api/posts')
+        const posts = await fetchPosts()
         await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts')
-        }
 
-        const posts = await response.json()
         const matchedPost = posts.find(p => p.slug === slug)
 
         if (matchedPost) {

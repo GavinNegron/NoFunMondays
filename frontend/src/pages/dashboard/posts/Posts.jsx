@@ -107,13 +107,8 @@ function DPosts() {
                     </div>
                 </div>
                 <div className="dashboard__new-post">
-<<<<<<< HEAD
-                    <div className="dashboard__new-post-item">
-                        <a href="#new-post" onClick={() => handleNewPost()}>
-=======
                     <div className="dashboard__new-post__item">
                         <a href="#new-post" onClick={handleNewPost}>
->>>>>>> 363900c8a32facb4328b9a3235c3e48d28d3d035
                           <i className="fa-solid fa-plus"></i>
                           <span>New Post</span>
                         </a>
