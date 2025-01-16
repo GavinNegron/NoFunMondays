@@ -24,9 +24,6 @@ function NewPost() {
 
     $(".new-post").on('click', (e) => {
         handleClickOutside(e, '.new-post__inner', '.new-post');
-        $("body").css("max-height", "none");
-        $("body").css("overflow", "unset");
-        $(".new-post").css("display", "none");
     });
 
     const handleNewPost = async () => {

@@ -24,9 +24,6 @@ function Publish() {
 
     $(".publish").on('click', (e) => {
         handleClickOutside(e, '.publish__inner', '.publish');
-        $("body").css("max-height", "unset");
-        $("body").css("overflow", "unset");
-        $(".publish").css("display", "none");
     });
 
     return (

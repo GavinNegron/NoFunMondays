@@ -9,6 +9,7 @@ import Sidebar from '../../layout/sidebar/sidebar';
 
 // Components
 import NewPost from './components/NewPost/new-post';
+import $ from 'jquery';
 
 // Services
 import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
@@ -28,18 +29,21 @@ function DPosts() {
 
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([
-        loading(['/css/posts.module.css']),
-        new Promise(resolve => setTimeout(resolve, 500))
-      ]);
+      await Promise.all([loading(['/css/posts.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
       dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false })); 
       setLoadingState(false);
     };
     handleLoading();
   }, [dispatch, postLimit]);
 
+  useEffect(() => {
+    if (posts.length > 0) {
+      setSelectedAll(selectedItems.length === posts.length);
+    }
+  }, [selectedItems, posts]);
+
   const handleSelectAll = () => {
-    setSelectedAll(!selectedAll);
+    setSelectedAll((prev) => !prev);
     setSelectedItems(!selectedAll ? posts.map((post) => post._id) : []);
   };
 
@@ -60,15 +64,14 @@ function DPosts() {
     try {
       await dispatch(deletePost(postId));
       dispatch(fetchPosts({ limit: postLimit }));
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
-  const handleNewPost = () => {
-    document.body.style.maxHeight = "100vh";
-    document.body.style.overflow = "hidden";
-    document.querySelector(".new-post").style.display = "flex";
+  const handleNewPost = async () => {
+    $("body").css("max-height", "100vh");
+    $("body").css("overflow", "hidden");
+
+    $(".new-post").css("display", "flex");
   };
 
   if (loadingState) {
@@ -104,8 +107,13 @@ function DPosts() {
                     </div>
                 </div>
                 <div className="dashboard__new-post">
+<<<<<<< HEAD
+                    <div className="dashboard__new-post-item">
+                        <a href="#new-post" onClick={() => handleNewPost()}>
+=======
                     <div className="dashboard__new-post__item">
                         <a href="#new-post" onClick={handleNewPost}>
+>>>>>>> 363900c8a32facb4328b9a3235c3e48d28d3d035
                           <i className="fa-solid fa-plus"></i>
                           <span>New Post</span>
                         </a>
@@ -117,7 +125,7 @@ function DPosts() {
                     <thead>
                         <tr>
                             <th>
-                                <input onClick={handleSelectAll} id="selectAll" type="checkbox" />
+                                <input onClick={() => handleSelectAll()} id="selectAll" type="checkbox" />
                             </th>
                             <th className="image">Image</th>
                             <th className="title">Title <i className="fa-solid fa-arrow-up"></i></th>
@@ -175,7 +183,7 @@ function DPosts() {
                 </table>
             </div>
             <div className="dashboard__load">
-                <button onClick={handleLoadMore} className="fortnite-btn">Load More Posts</button>
+                <button onClick={() => handleLoadMore()} className="fortnite-btn">Load More Posts</button>
             </div>
         </div>
           <NewPost/>

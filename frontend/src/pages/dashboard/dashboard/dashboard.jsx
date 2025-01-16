@@ -32,7 +32,7 @@ function Dashboard() {
       </Helmet>
       <Navbar />
       <main className="main db">
-        <Sidebar />                                     
+        <Sidebar />
         <div className="dashboard">
           <div className="dashboard__header">
             <span>Overview</span>
