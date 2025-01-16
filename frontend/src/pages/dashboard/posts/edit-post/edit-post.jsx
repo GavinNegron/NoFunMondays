@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useEditorContext } from '../../../../contexts/EditorContext';
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet-async';
 
 // Layout
-import LoadingScreen from '../../../components/base/loading'
-import NotFound from '../../../404/404'
-import Navbar from '../../../layout/navbar/navbar'
-import EditorNavbar from '../components/Nav/nav1'
-import EditorSidebar from '../components/Sidebar/sidebar'
+import LoadingScreen from '../../../components/base/loading';
+import NotFound from '../../../404/404';
+import Navbar from '../../../layout/navbar/navbar';
+import EditorNavbar from '../components/Nav/nav1';
+import EditorSidebar from '../components/Sidebar/sidebar';
 
 // Utilities
-import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils'
-import { handleBlogPostElement } from '../../../../utilities/posts/postElement/handleBlogPostElement'
-import RenderElements from '../../../../utilities/posts/postElement/renderElements'
-import { handleDoubleClick, handleDelete } from '../../../../utilities/posts/editor/editorFunctions'
-import { fetchPost } from '../../../../utilities/posts/postData/fetchPost'
+import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils';
+import { handleBlogPostElement } from '../../../../utilities/posts/postElement/handleBlogPostElement';
+import RenderElements from '../../../../utilities/posts/postElement/renderElements';
+import { handleDoubleClick, handleDelete } from '../../../../utilities/posts/editor/editorFunctions';
 import loading from '../../../../utilities/loading';
 
 // Layout
-import TextStyles from '../components/EditStyles/text-styles' 
-import ImageStyles from '../components/EditStyles/image-styles' 
-import ListStyles from '../components/EditStyles/list-styles' 
-import EmbedStyles from '../components/EditStyles/embed-styles' 
+import TextStyles from '../components/EditStyles/text-styles';
+import ImageStyles from '../components/EditStyles/image-styles';
+import ListStyles from '../components/EditStyles/list-styles';
+import EmbedStyles from '../components/EditStyles/embed-styles';
 
-import { fetchPosts } from '../../../../features/posts/postSlice/fetchPosts';
+// Features
+import fetchSlug from '../../../../features/posts/postService/fetchSlug';
 
 function BlogPostEditor() {
-  const { slug } = useParams()
+  const { slug } = useParams();
   const {
     post,
     setPost,
@@ -46,66 +46,57 @@ function BlogPostEditor() {
     setDeletedElements,
     blogPostMainRef,
     setShowColorPicker,
-  } = useEditorContext()
+  } = useEditorContext();
 
   useEffect(() => {
     const handleLoading = async () => {
-      await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
+      await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))]);
 
       try {
-        const posts = await fetchPosts()
-        await fetchPost(slug, setPost, setPostElements, setImageUrl, setNotFound)
-
-        const matchedPost = posts.find(p => p.slug === slug)
-
-        if (matchedPost) {
-          setPost(matchedPost)
-        } else {
-          setNotFound(true)
-        }
+        await fetchSlug(slug, setPost, setPostElements, setImageUrl, setNotFound);
       } catch (error) {
-        setNotFound(true)
+        setNotFound(true);
       } finally {
-        setLoadingState(false)
+        setLoadingState(false);
       }
-    }
+    };
 
-    handleLoading()
-  }, [slug])
+    handleLoading();
+  }, [slug, setPost, setPostElements, setImageUrl, setNotFound, setLoadingState]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
-        const activeElement = document.activeElement
-        const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`)
+        const activeElement = document.activeElement;
+        const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`);
         if (selectedElementNode && activeElement === selectedElementNode) {
-          handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement)
+          handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement);
         }
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [selectedElement, setPostElements, setSelectedElement, setDeletedElements])
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedElement, setPostElements, setSelectedElement, setDeletedElements]);
 
   useEffect(() => {
     const handleClick = (e) => {
-      if(!e.target.closest('.fa-palette')) {
-        if(!e.target.closest('.edit-styles__color-picker-container')) {
+      if (!e.target.closest('.fa-palette')) {
+        if (!e.target.closest('.edit-styles__color-picker-container')) {
           setShowColorPicker(false);
         }
       }
-    }
-  
+    };
+
     document.addEventListener('mousedown', handleClick);
-  
+
     return () => {
       document.removeEventListener('mousedown', handleClick);
     };
-  }, []);
-  
+  }, [setShowColorPicker]);
+
   return (
     <div className="blog-post-container">
       {loadingState && <LoadingScreen />}
@@ -120,15 +111,15 @@ function BlogPostEditor() {
           <EditorNavbar />
           <EditorSidebar />
           <div className="editor-container">
-              <div className="editor">
-                  <div className="editor__back">
-                      <a href="/dashboard/posts">
-                        <i className="fa-solid fa-arrow-left"></i>
-                        <span>Dashboard</span>
-                      </a>
-                  </div>
+            <div className="editor">
+              <div className="editor__back">
+                <a href="/dashboard/posts">
+                  <i className="fa-solid fa-arrow-left"></i>
+                  <span>Dashboard</span>
+                </a>
               </div>
-              </div>
+            </div>
+          </div>
           <div className="blog-post-content">
             <div
               className="blog-post-main"
@@ -141,7 +132,7 @@ function BlogPostEditor() {
                 tabIndex="0"
                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
               >
-                {imageUrl && <img src={imageUrl} alt={post?.title} draggable='false' />}
+                {imageUrl && <img src={imageUrl} alt={post?.title} draggable="false" />}
               </div>
               <div className="blog-post-main__inner">
                 <div
@@ -152,21 +143,21 @@ function BlogPostEditor() {
                 >
                   <span>{post?.title}</span>
                 </div>
-                {postElements.map((element) =>
-                  <RenderElements key={element.id} element={element} editor={true}/>
-                )}
+                {postElements.map((element) => (
+                  <RenderElements key={element.id} element={element} editor={true} />
+                ))}
               </div>
             </div>
           </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <TextStyles />
-              <ImageStyles />
-              <ListStyles />
-              <EmbedStyles />
+          <TextStyles />
+          <ImageStyles />
+          <ListStyles />
+          <EmbedStyles />
         </>
       )}
     </div>
-  )
+  );
 }
 
-export default BlogPostEditor
+export default BlogPostEditor;
