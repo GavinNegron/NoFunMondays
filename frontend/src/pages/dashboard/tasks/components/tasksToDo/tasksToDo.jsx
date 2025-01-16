@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTasks } from '../../../../features/tasks/taskSlice/fetchTasks';
-import { useEditorContext } from '../../../../contexts/EditorContext';
+import { fetchTasks } from '../../../../../features/tasks/taskSlice/fetchTasks';
+import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery'
+import './_tasksToDo.sass'
 
 const TasksToDo = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const TasksToDo = () => {
    <div className="list-group">
     <div className="list-group__container">
         <div className="list-group__header">
-          <div className="list-group__header-text">
+          <div className="list-group__header__text">
             <span>To-Do: ({tasks.length})</span>
           </div>
         </div>
@@ -40,15 +41,15 @@ const TasksToDo = () => {
           ) : (
             tasks.map((task) => (
               <div className="list-group__grid__item" key={task._id} onClick={handleTaskClick}>
-                <div className="list-group__grid__item-element list-group__grid__item-tag">
+                <div className="list-group__grid__item__element list-group__grid__item--tag">
                   <span>{task.tag}</span>
                 </div>
-                <div className="list-group__grid__item-element list-group__grid__item-text">
+                <div className="list-group__grid__item__element list-group__grid__item--text">
                   <span>
                     {task.content}
                   </span>
                 </div>
-                <div className="list-group__grid__item-element list-group__grid__item-bottom">
+                <div className="list-group__grid__item__element list-group__grid__item--bottom">
                   <span>{task.status}</span>
                 </div>
               </div>

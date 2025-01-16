@@ -1,12 +1,19 @@
+// React
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+
+// Layout
 import Navbar from '../../layout/navbar/navbar'
 import Sidebar from '../../layout/sidebar/sidebar'
-import { Helmet } from 'react-helmet-async'
-import TasksToDo from './layout/tasksToDo'
-import Search from '../../templates/base/search'
-import loading from '../../../utilities/loading'; 
+
+// Components
+import TasksToDo from './components/tasksToDo/tasksToDo'
+import Search from '../../components/base/search'
 import EditTask from './components/edit-task/edit-task'
-import LoadingScreen from '../../templates/base/loading'
+import LoadingScreen from '../../components/base/loading'
+
+// Utilities
+import loading from '../../../utilities/loading'; 
 
 const DTasks = () => {
     const [loadingState, setLoadingState] = useState(true); 
@@ -34,11 +41,11 @@ const DTasks = () => {
     <main className="main db">
         <Sidebar />
         <div className="dashboard tasks">
-          <div className="tasks__inner">
+          <div className="dashboard__inner">
             <div className="dashboard__header">
               <span>Tasks</span>
             </div>
-            <div className="tasks__search">
+            <div className="dashboard__search">
               <Search/>
             </div>
               <TasksToDo/>

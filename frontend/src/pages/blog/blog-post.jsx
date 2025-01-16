@@ -1,11 +1,16 @@
+// React
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+
+// Layout
 import NotFound from '../404/404'
 import Navbar from '../layout/navbar/navbar'
 import Footer from '../layout/footer/footer'
-import { Helmet } from 'react-helmet-async'
+import LoadingScreen from '../components/base/loading'
+
+// Utilities
 import loading from '../../utilities/loading'
-import LoadingScreen from '../templates/base/loading'
 import RenderElements from '../../utilities/posts/postElement/renderElements'
 
 function BlogPost() {
@@ -17,7 +22,6 @@ function BlogPost() {
   useEffect(() => {
     const handleLoading = async () => {
       await Promise.all([loading(['/css/blog-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))])
-
       try {
         const response = await fetch('/api/posts')
         if (!response.ok) {
@@ -58,14 +62,14 @@ function BlogPost() {
       <main className="main">
         <div className="post">
           <div className="post__inner">
-            <div className="post__inner__header d-flex">
+            <div className="post__header d-flex">
               <img src={post.imageUrl} alt={post.title} draggable='false'/>
             </div>
-            <div className="post__inner__content">
-              <div className="post__inner__content__header">
+            <div className="post__content">
+              <div className="post__content-header">
                 <p>{post.title}</p>
               </div>
-              <div className="post__inner__content__elements">
+              <div className="post__elements">
                 {post.elements && post.elements.length > 0 && post.elements.map((element) => {
                   return <RenderElements key={element.id} element={element} editor={false}/>  
                 })}

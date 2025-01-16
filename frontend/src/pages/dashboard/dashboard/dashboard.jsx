@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import Navbar from '../../layout/navbar/navbar'
 import Sidebar from '../../layout/sidebar/sidebar'
 import loading from '../../../utilities/loading'
-import LoadingScreen from '../../templates/base/loading'
+import LoadingScreen from '../../components/base/loading'
 
 function Dashboard() {
   const [loadingState, setLoadingState] = useState(true)
@@ -29,7 +29,6 @@ function Dashboard() {
     <>
       <Helmet>
         <title>Dashboard</title>
-        <link rel="stylesheet" href="/css/dashboard.css" />
       </Helmet>
       <Navbar />
       <main className="main db">
@@ -38,7 +37,6 @@ function Dashboard() {
           <div className="dashboard__header">
             <span>Overview</span>
           </div>
-          <div>This is a test</div>
           <div className="dashboard__grid container-fluid d-flex"></div>
         </div>
       </main>

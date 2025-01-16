@@ -5,7 +5,7 @@ import { useEditorContext } from '../../../../contexts/EditorContext';
 import { Helmet } from 'react-helmet-async'
 
 // Layout
-import LoadingScreen from '../../../templates/base/loading'
+import LoadingScreen from '../../../components/base/loading'
 import NotFound from '../../../404/404'
 import Navbar from '../../../layout/navbar/navbar'
 import EditorNavbar from '../components/Nav/nav1'

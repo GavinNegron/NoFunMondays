@@ -9,10 +9,8 @@ const DNotifications = () => {
    <>
     <Helmet>
     <title>Notifications</title>
-    <link rel="stylesheet" href="/css/dashboard.css" />
   </Helmet>
     <div>
-      <link rel="stylesheet" href="/css/dashboard.css"></link>
       <Navbar />
     <main className="main db">
         <Sidebar />
@@ -21,12 +19,7 @@ const DNotifications = () => {
               <span>Notifications</span>
           </div>
          <div className="dashboard__grid container-fluid d-flex">
-          <div className="col-5">
-      
-          </div>
-          <div className="col-7">
-      
-          </div>
+          
          </div>
       </div>
     </main>
