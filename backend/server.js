@@ -51,8 +51,7 @@ app.use(
     })
 );
 
-const reactBuildPath = path.join(__dirname, '../frontend/build');
-app.use(express.static(reactBuildPath));
+app.use(express.static(path.join(__dirname, 'build')));
 
 async function routeHandler(folderName) {
     const files = await fs.promises.readdir(folderName);
@@ -69,8 +68,9 @@ async function routeHandler(folderName) {
 routeHandler(path.join(__dirname, '/routes'));
 
 app.get(/^(?!\/api\/).*/, (req, res) => {
-    res.sendFile(path.join(reactBuildPath, 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
 
 const port = process.env.PORT || 2001;
 const server = app.listen(port, () => {
