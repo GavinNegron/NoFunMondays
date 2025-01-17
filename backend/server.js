@@ -68,7 +68,7 @@ async function routeHandler(folderName) {
 }
 routeHandler(path.join(__dirname, '/routes'));
 
-app.get(/^(?!\/api\/).*/, (res) => {
+app.get(/^(?!\/api\/).*/, (req, res) => {
     res.sendFile(path.join(reactBuildPath, 'index.html'));
 });
 
