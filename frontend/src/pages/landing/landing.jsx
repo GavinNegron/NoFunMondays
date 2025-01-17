@@ -8,9 +8,10 @@ function Landing() {
   return (
     <>
     <link link rel="stylesheet" href="/css/landing.css"></link>
-    THIS IS A TEST DEVELOPMENT 
+     
     <Navbar />
     <main className="main">
+      <div>THIS IS A STAGE ..</div>
     <PostGrid />
     </main>
     <Footer />
