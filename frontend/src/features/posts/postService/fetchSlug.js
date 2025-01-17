@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const URL = process.env.REACT_APP_API_URL;
+
 
 const fetchSlug = async (slug, setPost, setPostElements, setImageUrl, setNotFound) => {
   try {
-    const response = await axios.get(`${URL}/api/posts/slug`, {
+    const response = await axios.get(`/api/posts/slug`, {
       params: { slug },
     });
     

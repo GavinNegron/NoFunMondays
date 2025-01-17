@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const URL = process.env.REACT_APP_API_URL;
+
 
 const fetchFeaturedPost = async () => {
   try {
-    const response = await axios.get(`${URL}/api/posts/featured`);
+    const response = await axios.get(`/api/posts/featured`);
     return response.data;
   } catch (error) {
     if (error.response?.status === 404) {
