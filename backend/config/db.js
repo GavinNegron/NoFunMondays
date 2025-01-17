@@ -4,10 +4,7 @@ require('dotenv').config();
 mongoose.set('strictQuery', true);
 
 const connectToDatabase = (dbUrl, dbName) => {
-    const connection = mongoose.createConnection(dbUrl, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+    const connection = mongoose.createConnection(dbUrl);
 
     connection.on('error', (err) => {
         console.error(`ERROR connecting to ${dbName}: ${err}`);
