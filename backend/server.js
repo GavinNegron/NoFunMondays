@@ -45,7 +45,7 @@ app.use(
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'https://nofunmondays.com'],
         methods: ['GET', 'POST'], 
         allowedHeaders: ['Content-Type'], 
     })
