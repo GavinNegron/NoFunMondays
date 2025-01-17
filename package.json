@@ -149,6 +149,8 @@
     "random-bytes": "^1.0.0",
     "range-parser": "^1.2.1",
     "raw-body": "^3.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-helmet-async": "^2.0.5",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.2",
