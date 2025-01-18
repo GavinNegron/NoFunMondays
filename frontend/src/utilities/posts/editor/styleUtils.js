@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 export const getElementStyles = (elementDom) => {
   if (!elementDom) return {}; 
 

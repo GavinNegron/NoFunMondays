@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTasks } from '../../../../../features/tasks/taskSlice/fetchTasks';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery'
 import './_tasksToDo.sass'
 
 const TasksToDo = () => {
   const dispatch = useDispatch();
   const { tasks = [], isLoading } = useSelector((state) => state.tasks);
-  const {
-    setSelectedElement, 
-    setPost, 
-    setPostElements
-  } = useEditorContext();
-  const [taskLimit, setTaskLimit] = useState(10);
+  const [taskLimit] = useState(10);
 
   useEffect(() => {
     dispatch(fetchTasks({ limit: taskLimit, excludeFeatured: false }));

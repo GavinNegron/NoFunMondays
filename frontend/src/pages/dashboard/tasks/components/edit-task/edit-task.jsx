@@ -1,6 +1,3 @@
-import { useState, useEffect, useRef } from 'react'
-
-
 import './edit-task.sass'
 
 const EditTask = () => {

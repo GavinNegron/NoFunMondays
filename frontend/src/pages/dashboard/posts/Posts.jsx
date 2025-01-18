@@ -21,7 +21,7 @@ import LoadingScreen from '../../components/base/loading';
 
 function DPosts() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
+  const { posts } = useSelector((state) => state.posts.fetchPosts);
   const [postLimit, setPostLimit] = useState(5);
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
