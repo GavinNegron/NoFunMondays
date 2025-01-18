@@ -1,37 +1,39 @@
-name: Build and Deploy to Heroku
+name: Deploy to Staging
 
 on:
   push:
     branches:
-      - main  # Trigger this workflow when pushing to the main branch
+      - staging  # Set the branch to deploy from, e.g., main or staging
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'  # Specify your Node.js version
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Install dependencies
-      run: |
-        npm install
-        cd backend
-        npm install  # If you have a separate backend folder
+      - name: Install dependencies for frontend
+        run: |
+          cd frontend
+          npm install --legacy-peer-deps
+          npm run build
 
-    - name: Build React app
-      run: |
-        cd frontend  # Change this if your frontend is in a different folder
-        npm run build
+      - name: Install dependencies for backend
+        run: |
+          cd backend
+          npm install --legacy-peer-deps
 
-    - name: Deploy to Heroku
-      uses: akshnz/heroku-deploy@v1.1.6
-      with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-        heroku_email: 'your-email@example.com'  # Replace with your Heroku email
+      - name: Deploy backend to staging server
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/backend
+            git pull origin main
+            npm install --legacy-peer-deps
+            pm2 restart production-app
+          EOF
