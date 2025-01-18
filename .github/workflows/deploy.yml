@@ -1,42 +1,39 @@
-name: Deploy to DigitalOcean
+name: Deploy to Staging
 
 on:
   push:
     branches:
-      - main
-      - staging
-      - development
+      - staging  # Set the branch to deploy from, e.g., main or staging
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out the repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Build and push Docker image
+      - name: Install dependencies for frontend
         run: |
-          docker build -t yourusername/nofunmondays:${{ github.sha }} .
-          docker push yourusername/nofunmondays:${{ github.sha }}
+          cd frontend
+          npm install --legacy-peer-deps
+          npm run build
 
-      - name: SSH into DigitalOcean and deploy
-        env:
-          DO_SSH_PRIVATE_KEY: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+      - name: Install dependencies for backend
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key root@your_droplet_ip <<EOF
-            docker pull yourusername/nofunmondays:${{ github.sha }}
-            docker stop nofunmondays || true
-            docker rm nofunmondays || true
-            docker run -d -p 80:80 --name nofunmondays yourusername/nofunmondays:${{ github.sha }}
+          cd backend
+          npm install --legacy-peer-deps
+
+      - name: Deploy backend to staging server
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/backend
+            git pull origin main
+            npm install --legacy-peer-deps
+            pm2 restart production-app
           EOF
