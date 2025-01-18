@@ -66,7 +66,7 @@ const EditStyles = () => {
         }
       }
     }
-  }, [selectedElement, imageUrl])
+  }, [selectedElement, imageUrl, setPreviewImage])
 
   return (
     <div

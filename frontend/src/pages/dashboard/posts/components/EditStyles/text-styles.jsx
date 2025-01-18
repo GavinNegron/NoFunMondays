@@ -18,12 +18,10 @@ const EditStyles = () => {
   const {
     elementId, 
     elementStyles, 
-    handleStyleChange, 
     blogPostMainRef, 
     selectedElement,
     style,
     setStyle,
-    colorPickerRef
   } = useEditorContext()
 
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
@@ -39,11 +37,11 @@ const EditStyles = () => {
         fontSize: parseInt(computedStyle.fontSize, 10) || 18,
       }))
     }
-  }, [elementId])
+  }, [elementId, setStyle])
 
   useEffect(() => {
     if (elementStyles?.color !== style.color) setStyle(prevStyle => ({ ...prevStyle, color: elementStyles?.color || '#000000' }))
-  }, [elementId, elementStyles?.color, style.color])
+  }, [elementId, elementStyles?.color, style.color, setStyle])
 
   useEffect(() => {
     const updatePosition = () => {
@@ -80,7 +78,7 @@ const EditStyles = () => {
         marginRight: parseInt(computedStyle.marginRight, 10) || 0,
       }))
     }
-  }, [selectedElement, elementId])
+  }, [selectedElement, elementId, setStyle])
 
   useEffect(() => {
     if (isDragging) {

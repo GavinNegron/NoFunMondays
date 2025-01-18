@@ -66,7 +66,7 @@ const EditStyles = () => {
       const initialValues = Array.from(liElements).map(li => ({ textContent: li.textContent }))
       setInputValues(initialValues)
     }
-  }, [selectedElement])
+  }, [selectedElement, setInputValues])
 
   const closeEditor = () => handleBlogPostElement(null)
 

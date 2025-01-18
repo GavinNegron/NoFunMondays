@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery'; 
 import { handleClickOutside } from '../../../../../utilities/domUtils';
@@ -33,13 +33,13 @@ function Publish() {
                     <span>Publish Post</span>
                 </div>
                 <div className="publish__content">
-                    <a href="#" draggable="false">
+                    <button draggable="false">
                         <div className="publish__content__item publish__content-post">
                             <span>Publish Post</span>
                             <p>Make your post public.</p>
                         </div>
-                    </a>
-                    <a href="#" draggable="false">
+                    </button>
+                    <button draggable="false">
                         <div className="publish__content__item publish__content-schedule">
                             <div className="publish__content-schedule__text">
                                 <span>Scheduled Publish</span>
@@ -51,7 +51,7 @@ function Publish() {
                             </div>
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
-                    </a>
+                    </button>
                     <div className="publish__content-submit">
                         <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, navigate, imageUrl)}>Publish Post</button>
                     </div>
