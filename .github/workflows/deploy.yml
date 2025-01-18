@@ -40,5 +40,5 @@ jobs:
             cd /var/www/staging.nofunmondays.com/backend
             git pull origin main
             npm install --legacy-peer-deps
-            pm2 restart production-app
+            pm2 restart staging-app
           EOF
