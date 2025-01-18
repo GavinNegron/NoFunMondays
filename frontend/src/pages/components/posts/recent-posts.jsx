@@ -19,7 +19,7 @@ function RecentPosts() {
     <>
       <div className="recent-posts">
         <div className="recent-posts__header">
-          <p>Recent Blog Posts</p>
+          <p>Recent Blog Posts.</p>
         </div>
         <div className="recent-posts__inner">
           {isLoading ? (
