@@ -3,16 +3,19 @@ import fetchSlugService from '../postService/fetchSlug';
 
 export const fetchSlug = createAsyncThunk('posts/fetchSlug', async (slug, thunkAPI) => {
   try {
-    return await fetchSlugService(slug);
+    const response = await fetchSlugService(slug);
+    return response;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch post');
   }
 });
 
+
 const fetchSlugSlice = createSlice({
   name: 'fetchSlug',
   initialState: {
-    post: null,
+    post: null,  
+    postElements: [],  
     isLoading: false,
     error: null,
   },
@@ -26,6 +29,7 @@ const fetchSlugSlice = createSlice({
       .addCase(fetchSlug.fulfilled, (state, action) => {
         state.isLoading = false;
         state.post = action.payload;
+        state.postElements = action.payload?.elements || []; 
       })
       .addCase(fetchSlug.rejected, (state, action) => {
         state.isLoading = false;

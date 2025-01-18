@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEditorContext } from '../../../../contexts/EditorContext';
 import { Helmet } from 'react-helmet-async';
@@ -24,71 +25,75 @@ import ListStyles from '../components/EditStyles/list-styles';
 import EmbedStyles from '../components/EditStyles/embed-styles';
 
 // Features
-import fetchSlug from '../../../../features/posts/postService/fetchSlug';
+import {fetchSlug} from '../../../../features/posts/postSlice/fetchSlug';
 
 function BlogPostEditor() {
-  const { slug } = useParams();
   const {
-    post,
     setPost,
     loadingState,
     setLoadingState,
     notFound,
     setNotFound,
-    postElements,
     setPostElements,
     selectedElement,
     setSelectedElement,
     setElementStyles,
     errorMessage,
-    imageUrl,
     setImageUrl,
     setDeletedElements,
     blogPostMainRef,
     setShowColorPicker,
   } = useEditorContext();
 
-  useEffect(() => {
-    const handleLoading = async () => {
-      await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))]);
+    const dispatch = useDispatch();
+    const { slug } = useParams();
+    const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
 
-      try {
-        await fetchSlug(slug, setPost, setPostElements, setImageUrl, setNotFound);
-      } catch (error) {
-        setNotFound(true);
-      } finally {
-        setLoadingState(false);
+    useEffect(() => {
+      if (slug) {
+        dispatch(fetchSlug(slug));
       }
-    };
+    }, [dispatch, slug]);
 
-    handleLoading();
-  }, [slug, setPost, setPostElements, setImageUrl, setNotFound, setLoadingState]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
-        const activeElement = document.activeElement;
-        const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`);
-        if (selectedElementNode && activeElement === selectedElementNode) {
-          handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement);
+    useEffect(() => {
+      const handleLoading = async () => {
+        await Promise.all([loading(['/css/edit-post.module.css']), new Promise(resolve => setTimeout(resolve, 500))]);
+        try {
+        } catch (error) {
+          setNotFound(true);
+        } finally {
+          setLoadingState(false);
         }
-      }
-    };
+      };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [selectedElement, setPostElements, setSelectedElement, setDeletedElements]);
+      handleLoading();
+    }, [slug, setPost, setPostElements, setImageUrl, setNotFound, setLoadingState]);
 
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (!e.target.closest('.fa-palette')) {
-        if (!e.target.closest('.edit-styles__color-picker-container')) {
-          setShowColorPicker(false);
+    useEffect(() => {
+      const handleKeyDown = (event) => {
+        if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
+          const activeElement = document.activeElement;
+          const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`);
+          if (selectedElementNode && activeElement === selectedElementNode) {
+            handleDelete(event, selectedElement, setPostElements, setDeletedElements, setSelectedElement);
+          }
         }
-      }
-    };
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }, [selectedElement, setPostElements, setSelectedElement, setDeletedElements]);
+
+    useEffect(() => {
+      const handleClick = (e) => {
+        if (!e.target.closest('.fa-palette')) {
+          if (!e.target.closest('.edit-styles__color-picker-container')) {
+            setShowColorPicker(false);
+          }
+        }
+      };
 
     document.addEventListener('mousedown', handleClick);
 
@@ -105,7 +110,7 @@ function BlogPostEditor() {
       ) : (
         <>
           <Helmet>
-            <title>{post?.title || 'Blog Post'}</title>
+            <title>{post?.title}</title>
           </Helmet>
           <Navbar />
           <EditorNavbar />
@@ -132,7 +137,7 @@ function BlogPostEditor() {
                 tabIndex="0"
                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
               >
-                {imageUrl && <img src={imageUrl} alt={post?.title} draggable="false" />}
+                {post?.imageUrl && <img src={post?.imageUrl} alt={post?.title} draggable="false" />}
               </div>
               <div className="blog-post-main__inner">
                 <div
@@ -143,9 +148,10 @@ function BlogPostEditor() {
                 >
                   <span>{post?.title}</span>
                 </div>
-                {postElements.map((element) => (
+                {postElements && postElements.length > 0 && postElements.map((element) => (
                   <RenderElements key={element.id} element={element} editor={true} />
                 ))}
+
               </div>
             </div>
           </div>
