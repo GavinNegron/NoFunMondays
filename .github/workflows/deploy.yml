@@ -32,6 +32,8 @@ jobs:
       - name: Deploy backend to staging server
         run: |
           ssh root@67.205.132.203 <<EOF
+            mkdir -p ~/.ssh
+            ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
             cd /var/www/staging.nofunmondays.com/backend
             git pull origin main
             npm install --legacy-peer-deps
