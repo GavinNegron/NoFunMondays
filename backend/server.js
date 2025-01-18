@@ -51,8 +51,6 @@ app.use(
     })
 );
 
-app.use(express.static(path.join(__dirname, 'build')));
-
 async function routeHandler(folderName) {
     const files = await fs.promises.readdir(folderName);
     for (const file of files) {
@@ -66,11 +64,6 @@ async function routeHandler(folderName) {
     }
 }
 routeHandler(path.join(__dirname, '/routes'));
-
-app.get(/^(?!\/api\/).*/, (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 
 const port = process.env.PORT || 2001;
 const server = app.listen(port, () => {
