@@ -1,9 +1,9 @@
-name: Deploy to Staging
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - staging
+      - main  # Change this to your production branch if needed
 
 jobs:
   deploy:
@@ -34,15 +34,15 @@ jobs:
           cd backend
           npm install --legacy-peer-deps
 
-      - name: Deploy frontend to staging server
+      - name: Deploy frontend to production server
         run: |
-          scp -r frontend/build/* root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/frontend/build
+          scp -r frontend/build/* root@67.205.132.203:/var/www/nofunmondays.com/frontend/frontend/build
 
-      - name: Deploy backend to staging server
+      - name: Deploy backend to production server
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/backend
+            cd /var/www/nofunmondays.com/backend
             git pull origin main
             npm install --legacy-peer-deps
-            pm2 restart staging-app
+            pm2 restart production-app  # Or whatever your production app is named
           EOF

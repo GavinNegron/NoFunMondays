@@ -55,9 +55,9 @@ function EditSidebar() {
                 <ul>
                   {includedKeys.map((key) => (
                     <li key={key}>
-                      <a onClick={() => handleElementClick(key)}>
+                      <button onClick={() => handleElementClick(key)}>
                         {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -68,14 +68,14 @@ function EditSidebar() {
                   {elements[activeElement].classes
                     .filter(item => !item.exclude) 
                     .map((item) => (
-                      <a
+                      <button
                         key={item.class}
                         className={item.class}
                         draggable="true"
                         onDragStart={(e) => handleDragStart(e, item.class)}
                       >
                         {item.text}
-                      </a>
+                      </button>
                     ))}
                 </div>
                 
