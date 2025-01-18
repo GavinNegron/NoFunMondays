@@ -10,7 +10,6 @@ function Landing() {
     <link link rel="stylesheet" href="/css/landing.css"></link>
     <Navbar />
     <main className="main">
-      <div>No Fun Mondays stage - main test.</div>
     <PostGrid />
     </main>
     <Footer />
