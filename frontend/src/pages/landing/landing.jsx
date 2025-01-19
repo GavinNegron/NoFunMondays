@@ -5,6 +5,7 @@ import PostGrid from '../components/posts/postgrid'
 import loading from '../../utilities/loading'
 
 function Landing() {
+  
   const [setLoadingState] = useState(true); 
   
   useEffect(() => {
