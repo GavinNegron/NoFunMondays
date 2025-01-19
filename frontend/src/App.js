@@ -1,7 +1,10 @@
-import React from 'react'
+// React
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { EditorProvider } from './contexts/EditorContext' 
-import { HelmetProvider } from 'react-helmet-async'  
+import { EditorProvider } from './contexts/EditorContext'
+import { HelmetProvider } from 'react-helmet-async'
+
+// Pages
 import Landing from './pages/landing/landing'
 import Dashboard from './pages/dashboard/dashboard/dashboard'
 import DPosts from './pages/dashboard/posts/Posts'
@@ -14,9 +17,8 @@ import BlogPost from './pages/blog/blog-post'
 import EditPost from './pages/dashboard/posts/edit-post/edit-post'
 
 function App() {
-
-  return (
-    <HelmetProvider> 
+  return  (
+    <HelmetProvider>
       <Router>
         <EditorProvider>
           <Routes>

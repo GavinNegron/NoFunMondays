@@ -5,7 +5,7 @@ import PostCard from './post-card';
 
 function RecentPosts() {
   const dispatch = useDispatch();
-  const { posts, isLoading, error } = useSelector((state) => state.posts.fetchPosts);
+  const { posts, isLoading } = useSelector((state) => state.posts.fetchPosts);
   const [postLimit, setPostLimit] = useState(6); 
 
   useEffect(() => {
@@ -22,15 +22,9 @@ function RecentPosts() {
           <p>Recent Blog Posts</p>
         </div>
         <div className="recent-posts__inner">
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>Error: {error}</p>
-          ) : (
-            posts?.map((post) => (
+          {posts?.map((post) => (
               <PostCard key={post._id} post={post} />
-            ))
-          )}
+            ))}
         </div>
       </div>
       <div className="recent-posts__load">
