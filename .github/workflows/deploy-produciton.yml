@@ -34,6 +34,12 @@ jobs:
           cd backend
           npm install --legacy-peer-deps
 
+      - name: Configure Git Safe Directory
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            git config --global --add safe.directory /var/www/nofunmondays.com/backend
+          EOF
+
       - name: Deploy frontend to production server
         run: |
           scp -r frontend/build/* root@67.205.132.203:/var/www/nofunmondays.com/frontend/frontend/build
