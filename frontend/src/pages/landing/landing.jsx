@@ -3,10 +3,9 @@ import Navbar from '../layout/navbar/navbar'
 import Footer from '../layout/footer/footer'
 import PostGrid from '../components/posts/postgrid'
 import loading from '../../utilities/loading'
-import LoadingScreen from '../components/base/loading'
 
 function Landing() {
-  const [loadingState, setLoadingState] = useState(true); 
+  const [setLoadingState] = useState(true); 
   
   useEffect(() => {
     const handleLoading = async () => {
