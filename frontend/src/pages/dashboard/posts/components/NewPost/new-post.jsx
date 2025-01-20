@@ -59,7 +59,7 @@ function NewPost() {
 
             if (isMountedRef.current) router.push(`/dashboard/posts/edit/${createdPost.slug}`);
         } catch (error) {
-            if (isMountedRef.current) setError('An error occurred while creating the post.');
+            if (isMountedRef.current) setError('Error.', error);
         } finally {
             if (isMountedRef.current) setIsLoading(false); 
         }
