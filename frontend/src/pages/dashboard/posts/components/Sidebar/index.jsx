@@ -6,7 +6,7 @@ import { handleClickOutside } from '../../../../../utilities/domUtils';
 import './_sidebar.sass'
 import Link from 'next/link';
 
-// Data
+// Data 
 import elements from '../../../../../data/elements';
 
 // Utilities 
