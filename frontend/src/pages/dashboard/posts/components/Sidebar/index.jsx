@@ -9,7 +9,7 @@ import Link from 'next/link';
 // Data
 import elements from '../../../../../data/elements';
 
-// Utilities
+// Utilities 
 import { handleDragStart } from '../../../../../utilities/dragUtils';
 
 function EditSidebar() {
