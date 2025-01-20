@@ -1,6 +1,7 @@
 // React
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Image from 'next/image';
 
 // Layout
 import NotFound from '../404';
@@ -51,7 +52,7 @@ function BlogPost() {
   }
 
   if (!post) {
-    return null; // or render an appropriate message
+    return null;
   }
 
   return (
@@ -62,7 +63,7 @@ function BlogPost() {
         <div className="post">
           <div className="post__inner">
             <div className="post__header d-flex">
-              <img src={post.imageUrl} alt={post.title} draggable="false" />
+              <Image src={post.imageUrl} alt={post.title} draggable="false" />
             </div>
             <div className="post__content">
               <div className="post__content-header">

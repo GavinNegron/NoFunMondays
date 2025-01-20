@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEditorContext } from '../../../../contexts/EditorContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 // Layout
 import LoadingScreen from '../../../components/base/loading';
@@ -153,7 +154,7 @@ function BlogPostEditor() {
                                 tabIndex="0"
                                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                             >
-                                {post?.imageUrl && <img src={post?.imageUrl} alt={post?.title} draggable="false" />}
+                                {post?.imageUrl && <Image src={post?.imageUrl} alt={post?.title} draggable="false" />}
                             </div>
                             <div className="blog-post-main__inner">
                                 <div

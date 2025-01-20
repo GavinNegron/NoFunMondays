@@ -1,5 +1,7 @@
 import React, { createContext, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+
 const EditorContext = createContext();
 
 export const EditorProvider = ({ children }) => {
@@ -88,7 +90,7 @@ export const EditorProvider = ({ children }) => {
     return (
       <>
         {!isNewPost && <p>Select Image:</p>}
-        <img
+        <Image
           src={previewSrc}
           alt="Selected preview"
           style={{ maxWidth: '100%' }}

@@ -4,6 +4,7 @@ import { handleBlogPostElement } from './handleBlogPostElement';
 import { useEditorContext } from '../../../contexts/EditorContext';
 import { handleDoubleClick } from '../editor/editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
+import Image from 'next/image';
 
 const RenderElements = ({ element }) => {
   const { setSelectedElement } = useEditorContext();
@@ -45,7 +46,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <img src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
+        return <Image src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
       case 'bullet':
         return (
           <div className="bullet-point">

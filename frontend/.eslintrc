@@ -14,8 +14,7 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react",
-    "next"
+    "react"
   ],
   "settings": {
     "react": {

@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
-
-// Next.js
 import Head from 'next/head';
+import Image from 'next/image';
 
 // Layout
 import Navbar from '../../layout/navbar/navbar';
@@ -162,7 +161,7 @@ function DPosts() {
                   />
                 </td>
                 <td className="dashboard__posts__image">
-                  <img
+                  <Image
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
                     alt={post.title || 'Post image'}
                   />

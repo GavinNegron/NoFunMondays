@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'; 
+import Image from 'next/image';
 
 function Sidebar() {
   const router = useRouter(); 
@@ -44,7 +45,7 @@ function Sidebar() {
           <div className="sidebar__top-logo">
             <a href="/" draggable="false" className="sidebar__top-logo-name">Admin Dashboard</a>
             <div className="sidebar__top-logo-img">
-              <img src="/img/placeholder.png" alt="Placeholder Logo" />
+              <Image src="/img/placeholder.png" alt="Placeholder Logo" />
             </div>
           </div>
           <div className="sidebar__top-arrow" onClick={toggleSidebarState}>
@@ -54,7 +55,7 @@ function Sidebar() {
 
         <div className="sidebar__profile">
           <div className="sidebar__profile-icon">
-            <img src="/img/user.jpeg" draggable="false" alt="User Profile" />
+            <Image src="/img/user.jpeg" draggable="false" alt="User Profile" />
           </div>
           <div className="d-flex flex-column">
             <span className="sidebar__profile-name">Gavin Negron</span>
