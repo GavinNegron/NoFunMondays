@@ -19,6 +19,7 @@ function RecentPosts({ initialPosts, initialLoading }) {
     setPostLimit((prev) => prev + 4);
   };
 
+  
   return (
     <>
       <div className="recent-posts">
