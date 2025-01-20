@@ -90,7 +90,8 @@ export const EditorProvider = ({ children }) => {
     return (
       <>
         {!isNewPost && <p>Select Image:</p>}
-        <Image  fill={true}
+        <Image
+          width={'100'} height={'100'}
           src={previewSrc}
           alt="Selected preview"
           style={{ maxWidth: '100%' }}

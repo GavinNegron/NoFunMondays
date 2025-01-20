@@ -12,7 +12,7 @@ import LoadingScreen from '../../../components/base/loading';
 import NotFound from '../../../404';
 import Navbar from '../../../layout/navbar/navbar';
 import EditorNavbar from '../components/Nav/nav1';
-import EditorSidebar from '../components/Sidebar/sidebar';
+import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities
 import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils';
@@ -149,7 +149,7 @@ function BlogPostEditor() {
                                 tabIndex="0"
                                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                             >
-                                {post?.imageUrl && <Image  fill={true} src={post?.imageUrl} alt={post?.title} draggable="false" />}
+                                {post?.imageUrl && <Image width={'100'} height={'100'} src={post?.imageUrl} alt={post?.title} draggable="false" />}
                             </div>
                             <div className="blog-post-main__inner">
                                 <div

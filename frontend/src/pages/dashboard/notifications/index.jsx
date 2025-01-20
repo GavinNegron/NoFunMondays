@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../layout/navbar/navbar'
-import Sidebar from '../../layout/sidebar/sidebar'
+import Sidebar from '../../layout/sidebar'
 import Head from 'next/head';
 import '../../../../public/css/dashboard.css'
 

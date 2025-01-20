@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; 
+import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from 'next/link'
+import Link from 'next/link';
 
 function Sidebar() {
-  const router = useRouter(); 
+  const router = useRouter();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  useEffect(() => {
-    if (router.pathname.startsWith("/dashboard")) { 
-      const script = document.createElement("script");
-      script.src = "/js/app/dashboard.js";
-      script.async = true;
-      script.type = "module";  
-      document.body.appendChild(script);
-
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [router.pathname]);  
 
   const toggleSidebarState = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -46,7 +32,7 @@ function Sidebar() {
           <div className="sidebar__top-logo">
             <Link href="/" draggable="false" className="sidebar__top-logo-name">Admin Dashboard</Link>
             <div className="sidebar__top-logo-img">
-              <Image  fill={true} src="/img/placeholder.png" alt="Placeholder Logo" />
+              <Image width={'100'} height={'100'} src="/img/placeholder.png" alt="Placeholder Logo" />
             </div>
           </div>
           <div className="sidebar__top-arrow" onClick={toggleSidebarState}>
@@ -56,7 +42,7 @@ function Sidebar() {
 
         <div className="sidebar__profile">
           <div className="sidebar__profile-icon">
-            <Image  fill={true} src="/img/user.jpeg" draggable="false" alt="User Profile" />
+            <Image width={'100'} height={'100'} src="/img/user.jpeg" draggable="false" alt="User Profile" />
           </div>
           <div className="d-flex flex-column">
             <span className="sidebar__profile-name">Gavin Negron</span>
@@ -71,7 +57,7 @@ function Sidebar() {
               href={link.href}
               className={`sidebar__links-item ${router.pathname === link.href ? "active" : ""}`}
               draggable="false"
-              onClick={(e) => handleLinkClick(e, link.href)} 
+              onClick={(e) => handleLinkClick(e, link.href)}
             >
               <div className="sidebar__links-item-icon">
                 <i className={`fa-solid fa-${link.iconName}`} style={{ color: "#ffffff" }}></i>

@@ -46,7 +46,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <Image  fill={true} src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
+        return <Image width={'100'} height={'100'} src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
       case 'bullet':
         return (
           <div className="bullet-point">

@@ -10,7 +10,7 @@ return (
      <nav className="container-fluid navbar">
   <div className="navbar__logo">
       <Link href="/" className="navbar__logo-name">NoFunMondays</Link>
-      <Image  fill={true} src="/img/placeholder.png" alt="Home" className="navbar__logo-img"></Image>
+      <Image width={'100'} height={'100'} src="/img/placeholder.png" alt="Home" className="navbar__logo-img"></Image>
   </div>
   
   <div className="navbar__menu d-flex center">
@@ -28,7 +28,7 @@ return (
   </div>
   
   <div className="navbar__hamburger">
-    <Image  fill={true} src="/img/hamburger-icon.png" className="navbar__hamburger-img" alt='menu-icon'></Image>
+    <Image width={'100'} height={'100'} src="/img/hamburger-icon.png" className="navbar__hamburger-img" alt='menu-icon'></Image>
   </div>
   
   <div className="navbar__dropdown">

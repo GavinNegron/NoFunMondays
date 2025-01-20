@@ -1,5 +1,14 @@
 module.exports = {
   distDir: 'build',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        pathname: '/**',
+      },
+    ],
+  },
   async rewrites() {
     return [
       {

@@ -38,7 +38,6 @@ function EditSidebar() {
       document.removeEventListener('mousedown', handleClick);
     };
   }, []);
-
   return (
     <aside className="editor-sidebar">
       <div className="editor-sidebar__icons">
@@ -56,9 +55,9 @@ function EditSidebar() {
                 <ul>
                   {includedKeys.map((key) => (
                     <li key={key}>
-                      <Link onClick={() => handleElementClick(key)}>
+                      <a onClick={() => handleElementClick(key)}>
                         {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </Link>
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -69,14 +68,14 @@ function EditSidebar() {
                   {elements[activeElement].classes
                     .filter(item => !item.exclude) 
                     .map((item) => (
-                      <Link
+                      <a
                         key={item.class}
                         className={item.class}
                         draggable="true"
                         onDragStart={(e) => handleDragStart(e, item)}
                       >
                         {item.text}
-                      </Link>
+                      </a>
                     ))}
                 </div>
                 

@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 // Layout
 import Navbar from '../../layout/navbar/navbar';
-import Sidebar from '../../layout/sidebar/sidebar';
+import Sidebar from '../../layout/sidebar';
 
 // Components
 import NewPost from './components/NewPost/new-post';
@@ -158,7 +158,7 @@ function DPosts() {
                   />
                 </td>
                 <td className="dashboard__posts__image">
-                  <Image  fill={true}
+                  <Image width={'100'} height={'100'}
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
                     alt={post.title || 'Post image'}
                   />

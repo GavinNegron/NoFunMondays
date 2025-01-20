@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Tooltip from '../../../../../utilities/tooltip';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery';
-import Publish from '../Publish/publish';
+import Publish from '../Publish';
 import Link from 'next/link';
 
 function EditNavbar() {

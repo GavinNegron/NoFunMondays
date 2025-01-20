@@ -25,6 +25,12 @@ function Publish() {
         }
     }, []);
 
+    const { auth } = post || {};
+
+    if (!auth) {
+        return null; 
+    }
+
     return (
         <div className="publish">
             <div className="publish__inner">

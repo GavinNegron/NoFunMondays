@@ -6,7 +6,7 @@ import Head from 'next/head'
 
 // Layout
 import Navbar from '../../layout/navbar/navbar'
-import Sidebar from '../../layout/sidebar/sidebar'
+import Sidebar from '../../layout/sidebar'
 
 // Components
 import TasksToDo from './components/tasksToDo/tasksToDo'
