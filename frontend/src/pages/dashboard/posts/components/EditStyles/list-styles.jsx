@@ -61,7 +61,7 @@ const EditStyles = () => {
   useEffect(() => {
     if (selectedElement) {
       const liElements = selectedElement.querySelectorAll('ul li')
-      liElements.forEach((li, index) => {
+      liElements.forEach(() => {
       })
       const initialValues = Array.from(liElements).map(li => ({ textContent: li.textContent }))
       setInputValues(initialValues)

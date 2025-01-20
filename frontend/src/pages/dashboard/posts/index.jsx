@@ -74,7 +74,9 @@ function DPosts() {
     try {
       await dispatch(deletePost(postId));
       dispatch(fetchPosts({ limit: postLimit }));
-    } catch (error) {}
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const handleNewPost = async () => {
@@ -98,7 +100,7 @@ function DPosts() {
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"></link>
         <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" rel="stylesheet"></link>
         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
-        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossorigin="anonymous"></script>
+        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
       </Head>
       <div>
         <Navbar />

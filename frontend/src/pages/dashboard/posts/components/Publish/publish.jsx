@@ -3,6 +3,7 @@ import { useEditorContext } from '../../../../../contexts/EditorContext';
 import { useSelector } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
+import $ from 'jquery'
 
 function Publish() {
     const { setPost, imageUrl } = useEditorContext();

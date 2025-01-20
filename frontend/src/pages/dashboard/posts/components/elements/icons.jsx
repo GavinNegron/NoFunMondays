@@ -24,12 +24,12 @@ const Icons = () => {
   
   const handleBoldChange = () => {
     const isBold = window.getComputedStyle(selectedElement).fontWeight;
-    selectedElement.style.fontWeight = isBold === 'bold' || isBold === '700' ? 'normal' : 'bold';;
+    selectedElement.style.fontWeight = isBold === 'bold' || isBold === '700' ? 'normal' : 'bold';
   };
   
   const handleItalicChange = () => {
     const isItalic = window.getComputedStyle(selectedElement).fontStyle === 'italic';
-    selectedElement.style.fontStyle = isItalic ? 'normal' : 'italic';;
+    selectedElement.style.fontStyle = isItalic ? 'normal' : 'italic';
   };
   
   const handleUnderlineChange = () => {

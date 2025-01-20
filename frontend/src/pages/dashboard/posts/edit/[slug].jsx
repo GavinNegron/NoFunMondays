@@ -125,8 +125,8 @@ function BlogPostEditor() {
                         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
                         <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" rel="stylesheet"></link>
                         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
-                        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossorigin="anonymous"></script>
-                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
+                        <script async src="https://platform.twitter.com/widgets.js"></script>
                     </Head>
                     <Navbar />
                     <EditorNavbar />

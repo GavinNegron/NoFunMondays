@@ -33,7 +33,7 @@ export const EditorProvider = ({ children }) => {
   const colorPickerRef = useRef(null)
   const fileInputRef = useRef(null)
 
-  const toggleColorPicker = (e) => {
+  const toggleColorPicker = () => {
     setShowColorPicker(!showColorPicker)
   }
   const router = useRouter();
