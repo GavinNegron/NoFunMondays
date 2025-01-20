@@ -29,11 +29,6 @@ jobs:
           npm install --legacy-peer-deps
           npm run build
 
-      - name: Install dependencies for backend
-        run: |
-          cd backend
-          npm install --legacy-peer-deps
-
       - name: Configure Git Safe Directory
         run: |
           ssh root@67.205.132.203 <<EOF
@@ -48,7 +43,8 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/backend
-            git pull origin staging
+            git fetch origin
+            git reset --hard origin/staging
             npm install --legacy-peer-deps
             pm2 restart staging-app
           EOF

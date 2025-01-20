@@ -18,7 +18,6 @@ function RecentPosts({ initialPosts, initialLoading }) {
   const handleLoadMore = () => {
     setPostLimit((prev) => prev + 4);
   };
-
   
   return (
     <>
