@@ -4,6 +4,7 @@ import Tooltip from '../../../../../utilities/tooltip';
 import $ from 'jquery';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import './_sidebar.sass'
+import Link from 'next/link';
 
 // Data
 import elements from '../../../../../data/elements';
@@ -55,9 +56,9 @@ function EditSidebar() {
                 <ul>
                   {includedKeys.map((key) => (
                     <li key={key}>
-                      <a onClick={() => handleElementClick(key)}>
+                      <Link onClick={() => handleElementClick(key)}>
                         {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -68,14 +69,14 @@ function EditSidebar() {
                   {elements[activeElement].classes
                     .filter(item => !item.exclude) 
                     .map((item) => (
-                      <a
+                      <Link
                         key={item.class}
                         className={item.class}
                         draggable="true"
                         onDragStart={(e) => handleDragStart(e, item)}
                       >
                         {item.text}
-                      </a>
+                      </Link>
                     ))}
                 </div>
                 

@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef } from 'react';
 
-const TwitterEmbed = memo(({ tweetID }) => {
+const TwitterEmbed = ({ tweetID }) => {
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -22,6 +22,8 @@ const TwitterEmbed = memo(({ tweetID }) => {
   return (
     <div className="w-full animate-fadeIn" id={tweetID}></div>
   );
-});
+};
 
-export default TwitterEmbed;
+TwitterEmbed.displayName = 'TwitterEmbed';
+
+export default memo(TwitterEmbed);

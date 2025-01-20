@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFeaturedPost } from '../../../features/posts/postSlice/fetchFeaturedPost'; 
 const moment = require('moment');
+import Link from 'next/link';
 
 function FeaturedPost() {
   const dispatch = useDispatch();
@@ -32,18 +33,18 @@ function FeaturedPost() {
         <div className="featured-post__left d-flex col-12 col-md-12 col-lg-7">
           <div className="featured-post__img">
             {featuredPost.imageUrl && (
-              <a
+              <Link
                 style={{ backgroundImage: `url(${featuredPost.imageUrl})` }}
                 href={`/blog/${featuredPost.slug}`}
                 aria-label={` ${featuredPost.title} `}
-              ></a>
+              ></Link>
             )}
           </div>
         </div>
         <div className="featured-post__right d-flex col-12 col-md-12 col-lg-5">
           <div className="featured-post__content">
             <div className="featured-post__title">
-              <a href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</a>
+              <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
             </div>
             <div className="featured-post__description">
               <p>{featuredPost.description}</p>

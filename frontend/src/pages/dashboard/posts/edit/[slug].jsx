@@ -5,6 +5,7 @@ import { useEditorContext } from '../../../../contexts/EditorContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Layout
 import LoadingScreen from '../../../components/base/loading';
@@ -82,7 +83,7 @@ function BlogPostEditor() {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [selectedElement, setSelectedElement]);
+    }, [selectedElement, setSelectedElement, dispatch]);
 
     useEffect(() => {
         const handleClick = (e) => {
@@ -119,12 +120,6 @@ function BlogPostEditor() {
                 <>
                     <Head>
                         <title>{post?.title}</title>
-                        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
-                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ubuntu:wght@700;800&family=Libre+Franklin:wght@900&display=swap"></link>
-                        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"></link>
-                        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" />
-                        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
-                        <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" rel="stylesheet"></link>
                         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
                         <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
                         <script async src="https://platform.twitter.com/widgets.js"></script>
@@ -135,10 +130,10 @@ function BlogPostEditor() {
                     <div className="editor-container">
                         <div className="editor">
                             <div className="editor__back">
-                                <a href="/dashboard/posts">
+                                <Link href="/dashboard/posts">
                                     <i className="fa-solid fa-arrow-left"></i>
                                     <span>Dashboard</span>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -154,7 +149,7 @@ function BlogPostEditor() {
                                 tabIndex="0"
                                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                             >
-                                {post?.imageUrl && <Image src={post?.imageUrl} alt={post?.title} draggable="false" />}
+                                {post?.imageUrl && <Image  fill={true} src={post?.imageUrl} alt={post?.title} draggable="false" />}
                             </div>
                             <div className="blog-post-main__inner">
                                 <div

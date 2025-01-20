@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Layout
 import Navbar from '../../layout/navbar/navbar';
@@ -94,10 +95,6 @@ function DPosts() {
     <>
       <Head>
         <title>Posts</title>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ubuntu:wght@700;800&family=Libre+Franklin:wght@900&display=swap"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" rel="stylesheet"></link>
         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
         <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
       </Head>
@@ -126,10 +123,10 @@ function DPosts() {
                 </div>
                 <div className="dashboard__new-post">
                     <div className="dashboard__new-post__item">
-                        <a href="#new-post" onClick={handleNewPost}>
+                        <Link href="#new-post" onClick={handleNewPost}>
                           <i className="fa-solid fa-plus"></i>
                           <span>New Post</span>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -161,7 +158,7 @@ function DPosts() {
                   />
                 </td>
                 <td className="dashboard__posts__image">
-                  <Image
+                  <Image  fill={true}
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
                     alt={post.title || 'Post image'}
                   />
@@ -177,16 +174,16 @@ function DPosts() {
                 <td className="">
                   <div id='edit' className="dashboard__posts__icon">
                     <p>
-                      <a className="dashboard__posts__icon--edit" href={`/dashboard/posts/edit/${post.slug}`}>Edit</a>
+                      <Link className="dashboard__posts__icon--edit" href={`/dashboard/posts/edit/${post.slug}`}>Edit</Link>
                     </p>
                   </div>
                 </td>
                 <td className="">
                   <div id='delete' className="dashboard__posts__icon">
                     <p>
-                      <a className="dashboard__posts__icon--delete" href="#delete" onClick={() => handleDelete(post._id)}>
+                      <Link className="dashboard__posts__icon--delete" href="#delete" onClick={() => handleDelete(post._id)}>
                         Delete
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </td>

@@ -83,7 +83,7 @@ const EditStyles = () => {
         <i onClick={closeEditor} className="fa-solid fa-light fa-xmark"></i>
       </div>
       <div className="edit-styles__container">
-      <Image/>
+      <Image alt=''/>
       <Margin/>
       </div>
     </div>

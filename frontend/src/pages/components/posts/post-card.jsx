@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Link from 'next/link';
 
 function PostCard({ post }) {
   const formatDate = (date) => {
@@ -20,7 +21,7 @@ function PostCard({ post }) {
     <div className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
       <div className="post-card__left d-flex">
         <div className="post-card__img">
-          <a
+          <Link
             style={{ backgroundImage: `url(${imageUrl})` }}
             href={`/blog/${slug}`}
             aria-label={` ${title} `}
@@ -30,7 +31,7 @@ function PostCard({ post }) {
       <div className="post-card__right d-flex">
         <div className="post-card__content">
           <div className="post-card__title">
-            <a href={`/blog/${slug}`}>{title}</a>
+            <Link href={`/blog/${slug}`}>{title}</Link>
           </div>
           <div className="post-card__description">
             <p>{description}</p>

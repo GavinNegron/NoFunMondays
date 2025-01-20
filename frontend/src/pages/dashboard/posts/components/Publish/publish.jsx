@@ -3,7 +3,8 @@ import { useEditorContext } from '../../../../../contexts/EditorContext';
 import { useSelector } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
-import $ from 'jquery'
+import $ from 'jquery';
+import Link from 'next/link';
 
 function Publish() {
     const { setPost, imageUrl } = useEditorContext();
@@ -31,13 +32,13 @@ function Publish() {
                     <span>Publish Post</span>
                 </div>
                 <div className="publish__content">
-                    <a draggable="false">
+                    <Link draggable="false">
                         <div className="publish__content__item publish__content-post">
                             <span>Publish Post</span>
                             <p>Make your post public.</p>
                         </div>
-                    </a>
-                    <a draggable="false">
+                    </Link>
+                    <Link draggable="false">
                         <div className="publish__content__item publish__content-schedule">
                             <div className="publish__content-schedule__text">
                                 <span>Scheduled Publish</span>
@@ -49,9 +50,11 @@ function Publish() {
                             </div>
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
-                    </a>
+                    </Link>
                     <div className="publish__content-submit">
-                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, imageUrl)}>Publish Post</button>
+                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, imageUrl)}>
+                            Publish Post
+                        </button>
                     </div>
                 </div>
             </div>

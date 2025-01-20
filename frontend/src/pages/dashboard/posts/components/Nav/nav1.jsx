@@ -3,6 +3,7 @@ import Tooltip from '../../../../../utilities/tooltip';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery';
 import Publish from '../Publish/publish';
+import Link from 'next/link';
 
 function EditNavbar() {
     const {
@@ -56,9 +57,9 @@ function EditNavbar() {
                     <div className="editor-navbar__item__search">
                         <span>
                             {postSlug ? (
-                                <a href={`/blog/${postSlug}`} target="_blank" rel='noreferrer'>
+                                <Link href={`/blog/${postSlug}`} target="_blank" rel='noreferrer'>
                                     https://nofunmondays.com/blog/{postSlug}
-                                </a>
+                                </Link>
                             ) : (
                                 <span>Loading...</span> 
                             )}
@@ -69,7 +70,7 @@ function EditNavbar() {
                 <div className="editor-navbar__right col-3 d-flex justify-content-end align-items-center">
                     <div className="editor-navbar__item__tools d-flex align-items-center">
                         <div className="editor-navbar__item">
-                            <a href='#f'>
+                            <Link href='#f'>
                                 <i data-tooltip-id="tip-tools" className="fa-solid fa-wrench"></i>
                                 <Tooltip 
                                   id="tip-tools" 
@@ -77,26 +78,26 @@ function EditNavbar() {
                                   description="Select any tools you wish to use." 
                                   place="bottom"
                                 />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="editor-navbar__item__undoredo d-flex align-items-center">
                         <div className="editor-navbar__item">
-                            <a href='#f'>
+                            <Link href='#f'>
                                 <i data-tooltip-id="tip-undo" className="fa-solid fa-rotate-left"></i>
                                 <Tooltip id="tip-undo" header="Undo" place="bottom" />
-                            </a>
+                            </Link>
                         </div>
                         <div className="editor-navbar__item">
-                            <a href='#f'>
+                            <Link href='#f'>
                                 <i data-tooltip-id="tip-redo" className="fa-solid fa-rotate-right"></i>
                                 <Tooltip id="tip-redo" header="Redo" place="bottom" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="editor-navbar__item__save d-flex align-items-center">
                         <div className="editor-navbar__item">
-                            <a data-tooltip-id='tip-save' href='#f' className='save-btn'>Save</a>
+                            <Link data-tooltip-id='tip-save' href='#f' className='save-btn'>Save</Link>
                             <Tooltip 
                                 id="tip-save" 
                                 header="Autosave is on" 
@@ -105,7 +106,7 @@ function EditNavbar() {
                             />
                         </div>
                         <div className="editor-navbar__item">
-                            <a data-tooltip-id='tip-preview' href='#f' className='preview-btn'>Preview</a>
+                            <Link data-tooltip-id='tip-preview' href='#f' className='preview-btn'>Preview</Link>
                             <Tooltip 
                                 id="tip-preview" 
                                 header="Preview Post" 

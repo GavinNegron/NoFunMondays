@@ -63,7 +63,7 @@ function BlogPost() {
         <div className="post">
           <div className="post__inner">
             <div className="post__header d-flex">
-              <Image src={post.imageUrl} alt={post.title} draggable="false" />
+              <Image  fill={true} src={post.imageUrl} alt={post.title} draggable="false" />
             </div>
             <div className="post__content">
               <div className="post__content-header">
