@@ -1,6 +1,5 @@
 import React from 'react';
 import Socials from '../../components/base/socials'
-import './footer.sass'
 
 function Footer() {
   return (

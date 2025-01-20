@@ -1,6 +1,5 @@
 // React
 import { useEditorContext } from '../../../../../contexts/EditorContext'
-import { handleBoldChange, handleItalicChange, handleUnderlineChange, handleColorChange, handleAlignChange } from '../../../../../utilities/posts/editor/styleUtils';
 import Tooltip from '../../../../../utilities/tooltip';
 import { BlockPicker } from 'react-color';
 
@@ -15,6 +14,28 @@ const Icons = () => {
     handleStyleChange
   } = useEditorContext();
 
+  const handleAlignChange = (alignment) => {
+    selectedElement.style.textAlign = alignment;
+  };
+
+  const handleColorChange = (color) => {
+    selectedElement.style.color = color.hex;
+  };
+  
+  const handleBoldChange = () => {
+    const isBold = window.getComputedStyle(selectedElement).fontWeight;
+    selectedElement.style.fontWeight = isBold === 'bold' || isBold === '700' ? 'normal' : 'bold';;
+  };
+  
+  const handleItalicChange = () => {
+    const isItalic = window.getComputedStyle(selectedElement).fontStyle === 'italic';
+    selectedElement.style.fontStyle = isItalic ? 'normal' : 'italic';;
+  };
+  
+  const handleUnderlineChange = () => {
+    const textDecoration = window.getComputedStyle(selectedElement).textDecoration;
+    selectedElement.style.textDecoration = textDecoration.includes('underline') ? 'none' : 'underline';
+  };
   return (
     <>
     <div className="edit-styles__icons">
@@ -28,7 +49,7 @@ const Icons = () => {
         <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
         {showColorPicker && (
         <div className="edit-styles__color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
-            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color, setStyle, handleStyleChange)} />
+            <BlockPicker color={style.color} onChange={(color) => handleColorChange(color)} />
         </div>
         )}
     </div>

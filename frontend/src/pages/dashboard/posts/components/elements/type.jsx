@@ -1,6 +1,5 @@
 // React
 import { useEditorContext } from '../../../../../contexts/EditorContext'
-import { handleTypeChange } from '../../../../../utilities/posts/editor/styleUtils';
 import elements from '../../../../../data/elements.json';
 
 const Type = () => {
@@ -11,6 +10,19 @@ const Type = () => {
     handleStyleChange
   } = useEditorContext();
   
+  
+const handleTypeChange = (e) => {
+  const selectedClass = e.target.value;
+  selectedElement.classList.forEach((className) => {
+    if (className.startsWith('h') || className === 'default-text') {
+      selectedElement.classList.remove(className);
+    }
+  });
+  selectedElement.classList.add(selectedClass);
+
+  setStyle(prevStyle => ({ ...prevStyle, currentType: e.target.value }));
+};
+
   return (
     <div className="edit-styles__item">
         <p>Type: </p>

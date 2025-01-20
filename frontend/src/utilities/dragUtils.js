@@ -1,45 +1,66 @@
-import $ from "jquery"
+import $ from "jquery";
 
 const generateRandomHexId = (length = 24) => {
   let result = '';
   const characters = '0123456789abcdef';
-  
+
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
 
   return result;
-}
+};
 
 export const handleDragStart = (e, elementData) => {
   const data = {
-    type: elementData,
-    content: elementData, 
-  }
-  e.dataTransfer.setData('text/plain', JSON.stringify(data))
-}
+    type: elementData.class,
+    content: elementData.text,
+  };
+  e.dataTransfer.setData('text/plain', JSON.stringify(data));
+};
 
-export const handleDrop = (e, postElements, setPostElements) => {
+export const handleDrop = (e) => {
   $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeOut('fast');
 
-  e.preventDefault()
+  const isValidJson = (str) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
 
-  let newElementData
+  e.preventDefault();
+
+  const data = e.dataTransfer.getData('text/plain');
+  if (!isValidJson(data)) {
+    console.error('Invalid JSON data:', data);
+    return null;
+  }
+
+  let newElementData;
   try {
-    newElementData = JSON.parse(e.dataTransfer.getData('text/plain'))
+    newElementData = JSON.parse(data);
   } catch (error) {
-    return
+    console.error('Failed to parse data transfer:', error);
+    return null;
+  }
+
+  if (!newElementData || typeof newElementData !== 'object' || !newElementData.type || !newElementData.content) {
+    console.error('Invalid element data:', newElementData);
+    return null;
   }
 
   const newElement = {
     ...newElementData,
     id: generateRandomHexId(),
     style: {},
-  }
+  };
 
-  setPostElements([...postElements, newElement])
-}
+  return newElement;
+};
 
 export const handleDragOver = (e) => {
-  e.preventDefault()
-}
+  e.preventDefault();
+};

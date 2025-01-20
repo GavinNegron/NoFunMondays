@@ -1,59 +1,76 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
-import $ from 'jquery'; 
+import $ from 'jquery';
+import { useDispatch } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
-import { createPost, findTitle } from '../../../../../features/posts/postService';
+import { createPost } from '../../../../../features/posts/postSlice/createPost';
+import { findTitle } from '../../../../../features/posts/postSlice/findTitle';
+import { useRouter } from 'next/router';
+import LoadingScreen from '../../../../components/base/loading';
 
 function NewPost() {
     const {
         renderImageSelector,
         image,
         setTitle,
-        title,
-        navigate
+        title
     } = useEditorContext();
 
+    const dispatch = useDispatch();
+    const router = useRouter();
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const isMountedRef = useRef(true);
 
     useEffect(() => {
+        if (typeof window !== "undefined") {
+            $(".new-post").on('click', (e) => {
+                handleClickOutside(e, '.new-post__inner', '.new-post');
+            });
+        }
+
         return () => {
             isMountedRef.current = false;
         };
     }, []);
 
-    $(".new-post").on('click', (e) => {
-        handleClickOutside(e, '.new-post__inner', '.new-post');
-    });
-
     const handleNewPost = async () => {
-        let isMounted = true; 
         if (!title || !image) {
-            if (isMounted) setError('Title and image are required');
+            if (isMountedRef.current) setError('Title and image are required');
             return;
         }
         try {
-            const isTitleAvailable = await findTitle(title);
+            const isTitleAvailable = await dispatch(findTitle(title)).unwrap();
             if (!isTitleAvailable) {
-                if (isMounted) setError('Title already exists. Please choose a different title.');
+                if (isMountedRef.current) {
+                    setError('Title already exists. Please choose a different title.');
+                    $('.new-post').addClass('error-visible'); // Add error-visible class
+                }
                 return;
             }
-            const post = { 
-                title, 
-                imageUrl: image,
-                status: 'draft', 
-            };
-            const createdPost = await createPost(post);
 
-            if (isMounted) navigate(`/dashboard/posts/edit/${createdPost.slug}`);
+            const post = {
+                title,
+                imageUrl: image,
+                status: 'draft',
+            };
+
+            const createdPost = await dispatch(createPost(post)).unwrap();
+
+            if (isMountedRef.current) router.push(`/dashboard/posts/edit/${createdPost.slug}`);
         } catch (error) {
-            if (isMounted) setError('An error occurred while creating the post.');
+            if (isMountedRef.current) setError('An error occurred while creating the post.');
+        } finally {
+            if (isMountedRef.current) setIsLoading(false); // Stop loading
         }
-        return () => { isMounted = false; }; 
     };
 
+    if (isLoading) {
+        return <LoadingScreen />; // Render loading screen if loading
+    }
+
     return (
-        <div className="new-post">
+        <div className={`new-post ${error ? 'error-visible' : ''}`}>
             <div className="new-post__inner">
                 <div className="new-post__header">
                     <span>Create New Post:</span>

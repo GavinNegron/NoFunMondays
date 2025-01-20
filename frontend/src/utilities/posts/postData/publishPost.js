@@ -3,7 +3,7 @@ import { updatePost } from '../../../features/posts/postService';
 import elementClassConfig from '../../../data/elements'; 
 import DOMPurify from 'dompurify';
 
-export const publishPost = async (post, postElements, setPost, navigate, imageUrl) => {
+export const publishPost = async (post, postElements, setPost, imageUrl) => {
   if (!post) return;
 
   const stylesMap = new Map();
@@ -82,7 +82,6 @@ export const publishPost = async (post, postElements, setPost, navigate, imageUr
     elements: updatedElements,
     status: 'published',
   };
-
   try {
     const data = await updatePost(post._id, updatedPost);
     setPost(data);

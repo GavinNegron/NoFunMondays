@@ -1,6 +1,6 @@
 import Socials from '../../components/base/socials'
 import Search from '../../components/base/search'
-import './navbar.sass'
+import Head from 'next/head';
 
 function navbar() {
 

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { useRouter } from 'next/router';
 const EditorContext = createContext();
 
 export const EditorProvider = ({ children }) => {
@@ -37,7 +36,7 @@ export const EditorProvider = ({ children }) => {
   const toggleColorPicker = (e) => {
     setShowColorPicker(!showColorPicker)
   }
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleStyleChange = useCallback((property, value) => {
     if (selectedElement) {
@@ -135,7 +134,7 @@ export const EditorProvider = ({ children }) => {
         deletedElements,
         setDeletedElements,
         blogPostMainRef,
-        navigate,
+        router,
         handleStyleChange, 
         inputValues,
         setInputValues,
