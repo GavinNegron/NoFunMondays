@@ -61,12 +61,12 @@ function NewPost() {
         } catch (error) {
             if (isMountedRef.current) setError('An error occurred while creating the post.');
         } finally {
-            if (isMountedRef.current) setIsLoading(false); // Stop loading
+            if (isMountedRef.current) setIsLoading(false); 
         }
     };
 
     if (isLoading) {
-        return <LoadingScreen />; // Render loading screen if loading
+        return <LoadingScreen />;
     }
 
     return (
