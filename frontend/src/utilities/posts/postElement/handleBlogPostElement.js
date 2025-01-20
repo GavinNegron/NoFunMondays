@@ -1,18 +1,14 @@
 import $ from 'jquery'
 import elements from '../../../data/elements.json'
 
-export const handleBlogPostElement = (element, setSelectedElement, setElementStyles) => {
+export const handleBlogPostElement = (element, setSelectedElement) => {
   $('.editor-sidebar__add-elements').stop(true, true).fadeOut('fast')
   if (!element) {
     $('.edit-text-styles, .edit-image-styles, .edit-list-styles').stop(true, true).fadeOut('fast')
     return
   }
   setSelectedElement(element)
-  setElementStyles({
-    color: element.style?.color || '',
-    margin: element.style?.margin || '',
-    fontFamily: element.style?.fontFamily || '',
-  })
+
 
   const textClasses = elements.text.classes.map(item => item.class)
   const imageClasses = elements.image.classes.map(item => item.class)

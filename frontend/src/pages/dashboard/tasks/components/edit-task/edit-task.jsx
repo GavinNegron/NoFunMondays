@@ -1,5 +1,3 @@
-import './edit-task.sass'
-
 const EditTask = () => {
 
   return (

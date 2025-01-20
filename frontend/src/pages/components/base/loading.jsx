@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGamepad } from '@fortawesome/free-solid-svg-icons'
+
 function Loading() {
   return (
     <>
@@ -20,10 +23,12 @@ function Loading() {
         }}
       >
         <div className="loading-screen__icon">
-          <i 
-            className="fa-solid fa-gamepad fa-bounce fa-2xl" 
+          <FontAwesomeIcon 
+            icon={faGamepad} 
+            bounce 
+            size="2x" 
             style={{ color: '#ffffff' }} 
-          ></i>
+          />
         </div>
       </div>
     </>

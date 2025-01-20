@@ -6,15 +6,7 @@ import { handleDoubleClick } from '../editor/editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
 
 const RenderElements = ({ element }) => {
-  const {
-    postElements,
-    setPostElements,
-    setSelectedElement,
-    setElementStyles,
-    elements,
-    setPost,
-    setImageUrl
-  } = useEditorContext();
+  const { setSelectedElement } = useEditorContext();
 
   const [twitterUrl, setTwitterUrl] = useState('');
   const [twitterId, setTwitterId] = useState('');
@@ -25,17 +17,25 @@ const RenderElements = ({ element }) => {
     }
   }, [element.twitterId]);
 
+  useEffect(() => {
+    console.log('Updated twitterId:', twitterId);
+  }, [twitterId]);
+
   const handleInputChange = (e) => {
     setTwitterUrl(e.target.value);
   };
 
-  const handleButtonClick = () => {
-    const url = new URL(twitterUrl);
-    const pathSegments = url.pathname.split('/');
-    const id = pathSegments.pop() || pathSegments.pop();
-    setTwitterId(id);
-    const updatedElements = postElements.map(el => el.id === element.id ? { ...el, twitterId: id } : el);
-    setPostElements(updatedElements);
+  const extractTweetID = (url) => {
+    const regex = /(?:twitter|x)\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
+    const match = url.match(regex);
+    return match ? match[3] : null; 
+  };
+  
+  const handleEmbedClick = () => {
+    const tweetID = extractTweetID(twitterUrl);
+    if (tweetID) {
+      setTwitterId(tweetID);
+    }
   };
 
   if (!element) return null;
@@ -45,7 +45,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-      return <img src={element.imageUrl || '/img/placeholder.png'} alt={element.alt}/>
+        return <img src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
       case 'bullet':
         return (
           <div className="bullet-point">
@@ -72,7 +72,7 @@ const RenderElements = ({ element }) => {
               placeholder="Enter Twitter URL"
               className="twitter"
             />
-            <button onClick={handleButtonClick}>Embed</button>
+            <button onClick={handleEmbedClick}>Embed</button>
           </div>
         );
       case 'text':
@@ -88,12 +88,12 @@ const RenderElements = ({ element }) => {
       key={elementId}
       className={`blog-post-element ${element.type === 'text' ? element.tag : element.type}`}
       style={element.style || {}}
-      onDrop={(e) => handleDrop(e, postElements, setPostElements)}
+      onDrop={(e) => handleDrop(e)}
       onDragOver={handleDragOver}
       onClick={(event) =>
-        handleBlogPostElement(event.currentTarget, setSelectedElement, setElementStyles, elements, setImageUrl)
+        handleBlogPostElement(event.currentTarget, setSelectedElement)
       }
-      onDoubleClick={(e) => handleDoubleClick(e, setSelectedElement, setPost, setPostElements)}
+      onDoubleClick={(e) => handleDoubleClick(e)}
       tabIndex="0"
     >
       {renderContent()}

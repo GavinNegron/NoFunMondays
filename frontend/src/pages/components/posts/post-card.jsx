@@ -1,38 +1,46 @@
 import React from 'react';
 import moment from 'moment';
 
-function PostCard( {post} ) {
+function PostCard({ post }) {
   const formatDate = (date) => {
     return moment(date).format('MM/DD/YYYY');
   };
 
+  if (!post) {
+    return null; // or render a placeholder, loading spinner, or error message
+  }
+
+  const imageUrl = post.imageUrl || '/img/placeholder.png'; // default image if imageUrl is undefined
+  const slug = post.slug || '#'; // default link if slug is undefined
+  const title = post.title || 'Untitled'; // default title if title is undefined
+  const description = post.description || 'No description available.'; // default description if description is undefined
+  const createdAt = post.createdAt || new Date(); // default date if createdAt is undefined
+
   return (
-    <>
-        <div className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
-          <div className="post-card__left d-flex">
-            <div className="post-card__img">
-            <a
-              style={{ backgroundImage: `url(${post.imageUrl})`,}}
-                href={`/blog/${post.slug}`}
-                aria-label={` ${post.title} `} >
-            </a>
-            </div>
+    <div className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
+      <div className="post-card__left d-flex">
+        <div className="post-card__img">
+          <a
+            style={{ backgroundImage: `url(${imageUrl})` }}
+            href={`/blog/${slug}`}
+            aria-label={` ${title} `}
+          />
+        </div>
+      </div>
+      <div className="post-card__right d-flex">
+        <div className="post-card__content">
+          <div className="post-card__title">
+            <a href={`/blog/${slug}`}>{title}</a>
           </div>
-          <div className="post-card__right d-flex">
-            <div className="post-card__content">
-              <div className="post-card__title">
-                <a href={`/blog/${post.slug}`}>{post.title}</a>
-              </div>
-              <div className="post-card__description">
-                <p>{post.description}</p>
-              </div>
-              <div className="post-card__date">
-                <p>{formatDate(post.createdAt)}</p>
-              </div>
-            </div>
+          <div className="post-card__description">
+            <p>{description}</p>
+          </div>
+          <div className="post-card__date">
+            <p>{formatDate(createdAt)}</p>
           </div>
         </div>
-    </>
+      </div>
+    </div>
   );
 }
 

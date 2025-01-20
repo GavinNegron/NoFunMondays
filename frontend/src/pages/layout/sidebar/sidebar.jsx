@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import './sidebar.sass'
+import { useRouter } from 'next/router'; 
 
 function Sidebar() {
-  const location = useLocation();
+  const router = useRouter(); 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    if (location.pathname.startsWith("/dashboard")) {
+    if (router.pathname.startsWith("/dashboard")) { 
       const script = document.createElement("script");
       script.src = "/js/app/dashboard.js";
       script.async = true;
@@ -18,7 +17,7 @@ function Sidebar() {
         document.body.removeChild(script);
       };
     }
-  }, [location.pathname]);  
+  }, [router.pathname]);  
 
   const toggleSidebarState = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -65,12 +64,12 @@ function Sidebar() {
 
         <div className="sidebar__links">
           {links.map((link, index) => (
-            <Link
+            <a
               key={index}
-              to={link.href}
-              className={`sidebar__links-item ${location.pathname === link.href ? "active" : ""}`}
+              href={link.href}
+              className={`sidebar__links-item ${router.pathname === link.href ? "active" : ""}`}
               draggable="false"
-              onClick={(e) => handleLinkClick(e, link.href)} // Prevent React Router and force reload
+              onClick={(e) => handleLinkClick(e, link.href)} 
             >
               <div className="sidebar__links-item-icon">
                 <i className={`fa-solid fa-${link.iconName}`} style={{ color: "#ffffff" }}></i>
@@ -78,7 +77,7 @@ function Sidebar() {
               <div className="sidebar__links-item-text">
                 {link.text}
               </div>
-            </Link>
+            </a>
           ))}
         </div>
 

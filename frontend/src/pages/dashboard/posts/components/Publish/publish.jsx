@@ -1,19 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
-import $ from 'jquery'; 
+import { useSelector } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
-import './_publish.sass'
 
 function Publish() {
-    const {
-        post,
-        postElements,
-        setPost,
-        navigate,
-        imageUrl
-    } = useEditorContext();
-
+    const { setPost, imageUrl } = useEditorContext();
+    const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
     const isMountedRef = useRef(true);
 
     useEffect(() => {
@@ -22,9 +15,13 @@ function Publish() {
         };
     }, []);
 
-    $(".publish").on('click', (e) => {
-        handleClickOutside(e, '.publish__inner', '.publish');
-    });
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.$) {
+            $(".publish").on('click', (e) => {
+                handleClickOutside(e, '.publish__inner', '.publish');
+            });
+        }
+    }, []);
 
     return (
         <div className="publish">
@@ -33,13 +30,13 @@ function Publish() {
                     <span>Publish Post</span>
                 </div>
                 <div className="publish__content">
-                    <button draggable="false">
+                    <a draggable="false">
                         <div className="publish__content__item publish__content-post">
                             <span>Publish Post</span>
                             <p>Make your post public.</p>
                         </div>
-                    </button>
-                    <button draggable="false">
+                    </a>
+                    <a draggable="false">
                         <div className="publish__content__item publish__content-schedule">
                             <div className="publish__content-schedule__text">
                                 <span>Scheduled Publish</span>
@@ -51,9 +48,9 @@ function Publish() {
                             </div>
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
-                    </button>
+                    </a>
                     <div className="publish__content-submit">
-                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, navigate, imageUrl)}>Publish Post</button>
+                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, imageUrl)}>Publish Post</button>
                     </div>
                 </div>
             </div>
