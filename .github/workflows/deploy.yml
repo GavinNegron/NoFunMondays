@@ -27,26 +27,14 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/
-            if [ ! -d .git ]; then
               git fetch --all
               git reset --hard origin/staging
               git clean -fd
               git checkout staging
-            else
-              git pull origin staging
             fi
           EOF
 
       - name: Build frontend
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm install
-            npm run build
-            cp -r build/* /var/www/staging.nofunmondays.com/frontend/
-          EOF
-
-      - name: Restart frontend Docker container
         run: |
           ssh root@67.205.132.203 <<EOF
             docker rm -f frontend || true

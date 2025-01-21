@@ -18,7 +18,7 @@ module.exports = {
     ]
   },
   env: {
-    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST || '0.0.0.0', // Default to 0.0.0.0
-    NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT || '3000', // Default to 3000
+    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST || '0.0.0.0', // 
+    NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT || '3000', //
   },
 }
