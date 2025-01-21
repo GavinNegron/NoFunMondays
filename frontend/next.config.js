@@ -13,8 +13,12 @@ module.exports = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:2001/api/:path*',
+        destination: process.env.API_URL || 'http://localhost:2001/api/:path*',
       },
     ]
+  },
+  env: {
+    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST || '0.0.0.0', // Default to 0.0.0.0
+    NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT || '3000', // Default to 3000
   },
 }
