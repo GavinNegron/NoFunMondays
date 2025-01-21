@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy frontend build to staging server
         run: |
-          scp -r frontend/build/* root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend
+          scp -r frontend/build/* root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build
 
       - name: Install dependencies for backend
         run: |
