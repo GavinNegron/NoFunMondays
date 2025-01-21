@@ -60,6 +60,12 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             # Restart the backend (e.g., using pm2 or systemctl)
             pm2 restart staging-app  # or replace with your backend restart command
+
+      - name: Start frontend with PM2
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
+            pm2 start npm --name "frontend" -- run start 
           EOF
 
       - name: Restart frontend server (Nginx reverse proxy)
