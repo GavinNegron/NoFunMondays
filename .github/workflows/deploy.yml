@@ -3,7 +3,7 @@ name: Deploy to Staging
 on:
   push:
     branches:
-      - staging  
+      - staging
 
 jobs:
   deploy:
@@ -29,7 +29,7 @@ jobs:
             git config --global --add safe.directory /var/www/staging.nofunmondays.com
           EOF
           
-      - name: Pull orgin from staging
+      - name: Pull origin from staging
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/
@@ -41,18 +41,21 @@ jobs:
           cd frontend
           npm install --legacy-peer-deps
 
-      - name: Install dependencies for backend
-        run: |
-          npm install --legacy-peer-deps
-
-      - name: Deploy frontend to staging server
+      - name: Build frontend
         run: |
           cd frontend
           npm run build
 
-      - name: Deploy backend to staging server
+      - name: Deploy frontend build to staging server
+        run: |
+          scp -r frontend/build/* root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend
+
+      - name: Install dependencies for backend
+        run: |
+          cd backend
+          npm install --legacy-peer-deps
+
+      - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/backend
-            pm2 restart staging-app  # Or whatever your production app is named
-          EOF
+            cd
