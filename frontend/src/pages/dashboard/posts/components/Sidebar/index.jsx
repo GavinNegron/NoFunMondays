@@ -18,7 +18,6 @@ function EditSidebar() {
   const handleAddElementsClick = () => {
     $('.editor-sidebar__add-elements').stop(true, true).animate({}).fadeToggle(200);
     $('.edit-styles').stop(true, true).animate({}).fadeOut('fast');
-
   };
 
   const handleElementClick = (elementType) => {

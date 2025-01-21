@@ -1,9 +1,9 @@
-name: Deploy to Staging
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - staging  
+      - main  # Change this to your production branch if needed
 
 jobs:
   deploy:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          ref: staging  
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -25,41 +23,32 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Remove old files from staging directory
+      - name: Install dependencies for frontend
+        run: |
+          cd frontend
+          npm install --legacy-peer-deps
+          npm run build
+
+      - name: Install dependencies for backend
+        run: |
+          cd backend
+          npm install --legacy-peer-deps
+
+      - name: Configure Git Safe Directory
         run: |
           ssh root@67.205.132.203 <<EOF
-            rm -rf /var/www/staging.nofunmondays.com/*
+            git config --global --add safe.directory /var/www/nofunmondays.com/backend
           EOF
 
-      - name: Create necessary directories on staging server
+      - name: Deploy frontend to production server
         run: |
-          ssh root@67.205.132.203 <<EOF
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components/posts
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles
-            mkdir -p /var/www/staging.nofunmondays.com/frontend
-          EOF
+          scp -r frontend/build/* root@67.205.132.203:/var/www/nofunmondays.com/frontend/frontend/build
 
-      - name: Deploy frontend and backend to staging server
-        run: |
-          scp -r * root@67.205.132.203:/var/www/staging.nofunmondays.com/
-        
-      - name: Install dependencies on the staging server (root)
+      - name: Deploy backend to production server
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
+            cd /var/www/nofunmondays.com/backend
+            git pull origin main
             npm install --legacy-peer-deps
-          EOF
-
-      - name: Install dependencies in frontend directory
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm install --legacy-peer-deps
-          EOF
-
-      - name: Restart application on the staging server
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            pm2 restart staging-app  # Adjust this with the correct app name if necessary
+            pm2 restart production-app  # Or whatever your production app is named
           EOF
