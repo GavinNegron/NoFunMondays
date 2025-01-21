@@ -23,6 +23,12 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
+      - name: Configure Git Safe Directory
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            git config --global --add safe.directory /var/www/staging.nofunmondays.com
+          EOF
+          
       - name: Pull orgin from staging
         run: |
           ssh root@67.205.132.203 <<EOF
@@ -38,12 +44,6 @@ jobs:
       - name: Install dependencies for backend
         run: |
           npm install --legacy-peer-deps
-
-      - name: Configure Git Safe Directory
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            git config --global --add safe.directory /var/www/nofunmondays.com/backend
-          EOF
 
       - name: Deploy frontend to production server
         run: |
