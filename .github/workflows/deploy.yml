@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          ref: staging  
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -25,39 +23,35 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Remove old files from staging directory
+      - name: Pull orgin from staging
         run: |
           ssh root@67.205.132.203 <<EOF
-            rm -rf /var/www/staging.nofunmondays.com/*
+            cd /var/www/staging.nofunmondays.com/
+            git pull origin staging
           EOF
 
-      - name: Get files from staging branch
+      - name: Install dependencies for frontend
         run: |
-          scp -r * root@67.205.132.203:/var/www/staging.nofunmondays.com/
+          cd frontend
+          npm install --legacy-peer-deps
 
-      - name: Install backend dependencies
+      - name: Install dependencies for backend
+        run: |
+          npm install --legacy-peer-deps
+
+      - name: Configure Git Safe Directory
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
-            npm install --legacy-peer-deps
+            git config --global --add safe.directory /var/www/nofunmondays.com/backend
           EOF
 
-      - name: Install frontend dependencies
+      - name: Deploy frontend to production server
         run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm install --legacy-peer-deps
-          EOF
+          npm run build
 
-      - name: Build frontend app
+      - name: Deploy backend to production server
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm run build
-          EOF
-
-      - name: Restart application on the staging server
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            pm2 restart staging-app  # Adjust this with the correct app name if necessary
+            cd /var/www/staging.nofunmondays.com/backend
+            pm2 restart staging-app  # Or whatever your production app is named
           EOF
