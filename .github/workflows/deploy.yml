@@ -1,0 +1,72 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add SSH key to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
+
+      - name: Configure Git Safe Directory
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            git config --global --add safe.directory /var/www/staging.nofunmondays.com
+          EOF
+          
+      - name: Pull origin from staging
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/
+            git pull origin staging
+          EOF
+
+      - name: Build Docker image for frontend
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
+            docker build -t frontend .
+          EOF
+
+      - name: Deploy frontend Docker container
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Stop and remove any existing container named "frontend"
+            docker rm -f frontend || true
+            # Run the new frontend Docker container
+            docker run -d -p 3000:3000 --name frontend frontend
+          EOF
+
+      - name: Install dependencies for backend
+        run: |
+          cd backend
+          npm install --legacy-peer-deps
+
+      - name: Restart backend application
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Restart the backend (e.g., using pm2 or systemctl)
+            pm2 restart staging-app  # or replace with your backend restart command
+          EOF
+
+      - name: Restart frontend server (Nginx reverse proxy)
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Restart Nginx to apply new frontend build
+            sudo systemctl restart nginx
+          EOF
