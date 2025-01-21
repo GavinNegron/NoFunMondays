@@ -31,31 +31,29 @@ jobs:
             rm -rf /var/www/staging.nofunmondays.com/*
           EOF
 
-      - name: Create necessary directories on staging server
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components/posts
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components
-            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles
-            mkdir -p /var/www/staging.nofunmondays.com/frontend
-          EOF
-
-      - name: Deploy frontend and backend to staging server
+      - name: Get files from staging branch
         run: |
           scp -r * root@67.205.132.203:/var/www/staging.nofunmondays.com/
-        
-      - name: Install dependencies on the staging server (root)
+
+      - name: Install backend dependencies
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com
             npm install --legacy-peer-deps
           EOF
 
-      - name: Install dependencies in frontend directory
+      - name: Install frontend dependencies
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
             npm install --legacy-peer-deps
+          EOF
+
+      - name: Build frontend app
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
+            npm run build
           EOF
 
       - name: Restart application on the staging server
@@ -63,4 +61,3 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             pm2 restart staging-app  # Adjust this with the correct app name if necessary
           EOF
- 
