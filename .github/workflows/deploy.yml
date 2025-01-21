@@ -44,7 +44,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          npm run build
+          npm run build  # Use build for production, not start
 
       - name: Deploy frontend build to staging server
         run: |
@@ -58,4 +58,13 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd
+            # Restart the backend (e.g., using pm2 or systemctl)
+            pm2 restart backend  # or replace with your backend restart command
+          EOF
+
+      - name: Restart frontend server (Nginx reverse proxy)
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Restart Nginx to apply new frontend build
+            sudo systemctl restart nginx
+          EOF
