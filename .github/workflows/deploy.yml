@@ -59,7 +59,7 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             # Restart the backend (e.g., using pm2 or systemctl)
-            pm2 restart backend  # or replace with your backend restart command
+            pm2 restart staging-app  # or replace with your backend restart command
           EOF
 
       - name: Restart frontend server (Nginx reverse proxy)
