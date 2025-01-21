@@ -31,6 +31,15 @@ jobs:
             rm -rf /var/www/staging.nofunmondays.com/*
           EOF
 
+      - name: Create necessary directories on staging server
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components/posts
+            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles/components
+            mkdir -p /var/www/staging.nofunmondays.com/frontend/src/styles
+            mkdir -p /var/www/staging.nofunmondays.com/frontend
+          EOF
+
       - name: Deploy frontend and backend to staging server
         run: |
           scp -r * root@67.205.132.203:/var/www/staging.nofunmondays.com/
