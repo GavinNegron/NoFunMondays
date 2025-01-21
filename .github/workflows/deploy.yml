@@ -28,7 +28,9 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/
             if [ ! -d .git ]; then
-              git clone git@github.com:GavinNegron/NoFunMondays.git .
+              git fetch --all
+              git reset --hard origin/staging
+              git clean -fd
               git checkout staging
             else
               git pull origin staging
