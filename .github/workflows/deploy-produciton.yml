@@ -3,7 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - main  # Change this to your production branch if needed
+      - main
 
 jobs:
   deploy:
@@ -23,32 +23,43 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Install dependencies for frontend
-        run: |
-          cd frontend
-          npm install --legacy-peer-deps
-          npm run build
-
-      - name: Install dependencies for backend
-        run: |
-          cd backend
-          npm install --legacy-peer-deps
-
-      - name: Configure Git Safe Directory
+      - name: Pull latest code from main
         run: |
           ssh root@67.205.132.203 <<EOF
-            git config --global --add safe.directory /var/www/nofunmondays.com/backend
+            cd /var/www/nofunmondays.com/
+            if [ ! -d .git ]; then
+              git fetch --all
+              git reset --hard origin/main
+              git clean -fd
+              git checkout main
+            else
+              git pull origin main
+            fi
           EOF
 
-      - name: Deploy frontend to production server
+      - name: Build frontend
         run: |
-          scp -r frontend/build/* root@67.205.132.203:/var/www/nofunmondays.com/frontend/frontend/build
+          ssh root@67.205.132.203 <<EOF
+            docker rm -f frontend || true
+            docker build -t frontend /var/www/nofunmondays.com/frontend
+            docker run -d -p 3000:3000 --name frontend frontend
+          EOF
 
-      - name: Deploy backend to production server
+      - name: Install backend dependencies
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/nofunmondays.com/backend
-            git pull origin main
             npm install --legacy-peer-deps
-            pm2 restart production-app  # Or whatever your production app is named
+          EOF
+
+      - name: Restart backend application
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            pm2 restart production-app || pm2 start /var/www/production.nofunmondays.com/backend/app.js --name production-app
+          EOF
+
+      - name: Restart Nginx
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            sudo systemctl restart nginx
           EOF
