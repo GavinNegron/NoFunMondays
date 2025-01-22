@@ -65,11 +65,15 @@ input[type='checkbox']
     display: grid
     place-content: center
     outline: solid 1px #00000012
-    margin-left: auto
-    margin-right: auto
 
+    
     &:checked
-        background-color: #7776df
+        background-color: #6a96ff
+        
+        &::before
+            content: '✔'
+            font-size: 14px
+            color: white
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button

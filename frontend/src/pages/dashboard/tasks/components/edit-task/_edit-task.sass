@@ -51,11 +51,9 @@
             display: flex
 
     &__item
-        color: #fff
         font-family: "Poppins"
         font-size: 15px
         color: #e7e7e7
-        padding: 8px 8px
         font-weight: 600
         background: #2b2b2b
         padding: 10px
@@ -66,14 +64,31 @@
 
         input
             width: 100%
-            padding: 2px 5px
             border-radius: 3px
             background: #2b2b2b
-            color: #fff
+            color: #e7e7e7
             font-family: 'Poppins'
-            font-weight: 600
+            font-weight: 500
             font-size: 15px
-            
+            outline: none
 
-            &:focus
-                background-color: #272727
+            &.line-through
+                text-decoration: line-through
+
+        input[type='checkbox']
+            appearance: none
+            background-color: #272727
+            width: 15px
+            height: 15px
+            border-radius: 100%
+            display: grid
+            place-content: center
+            outline: solid 2px #ffffff
+            margin: 5px
+
+            
+            &:checked
+                background-color: #788cde
+                
+                &::before
+                    display: none
