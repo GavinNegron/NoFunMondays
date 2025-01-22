@@ -8,36 +8,30 @@ function PostCard({ post }) {
   };
 
   if (!post) {
-    return null; // or render a placeholder, loading spinner, or error message
+    return null;
   }
-
-  const imageUrl = post.imageUrl || '/img/placeholder.png'; // default image if imageUrl is undefined
-  const slug = post.slug || '#'; // default link if slug is undefined
-  const title = post.title || 'Untitled'; // default title if title is undefined
-  const description = post.description || 'No description available.'; // default description if description is undefined
-  const createdAt = post.createdAt || new Date(); // default date if createdAt is undefined
 
   return (
     <div className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
       <div className="post-card__left d-flex">
         <div className="post-card__img">
           <Link
-            style={{ backgroundImage: `url(${imageUrl})` }}
-            href={`/blog/${slug}`}
-            aria-label={` ${title} `}
+            style={{ backgroundImage: `url(${post.imageUrl || '/img/placeholder.png'})` }}
+            href={`/blog/${post.slug}`}
+            aria-label={` ${post.title || 'Untitled'} `}
           />
         </div>
       </div>
       <div className="post-card__right d-flex">
         <div className="post-card__content">
           <div className="post-card__title">
-            <Link href={`/blog/${slug}`}>{title}</Link>
+            <Link href={`/blog/${post.slug}`}>{post.title || 'Untitled'}</Link>
           </div>
           <div className="post-card__description">
-            <p>{description}</p>
+            <p>{post.description || 'No description available.'}</p>
           </div>
           <div className="post-card__date">
-            <p>{formatDate(createdAt)}</p>
+            <p>{formatDate(post.createdAt)}</p>
           </div>
         </div>
       </div>
