@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
 import Head from 'next/head';
-import Image from 'next/image';
+
 import Link from 'next/link';
 
 // Layout

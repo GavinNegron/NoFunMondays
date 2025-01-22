@@ -1,7 +1,7 @@
 // React/Next.JS
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/image';
+
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 

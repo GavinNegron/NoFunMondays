@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEditorContext } from '../../../../contexts/EditorContext';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import Head from 'next/head';
 import Link from 'next/link';
+import Script from 'next/script'
 
 // Layout
 import LoadingScreen from '../../../components/base/loading';
@@ -46,9 +46,10 @@ function BlogPostEditor() {
     } = useEditorContext();
 
     const dispatch = useDispatch();
+    const router = useRouter();
+
     const [loadingState, setLoadingState] = useState(true);
     const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
-    const router = useRouter();
     const { slug } = router.query;
 
      useEffect(() => {
@@ -100,18 +101,20 @@ function BlogPostEditor() {
         };
     }, [setShowColorPicker]);
 
-    if (loadingState) {
-        return (
-            <LoadingScreen />
-        );
-    }
     const dropFunction = (e) => {
       const newElement = handleDrop(e);
       if (newElement) {
           dispatch(addPostElement(newElement));
       }
-  };
+    };
+
+    if (loadingState) {
+        return (
+            <LoadingScreen />
+        );
+}
     return (
+        <>
         <div className="blog-post-container">
             {notFound ? (
                 <NotFound />
@@ -119,9 +122,6 @@ function BlogPostEditor() {
                 <>
                     <Head>
                         <title>{post?.title}</title>
-                        <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
-                        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
-                        <script async src="https://platform.twitter.com/widgets.js"></script>
                     </Head>
                     <Navbar />
                     <EditorNavbar />
@@ -144,7 +144,7 @@ function BlogPostEditor() {
                             onDragOver={handleDragOver}
                         >
                             <div
-                                className="blog-post-element blog-post-main__image blog-post-element banner"
+                                className="blog-post-element image blog-post-element banner"
                                 tabIndex="0"
                                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                             >
@@ -152,7 +152,7 @@ function BlogPostEditor() {
                             </div>
                             <div className="blog-post-main__inner">
                                 <div
-                                    className="blog-post-element blog-post-main__title blog-post-element title"
+                                    className="blog-post-element title blog-post-element title"
                                     tabIndex="0"
                                     onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                                     onDoubleClick={(e) => handleDoubleClick(e)}
@@ -167,12 +167,16 @@ function BlogPostEditor() {
                     </div>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <TextStyles />
-                    <imgStyles />
+                    <ImageStyles />
                     <ListStyles />
                     <EmbedStyles />
                 </>
             )}
         </div>
+        <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
+        <Script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></Script>
+        <Script async src="https://platform.twitter.com/widgets.js"></Script>
+        </>
     );
 }
 

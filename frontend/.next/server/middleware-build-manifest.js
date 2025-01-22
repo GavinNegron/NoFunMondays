@@ -20,15 +20,15 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/dashboard/posts": [
+    "/blog/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/dashboard/posts.js"
+      "static/chunks/pages/blog/[slug].js"
     ],
-    "/dashboard/tasks": [
+    "/dashboard/posts/edit/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/dashboard/tasks.js"
+      "static/chunks/pages/dashboard/posts/edit/[slug].js"
     ]
   },
   "ampFirstPages": []

@@ -4,7 +4,7 @@ import { handleBlogPostElement } from './handleBlogPostElement';
 import { useEditorContext } from '../../../contexts/EditorContext';
 import { handleDoubleClick } from '../editor/editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
-import Image from 'next/image';
+
 
 const RenderElements = ({ element }) => {
   const { setSelectedElement } = useEditorContext();

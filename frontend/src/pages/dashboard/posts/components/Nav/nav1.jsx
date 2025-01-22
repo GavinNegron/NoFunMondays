@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Tooltip from '../../../../../utilities/tooltip';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery';
 import Publish from '../Publish';
 import Link from 'next/link';
 
 function EditNavbar() {
-    const {
-      post,
-    } = useEditorContext();
-    
+    const { post } = useSelector((state) => state.posts.fetchSlug);
     const postSlug = post?.slug;
 
     const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +39,7 @@ function EditNavbar() {
                             data-tooltip-id={`tip-${postStatus}`} 
                             className={`status-btn status-btn--${postStatus}`}
                         >
-                            {postStatus.charAt(0).toUpperCase() + postStatus.slice(1)} {/* Capitalize status */}
+                            {postStatus.charAt(0).toUpperCase() + postStatus.slice(1)} 
                         </button>
                         <Tooltip 
                             id={`tip-${postStatus}`}
