@@ -11,6 +11,7 @@ function Landing() {
       <Head>
         <title>Landing Page</title>
         <meta name="description" content="Welcome to the landing page of our blog" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"></script>
         <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
       </Head>
       <Navbar />
