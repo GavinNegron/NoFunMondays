@@ -158,7 +158,7 @@ function DPosts() {
                   />
                 </td>
                 <td className="dashboard__posts__image">
-                  <Image width={'100'} height={'100'}
+                  <img 
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
                     alt={post.title || 'Post image'}
                   />

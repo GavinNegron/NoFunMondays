@@ -19,7 +19,6 @@ const RenderElements = ({ element }) => {
   }, [element.twitterId]);
 
   useEffect(() => {
-    console.log('Updated twitterId:', twitterId);
   }, [twitterId]);
 
   const handleInputChange = (e) => {
@@ -46,7 +45,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <Image width={'100'} height={'100'} src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
+        return <img src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
       case 'bullet':
         return (
           <div className="bullet-point">

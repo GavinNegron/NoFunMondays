@@ -74,7 +74,6 @@ function BlogPostEditor() {
                 if (selectedElementNode && activeElement === selectedElementNode) {
                     dispatch(deletePostElement(selectedElement.id));
                     setSelectedElement(null);
-
                 }
             }
         };
@@ -149,7 +148,7 @@ function BlogPostEditor() {
                                 tabIndex="0"
                                 onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
                             >
-                                {post?.imageUrl && <Image width={'100'} height={'100'} src={post?.imageUrl} alt={post?.title} draggable="false" />}
+                                {post?.imageUrl && <img src={post?.imageUrl} alt={post?.title} draggable="false" />}
                             </div>
                             <div className="blog-post-main__inner">
                                 <div
@@ -168,7 +167,7 @@ function BlogPostEditor() {
                     </div>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <TextStyles />
-                    <ImageStyles />
+                    <imgStyles />
                     <ListStyles />
                     <EmbedStyles />
                 </>

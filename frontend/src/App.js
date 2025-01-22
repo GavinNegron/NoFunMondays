@@ -13,7 +13,7 @@ import DNotifications from './pages/dashboard/notifications/notifications'
 import DTasks from './pages/dashboard/tasks/tasks'
 import DSettings from './pages/dashboard/settings/settings'
 import NotFound from './pages/404/404'
-import BlogPost from './pages/blog/blog-post'
+import BlogPost from './pages/blog/[slug]'
 import EditPost from './pages/dashboard/posts/edit-post/edit-post'
 
 function App() {
