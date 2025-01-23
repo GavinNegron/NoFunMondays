@@ -17,6 +17,10 @@ function EditNavbar() {
     
     const postStatus = post?.status;
 
+    if (!postStatus) {
+    return null
+    }
+
     return (
         <>
             <div className="editor-navbar col-12">
