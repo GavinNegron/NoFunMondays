@@ -27,14 +27,9 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/nofunmondays.com/
-            if [ ! -d .git ]; then
-              git fetch --all
-              git reset --hard origin/main
-              git clean -fd
-              git checkout main
-            else
-              git pull origin main
-            fi
+            git fetch --all
+            git reset --hard origin/main  # Hard reset to match the remote main branch
+            git clean -fd  # Remove any untracked files or directories
           EOF
 
       - name: Build frontend
