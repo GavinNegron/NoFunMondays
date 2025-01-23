@@ -14,9 +14,11 @@ const connectToDatabase = (dbUrl, dbName) => {
 };
 
     const blogDB = () => connectToDatabase(process.env.DB_CONNECT_BLOG, 'Blog Database');
-    const adminDB = () => connectToDatabase(process.env.DB_CONNECT_ADMIN_PANEL, 'ADMIN_PANEL Database');
+    const dashboardDB = () => connectToDatabase(process.env.DB_CONNECT_DASHBOARD, 'DASHBOARD Database');
+    const logDB = () => connectToDatabase(process.env.DB_CONNECT_LOGS, 'Log Database');
 
 module.exports = {
     blogDB,
-    adminDB,
+    dashboardDB,
+    logDB,
 };

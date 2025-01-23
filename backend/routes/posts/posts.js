@@ -1,3 +1,6 @@
+
+const authenticate = require('../../middleware/auth')
+
 const { getPosts } = require('../../controllers/posts/getPosts');
 const { getRecentPosts } = require('../../controllers/posts/getRecentPosts');
 const { getFeaturedPosts } = require('../../controllers/posts/getFeaturedPosts');
@@ -11,7 +14,6 @@ const { findTitle } = require('../../controllers/posts/findTitle');
 const { fetchSlug } = require('../../controllers/posts/fetchSlug');
 
 module.exports = function(app){
-    
     app.get('/api/posts/', getPosts)
 
     app.get('/api/posts/recent', getRecentPosts)
@@ -24,7 +26,7 @@ module.exports = function(app){
 
     app.put('/api/posts/:id', updatePost)
 
-    app.delete('/api/posts/:id', deletePost)
+    app.delete('/api/posts/:id', authenticate, deletePost)
 
     app.delete('/api/posts/:id/elements/:elementId', deletePostElement)
 
