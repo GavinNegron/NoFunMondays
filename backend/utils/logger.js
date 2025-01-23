@@ -13,7 +13,7 @@ const logger = winston.createLogger({
     new winston.transports.MongoDB({
       db: process.env.DB_CONNECT_LOGS,
       collection: 'logs', 
-      level: 'info' 
+      level: 'info'
     }),
   ],
 })
