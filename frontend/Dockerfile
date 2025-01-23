@@ -6,7 +6,7 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./ 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
@@ -36,14 +36,23 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./ 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
+# Default port is 3000, but this will be overridden based on the argument passed during build
+ARG ENVIRONMENT=production
+ENV PORT=${PORT:-3000}
+ENV HOSTNAME="0.0.0.0"
+
+# Set port for staging and production
+RUN if [ "$ENVIRONMENT" = "staging" ]; then \
+      export PORT=3001; \
+    elif [ "$ENVIRONMENT" = "production" ]; then \
+      export PORT=3002; \
+    fi
+
 EXPOSE 3000
 
-ENV PORT=3000
-
-ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]

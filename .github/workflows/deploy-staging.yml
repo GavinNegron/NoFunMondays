@@ -35,9 +35,10 @@ jobs:
       - name: Build frontend
         run: |
           ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
             docker rm -f frontend || true
-            docker build -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3000:3000 --name frontend frontend
+            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
+            docker run -d -p 3001:3000 --name frontend frontend
           EOF
 
       - name: Install backend dependencies
