@@ -27,7 +27,9 @@ import ListStyles from '../components/EditStyles/list-styles';
 import EmbedStyles from '../components/EditStyles/embed-styles';
 
 // Features
-import { fetchSlug, addPostElement, deletePostElement } from '../../../../features/posts/postSlice/fetchSlug';
+import { fetchSlug } from '../../../../features/posts/postActions/fetchSlug'
+import { addPostElement } from '../../../../features/posts/postActions/addPostElement';
+import { deletePostElement } from '../../../../features/posts/postActions/deletePostElement'
 
 // Stylesheets
 import '../../../../../public/css/dashboard.css'
@@ -35,7 +37,6 @@ import '../../../../../public/css/edit-post.css'
 
 function BlogPostEditor() {
     const {
-        setPost,
         notFound,
         selectedElement,
         setSelectedElement,
@@ -43,29 +44,29 @@ function BlogPostEditor() {
         errorMessage,
         blogPostMainRef,
         setShowColorPicker,
+        imageUrl
     } = useEditorContext();
 
     const dispatch = useDispatch();
     const router = useRouter();
 
     const [loadingState, setLoadingState] = useState(true);
-    const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
+    const { post, postElements, isLoading, error } = useSelector((state) => state.posts.post);
     const { slug } = router.query;
-
-     useEffect(() => {
+    useEffect(() => {
         const handleLoading = async () => {
-          setLoadingState(true); 
-          try {
-            if (slug) {
-                await dispatch(fetchSlug({ slug, setPost }));
-                await new Promise((resolve) => setTimeout(resolve, 500)); 
-            }
+            setLoadingState(true);
+            try {
+                if (slug) {
+                    await dispatch(fetchSlug(slug));
+                    await new Promise((resolve) => setTimeout(resolve, 500));
+                }
             } finally {
                 setLoadingState(false);
             }
         };
         handleLoading();
-      }, [dispatch, slug, setPost]);
+    }, [dispatch, slug]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -102,80 +103,88 @@ function BlogPostEditor() {
     }, [setShowColorPicker]);
 
     const dropFunction = (e) => {
-      const newElement = handleDrop(e);
-      if (newElement) {
-          dispatch(addPostElement(newElement));
-      }
+        const newElement = handleDrop(e);
+        if (newElement) {
+            dispatch(addPostElement(newElement));
+        }
     };
 
-    if (loadingState) {
+    if (loadingState || isLoading) {
         return (
             <LoadingScreen />
         );
-}
+    }
+
+    if (error || errorMessage) {
+        return (
+            <div className="error-message">
+                {error || errorMessage}
+            </div>
+        );
+    }
+
     return (
         <>
-        <div className="blog-post-container">
-            {notFound ? (
-                <NotFound />
-            ) : (
-                <>
-                    <Head>
-                        <title>{post?.title}</title>
-                    </Head>
-                    <Navbar />
-                    <EditorNavbar />
-                    <EditorSidebar />
-                    <div className="editor-container">
-                        <div className="editor">
-                            <div className="editor__back">
-                                <Link href="/dashboard/posts">
-                                    <i className="fa-solid fa-arrow-left"></i>
-                                    <span>Dashboard</span>
-                                </Link>
+            <div className="blog-post-container">
+                {notFound ? (
+                    <NotFound />
+                ) : (
+                    <>
+                        <Head>
+                            <title>{post?.title}</title>
+                        </Head>
+                        <Navbar />
+                        {post && <EditorNavbar />}
+                        <EditorSidebar />
+                        <div className="editor-container">
+                            <div className="editor">
+                                <div className="editor__back">
+                                    <Link href="/dashboard/posts">
+                                        <i className="fa-solid fa-arrow-left"></i>
+                                        <span>Dashboard</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="blog-post-content">
-                        <div
-                            className="blog-post-main"
-                            ref={blogPostMainRef}
-                            onDrop={(e) => dropFunction(e)}
-                            onDragOver={handleDragOver}
-                        >
+                        <div className="blog-post-content">
                             <div
-                                className="blog-post-element image blog-post-element banner"
-                                tabIndex="0"
-                                onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
+                                className="blog-post-main"
+                                ref={blogPostMainRef}
+                                onDrop={dropFunction}
+                                onDragOver={handleDragOver}
                             >
-                                {post?.imageUrl && <img src={post?.imageUrl} alt={post?.title} draggable="false" />}
-                            </div>
-                            <div className="blog-post-main__inner">
                                 <div
-                                    className="blog-post-element title blog-post-element title"
+                                    className="blog-post-element banner"
                                     tabIndex="0"
                                     onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
-                                    onDoubleClick={(e) => handleDoubleClick(e)}
                                 >
-                                    <span>{post?.title}</span>
+                                    {post?.imageUrl && <img src={imageUrl || post?.imageUrl} alt={post?.title} draggable="false" />}
                                 </div>
-                                {postElements && postElements.length > 0 && postElements.map((element) => (
-                                    <RenderElements key={element.id} element={element} editor={true} />
-                                ))}
+                                <div className="blog-post-main__inner">
+                                    <div
+                                        className="blog-post-element title"
+                                        tabIndex="0"
+                                        onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
+                                        onDoubleClick={(e) => handleDoubleClick(e)}
+                                    >
+                                        <span>{post?.title}</span>
+                                    </div>
+                                    {postElements && postElements.length > 0 && postElements.map((element) => (
+                                        <RenderElements key={element.id} element={element} editor={true} />
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    <TextStyles />
-                    <ImageStyles />
-                    <ListStyles />
-                    <EmbedStyles />
-                </>
-            )}
-        </div>
-        <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
-        <Script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></Script>
-        <Script async src="https://platform.twitter.com/widgets.js"></Script>
+                        <TextStyles />
+                        <ImageStyles />
+                        <ListStyles />
+                        <EmbedStyles />
+                    </>
+                )}
+            </div>
+            <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
+            <Script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></Script>
+            <Script async src="https://platform.twitter.com/widgets.js"></Script>
         </>
     );
 }

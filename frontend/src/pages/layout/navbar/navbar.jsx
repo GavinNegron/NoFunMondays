@@ -1,6 +1,5 @@
 import Socials from '../../components/base/socials'
 import Search from '../../components/base/search'
-import Image from 'next/image'
 import Link from 'next/link'
 
 function navbar() {

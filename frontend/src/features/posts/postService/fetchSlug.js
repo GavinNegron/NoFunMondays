@@ -5,5 +5,4 @@ const fetchSlug = async (slug) => {
   return response.data;
 };
 
-
 export default fetchSlug;

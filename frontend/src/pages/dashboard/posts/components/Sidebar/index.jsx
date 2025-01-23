@@ -4,7 +4,6 @@ import Tooltip from '../../../../../utilities/tooltip';
 import $ from 'jquery';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import './_sidebar.sass'
-import Link from 'next/link';
 
 // Data 
 import elements from '../../../../../data/elements';

@@ -2,32 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Tooltip from '../../../../../utilities/tooltip';
 import $ from 'jquery';
-import Publish from '../Publish';
+import Publish from '../Publish/index';
 import Link from 'next/link';
 
 function EditNavbar() {
-    const { post } = useSelector((state) => state.posts.fetchSlug);
+    const { post } = useSelector((state) => state.posts.post);
     const postSlug = post?.slug;
-
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        if (post?.status) {
-            setIsLoading(false);
-        }
-    }, [post]);
-
-    if (isLoading || !post) {
-        return <div>Loading...</div>; 
-    }
- 
-    const postStatus = post.status;
-
 
     const publishPost = async () => {
         $("body").css("max-height", "100vh");
         $("body").css("overflow", "hidden");
         $(".publish").css("display", "flex");
     }
+    
+    const postStatus = post.status;
 
     return (
         <>

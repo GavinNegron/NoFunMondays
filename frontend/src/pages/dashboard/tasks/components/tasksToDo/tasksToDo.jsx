@@ -14,7 +14,6 @@ const TasksToDo = () => {
   }, [dispatch, taskLimit]);
 
   const handleTaskClick = () => {
-    console.log('test')
     $('.edit-task').stop(true, true).fadeIn('fast');
   }
 

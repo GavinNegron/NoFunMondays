@@ -5,7 +5,6 @@ import { useEditorContext } from '../../../contexts/EditorContext';
 import { handleDoubleClick } from '../editor/editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
 
-
 const RenderElements = ({ element }) => {
   const { setSelectedElement } = useEditorContext();
 

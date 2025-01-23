@@ -15,8 +15,8 @@ import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '../../components/base/loading'
 
 // Services
-import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
-import { deletePost } from '../../../features/posts/postSlice/deletePost';
+import { fetchPosts } from '../../../features/posts/postActions/fetchPosts';
+import { deletePost } from '../../../features/posts/postActions/deletePost';
 
 // Stylesheets
 import '../../../../public/css/dashboard.css'
@@ -24,7 +24,7 @@ import '../../../../public/css/posts.css'
 
 function DPosts() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts.fetchPosts);
+  const { posts } = useSelector((state) => state.posts.post);
   const [postLimit, setPostLimit] = useState(5);
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);

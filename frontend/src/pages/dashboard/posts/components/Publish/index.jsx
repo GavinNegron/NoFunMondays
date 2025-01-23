@@ -4,11 +4,10 @@ import { useSelector } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
 import $ from 'jquery';
-import Link from 'next/link';
 
 function Publish() {
     const { setPost, imageUrl } = useEditorContext();
-    const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
+    const { postElements, post } = useSelector((state) => state.posts.post);
     const isMountedRef = useRef(true);
 
     useEffect(() => {
@@ -27,10 +26,6 @@ function Publish() {
 
     const { auth } = post || {};
 
-    if (!auth) {
-        return null; 
-    }
-
     return (
         <div className="publish">
             <div className="publish__inner">
@@ -38,13 +33,13 @@ function Publish() {
                     <span>Publish Post</span>
                 </div>
                 <div className="publish__content">
-                    <Link draggable="false">
+                    <a draggable="false">
                         <div className="publish__content__item publish__content-post">
                             <span>Publish Post</span>
                             <p>Make your post public.</p>
                         </div>
-                    </Link>
-                    <Link draggable="false">
+                    </a>
+                    <a draggable="false">
                         <div className="publish__content__item publish__content-schedule">
                             <div className="publish__content-schedule__text">
                                 <span>Scheduled Publish</span>
@@ -56,9 +51,9 @@ function Publish() {
                             </div>
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
-                    </Link>
+                    </a>
                     <div className="publish__content-submit">
-                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost, imageUrl)}>
+                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost)}>
                             Publish Post
                         </button>
                     </div>

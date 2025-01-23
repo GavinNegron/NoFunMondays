@@ -22,7 +22,6 @@ const createPost = async (req, res) => {
         if (imageUrl.startsWith('http')) {
             try {
                 const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-                console.log("Fetched image successfully:", response.status);
                 const contentType = response.headers['content-type'];
                 const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
                 const bucket = storage.bucket(bucketName);
@@ -54,7 +53,6 @@ const createPost = async (req, res) => {
         }
 
         const slug = generateSlug(title);
-        console.log("Generated slug:", slug);
 
         const post = await Posts.create({
             title,
@@ -63,7 +61,6 @@ const createPost = async (req, res) => {
             status: status,
         });
 
-        console.log("Post created:", post);
         res.status(201).json(post);
 
     } catch (error) {

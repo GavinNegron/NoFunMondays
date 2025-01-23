@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../../features/posts/postSlice/fetchPosts';
+import { fetchPosts } from '../../../features/posts/postActions/fetchPosts';
 import PostCard from './post-card';
 
 function RecentPosts({ initialPosts, initialLoading }) {
   const dispatch = useDispatch();
-  const { posts = [], isLoading } = useSelector((state) => state.posts.fetchPosts);
+  const { posts, isLoading } = useSelector((state) => state.posts.post);
   
   const [postLimit, setPostLimit] = useState(6);
 

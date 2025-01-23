@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import postReducer from '../features/posts/postSlice/index';
+import postReducer from '../features/posts/index';
 import taskReducer from '../features/tasks/taskSlice/index';
 
 export const store = configureStore({

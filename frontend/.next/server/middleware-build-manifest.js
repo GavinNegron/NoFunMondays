@@ -7,7 +7,10 @@ self.__BUILD_MANIFEST = {
   ],
   "ampDevFiles": [],
   "lowPriorityFiles": [],
-  "rootMainFiles": [],
+  "rootMainFiles": [
+    "static/chunks/webpack.js",
+    "static/chunks/main-app.js"
+  ],
   "rootMainFilesTree": {},
   "pages": {
     "/_app": [
@@ -20,20 +23,15 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/dashboard/notifications": [
+    "/blog/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/dashboard/notifications.js"
+      "static/chunks/pages/blog/[slug].js"
     ],
-    "/dashboard/posts": [
+    "/dashboard/posts/edit/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/dashboard/posts.js"
-    ],
-    "/dashboard/tasks": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/dashboard/tasks.js"
+      "static/chunks/pages/dashboard/posts/edit/[slug].js"
     ]
   },
   "ampFirstPages": []

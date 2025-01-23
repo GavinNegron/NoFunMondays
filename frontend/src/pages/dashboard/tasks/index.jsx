@@ -14,8 +14,8 @@ import Search from '../../components/base/search'
 import EditTask from './components/edit-task/edit-task'
 
 // Stylesheets
-import '../../../../public/css/tasks.css'
 import '../../../../public/css/dashboard.css'
+import '../../../../public/css/tasks.css'
 
 const DTasks = () => {
   return (

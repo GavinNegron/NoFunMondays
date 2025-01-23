@@ -4,7 +4,7 @@ import $ from 'jquery';
 import { useDispatch } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { createPost } from '../../../../../features/posts/postSlice/createPost';
-import { findTitle } from '../../../../../features/posts/postSlice/findTitle';
+import { findTitle } from '../../../../../features/posts/postSlice/fetchTitle';
 import { useRouter } from 'next/router';
 import LoadingScreen from '../../../../components/base/loading';
 

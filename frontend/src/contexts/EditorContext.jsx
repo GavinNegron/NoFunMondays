@@ -43,7 +43,7 @@ export const EditorProvider = ({ children }) => {
     [selectedElement]
   )
 
-  const handleFileChange = (e, isNewPost = false) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
 
@@ -52,35 +52,23 @@ export const EditorProvider = ({ children }) => {
       const base64Image = reader.result
       setImage(base64Image)
 
-      if (isNewPost) {
+      if (selectedElement.classList.contains('banner')) {
         setImageUrl(base64Image)
-        setPreviewImage(base64Image)
-      } else if (selectedElement) {
-        if (selectedElement.classList.contains('banner')) {
-          setImageUrl(base64Image)
-        } else if (selectedElement.classList.contains('image')) {
-          const imgElement = selectedElement.querySelector('img')
-          if (imgElement) imgElement.src = base64Image
-        }
-        setPreviewImage(base64Image)
+      } else if (selectedElement.classList.contains('image')) {
+        const imgElement = selectedElement.querySelector('img')
+        if (imgElement) imgElement.src = base64Image
       }
+      setPreviewImage(base64Image)
     }
     reader.readAsDataURL(file)
   }
 
-  const renderImageSelector = (isNewPost = false) => {
-    const previewSrc =
-      previewImage ||
-      (isNewPost
-        ? '/img/placeholder.png'
-        : selectedElement?.classList.contains('banner')
-        ? imageUrl
-        : selectedElement?.querySelector('img')?.src) ||
-      '/img/placeholder.png'
+  const renderImageSelector = () => {
+    const previewSrc = previewImage;
 
     return (
       <>
-        {!isNewPost && <p>Select Image:</p>}
+        <p>Select Image:</p>
         <img
           src={previewSrc}
           alt="Selected preview"
@@ -90,7 +78,7 @@ export const EditorProvider = ({ children }) => {
         <input
           ref={fileInputRef}
           type="file"
-          onChange={e => handleFileChange(e, isNewPost)}
+          onChange={e => handleFileChange(e)}
           accept="image/*"
           style={{ display: 'none' }}
         />

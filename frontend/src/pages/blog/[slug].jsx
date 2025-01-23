@@ -14,7 +14,7 @@ import LoadingScreen from '../components/base/loading';
 import RenderElements from '../../utilities/posts/postElement/renderElements';
 
 // Features
-import { fetchSlug } from '../../features/posts/postSlice/fetchSlug';
+import { fetchSlug } from '../../features/posts/postActions/fetchSlug';
 
 // Stylesheets
 import '../../../public/css/blog-post.css'
@@ -23,7 +23,7 @@ function BlogPost() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { slug } = router.query;
-  const { postElements, post } = useSelector((state) => state.posts.fetchSlug);
+  const { post, postElements } = useSelector((state) => state.posts.post);
   const [loading, setLoading] = useState(true);
 
 
@@ -32,7 +32,7 @@ function BlogPost() {
           setLoading(true); 
           try {
             if (slug) {
-                await dispatch(fetchSlug({ slug}));
+                await dispatch(fetchSlug(slug));
                 await new Promise((resolve) => setTimeout(resolve, 500)); 
             }
             } finally {

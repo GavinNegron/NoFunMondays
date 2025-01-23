@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/dashboard/tasks": "pages/dashboard/tasks.js",
   "/dashboard/posts": "pages/dashboard/posts.js",
-  "/dashboard/notifications": "pages/dashboard/notifications.js",
+  "/blog/[slug]": "pages/blog/[slug].js",
   "/dashboard/posts/edit/[slug]": "pages/dashboard/posts/edit/[slug].js"
 }
