@@ -17,9 +17,9 @@ const EditStyles = () => {
   const {
      blogPostMainRef,
      selectedElement,
-     setInputValues,
   } = useEditorContext();
-  
+
+  const [inputValues, setInputValues] = useState([])
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const elementRef = useRef(null)

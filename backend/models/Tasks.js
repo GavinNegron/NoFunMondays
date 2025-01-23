@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const { adminDB } = require('../config/db'); 
+const { dashboardDB } = require('../config/db'); 
 
-const admin = adminDB(); 
+const admin = dashboardDB(); 
 
 const taskSchema = new mongoose.Schema({
   content: { 

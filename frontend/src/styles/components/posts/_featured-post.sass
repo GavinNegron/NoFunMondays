@@ -19,10 +19,11 @@
     &__img
         width: 100%
         overflow: hidden
+        height: 400px
         
         a
             display: flex
-            min-height: 400px
+            height: 100%
             background: url("/img/placeholder.png") center/cover no-repeat
             transition: all 0.4s ease 
 
@@ -74,8 +75,20 @@
         &__date
             font-size: 16px
 
+        &__img
+            height: 300px
+
     @media (max-width: 991px) and (min-width: 769px)
         &__right
             position: relative
             right: 100%
             background-color: rgba(18, 18, 18, 0.43)
+
+        &__date, &__description
+            display: none
+
+        &__content
+            padding: 60px
+
+        &__title
+            font-size: 30px

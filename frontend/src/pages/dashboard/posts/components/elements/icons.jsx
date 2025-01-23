@@ -9,11 +9,11 @@ const Icons = () => {
     setStyle,
     toggleColorPicker,
     showColorPicker,
-    colorPickerRef,
     selectedElement,
     handleStyleChange
   } = useEditorContext();
 
+  
   const handleAlignChange = (alignment) => {
     selectedElement.style.textAlign = alignment;
   };
@@ -48,7 +48,7 @@ const Icons = () => {
         <Tooltip id="tip-underline" header="Underline" place="top" background="#242529" fontWeight="600" />
         <Tooltip id="tip-color" header="Color" place="top" background="#242529" fontWeight="600" />
         {showColorPicker && (
-        <div className="edit-styles__color-picker-container" ref={colorPickerRef} style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
+        <div className="edit-styles__color-picker-container" style={{ position: 'absolute', zIndex: 2, top: '115px', left: '103px' }}>
             <BlockPicker color={style.color} onChange={(color) => handleColorChange(color)} />
         </div>
         )}

@@ -47,7 +47,7 @@ function FeaturedPost() {
               <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
             </div>
             <div className="featured-post__description">
-              <p>{featuredPost.description}</p>
+              <p>{featuredPost.description || 'No description available.'}</p>
             </div>
             <div className="featured-post__date">
               <p>{formatDate(featuredPost.createdAt)}</p>

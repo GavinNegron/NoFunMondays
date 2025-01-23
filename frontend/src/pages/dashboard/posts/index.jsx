@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
 import Head from 'next/head';
-import Image from 'next/image';
+
 import Link from 'next/link';
 
 // Layout
@@ -158,7 +158,7 @@ function DPosts() {
                   />
                 </td>
                 <td className="dashboard__posts__image">
-                  <Image width={'100'} height={'100'}
+                  <img 
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
                     alt={post.title || 'Post image'}
                   />

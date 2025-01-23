@@ -12,10 +12,9 @@ function NewPost() {
     const {
         renderImageSelector,
         image,
-        setTitle,
-        title
     } = useEditorContext();
 
+    const [title, setTitle] = useState('');
     const dispatch = useDispatch();
     const router = useRouter();
     const [error, setError] = useState(null);
