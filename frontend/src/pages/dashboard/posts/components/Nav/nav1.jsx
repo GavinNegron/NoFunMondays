@@ -15,7 +15,7 @@ function EditNavbar() {
         $(".publish").css("display", "flex");
     }
     
-    const postStatus = post.status;
+    const postStatus = post?.status;
 
     return (
         <>

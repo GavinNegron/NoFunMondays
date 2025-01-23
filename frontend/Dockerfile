@@ -48,9 +48,9 @@ ENV HOSTNAME="0.0.0.0"
 
 # Set port for staging and production
 RUN if [ "$ENVIRONMENT" = "staging" ]; then \
-      export PORT=3001; \
-    elif [ "$ENVIRONMENT" = "production" ]; then \
       export PORT=3002; \
+    elif [ "$ENVIRONMENT" = "production" ]; then \
+      export PORT=3001; \
     fi
 
 EXPOSE 3000

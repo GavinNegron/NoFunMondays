@@ -38,7 +38,7 @@ jobs:
             cd /var/www/staging.nofunmondays.com/frontend
             docker rm -f frontend || true
             docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3001:3000 --name frontend frontend
+            docker run -d -p 3002:3000 --name frontend frontend
           EOF
 
       - name: Install backend dependencies
