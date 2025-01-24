@@ -23,21 +23,22 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Pull latest code from main
+      - name: Pull latest code from production
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/nofunmondays.com/
             git fetch --all
-            git reset --hard origin/main  # Hard reset to match the remote main branch
+            git reset --hard origin/production  # Hard reset to match the remote production branch
             git clean -fd  # Remove any untracked files or directories
           EOF
 
       - name: Build frontend
         run: |
           ssh root@67.205.132.203 <<EOF
+            cd /var/www/nofunmondays.com/frontend
             docker rm -f frontend || true
-            docker build -t frontend /var/www/nofunmondays.com/frontend
-            docker run -d -p 3000:3000 --name frontend frontend
+            docker build --build-arg ENVIRONMENT=production -t frontend /var/www/nofunmondays.com/frontend
+            docker run -d -p 3001:3000 --name frontend frontend
           EOF
 
       - name: Install backend dependencies
@@ -50,7 +51,7 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            pm2 restart production-app || pm2 start /var/www/production.nofunmondays.com/backend/app.js --name production-app
+            pm2 restart production-app || pm2 start /var/www/nofunmondays.com/backend/app.js --name production-app
           EOF
 
       - name: Restart Nginx
