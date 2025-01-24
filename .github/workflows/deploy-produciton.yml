@@ -28,7 +28,7 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             cd /var/www/nofunmondays.com/
             git fetch --all
-            git reset --hard origin/production  # Hard reset to match the remote production branch
+            git reset --hard origin/main  # Hard reset to match the remote production branch
             git clean -fd  # Remove any untracked files or directories
           EOF
 
