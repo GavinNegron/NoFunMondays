@@ -10,7 +10,7 @@ import Sidebar from '../../layout/sidebar'
 
 // Components
 import TasksToDo from './components/tasksToDo/tasksToDo'
-import Search from '../../components/base/search'
+import Search from '../../../components/base/search'
 import EditTask from './components/edit-task/edit-task'
 
 // Stylesheets

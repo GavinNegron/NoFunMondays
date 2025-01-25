@@ -22,6 +22,4 @@ const logSchema = new mongoose.Schema({
   },
 }, { collection: 'logs' }) 
 
-const Log = log.model('Log', logSchema) 
-
-module.exports = Log
+module.exports = log.model('Tasks', taskSchema);

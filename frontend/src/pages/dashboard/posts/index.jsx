@@ -12,7 +12,7 @@ import Sidebar from '../../layout/sidebar';
 
 // Components
 import NewPost from './components/NewPost/new-post';
-import LoadingScreen from '../../components/base/loading'
+import LoadingScreen from '../../../components/base/loading'
 
 // Services
 import { fetchPosts } from '../../../features/posts/postActions/fetchPosts';

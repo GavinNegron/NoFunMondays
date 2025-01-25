@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/dashboard/posts": "pages/dashboard/posts.js",
-  "/dashboard/posts/edit/[slug]": "pages/dashboard/posts/edit/[slug].js",
-  "/": "pages/index.js"
+  "/account/reset-password": "pages/account/reset-password.js",
+  "/login": "pages/login.js",
+  "/dashboard": "pages/dashboard.js"
 }

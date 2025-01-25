@@ -8,7 +8,7 @@ import Head from 'next/head';
 // Layout
 import Navbar from '../layout/navbar/navbar';
 import Footer from '../layout/footer/footer';
-import LoadingScreen from '../components/base/loading';
+import LoadingScreen from '../../components/base/loading';
 
 // Utilities
 import RenderElements from '../../utilities/posts/postElement/renderElements';

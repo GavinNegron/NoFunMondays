@@ -1,7 +1,7 @@
 import Navbar from './layout/navbar/navbar';
 import Footer from './layout/footer/footer';
-import FeaturedPost from './components/posts/featured-post'
-import RecentPosts from './components/posts/recent-posts'
+import FeaturedPost from '../components/posts/featured-post'
+import RecentPosts from '../components/posts/recent-posts'
 import Head from 'next/head';
 import '../../public/css/landing.css'
 

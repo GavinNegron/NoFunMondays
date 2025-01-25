@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Script from 'next/script'
 
 // Layout
-import LoadingScreen from '../../../components/base/loading';
+import LoadingScreen from '../../../../components/base/loading';
 import NotFound from '../../../404';
 import Navbar from '../../../layout/navbar/navbar';
 import EditorNavbar from '../components/Nav/nav1';

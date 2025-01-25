@@ -13,12 +13,14 @@ const connectToDatabase = (dbUrl, dbName) => {
     return connection;
 };
 
-    const blogDB = () => connectToDatabase(process.env.DB_CONNECT_BLOG, 'Blog Database');
-    const dashboardDB = () => connectToDatabase(process.env.DB_CONNECT_DASHBOARD, 'DASHBOARD Database');
-    const logDB = () => connectToDatabase(process.env.DB_CONNECT_LOGS, 'Log Database');
+    const blogDB = () => connectToDatabase(`${process.env.MONGO_URI}/blog`, 'Blog Database');
+    const dashboardDB = () => connectToDatabase(`${process.env.MONGO_URI}/dashboard`, 'Dashboard Database');
+    const logDB = () => connectToDatabase(`${process.env.MONGO_URI}/logs`, 'Logs Database');
+    const userDB = () => connectToDatabase(`${process.env.MONGO_URI}/users`, 'Users Database');
 
 module.exports = {
     blogDB,
     dashboardDB,
     logDB,
+    userDB
 };

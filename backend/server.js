@@ -1,11 +1,15 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const passport = require('passport')
 const helmet = require('helmet')
 const fs = require('fs')
 const path = require('path')
 const rateLimit = require('express-rate-limit')
 const { blogDB, dashboardDB, logDB } = require('./config/db')
+
+import('./config/passport-jwt-strategy.js');
 
 const app = express()
 
@@ -46,6 +50,8 @@ app.use(
         origin: ['http://localhost:3000', 'https://nofunmondays.com', 'https://staging.nofunmondays.com'],
         methods: ['GET', 'POST'],
         allowedHeaders: ['Content-Type'],
+        optionsSuccessStatus: 200,
+        credentials: true
     })
 )
 
@@ -57,6 +63,10 @@ app.use(helmet.hsts({
     includeSubDomains: true,  
     preload: true  
 }))
+
+app.use(passport.initialize());
+
+app.use(cookieParser());
 
 async function routeHandler(folderName) {
     try {
