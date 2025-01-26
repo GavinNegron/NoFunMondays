@@ -16,10 +16,8 @@ import Icons from '../elements/icons'
 const EditStyles = () => {
   const {
      blogPostMainRef,
-     selectedElement,
   } = useEditorContext();
 
-  const [inputValues, setInputValues] = useState([])
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const elementRef = useRef(null)
@@ -57,16 +55,6 @@ const EditStyles = () => {
       }
     }
   }, [isDragging, position, setIsDragging])
-
-  useEffect(() => {
-    if (selectedElement) {
-      const liElements = selectedElement.querySelectorAll('ul li')
-      liElements.forEach(() => {
-      })
-      const initialValues = Array.from(liElements).map(li => ({ textContent: li.textContent }))
-      setInputValues(initialValues)
-    }
-  }, [selectedElement, setInputValues])
 
   const closeEditor = () => handleBlogPostElement(null)
 

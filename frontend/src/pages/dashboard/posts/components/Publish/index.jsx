@@ -6,7 +6,7 @@ import { publishPost } from '../../../../../utilities/posts/postData/publishPost
 import $ from 'jquery';
 
 function Publish() {
-    const { setPost, imageUrl } = useEditorContext();
+    const { setPost } = useEditorContext();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const isMountedRef = useRef(true);
 
@@ -23,8 +23,6 @@ function Publish() {
             });
         }
     }, []);
-
-    const { auth } = post || {};
 
     return (
         <div className="publish">
