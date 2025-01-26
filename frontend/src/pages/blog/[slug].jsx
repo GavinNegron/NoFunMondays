@@ -1,46 +1,36 @@
-// React/Next.JS
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-// Layout
+import LoadingScreen from '../../components/base/loading';
 import Navbar from '../layout/navbar/navbar';
 import Footer from '../layout/footer/footer';
-import LoadingScreen from '../../components/base/loading';
-
-// Utilities
 import RenderElements from '../../utilities/posts/postElement/renderElements';
 
-// Features
 import { fetchSlug } from '../../features/posts/postActions/fetchSlug';
 
-// Stylesheets
-import '../../../public/css/blog-post.css'
+import '../../../public/css/blog-post.css';
 
-function BlogPost() {
+const BlogPost = memo(() => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { slug } = router.query;
-  const { post, postElements } = useSelector((state) => state.posts.post);
-  const [loading, setLoading] = useState(true);
+  const { post, postElements, loading } = useSelector((state) => state.posts.post);
 
+  useEffect(() => {
+    const handleLoading = async () => {
+      if (!slug) return;
+      await dispatch(fetchSlug(slug));
+    };
+    handleLoading();
+  }, [dispatch, slug]);
 
- useEffect(() => {
-        const handleLoading = async () => {
-          setLoading(true); 
-          try {
-            if (slug) {
-                await dispatch(fetchSlug(slug));
-                await new Promise((resolve) => setTimeout(resolve, 500)); 
-            }
-            } finally {
-              setLoading(false);
-            }
-        };
-        handleLoading();
-      }, [dispatch, slug]);
+  const renderedElements = useMemo(() => {
+    return postElements?.map((element) => (
+      <RenderElements key={element.id} element={element} editor={true} />
+    ));
+  }, [postElements]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -52,10 +42,9 @@ function BlogPost() {
 
   return (
     <>
-    <Head>
-      <title>{post.title}</title>
-      <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
-    </Head>
+      <Head>
+        <title>{post.title}</title>
+      </Head>
 
       <Navbar />
       <main className="main">
@@ -68,11 +57,7 @@ function BlogPost() {
               <div className="post__content-header">
                 <p>{post.title}</p>
               </div>
-              <div className="post__elements">
-              {postElements && postElements.length > 0 && postElements.map((element) => (
-                <RenderElements key={element.id} element={element} editor={true} />
-              ))}
-              </div>
+              <div className="post__elements">{renderedElements}</div>
             </div>
           </div>
         </div>
@@ -80,6 +65,6 @@ function BlogPost() {
       <Footer />
     </>
   );
-}
+});
 
 export default BlogPost;

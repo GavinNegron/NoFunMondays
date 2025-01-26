@@ -1,50 +1,41 @@
+// REACT
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
 import $ from 'jquery';
-import { useDispatch } from 'react-redux';
-import { handleClickOutside } from '../../../../../utilities/domUtils';
-import { createPost } from '../../../../../features/posts/postSlice/createPost';
-import { findTitle } from '../../../../../features/posts/postSlice/fetchTitle';
-import { useRouter } from 'next/router';
+
+// COMPONENTS
 import LoadingScreen from '../../../../../components/base/loading';
 
-function NewPost() {
-    const {
-        renderImageSelector,
-        image,
-    } = useEditorContext();
+// FEATURES
+import { createPost } from '../../../../../features/posts/postActions/createPost';
+import { findTitle } from '../../../../../features/posts/postActions/fetchTitle';
 
-    const [title, setTitle] = useState('');
-    const dispatch = useDispatch();
+// UTILITIES
+import { handleClickOutside } from '../../../../../utilities/domUtils';
+
+function NewPost() {
+    const { renderImageSelector, image } = useEditorContext();
     const router = useRouter();
+    const dispatch = useDispatch();
+    const [title, setTitle] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const isMountedRef = useRef(true);
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            $(".new-post").on('click', (e) => {
-                handleClickOutside(e, '.new-post__inner', '.new-post');
-            });
-        }
-
-        return () => {
-            isMountedRef.current = false;
-        };
-    }, []);
+        $(".new-post").on('click', (e) => {
+            handleClickOutside(e, '.new-post__inner', '.new-post');
+        });
+    });
 
     const handleNewPost = async () => {
-        if (!title || !image) {
-            if (isMountedRef.current) setError('Title and image are required');
-            return;
-        }
+        if (!title || !image) return setError('Title and image are required');
         try {
             const isTitleAvailable = await dispatch(findTitle(title)).unwrap();
             if (!isTitleAvailable) {
-                if (isMountedRef.current) {
-                    setError('Title already exists. Please choose a different title.');
-                    $('.new-post').addClass('error-visible'); // Add error-visible class
-                }
+                setError('Title already exists. Please choose a different title.');
+                $('.new-post').addClass('error-visible'); 
                 return;
             }
 
@@ -55,12 +46,11 @@ function NewPost() {
             };
 
             const createdPost = await dispatch(createPost(post)).unwrap();
-
-            if (isMountedRef.current) router.push(`/dashboard/posts/edit/${createdPost.slug}`);
+            router.push(`/dashboard/posts/edit/${createdPost.slug}`);
         } catch (error) {
-            if (isMountedRef.current) setError('Error.', error);
+            setError('Error.', error);
         } finally {
-            if (isMountedRef.current) setIsLoading(false); 
+           setIsLoading(false); 
         }
     };
 

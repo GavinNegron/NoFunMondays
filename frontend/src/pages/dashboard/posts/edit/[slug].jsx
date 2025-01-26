@@ -11,7 +11,7 @@ import Script from 'next/script'
 import LoadingScreen from '../../../../components/base/loading';
 import NotFound from '../../../404';
 import Navbar from '../../../layout/navbar/navbar';
-import EditorNavbar from '../components/Nav/nav1';
+import EditorNavbar from '../components/EditorNavbar';
 import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities

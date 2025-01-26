@@ -10,7 +10,7 @@ import { userLogin } from '../../features/users/userActions/userLogin'
 const Login = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { loading, error } = useSelector((state) => state.user) // Adjust this selector based on your state structure
+  const { loading, error } = useSelector((state) => state.user) 
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(loginSchema),
