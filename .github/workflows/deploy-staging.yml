@@ -57,7 +57,7 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
             docker rm -f frontend-staging || true
-            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
+            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend --force-rm
             docker run -d -p 3002:3000 --name frontend-staging frontend
           EOF
 
