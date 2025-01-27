@@ -87,7 +87,7 @@ async function routeHandler(folderName) {
 
 routeHandler(path.join(__dirname, '/routes'))
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const server = app.listen(port, () => {
     console.log(`Server Up and running on port ${port}`)
 })
@@ -97,4 +97,4 @@ process.on('unhandledRejection', (err) => {
     server.close(() => process.exit(1))  
 })
 
-module.exports = app
+module.exports = app;

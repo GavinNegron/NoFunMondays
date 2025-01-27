@@ -31,7 +31,6 @@ jobs:
               rm -rf /var/cache/nginx/*
             fi
             apt-get clean
-            docker system prune -af --volumes
             journalctl --vacuum-time=7d
           EOF
 
@@ -50,7 +49,7 @@ jobs:
             cd /var/www/staging.nofunmondays.com/frontend
             docker rm -f frontend-staging || true
             docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3001:3000 --name frontend-staging frontend
+            docker run -d -p 3002:3000 --name frontend-staging frontend
           EOF
 
       - name: Install backend dependencies
@@ -63,10 +62,10 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            if pm2 list | grep -q 'staging-app'; then
-              pm2 restart staging-app
+            if pm2 list | grep -q 'app-blue'; then
+              pm2 restart app-blue
             else
-              pm2 start npm --name staging-app -- start
+              pm2 start npm --name app-blue -- start
             fi
           EOF
 
