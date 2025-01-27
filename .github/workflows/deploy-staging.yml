@@ -41,8 +41,10 @@ jobs:
           cd frontend
           docker build --build-arg ENVIRONMENT=staging -t frontend .
           docker create --name frontend-container frontend
-          docker cp frontend-container:/app/.next ./frontend/.next
+          docker cp frontend-container:/app/.next ./   # Copying to the current directory directly
           docker rm frontend-container
+        
+        
 
       - name: Upload frontend build files
         uses: actions/upload-artifact@v3
@@ -70,7 +72,10 @@ jobs:
 
       - name: Copy frontend build to DigitalOcean server
         run: |
-          scp -r ./frontend/.next root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/.next/
+          ssh root@67.205.132.203 <<EOF
+            rm -rf /var/www/staging.nofunmondays.com/frontend/.next/*
+            cp -r $(pwd)/frontend/.next/* /var/www/staging.nofunmondays.com/frontend/.next/
+          EOF
 
       - name: Restart Nginx
         run: |
