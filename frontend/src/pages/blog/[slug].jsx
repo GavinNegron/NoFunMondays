@@ -8,7 +8,7 @@ import Navbar from '../layout/navbar/navbar';
 import Footer from '../layout/footer/footer';
 import RenderElements from '../../utilities/posts/postElement/renderElements';
 
-import { fetchSlug } from '../../features/posts/postActions/fetchSlug';
+import { fetchSlug } from '../../features/posts/postAction';
 
 import '../../../public/css/blog-post.css';
 
