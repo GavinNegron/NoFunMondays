@@ -1,9 +1,7 @@
-# syntax=docker.io/docker/dockerfile:1
-
 FROM node:latest AS base
 
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apt-get update && apt-get install -y libc6-compat
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./ 
