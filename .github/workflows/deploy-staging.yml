@@ -44,7 +44,6 @@ jobs:
           docker cp frontend-container:/app/.next ./frontend/.next
           docker rm frontend-container
 
-
       - name: Upload frontend build files
         uses: actions/upload-artifact@v3
         with:
@@ -69,12 +68,9 @@ jobs:
         with:
           name: frontend-build
 
-      - name: Copy frontend build to server
+      - name: Copy frontend build to DigitalOcean server
         run: |
-          ssh root@67.205.132.203 <<EOF
-            rm -rf /var/www/frontend/.next/*
-            cp -r $(pwd)/frontend/.next/* /var/www/frontend/.next/
-          EOF
+          scp -r ./frontend/.next root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/.next/
 
       - name: Restart Nginx
         run: |
