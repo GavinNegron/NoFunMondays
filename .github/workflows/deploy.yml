@@ -37,7 +37,7 @@ jobs:
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
             docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3001:3000 frontend
+            docker run -d -p 3002:3000 frontend
           EOF
 
       - name: Install backend dependencies
@@ -50,10 +50,10 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            if pm2 list | grep -q 'staging-app'; then
-              pm2 restart staging-app
+            if pm2 list | grep -q 'app-blue'; then
+              pm2 restart app-blue
             else
-              pm2 start npm --name staging-app -- start
+              pm2 start npm --name app-blue -- start
             fi
           EOF
 
