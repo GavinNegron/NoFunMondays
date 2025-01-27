@@ -1,0 +1,65 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add SSH key to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
+
+      - name: Pull latest code from staging
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/
+            git fetch --all
+            git reset --hard origin/staging  # Hard reset to match the remote staging branch
+            git clean -fd  # Remove any untracked files or directories
+          EOF
+
+      - name: Build frontend
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
+            docker rm -f frontend-staging || true
+            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
+            docker run -d -p 3002:3000 --name frontend-staging frontend
+          EOF
+
+      - name: Install backend dependencies
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/backend
+            npm install --legacy-peer-deps
+          EOF
+
+      - name: Restart backend application
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            if pm2 list | grep -q 'staging-app'; then
+              pm2 restart staging-app
+            else
+              pm2 start npm --name staging-app -- start
+            fi
+          EOF
+
+      - name: Restart Nginx
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            sudo systemctl restart nginx
+          EOF

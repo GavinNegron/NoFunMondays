@@ -23,7 +23,7 @@ function RecentPosts({ initialPosts, initialLoading }) {
     <>
       <div className="recent-posts">
         <div className="recent-posts__header">
-          <p>Recent Blog Posts</p>
+          <p>Recent Blog Posts TEST</p>
         </div>
         <div className="recent-posts__inner">
           {posts?.map((post) => (
