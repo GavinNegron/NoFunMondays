@@ -39,7 +39,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          docker build --build-arg ENVIRONMENT=staging -t frontend .
+          docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend --force-rm
           docker run --rm -v $(pwd)/.next:/app/.next frontend
 
       - name: Upload frontend build files
