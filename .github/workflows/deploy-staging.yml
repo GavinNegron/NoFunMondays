@@ -51,7 +51,11 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            pm2 restart staging-app || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name staging-app
+            if pm2 list | grep -q 'staging-app'; then
+              pm2 restart staging-app
+            else
+              pm2 start npm --name staging-app -- start
+            fi
           EOF
 
       - name: Restart Nginx
