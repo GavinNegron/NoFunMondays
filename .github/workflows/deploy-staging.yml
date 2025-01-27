@@ -23,6 +23,30 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
+      - name: Cleanup Nginx and free disk space
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Stop Nginx
+            sudo systemctl stop nginx
+            
+            # Remove unused Docker containers, images, and volumes
+            docker system prune -af --volumes
+            
+            # Clear Nginx temporary files
+            sudo rm -rf /var/cache/nginx/*
+            sudo rm -rf /var/log/nginx/*
+            
+            # Clean up system temporary files
+            sudo rm -rf /tmp/*
+            
+            # Free up apt cache
+            sudo apt-get clean
+            sudo rm -rf /var/lib/apt/lists/*
+            
+            # Restart Nginx
+            sudo systemctl start nginx
+          EOF
+
       - name: Pull latest code from staging
         run: |
           ssh root@67.205.132.203 <<EOF
