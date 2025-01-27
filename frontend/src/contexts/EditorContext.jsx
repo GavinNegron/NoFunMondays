@@ -51,24 +51,17 @@ export const EditorProvider = ({ children }) => {
     reader.onloadend = () => {
       const base64Image = reader.result
       setImage(base64Image)
-
-      if (selectedElement.classList.contains('banner')) {
-        setImageUrl(base64Image)
-      } else if (selectedElement.classList.contains('image')) {
-        const imgElement = selectedElement.querySelector('img')
-        if (imgElement) imgElement.src = base64Image
-      }
+     
       setPreviewImage(base64Image)
     }
     reader.readAsDataURL(file)
   }
 
   const renderImageSelector = () => {
-    const previewSrc = previewImage;
+    const previewSrc = previewImage || '/img/placeholder.png';
 
     return (
       <>
-        <p>Select Image:</p>
         <img
           src={previewSrc}
           alt="Selected preview"

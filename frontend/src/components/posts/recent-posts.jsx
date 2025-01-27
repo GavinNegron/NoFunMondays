@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../features/posts/postActions/fetchPosts';
+import { fetchPosts } from '../../features/posts/postAction';
 import PostCard from './post-card';
 
 function RecentPosts({ initialPosts, initialLoading }) {

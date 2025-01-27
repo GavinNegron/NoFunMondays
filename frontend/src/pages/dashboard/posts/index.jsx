@@ -15,8 +15,7 @@ import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '../../../components/base/loading'
 
 // Services
-import { fetchPosts } from '../../../features/posts/postActions/fetchPosts';
-import { deletePost } from '../../../features/posts/postActions/deletePost';
+import { fetchPosts, deletePost } from '../../../features/posts/postAction';
 
 // Stylesheets
 import '../../../../public/css/dashboard.css'

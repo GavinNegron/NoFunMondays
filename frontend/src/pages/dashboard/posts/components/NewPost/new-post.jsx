@@ -9,8 +9,7 @@ import $ from 'jquery';
 import LoadingScreen from '../../../../../components/base/loading';
 
 // FEATURES
-import { createPost } from '../../../../../features/posts/postActions/createPost';
-import { findTitle } from '../../../../../features/posts/postActions/fetchTitle';
+import { createPost, fetchTitle } from '../../../../../features/posts/postAction';
 
 // UTILITIES
 import { handleClickOutside } from '../../../../../utilities/domUtils';
@@ -32,7 +31,7 @@ function NewPost() {
     const handleNewPost = async () => {
         if (!title || !image) return setError('Title and image are required');
         try {
-            const isTitleAvailable = await dispatch(findTitle(title)).unwrap();
+            const isTitleAvailable = await dispatch(fetchTitle(title)).unwrap();
             if (!isTitleAvailable) {
                 setError('Title already exists. Please choose a different title.');
                 $('.new-post').addClass('error-visible'); 

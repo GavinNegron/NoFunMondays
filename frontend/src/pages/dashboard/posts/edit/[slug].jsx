@@ -27,9 +27,7 @@ import ListStyles from '../components/EditStyles/list-styles';
 import EmbedStyles from '../components/EditStyles/embed-styles';
 
 // Features
-import { fetchSlug } from '../../../../features/posts/postActions/fetchSlug'
-import { addPostElement } from '../../../../features/posts/postActions/addPostElement';
-import { deletePostElement } from '../../../../features/posts/postActions/deletePostElement'
+import { fetchSlug, addPostElement, deletePostElement } from '../../../../features/posts/postAction'
 
 // Stylesheets
 import '../../../../../public/css/dashboard.css'

@@ -1,6 +1,6 @@
 const Post = require('../../models/Posts'); 
 
-const findTitle = async (req, res) => {
+const fetchTitle = async (req, res) => {
     const { title } = req.query;
 
     try {
@@ -17,4 +17,4 @@ const findTitle = async (req, res) => {
     }
 };
 
-module.exports = { findTitle };
+module.exports = { fetchTitle };
