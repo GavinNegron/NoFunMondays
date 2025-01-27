@@ -1,7 +1,7 @@
 FROM node:latest AS base
 
 FROM base AS deps
-RUN apt-get update && apt-get install -y libc6-compat
+RUN apt-get update && apt-get install -y libc6
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./ 
