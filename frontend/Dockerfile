@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:23-alpine3.20 AS base
+FROM node:latest AS base
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
