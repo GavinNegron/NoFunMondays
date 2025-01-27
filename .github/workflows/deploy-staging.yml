@@ -23,34 +23,23 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Cleanup Nginx and free disk space
+      - name: Pull latest code from staging
         run: |
           ssh root@67.205.132.203 <<EOF
-            sudo systemctl stop nginx
-            docker system prune -af --volumes
-            sudo rm -rf /var/cache/nginx/*
-            sudo rm -rf /var/log/nginx/*
-            sudo rm -rf /tmp/*
-            sudo apt-get clean
-            sudo rm -rf /var/lib/apt/lists/*
-            sudo systemctl start nginx
+            cd /var/www/staging.nofunmondays.com/
+            git fetch --all
+            git reset --hard origin/staging  # Hard reset to match the remote staging branch
+            git clean -fd  # Remove any untracked files or directories
           EOF
 
       - name: Build frontend
         run: |
-          cd frontend
-          docker build --build-arg ENVIRONMENT=staging -t frontend .
-          docker create --name frontend-container frontend
-          docker cp frontend-container:/app/.next ./   # Copying to the current directory directly
-          docker rm frontend-container
-        
-        
-
-      - name: Upload frontend build files
-        uses: actions/upload-artifact@v3
-        with:
-          name: frontend-build
-          path: ./frontend/.next
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com/frontend
+            docker rm -f frontend-staging || true
+            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
+            docker run -d -p 3002:3000 --name frontend-staging frontend
+          EOF
 
       - name: Install backend dependencies
         run: |
@@ -63,18 +52,6 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             pm2 restart staging-app || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name staging-app
-          EOF
-
-      - name: Download frontend build files to server
-        uses: actions/download-artifact@v3
-        with:
-          name: frontend-build
-
-      - name: Copy frontend build to DigitalOcean server
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            rm -rf /var/www/staging.nofunmondays.com/frontend/.next/*
-            cp -r $(pwd)/frontend/.next/* /var/www/staging.nofunmondays.com/frontend/.next/
           EOF
 
       - name: Restart Nginx
