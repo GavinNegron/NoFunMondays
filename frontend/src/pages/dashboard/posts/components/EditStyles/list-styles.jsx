@@ -15,11 +15,7 @@ import Icons from '../elements/icons'
 
 const EditStyles = () => {
   const {
-<<<<<<< HEAD
      blogPostMainRef,
-=======
-     blogPostMainRef
->>>>>>> development
   } = useEditorContext();
 
   const [position, setPosition] = useState({ x: 0, y: 175, offsetX: 0, offsetY: 0 })
