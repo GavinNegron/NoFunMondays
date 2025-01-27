@@ -28,4 +28,4 @@ const changePasswordSchema = Yup.object({
   otp: Yup.string().required("OTP is required").length(6, "OTP must be exactly 6 characters"),
 });
 
-export { registerSchema, loginSchema, resetPasswordSchema, verifyEmailSchema };
+export { registerSchema, loginSchema, resetPasswordSchema, verifyEmailSchema, changePasswordSchema };

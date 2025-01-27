@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '../../validation/schemas'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLogin } from '../../features/users/userActions/userLogin'
+import { userLogin } from '../../features/users/userAction'
 
 const Login = () => {
   const router = useRouter()
@@ -23,7 +23,7 @@ const Login = () => {
         router.push('/dashboard/')
       })
       .catch((err) => {
-        console.error('Login failed:', err)
+        console.error('Login failed:', err);
       })
   }
 
