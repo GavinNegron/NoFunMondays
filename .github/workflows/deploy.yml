@@ -23,17 +23,6 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Clean up Nginx and disk space
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            find /var/log/nginx/ -type f -name '*.log' -mtime +7 -exec rm -f {} \;
-            if [ -d "/var/cache/nginx" ]; then
-              rm -rf /var/cache/nginx/*
-            fi
-            apt-get clean
-            journalctl --vacuum-time=7d
-          EOF
-
       - name: Pull latest code from staging
         run: |
           ssh root@67.205.132.203 <<EOF
@@ -49,7 +38,7 @@ jobs:
             cd /var/www/staging.nofunmondays.com/frontend
             docker rm -f frontend-staging || true
             docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3002:3000 --name frontend-staging frontend
+            docker run -d -p 3001:3000 --name frontend-staging frontend
           EOF
 
       - name: Install backend dependencies
@@ -62,10 +51,10 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            if pm2 list | grep -q 'app-blue'; then
-              pm2 restart app-blue
+            if pm2 list | grep -q 'staging-app'; then
+              pm2 restart staging-app
             else
-              pm2 start npm --name app-blue -- start
+              pm2 start npm --name staging-app -- start
             fi
           EOF
 
