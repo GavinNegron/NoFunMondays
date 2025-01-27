@@ -15,7 +15,7 @@ const VerifyEmail = () => {
   }
 
   return (
-    <> 
+    <>
       <Head>
         <title>Reset Password</title>
       </Head>
