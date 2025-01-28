@@ -56,7 +56,7 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
-            pm2 start npm --name "next-blue" -- run start --PORT=3002
+            pm2 start next --name "next-blue" -- start -p 3002
           EOF
 
       - name: Restart backend application
