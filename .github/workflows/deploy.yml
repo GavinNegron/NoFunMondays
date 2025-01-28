@@ -40,6 +40,7 @@ jobs:
 
       - name: Transfer Docker image
         run: |
+          ls -l docker-blue.tar.gz
           scp docker-blue.tar.gz root@67.205.132.203:/tmp/
 
       - name: Deploy Docker image and run
