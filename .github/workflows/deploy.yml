@@ -37,21 +37,23 @@ jobs:
           cd frontend
           docker build --build-arg ENVIRONMENT=staging -t build-blue .
 
-      - name: Save frontend Docker image to a tar file.
+      - name: Log in to Docker Hub
         run: |
-          docker save build-blue -o build-blue.tar
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Tag the image
+        run: |
+          docker tag build-blue ${{ secrets.DOCKER_USERNAME }}/build-blue:latest
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/build-blue:latest
 
       - name: Upload Docker image to the server
         run: |
-          scp build-blue.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/build-blue.tar
-
-      - name: Extract and run the Docker container on the server
-        run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
-            tar -xvf build-blue.tar
-            rm build-blue.tar
-            docker run -d -p 3002:3000 build-blue
+            docker pull ${{ secrets.DOCKER_USERNAME }}/build-blue:latest
+            docker run -d -p 3002:3000 ${{ secrets.DOCKER_USERNAME }}/build-blue:latest
           EOF
 
       - name: Install backend dependencies
