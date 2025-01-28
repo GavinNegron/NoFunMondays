@@ -44,13 +44,20 @@ jobs:
 
       - name: Transfer Docker image
         run: |
-          scp $GITHUB_WORKSPACE/docker-blue.tar.gz root@67.205.132.203:/tmp/
+          scp $GITHUB_WORKSPACE/docker-blue.tar.gz root@67.205.132.203:/var/www/staging.nofunmondays.com/
+
+      - name: Clean up space on remote server
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            rm -rf /var/www/staging.nofunmondays.com/*
+            df -h
+          EOF
 
       - name: Deploy Docker image and run
         run: |
           ssh root@67.205.132.203 <<EOF
-            gzip -d /tmp/docker-blue.tar.gz
-            docker load < /tmp/docker-blue.tar
+            gzip -d /var/www/staging.nofunmondays.com/docker-blue.tar.gz
+            docker load < /var/www/staging.nofunmondays.com/docker-blue.tar
             docker rm -f docker-blue || true
             docker run -d -p 3002:3000 --name docker-blue docker-blue
           EOF
