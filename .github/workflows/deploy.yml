@@ -35,23 +35,23 @@ jobs:
       - name: Build frontend Docker image
         run: |
           cd frontend
-          docker build --build-arg ENVIRONMENT=staging -t frontend .
+          docker build --build-arg ENVIRONMENT=staging -t build-blue .
 
       - name: Save frontend Docker image to a tar file.
         run: |
-          docker save frontend -o frontend.tar
+          docker save build-blue -o build-blue.tar
 
       - name: Upload Docker image to the server
         run: |
-          scp frontend.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend.tar
+          scp build-blue.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/build-blue.tar
 
       - name: Extract and run the Docker container on the server
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com
-            tar -xvf frontend.tar
-            rm frontend.tar
-            docker run -d -p 3002:3000 frontend
+            tar -xvf build-blue.tar
+            rm build-blue.tar
+            docker run -d -p 3002:3000 build-blue
           EOF
 
       - name: Install backend dependencies
