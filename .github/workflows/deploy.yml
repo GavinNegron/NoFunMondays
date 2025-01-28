@@ -23,33 +23,45 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
+      - name: Cleanup Nginx and free disk space
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Stop Nginx
+            sudo systemctl stop nginx
+            
+            # Remove unused Docker containers, images, and volumes
+            docker system prune -af --volumes
+            
+            # Clear Nginx temporary files
+            sudo rm -rf /var/cache/nginx/*
+            sudo rm -rf /var/log/nginx/*
+            
+            # Clean up system temporary files
+            sudo rm -rf /tmp/*
+            
+            # Free up apt cache
+            sudo apt-get clean
+            sudo rm -rf /var/lib/apt/lists/*
+            
+            # Restart Nginx
+            sudo systemctl start nginx
+          EOF
+
       - name: Pull latest code from staging
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/
             git fetch --all
-            git reset --hard origin/staging
-            git clean -fd
+            git reset --hard origin/staging  # Hard reset to match the remote staging branch
+            git clean -fd  # Remove any untracked files or directories
           EOF
 
-      - name: Build Docker image
-        run: |
-          cd frontend
-          docker build -t docker-blue .
-          docker save docker-blue | gzip > docker-blue.tar.gz
-
-      - name: Transfer Docker image to server
-        run: |
-          scp docker-blue.tar.gz root@67.205.132.203:/var/www/staging.nofunmondays.com/
-          
-      - name: Extract Docker image and run container
+      - name: Build frontend
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/
-            gzip -d docker-blue.tar.gz
-            docker load < docker-blue.tar
-            docker rm -f docker-blue || true
-            docker run -d -p 3002:3000 --name docker-blue docker-blue
+            cd /var/www/staging.nofunmondays.com/frontend
+            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
+            docker run -d -p 3002:3000 --name frontend-staging frontend
           EOF
 
       - name: Install backend dependencies
@@ -59,11 +71,13 @@ jobs:
             npm install --legacy-peer-deps
           EOF
 
-      - name: Restart backend application
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            pm2 restart docker-blue || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name docker-blue
-          EOF
+          - name: Restart backend application
+          run: |
+            ssh root@67.205.132.203 <<EOF
+              pm2 restart app-green ||pm2 start npm --name app-green -- start
+
+            EOF
+        
 
       - name: Restart Nginx
         run: |
