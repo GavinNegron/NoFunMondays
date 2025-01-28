@@ -36,12 +36,15 @@ jobs:
         run: |
           cd frontend
           docker build -t docker-blue .
-          docker save docker-blue | gzip > docker-blue.tar.gz
+          docker save docker-blue | gzip > $GITHUB_WORKSPACE/docker-blue.tar.gz
+
+      - name: Check if the tar.gz file exists
+        run: |
+          ls -l $GITHUB_WORKSPACE/docker-blue.tar.gz
 
       - name: Transfer Docker image
         run: |
-          ls -l docker-blue.tar.gz
-          scp docker-blue.tar.gz root@67.205.132.203:/tmp/
+          scp $GITHUB_WORKSPACE/docker-blue.tar.gz root@67.205.132.203:/tmp/
 
       - name: Deploy Docker image and run
         run: |
