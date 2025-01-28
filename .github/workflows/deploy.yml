@@ -23,35 +23,31 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Pull latest code from staging branch
+      - name: Pull latest code from staging
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
+            cd /var/www/staging.nofunmondays.com/
             git fetch --all
-            git reset --hard origin/staging  # Hard reset to match the remote staging branch
-            git clean -fd  # Remove any untracked files or directories
+            git reset --hard origin/staging
+            git clean -fd
           EOF
 
-      - name: Build frontend Docker image
+      - name: Build Docker image
         run: |
-          cd frontend
-          docker build --build-arg ENVIRONMENT=staging -t build-blue .
+          docker build -t staging-app .
+          docker save staging-app | gzip > staging-app.tar.gz
 
-      - name: Save frontend Docker image to a tar file.
+      - name: Transfer Docker image
         run: |
-          docker save build-blue -o build-blue.tar
+          scp staging-app.tar.gz root@67.205.132.203:/tmp/
 
-      - name: Upload Docker image to the server
-        run: |
-          scp build-blue.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/build-blue.tar
-
-      - name: Extract and run the Docker container on the server
+      - name: Deploy Docker image and run
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
-            tar -xvf build-blue.tar
-            rm build-blue.tar
-            docker run -d -p 3002:3000 build-blue
+            gzip -d /tmp/staging-app.tar.gz
+            docker load < /tmp/staging-app.tar
+            docker rm -f staging-app || true
+            docker run -d -p 3002:3000 --name staging-app staging-app
           EOF
 
       - name: Install backend dependencies
@@ -64,12 +60,7 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
-            if pm2 list | grep -q 'app-blue'; then
-              pm2 restart app-blue
-            else
-              pm2 start npm --name app-blue -- start
-            fi
+            pm2 restart staging-app || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name staging-app
           EOF
 
       - name: Restart Nginx
