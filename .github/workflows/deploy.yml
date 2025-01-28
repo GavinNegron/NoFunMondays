@@ -36,28 +36,18 @@ jobs:
         run: |
           cd frontend
           docker build -t docker-blue .
-          docker save docker-blue | gzip > $GITHUB_WORKSPACE/docker-blue.tar.gz
+          docker save docker-blue | gzip > docker-blue.tar.gz
 
-      - name: Check if the tar.gz file exists
+      - name: Transfer Docker image to server
         run: |
-          ls -l $GITHUB_WORKSPACE/docker-blue.tar.gz
-
-      - name: Transfer Docker image
-        run: |
-          scp $GITHUB_WORKSPACE/docker-blue.tar.gz root@67.205.132.203:/var/www/staging.nofunmondays.com/
-
-      - name: Clean up space on remote server
+          scp docker-blue.tar.gz root@67.205.132.203:/var/www/staging.nofunmondays.com/
+          
+      - name: Extract Docker image and run container
         run: |
           ssh root@67.205.132.203 <<EOF
-            rm -rf /var/www/staging.nofunmondays.com/*
-            df -h
-          EOF
-
-      - name: Deploy Docker image and run
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            gzip -d /var/www/staging.nofunmondays.com/docker-blue.tar.gz
-            docker load < /var/www/staging.nofunmondays.com/docker-blue.tar
+            cd /var/www/staging.nofunmondays.com/
+            gzip -d docker-blue.tar.gz
+            docker load < docker-blue.tar
             docker rm -f docker-blue || true
             docker run -d -p 3002:3000 --name docker-blue docker-blue
           EOF
