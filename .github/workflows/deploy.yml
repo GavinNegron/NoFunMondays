@@ -36,7 +36,7 @@ jobs:
         run: |
           scp frontend.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend.tar
 
-      - name: Extract and run the Docker container on the server
+      - name: Extract and run the Docker container on the server.
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com
