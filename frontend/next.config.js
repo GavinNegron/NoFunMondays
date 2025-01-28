@@ -18,8 +18,4 @@ module.exports = {
       },
     ];
   },
-  env: {
-    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST || '0.0.0.0',
-    NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT || '3000',
-  },
 };
