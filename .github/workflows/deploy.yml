@@ -23,6 +23,15 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
+      - name: Pull latest code from staging branch
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com
+            git fetch --all
+            git reset --hard origin/staging  # Hard reset to match the remote staging branch
+            git clean -fd  # Remove any untracked files or directories
+          EOF
+
       - name: Build frontend Docker image
         run: |
           cd frontend
@@ -36,7 +45,7 @@ jobs:
         run: |
           scp frontend.tar root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend.tar
 
-      - name: Extract and run the Docker container on the server.
+      - name: Extract and run the Docker container on the server
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com
