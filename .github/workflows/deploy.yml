@@ -61,7 +61,7 @@ jobs:
             # Restart the backend (e.g., using pm2 or systemctl)
             pm2 restart staging-app  # or replace with your backend restart command
 
-      - name: Start frontend with PM2
+      - name: Start frontend with PM2.
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
