@@ -23,64 +23,54 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Cleanup Nginx and free disk space
+      - name: Configure Git Safe Directory
         run: |
           ssh root@67.205.132.203 <<EOF
-            # Stop Nginx
-            sudo systemctl stop nginx
-            
-            # Remove unused Docker containers, images, and volumes
-            docker system prune -af --volumes
-            
-            # Clear Nginx temporary files
-            sudo rm -rf /var/cache/nginx/*
-            sudo rm -rf /var/log/nginx/*
-            
-            # Clean up system temporary files
-            sudo rm -rf /tmp/*
-            
-            # Free up apt cache
-            sudo apt-get clean
-            sudo rm -rf /var/lib/apt/lists/*
-            
-            # Restart Nginx
-            sudo systemctl start nginx
+            git config --global --add safe.directory /var/www/staging.nofunmondays.com
           EOF
-
-      - name: Pull latest code from staging
+          
+      - name: Pull origin from staging
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/
-            git fetch --all
-            git reset --hard origin/staging  # Hard reset to match the remote staging branch
-            git clean -fd  # Remove any untracked files or directories
+            git pull origin staging
           EOF
+
+      - name: Install dependencies for frontend
+        run: |
+          cd frontend
+          npm install --legacy-peer-deps
 
       - name: Build frontend
         run: |
+          cd frontend
+          npm run build  # Use build for production, not start
+
+      - name: Deploy frontend build to staging server
+        run: |
+          scp -r frontend/build/* root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build
+
+      - name: Install dependencies for backend
+        run: |
+          cd backend
+          npm install --legacy-peer-deps
+
+      - name: Restart backend application
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            # Restart the backend (e.g., using pm2 or systemctl)
+            pm2 restart staging-app  # or replace with your backend restart command
+
+      - name: Start frontend with PM2
+        run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
-            docker build --build-arg ENVIRONMENT=staging -t frontend /var/www/staging.nofunmondays.com/frontend
-            docker run -d -p 3002:3000 --name frontend-staging frontend
+            pm2 start npm --name "frontend" -- run start 
           EOF
 
-      - name: Install backend dependencies
+      - name: Restart frontend server (Nginx reverse proxy)
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/backend
-            npm install --legacy-peer-deps
-          EOF
-
-          - name: Restart backend application
-          run: |
-            ssh root@67.205.132.203 <<EOF
-              pm2 restart app-green ||pm2 start npm --name app-green -- start
-
-            EOF
-        
-
-      - name: Restart Nginx
-        run: |
-          ssh root@67.205.132.203 <<EOF
+            # Restart Nginx to apply new frontend build
             sudo systemctl restart nginx
           EOF
