@@ -34,20 +34,21 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t staging-app .
-          docker save staging-app | gzip > staging-app.tar.gz
+          cd frontend
+          docker build -t docker-blue .
+          docker save docker-blue | gzip > docker-blue.tar.gz
 
       - name: Transfer Docker image
         run: |
-          scp staging-app.tar.gz root@67.205.132.203:/tmp/
+          scp docker-blue.tar.gz root@67.205.132.203:/tmp/
 
       - name: Deploy Docker image and run
         run: |
           ssh root@67.205.132.203 <<EOF
-            gzip -d /tmp/staging-app.tar.gz
-            docker load < /tmp/staging-app.tar
-            docker rm -f staging-app || true
-            docker run -d -p 3002:3000 --name staging-app staging-app
+            gzip -d /tmp/docker-blue.tar.gz
+            docker load < /tmp/docker-blue.tar
+            docker rm -f docker-blue || true
+            docker run -d -p 3002:3000 --name docker-blue docker-blue
           EOF
 
       - name: Install backend dependencies
@@ -60,7 +61,7 @@ jobs:
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            pm2 restart staging-app || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name staging-app
+            pm2 restart docker-blue || pm2 start /var/www/staging.nofunmondays.com/backend/app.js --name docker-blue
           EOF
 
       - name: Restart Nginx
