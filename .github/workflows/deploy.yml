@@ -30,7 +30,7 @@ jobs:
             git fetch --all
             git reset --hard origin/staging  # Hard reset to match the remote staging branch
             git clean -fd  # Remove any untracked files or directories
-          EOF
+          EOF 
 
       - name: Build frontend
         run: |
