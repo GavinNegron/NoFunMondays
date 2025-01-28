@@ -37,7 +37,7 @@ jobs:
           cd frontend
           docker build --build-arg ENVIRONMENT=staging -t frontend .
 
-      - name: Save frontend Docker image to a tar file
+      - name: Save frontend Docker image to a tar file.
         run: |
           docker save frontend -o frontend.tar
 
