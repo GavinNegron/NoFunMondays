@@ -1,6 +1,5 @@
 module.exports = {
   distDir: 'build',
-  output: 'standalone',
   reactStrictMode: true,
   images: {
     remotePatterns: [
