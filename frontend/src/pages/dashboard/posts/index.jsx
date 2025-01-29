@@ -1,4 +1,4 @@
-// React
+// REACT
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
@@ -6,18 +6,16 @@ import Head from 'next/head';
 
 import Link from 'next/link';
 
-// Layout
+// COMPONENTS
 import Navbar from '../../layout/navbar/navbar';
 import Sidebar from '../../layout/sidebar';
-
-// Components
 import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '../../../components/base/loading'
 
-// Services
+// FEATURES
 import { fetchPosts, deletePost } from '../../../features/posts/postAction';
 
-// Stylesheets
+// STYLESHEETS
 import '../../../../public/css/dashboard.css'
 import '../../../../public/css/posts.css'
 

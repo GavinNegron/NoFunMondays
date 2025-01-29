@@ -1,22 +1,63 @@
+// REACT
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTasks } from '../../../../../features/tasks/taskSlice/fetchTasks';
 import $ from 'jquery'
-import './_tasksToDo.sass'
+import { useTaskContext } from '../../../../../contexts/TaskContext';
+
+// COMPONENTS
+import LoadingScreen from '../../../../../components/base/loading'
+
+// FEATURES
+import { fetchTasks } from '../../../../../features/tasks/taskAction';
 
 const TasksToDo = () => {
+  const {
+    selectedTask,
+    setSelectedTask
+  } = useTaskContext();
+
   const dispatch = useDispatch();
-  const { tasks = [], isLoading } = useSelector((state) => state.tasks);
-  const [taskLimit] = useState(10);
+  const { tasks, isLoading } = useSelector((state) => state.tasks.task);
+  const [taskLimit] = useState(6);
+  const [loadingState, setLoadingState] = useState(true); 
 
   useEffect(() => {
-    dispatch(fetchTasks({ limit: taskLimit, excludeFeatured: false }));
+    const handleLoading = async () => {
+      setLoadingState(true); 
+      try {
+        dispatch(fetchTasks({ taskLimit: taskLimit }));
+        await new Promise((resolve) => setTimeout(resolve, 500)); 
+      } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+      } finally {
+        setLoadingState(false); 
+      }
+    };
+    handleLoading();
   }, [dispatch, taskLimit]);
 
-  const handleTaskClick = () => {
-    $('.edit-task').stop(true, true).fadeIn('fast');
-  }
+  const handleTaskClick = (e, task) => {
+    if(e.currentTarget === selectedTask) {
+    $('.edit-task').stop(true, true).toggle();
+    } else {
+    setSelectedTask(task);
 
+      $('.edit-task').stop(true, true).show();
+    }
+  };
+
+  useEffect(() => {
+    if (tasks.length > 0) {
+      return;
+    }
+  }, [tasks]);
+
+
+  if(loadingState) {
+    return (
+      <LoadingScreen/>
+    )
+  }
   return (
    <>
    <div className="list-group">
@@ -28,12 +69,12 @@ const TasksToDo = () => {
         </div>
         <div className="list-group__grid">
           {isLoading ? (
-            <div>Loading...</div>
+            <div>Loading tasks...</div>
           ) : tasks.length === 0 ? (
             <div>You have completed all tasks.</div>
           ) : (
             tasks.map((task) => (
-              <div className="list-group__grid__item" key={task._id} onClick={handleTaskClick}>
+              <div className="list-group__grid__item" key={task._id} onClick={(e) => handleTaskClick(e, task)}>
                 <div className="list-group__grid__item__element list-group__grid__item--tag">
                   <span>{task.tag}</span>
                 </div>

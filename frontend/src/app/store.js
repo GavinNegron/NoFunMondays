@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import postReducer from '../features/posts/postSlice';
-import taskReducer from '../features/tasks/taskSlice/index';
+import taskReducer from '../features/tasks/taskSlice.js';
 import userReducer from '../features/users/userSlice.js';
 
 export const store = configureStore({

@@ -33,7 +33,7 @@ const DTasks = () => {
         <div className="dashboard tasks">
           <div className="dashboard__inner">
             <div className="dashboard__header">
-              <span>Tasks.</span>
+              <span>Tasks</span>
             </div>
             <div className="dashboard__search">
               <Search/>
