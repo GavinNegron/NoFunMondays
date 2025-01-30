@@ -19,7 +19,7 @@ class MyDocument extends Document {
         </body>
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"/>
         <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
-        <Script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></Script>
+        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
         {process.env.NODE_ENV === "production" && (
           <>
           <Script async src="https://www.googletagmanager.com/gtag/js?id=G-968L600ZDF"/>
