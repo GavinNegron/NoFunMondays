@@ -56,14 +56,16 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
-            pm2 start next --name "next-blue" -- start -p 3002
+            pm2 start next --name "next-blue" -- start -p 3001
           EOF
 
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            pm2 restart staging-app  # or replace with your backend restart command
+            pm2 show backend-blue || pm2 start npm --name backend-blue -- start
+            pm2 restart backend-blue
           EOF
+        
 
       - name: Restart Nginx reverse proxy
         run: |
