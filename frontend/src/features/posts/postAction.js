@@ -68,3 +68,11 @@ export const fetchTitle = createAsyncThunk('posts/fetchTitle', async (title, thu
     return thunkAPI.rejectWithValue('Failed to fetch title.');
   }
 });
+
+export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, postElements }, thunkAPI) => {
+  try {
+    return await postService.publishPost(post, postElements);
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to publish post.');
+  }
+});

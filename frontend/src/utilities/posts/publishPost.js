@@ -5,7 +5,6 @@ import DOMPurify from 'dompurify';
 
 export const publishPost = async (post, postElements, setPost) => {
   const imageUrl = post.imageUrl;
-  console.log('imgurl', imageUrl)
   if (!post) return;
 
   const stylesMap = new Map();

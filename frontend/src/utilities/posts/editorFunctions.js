@@ -1,4 +1,4 @@
-import elements from '../../../data/elements'
+import elements from '../../data/elements'
 
 export const handleDoubleClick = (event) => {
     const element = event.currentTarget;
@@ -67,3 +67,17 @@ export const handleMouseMove = (isDragging, position, setPosition, elementRef) =
 export const handleMouseUp = (setIsDragging) => {
     setIsDragging(false);
 }
+
+export const getElementStyles = (elementDom) => {
+    const computedStyles = window.getComputedStyle(elementDom);
+    return {
+      color: computedStyles.color,
+      margin: computedStyles.margin,
+      fontFamily: computedStyles.fontFamily,
+      fontSize: computedStyles.fontSize,
+      fontWeight: computedStyles.fontWeight,
+      fontStyle: computedStyles.fontStyle,
+      textDecoration: computedStyles.textDecoration,
+      textAlign: computedStyles.textAlign
+    };
+};

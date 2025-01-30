@@ -1,6 +1,6 @@
 // React
 import { useEditorContext } from '../../../../../contexts/EditorContext'
-import elements from '../../../../../data/elements.json'
+import elements from '../../../../../data/elements'
 
 const Family = () => {
   const {

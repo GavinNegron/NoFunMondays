@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
 import Head from 'next/head';
-
 import Link from 'next/link';
 
 // COMPONENTS
-import Navbar from '../../layout/navbar/navbar';
-import Sidebar from '../../layout/sidebar';
+import Navbar from '../../../components/layout/navbar';
+import Sidebar from '../../../components/layout/sidebar';
 import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '../../../components/base/loading'
 
@@ -92,8 +91,6 @@ function DPosts() {
     <>
       <Head>
         <title>Posts</title>
-        <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
-        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
       </Head>
       <div>
         <Navbar />

@@ -1,5 +1,5 @@
 import React from 'react';
-import Socials from '../../../components/base/socials'
+import Socials from '../../base/socials'
 
 function Footer() {
   return (

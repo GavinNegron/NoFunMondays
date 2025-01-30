@@ -1,5 +1,5 @@
-import Socials from '../../../components/base/socials'
-import Search from '../../../components/base/search'
+import Socials from '../../base/socials'
+import Search from '../../base/search'
 import Link from 'next/link'
 
 function navbar() {
@@ -9,7 +9,7 @@ return (
      <nav className="container-fluid navbar">
   <div className="navbar__logo">
       <Link href="/" className="navbar__logo-name">NoFunMondays</Link>
-      <img src="/img/placeholder.png" alt="Home" className="navbar__logo-img"/>
+      <img src="/image/placeholder.png" alt="Home" className="navbar__logo-img"/>
   </div>
   
   <div className="navbar__menu d-flex center">
@@ -26,7 +26,7 @@ return (
       </div>
   </div>
   <div className="navbar__hamburger">
-    <img src="/img/hamburger-icon.png" className="navbar__hamburger-img" alt='menu-icon'/>
+    <img src="/image/hamburger-icon.png" className="navbar__hamburger-img" alt='menu-icon'/>
   </div>
   <div className="navbar__dropdown">
       <Link href="/" className="navbar__dropdown-link">Home</Link>

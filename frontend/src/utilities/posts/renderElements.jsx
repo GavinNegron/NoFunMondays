@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { handleDrop, handleDragOver } from '../../dragUtils';
+import { handleDrop, handleDragOver } from '../dragUtils';
 import { handleBlogPostElement } from './handleBlogPostElement';
-import { useEditorContext } from '../../../contexts/EditorContext';
-import { handleDoubleClick } from '../editor/editorFunctions';
+import { useEditorContext } from '../../contexts/EditorContext';
+import { handleDoubleClick } from './editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
 
 const RenderElements = ({ element }) => {
@@ -44,7 +44,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <img src={element.imageUrl || '/img/placeholder.png'} alt={element.alt} />;
+        return <img src={element.imageUrl || '/image/placeholder.png'} alt={element.alt} />;
       case 'bullet':
         return (
           <div className="bullet-point">

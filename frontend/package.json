@@ -26,6 +26,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "start:blue": "next start -p 3001",
     "start:green": "next start -p 3002"
   },

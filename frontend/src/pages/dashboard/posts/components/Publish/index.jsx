@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useEditorContext } from '../../../../../contexts/EditorContext';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
-import { publishPost } from '../../../../../utilities/posts/postData/publishPost';
+import { publishPost } from '../../../../../features/posts/postAction';
 import $ from 'jquery';
 
 function Publish() {
+    const dispatch = useDispatch();
     const { setPost } = useEditorContext();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const isMountedRef = useRef(true);
@@ -23,6 +24,14 @@ function Publish() {
             });
         }
     }, []);
+
+    const handlePublish = () => {
+        dispatch(publishPost({ post, postElements })).then((action) => {
+            if (action.meta.requestStatus === 'fulfilled') {
+                setPost(action.payload);
+            }
+        });
+    };
 
     return (
         <div className="publish">
@@ -51,7 +60,7 @@ function Publish() {
                         </div>
                     </a>
                     <div className="publish__content-submit">
-                        <button className="fortnite-btn" onClick={() => publishPost(post, postElements, setPost)}>
+                        <button className="fortnite-btn" onClick={handlePublish}>
                             Publish Post
                         </button>
                     </div>

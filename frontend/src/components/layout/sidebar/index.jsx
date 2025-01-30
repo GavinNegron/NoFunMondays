@@ -32,7 +32,7 @@ function Sidebar() {
           <div className="sidebar__top-logo">
             <Link href="/" draggable="false" className="sidebar__top-logo-name">Admin Dashboard</Link>
             <div className="sidebar__top-logo-img">
-              <img src="/img/placeholder.png" alt="Placeholder Logo" />
+              <img src="/image/placeholder.png" alt="Placeholder Logo" />
             </div>
           </div>
           <div className="sidebar__top-arrow" onClick={toggleSidebarState}>
@@ -42,7 +42,7 @@ function Sidebar() {
 
         <div className="sidebar__profile">
           <div className="sidebar__profile-icon">
-            <img src="/img/user.jpeg" draggable="false" alt="User Profile" />
+            <img src="/image/user.jpeg" draggable="false" alt="User Profile" />
           </div>
           <div className="d-flex flex-column">
             <span className="sidebar__profile-name">Gavin Negron</span>

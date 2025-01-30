@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useTaskContext } from '../../../../../contexts/TaskContext';
-import { updateTaskStatus } from '../../../../../features/tasks/taskAction';
+// import { updateTaskStatus } from '../../../../../features/tasks/taskAction';
 
 const EditTask = () => {
   const { selectedTask, setSelectedTask } = useTaskContext();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [localStatus, setLocalStatus] = useState(selectedTask ? selectedTask.status : '');
 
   const handleCheckboxChange = () => {
@@ -14,19 +14,6 @@ const EditTask = () => {
     const updatedTask = { ...selectedTask, status: newStatus };
     setSelectedTask(updatedTask);
   };
-
-  const savePendingChanges = () => {
-    if (selectedTask && localStatus !== selectedTask.status) {
-      dispatch(updateTaskStatus({ taskId: selectedTask._id, taskStatus: localStatus }));
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', savePendingChanges);
-    return () => {
-      window.removeEventListener('beforeunload', savePendingChanges);
-    };
-  }, [selectedTask, localStatus]);
 
   useEffect(() => {
     if (selectedTask) {

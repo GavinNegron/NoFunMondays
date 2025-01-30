@@ -1,48 +1,41 @@
-// React/Next.js
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEditorContext } from '../../../../contexts/EditorContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import Script from 'next/script'
+import Script from 'next/script';
 
 // Layout
 import LoadingScreen from '../../../../components/base/loading';
 import NotFound from '../../../404';
-import Navbar from '../../../layout/navbar/navbar';
+import Navbar from '../../../../components/layout/navbar';
 import EditorNavbar from '../components/EditorNavbar';
 import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities
 import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils';
-import { handleBlogPostElement } from '../../../../utilities/posts/postElement/handleBlogPostElement';
-import RenderElements from '../../../../utilities/posts/postElement/renderElements';
-import { handleDoubleClick } from '../../../../utilities/posts/editor/editorFunctions';
+import RenderElements from '../../../../utilities/posts/renderElements';
 
 // Layout
-import TextStyles from '../components/EditStyles/text-styles';
-import ImageStyles from '../components/EditStyles/image-styles';
-import ListStyles from '../components/EditStyles/list-styles';
-import EmbedStyles from '../components/EditStyles/embed-styles';
+import EditStyles from '../components/EditStyles/EditStyles';
 
 // Features
-import { fetchSlug, addPostElement, deletePostElement } from '../../../../features/posts/postAction'
+import { fetchSlug, addPostElement, deletePostElement } from '../../../../features/posts/postAction';
 
 // Stylesheets
-import '../../../../../public/css/dashboard.css'
-import '../../../../../public/css/edit-post.css'
+import '../../../../../public/css/dashboard.css';
+import '../../../../../public/css/edit-post.css';
 
 function BlogPostEditor() {
     const {
         notFound,
         selectedElement,
         setSelectedElement,
-        setElementStyles,
         errorMessage,
         blogPostMainRef,
         setShowColorPicker,
-        imageUrl
+        imageUrl,
     } = useEditorContext();
 
     const dispatch = useDispatch();
@@ -51,6 +44,7 @@ function BlogPostEditor() {
     const [loadingState, setLoadingState] = useState(true);
     const { post, postElements, isLoading, error } = useSelector((state) => state.posts.post);
     const { slug } = router.query;
+
     useEffect(() => {
         const handleLoading = async () => {
             setLoadingState(true);
@@ -108,17 +102,11 @@ function BlogPostEditor() {
     };
 
     if (loadingState || isLoading) {
-        return (
-            <LoadingScreen />
-        );
+        return <LoadingScreen />;
     }
 
     if (error || errorMessage) {
-        return (
-            <div className="error-message">
-                {error || errorMessage}
-            </div>
-        );
+        return <div className="error-message">{error || errorMessage}</div>;
     }
 
     return (
@@ -154,7 +142,7 @@ function BlogPostEditor() {
                                 <div
                                     className="blog-post-element banner"
                                     tabIndex="0"
-                                    onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
+                                    onClick={(e) => setSelectedElement(e.currentTarget)}
                                 >
                                     {post?.imageUrl && <img src={imageUrl || post?.imageUrl} alt={post?.title} draggable="false" />}
                                 </div>
@@ -162,26 +150,26 @@ function BlogPostEditor() {
                                     <div
                                         className="blog-post-element title"
                                         tabIndex="0"
-                                        onClick={(e) => handleBlogPostElement(e.currentTarget, setSelectedElement, setElementStyles)}
-                                        onDoubleClick={(e) => handleDoubleClick(e)}
+                                        onClick={(e) => setSelectedElement(e.currentTarget)}
                                     >
                                         <span>{post?.title}</span>
                                     </div>
                                     {postElements && postElements.length > 0 && postElements.map((element) => (
-                                        <RenderElements key={element.id} element={element} editor={true} />
+                                        <RenderElements key={element.id} element={element} editor={true} onClick={() => setSelectedElement(element)} />
                                     ))}
                                 </div>
                             </div>
                         </div>
-                        <TextStyles />
-                        <ImageStyles />
-                        <ListStyles />
-                        <EmbedStyles />
+
+                        {selectedElement && (
+                          <EditStyles
+                            title={`Edit List`}
+                            elementOptions={['margin', 'size', 'type']} 
+                            />
+                        )}
                     </>
                 )}
             </div>
-            <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
-            <Script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></Script>
             <Script async src="https://platform.twitter.com/widgets.js"></Script>
         </>
     );

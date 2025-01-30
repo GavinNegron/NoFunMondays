@@ -58,7 +58,7 @@ export const EditorProvider = ({ children }) => {
   }
 
   const renderImageSelector = () => {
-    const previewSrc = previewImage || '/img/placeholder.png';
+    const previewSrc = previewImage || '/image/placeholder.png';
 
     return (
       <>

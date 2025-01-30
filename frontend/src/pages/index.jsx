@@ -1,9 +1,9 @@
-import Navbar from './layout/navbar/navbar';
-import Footer from './layout/footer/footer';
+import Navbar from '../components/layout/navbar';
+import Footer from '../components/layout/footer/';
 import FeaturedPost from '../components/posts/featured-post'
 import RecentPosts from '../components/posts/recent-posts'
 import Head from 'next/head';
-import '../../public/css/landing.css'
+import '../../public/css/landing.css';
 
 function Landing() {
   return (
@@ -11,8 +11,6 @@ function Landing() {
       <Head>
         <title>Landing Page test</title>
         <meta name="description" content="Welcome to the landing page of our blog" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"></script>
-        <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
       </Head>
       <Navbar />
       <main className="main">
