@@ -56,14 +56,14 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
-            pm2 start next --name "next-blue" -- start -p 3001
+            pm2 start npm --name "next-blue" -- run start:blue
           EOF
 
       - name: Restart backend application
         run: |
           ssh root@67.205.132.203 <<EOF
-            pm2 show backend-blue || pm2 start npm --name backend-blue -- start
-            pm2 restart backend-blue
+            cd /var/www/staging.nofunmondays.com/
+            pm2 start npm --name "next-blue" -- run start:blue
           EOF
         
 
