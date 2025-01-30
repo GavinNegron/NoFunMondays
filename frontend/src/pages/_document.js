@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import Script from 'next/script'
 
 class MyDocument extends Document {
   render() {
@@ -17,20 +16,20 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"/>
-        <Script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"/>
+        <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
         <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
         {process.env.NODE_ENV === "production" && (
           <>
-          <Script async src="https://www.googletagmanager.com/gtag/js?id=G-968L600ZDF"/>
-          <Script async strategy="afterInteractive" id="analytics">
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-968L600ZDF"/>
+          <script async strategy="afterInteractive" id="analytics">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-968L600ZDF');
             `}
-          </Script>
+          </script>
         </>
         )}
       </Html>
