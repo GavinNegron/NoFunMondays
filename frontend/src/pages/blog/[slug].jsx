@@ -1,4 +1,3 @@
-// REACT
 import React, { useEffect, useMemo, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -8,7 +7,7 @@ import Head from 'next/head';
 import LoadingScreen from '../../components/base/loading';
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
-import NotFound from '../404'
+import NotFound from '../404';
 
 // UTILITIES
 import RenderElements from '../../utilities/posts/renderElements';
@@ -23,14 +22,12 @@ const BlogPost = memo(() => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { slug } = router.query;
-  const { post, postElements, loading } = useSelector((state) => state.posts.post);
+  const { post, postElements, loading, error } = useSelector((state) => state.posts.post);
 
   useEffect(() => {
-    const handleLoading = async () => {
-      if (!slug) return;
-      await dispatch(fetchSlug(slug));
-    };
-    handleLoading();
+    if (slug) {
+      dispatch(fetchSlug(slug));
+    }
   }, [dispatch, slug]);
 
   const renderedElements = useMemo(() => {
@@ -43,7 +40,7 @@ const BlogPost = memo(() => {
     return <LoadingScreen />;
   }
 
-  if (!post) {
+  if (!loading && !post && error) {
     return <NotFound />;
   }
 
@@ -76,11 +73,11 @@ const BlogPost = memo(() => {
     inLanguage: "en-US",
     isFamilyFriendly: "true"
   };
-  
+
   return (
     <>
       <Head>
-        <title>{post.title}</title>
+        <title>{post?.title}</title>
         <meta name="description" content={post?.description} />
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
@@ -93,7 +90,7 @@ const BlogPost = memo(() => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://nofunmondays.com/blog/${post?.slug}`} />
         <meta property="og:image" content={post?.imageUrl} />
-        <meta property="og:image:alt" content={post.title} />
+        <meta property="og:image:alt" content={post?.title} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -108,11 +105,11 @@ const BlogPost = memo(() => {
         <div className="post">
           <div className="post__inner">
             <div className="post__header d-flex">
-              <img src={post.imageUrl} alt={post.title} draggable="false" />
+              <img src={post?.imageUrl} alt={post?.title} draggable="false" />
             </div>
             <div className="post__content">
               <div className="post__content-header">
-                <p>{post.title}</p>
+                <p>{post?.title}</p>
               </div>
               <div className="post__elements">{renderedElements}</div>
             </div>
