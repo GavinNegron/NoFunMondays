@@ -13,6 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies for frontend
+        working-directory: ./frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Install dependencies for backend
+        working-directory: ./backend
+        run: npm install --legacy-peer-deps
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -23,35 +40,11 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts
 
-      - name: Configure Git Safe Directory
+      - name: Deploy frontend
         run: |
-          ssh root@67.205.132.203 <<EOF
-            git config --global --add safe.directory /var/www/staging.nofunmondays.com
-          EOF
-          
-      - name: Pull latest code from staging
-        run: |
-          ssh root@67.205.132.203 <<'EOF'
-            cd /var/www/staging.nofunmondays.com/
-            git fetch --all
-            git reset --hard origin/staging  # Hard reset to match the remote staging branch
-            git clean -fd  # Remove any untracked files or directories
-          EOF
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
 
-      - name: Install dependencies for frontend
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm install --legacy-peer-deps
-          EOF
-
-      - name: Build frontend
-        run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
-            npm run build  # Use build for production
-          EOF
-          
       - name: Start frontend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
@@ -71,6 +64,5 @@ jobs:
       - name: Restart Nginx reverse proxy
         run: |
           ssh root@67.205.132.203 <<EOF
-            # Restart Nginx to apply the new frontend build
             sudo systemctl restart nginx
           EOF
