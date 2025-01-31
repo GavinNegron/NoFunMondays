@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '20.0.0' 
 
       - name: Install dependencies for frontend
         working-directory: ./frontend
@@ -42,8 +42,12 @@ jobs:
 
       - name: Deploy frontend
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/.next/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/.next/
           rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
+
+      - name: Deploy backend
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/staging.nofunmondays.com/backend/
 
       - name: Start frontend with PM2
         run: |
@@ -56,7 +60,7 @@ jobs:
       - name: Start backend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/
+            cd /var/www/staging.nofunmondays.com/backend
             pm2 describe "backend-green" > /dev/null || pm2 start npm --name "backend-green" -- run start:green
             pm2 restart "backend-green" || true
           EOF
