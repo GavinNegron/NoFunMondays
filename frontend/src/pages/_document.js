@@ -16,7 +16,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossorigin="anonymous"/>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossOrigin="anonymous"/>
         <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
         <script async src="https://kit.fontawesome.com/5ee52856b3.js" crossOrigin="anonymous"></script>
         {process.env.NODE_ENV === "production" && (

@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTaskContext } from '../../../../../contexts/TaskContext';
-// import { updateTaskStatus } from '../../../../../features/tasks/taskAction';
+import { updateTaskStatus } from '../../../../../features/tasks/taskAction';
 
 const EditTask = () => {
   const { selectedTask, setSelectedTask } = useTaskContext();
-  // const dispatch = useDispatch();
-  const [localStatus, setLocalStatus] = useState(selectedTask ? selectedTask.status : '');
+  const dispatch = useDispatch();
 
   const handleCheckboxChange = () => {
-    const newStatus = localStatus === 'Completed' ? 'Incomplete' : 'Completed';
-    setLocalStatus(newStatus);
-    const updatedTask = { ...selectedTask, status: newStatus };
-    setSelectedTask(updatedTask);
+    const newStatus = selectedTask?.status === 'Completed' ? 'Uncompleted' : 'Completed';
+  
+    dispatch(updateTaskStatus({ taskId: selectedTask._id, taskStatus: newStatus }));
+  
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      status: newStatus,
+    }));
   };
-
-  useEffect(() => {
-    if (selectedTask) {
-      setLocalStatus(selectedTask.status);
-    }
-  }, [selectedTask]);
-
+  
   return (
     <div className="edit-task edit-styles edit-embed-styles">
       <div className="edit-task__header">
@@ -31,13 +28,13 @@ const EditTask = () => {
         <div className="edit-task__item">
           <input
             type="checkbox"
-            checked={localStatus === 'Completed'}
+            checked={selectedTask?.status === 'Completed'}
             onChange={handleCheckboxChange}
           />
           <input
             type="text"
             defaultValue={selectedTask ? selectedTask.content : ''}
-            className={localStatus === 'Completed' ? 'line-through' : ''}
+            className={selectedTask?.status === 'Completed' ? 'line-through' : ''}
           />
         </div>
         <div className="edit-task__item">

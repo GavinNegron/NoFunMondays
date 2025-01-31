@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   distDir: 'build',
   reactStrictMode: true,
@@ -17,5 +19,12 @@ module.exports = {
         destination: process.env.API_URL || 'http://localhost:2001/api/:path*',
       },
     ];
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, 'src'), 
+    };
+    return config;
   },
 };

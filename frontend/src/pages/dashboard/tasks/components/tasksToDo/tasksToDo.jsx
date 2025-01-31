@@ -5,16 +5,13 @@ import $ from 'jquery'
 import { useTaskContext } from '../../../../../contexts/TaskContext';
 
 // COMPONENTS
-import LoadingScreen from '../../../../../components/base/loading'
+import LoadingScreen from '@/components/base/loading'
 
 // FEATURES
 import { fetchTasks } from '../../../../../features/tasks/taskAction';
 
 const TasksToDo = () => {
-  const {
-    selectedTask,
-    setSelectedTask
-  } = useTaskContext();
+  const { selectedTask, setSelectedTask } = useTaskContext();
 
   const dispatch = useDispatch();
   const { tasks, isLoading } = useSelector((state) => state.tasks.task);
@@ -37,14 +34,15 @@ const TasksToDo = () => {
   }, [dispatch, taskLimit]);
 
   const handleTaskClick = (e, task) => {
-    if(e.currentTarget === selectedTask) {
-    $('.edit-task').stop(true, true).toggle();
+    if (selectedTask && selectedTask._id === task._id) {
+      $('.edit-task').stop(true, true).toggle();
     } else {
-    setSelectedTask(task);
-
+      const updatedTask = tasks.find((t) => t._id === task._id) || task;
+      setSelectedTask(updatedTask);
       $('.edit-task').stop(true, true).show();
     }
   };
+  
 
   useEffect(() => {
     if (tasks.length > 0) {

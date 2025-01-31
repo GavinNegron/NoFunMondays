@@ -18,7 +18,7 @@ const generateTokens = async (user) => {
             process.env.JWT_REFRESH_TOKEN_SECRET_KEY
         )
 
-        const userRefreshToken = await UserRefreshToken.findOneAndDelete({ userId: user._id })
+        await UserRefreshToken.findOneAndDelete({ userId: user._id })
 
         await new UserRefreshToken({ userId: user._id, token: refreshToken }).save();
 

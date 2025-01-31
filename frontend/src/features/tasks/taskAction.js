@@ -16,7 +16,7 @@ export const updateTaskStatus = createAsyncThunk(
   async ({ taskId, taskStatus }, thunkAPI) => {
     try {
       const response = await taskService.updateTaskStatus(taskId, taskStatus);
-      return response; 
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to update task status');
     }

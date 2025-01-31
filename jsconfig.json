@@ -1,7 +1,13 @@
 {
-    "typeAcquisition": {
-        "include": [
-            "jquery"
-        ]
-      }
+  "typeAcquisition": {
+    "include": ["jquery"]
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./frontend/src/*"],
+      "@/components/*": ["./frontend/src/components/*"],
+      "@/validation/*": ["./frontend/src/validation/*"]
+    }
+  }
 }
