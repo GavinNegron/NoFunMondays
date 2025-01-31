@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy frontend
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/.next/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/.next/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
           rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
 
       - name: Deploy backend
