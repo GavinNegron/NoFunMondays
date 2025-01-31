@@ -35,14 +35,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Debugging: Check if .ssh directory exists
+      - name: Debugging Check if .ssh directory exists
         run: |
           if [ -d ~/.ssh ]; then
             echo ".ssh directory exists"
           else
             echo ".ssh directory does not exist. Creating it now..."
             mkdir -p ~/.ssh
-          fi
 
       - name: Add SSH key to known_hosts
         run: |
