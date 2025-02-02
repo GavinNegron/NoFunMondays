@@ -1,5 +1,7 @@
 import React from 'react';
 import Socials from '../../base/socials'
+import Link from 'next/link';
+import './_footer.sass'
 
 function Footer() {
   return (
@@ -8,7 +10,7 @@ function Footer() {
     <div className="container-fluid">
         <div className="footer__top center">
             <div className="footer__logo">
-                <p>NoFunMondays</p>
+                <Link href="/"><img src="/image/NoFunMondays.svg" alt="logo" /></Link>
             </div>
             <div className="footer__socials">
                 <Socials />

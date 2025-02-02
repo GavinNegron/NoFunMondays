@@ -6,6 +6,9 @@ function generateSiteMap(posts) {
     <url>
         <loc>${`${URL}/`}</loc>
     </url>
+    <url>
+        <loc>${`${URL}/fortnite/item-shop`}</loc>
+    </url>
      ${posts
        .map(({ slug, createdAt }) => {
          return `

@@ -31,8 +31,8 @@ logDBConn.on('connected', () => {
 })
 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,  
-    max: 100, 
+    windowMs: 1 * 60 * 1000,  
+    max: 50, 
     message: 'Too many requests from this IP, please try again later'
 })
 

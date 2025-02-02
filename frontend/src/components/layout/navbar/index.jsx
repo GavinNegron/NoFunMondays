@@ -1,22 +1,24 @@
 import Socials from '../../base/socials'
 import Search from '../../base/search'
 import Link from 'next/link'
+import './_navbar.sass'
 
-function navbar() {
+function Navbar() {
 
 return (
   <>
      <nav className="container-fluid navbar">
   <div className="navbar__logo">
-      <Link href="/" className="navbar__logo-name">NoFunMondays</Link>
-      <img src="/image/placeholder.png" alt="Home" className="navbar__logo-img"/>
+      <Link href="/" className="navbar__logo-name">
+        <img src="/image/NoFunMondays.svg" alt="Home" className="navbar__logo-img"/>
+      </Link>
   </div>
   
   <div className="navbar__menu d-flex center">
       <div className="navbar__menu-left">
           <Link href="/" className="navbar__link">Home</Link>
-          <Link href="/blog/" className="navbar__link">Blog</Link>
-          <Link href="/games" className="navbar__link">Games</Link>
+          <Link href="/challenges/" className="navbar__link">Challenges</Link>
+          <Link href="/fortnite/item-shop" className="navbar__link">Item Shop</Link>
           <Link href="/leaks" className="navbar__link">Leaks</Link>
           <Link href="/contact" className="navbar__link">Contact</Link>
       </div>
@@ -40,4 +42,4 @@ return (
 )
 }
 
-export default navbar
+export default Navbar
