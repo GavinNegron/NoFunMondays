@@ -9,7 +9,7 @@ function Landing() {
   return (
     <>
       <Head>
-        <title>Landing Page test</title>
+        <title>NoFunMondays</title>
         <meta name="description" content="Welcome to the landing page of our blog" />
       </Head>
       <Navbar />
