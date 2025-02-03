@@ -3,6 +3,7 @@ import { store } from '../app/store';
 import { EditorProvider } from '../contexts/EditorContext';  
 import { TaskProvider } from '../contexts/TaskContext';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -11,6 +12,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
+      <Head>
+        <link rel="icon" href="/image/NoFunMondays.png" type="image/x-icon" />
+      </Head>
       {isDashboardPostsPage ? (
         <EditorProvider>
           <Component {...pageProps} />
