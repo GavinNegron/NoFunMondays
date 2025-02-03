@@ -28,7 +28,7 @@ const Register = () => {
               placeholder="Enter your name"
               {...register('name')}
             />
-            {errors.name && <p className="error">{errors.name.message}</p>} {/* Show validation error */}
+            {errors.name && <p className="error">{errors.name.message}</p>}
           </div>
           <div className="input-box">
             <input

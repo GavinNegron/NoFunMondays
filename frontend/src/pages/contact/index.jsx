@@ -1,12 +1,19 @@
+// REACT
 import React from 'react' 
-import Navbar from '../../components/layout/navbar/'
-import Footer from '../../components/layout/footer/'
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema } from '../../validation/schemas'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
+
+// COMPONENTS
+import Navbar from '../../components/layout/navbar/'
+import Footer from '../../components/layout/footer/'
+
+// FORMS
+import { yupResolver } from '@hookform/resolvers/yup'
+import { contactSchema } from '../../validation/schemas'
+
+// STYLESHEETS
 import '../../../public/css/contact.css'
 
 const Contact = () => {
@@ -15,8 +22,8 @@ const Contact = () => {
     const { loading, error } = useSelector((state) => state.user) 
   
     const { register, handleSubmit, formState: { errors } } = useForm({
-      resolver: yupResolver(loginSchema),
-    })
+        resolver: yupResolver(contactSchema),
+      })
 
       const onSubmit = (data) => {
        
@@ -43,19 +50,16 @@ const Contact = () => {
                     </div>
                     <div className="input-box">
                         <input
-                        type="password"
+                        type="text"
                         placeholder="Enter your message"
-                        {...register('password')}
+                        {...register('message')}
                         />
-                        {errors.password && <p className="error">{errors.password.message}</p>}
+                        {errors.message && <p className="error">{errors.message.message}</p>}
                     </div>
                     {loading && <p>Loading...</p>}
                     {error && <p className="error">{error}</p>}
                     <div className="input-box button">
-                        <button type="submit" disabled={loading}>Login</button>
-                    </div>
-                    <div className="text">
-                        <h3>Already have an account? <a href="#">Login now</a></h3>
+                        <button type="submit" disabled={loading}>Submit</button>
                     </div>
                     </form>
                 </div>
