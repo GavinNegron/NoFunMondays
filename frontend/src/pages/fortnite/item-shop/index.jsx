@@ -10,23 +10,27 @@ import LoadingScreen from '@/components/base/loading';
 const FortniteShop = () => {
     const dispatch = useDispatch();
     const { shopItems, isLoading } = useSelector((state) => state.fortniteAPI.fortnite);
-    const [hoursUntilRotation, setHoursUntilRotation] = useState(0);
+    const [timeUntilRotation, setTimeUntilRotation] = useState('');
 
     useEffect(() => {
         dispatch(fetchShop());
 
         const updateTimeRemaining = () => {
             const now = new Date();
-            const nextRotation = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0)); // Next 00:00 UTC
+            const nextRotation = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
             const timeDiff = nextRotation - now;
-            const hoursRemaining = Math.floor(timeDiff / (1000 * 60 * 60)); // Convert ms to hours
-            setHoursUntilRotation(hoursRemaining);
+
+            const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            setTimeUntilRotation(`${hours}h ${minutes}m ${seconds}s`);
         };
 
         updateTimeRemaining();
-        const intervalId = setInterval(updateTimeRemaining, 60000); // Update every minute
+        const intervalId = setInterval(updateTimeRemaining, 1000);
 
-        return () => clearInterval(intervalId); // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
     }, [dispatch]);
 
     if (isLoading) {
@@ -66,7 +70,7 @@ const FortniteShop = () => {
                             <span>Daily item shop rotation for Fortnite Battle Royale | shop updates daily at 00:00 UTC.</span>
                         </div>
                         <div className="shop__new-shop">
-                            <span>Shop rotation in: {hoursUntilRotation} hours</span>
+                            <span>Shop rotation in: {timeUntilRotation}</span>
                         </div>
                         {Object.keys(groupedItems).map((name) => (
                             <div key={name} className="shop__row">
