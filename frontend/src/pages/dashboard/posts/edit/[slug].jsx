@@ -15,7 +15,8 @@ import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities
 import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils';
-import RenderElements from '../../../../utilities/posts/renderElements';
+import RenderElements from '../../../../utilities/posts/renderEditorElements';
+import { handleElementClick } from '@/utilities/posts/editorFunctions';
 
 // Layout
 import EditStyles from '../components/EditStyles/EditStyles';
@@ -35,7 +36,8 @@ function BlogPostEditor() {
         errorMessage,
         blogPostMainRef,
         setShowColorPicker,
-        imageUrl,
+        setPreviewImage,
+        imageUrl
     } = useEditorContext();
 
     const dispatch = useDispatch();
@@ -142,7 +144,7 @@ function BlogPostEditor() {
                                 <div
                                     className="blog-post-element banner"
                                     tabIndex="0"
-                                    onClick={(e) => setSelectedElement(e.currentTarget)}
+                                    onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
                                 >
                                     {post?.imageUrl && <img src={imageUrl || post?.imageUrl} alt={post?.title} draggable="false" />}
                                 </div>
@@ -150,7 +152,7 @@ function BlogPostEditor() {
                                     <div
                                         className="blog-post-element title"
                                         tabIndex="0"
-                                        onClick={(e) => setSelectedElement(e.currentTarget)}
+                                        onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
                                     >
                                         <span>{post?.title}</span>
                                     </div>
@@ -160,13 +162,10 @@ function BlogPostEditor() {
                                 </div>
                             </div>
                         </div>
-
-                        {selectedElement && (
-                          <EditStyles
-                            title={`Edit List`}
-                            elementOptions={['margin', 'size', 'type']} 
-                            />
-                        )}
+                        <EditStyles type='text'/>
+                        <EditStyles type='image'/>
+                        <EditStyles type='list'/>
+                        <EditStyles type='embed'/>
                     </>
                 )}
             </div>

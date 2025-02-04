@@ -17,9 +17,9 @@ return (
   <div className="navbar__menu d-flex center">
       <div className="navbar__menu-left">
           <Link href="/" className="navbar__link">Home</Link>
-          <Link href="/challenges/" className="navbar__link">Challenges</Link>
+          <Link href="/fortnite/challenges/" className="navbar__link">Challenges</Link>
           <Link href="/fortnite/item-shop" className="navbar__link">Item Shop</Link>
-          <Link href="/leaks" className="navbar__link">Leaks</Link>
+          <Link href="/fortnite/countdown" className="navbar__link">Season Countdown</Link>
           <Link href="/contact" className="navbar__link">Contact</Link>
       </div>
       <div className="navbar__menu-right d-flex">

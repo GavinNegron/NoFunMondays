@@ -11,7 +11,7 @@ import Footer from '../../components/layout/footer/'
 
 // FORMS
 import { yupResolver } from '@hookform/resolvers/yup'
-import { contactSchema } from '../../validation/schemas'
+import { contactSchema } from '../../data/schemas'
 
 // STYLESHEETS
 import '../../../public/css/contact.css'

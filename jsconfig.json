@@ -7,7 +7,7 @@
     "paths": {
       "@/*": ["./frontend/src/*"],
       "@/components/*": ["./frontend/src/components/*"],
-      "@/validation/*": ["./frontend/src/validation/*"]
+      "@/data/*": ["./frontend/src/data/*"]
     }
   }
 }

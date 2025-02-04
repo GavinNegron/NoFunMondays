@@ -13,12 +13,10 @@ const createPost = async (req, res) => {
     try {
         let publicUrl;
         
-        // Validate image URL format
         if (!imageUrl.startsWith('http') && !imageUrl.startsWith('data:image/')) {
             return res.status(400).json({ error: 'Invalid image URL or base64 string' });
         }
 
-        // Handling image URL starting with 'http'
         if (imageUrl.startsWith('http')) {
             try {
                 const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });

@@ -2,7 +2,7 @@ import '../../../public/css/register.css'
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { registerSchema } from '../../validation/schemas'
+import { registerSchema } from '../../data/schemas'
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({

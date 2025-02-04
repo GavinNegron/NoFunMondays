@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { handleDrop, handleDragOver } from '../dragUtils';
+import { handleDoubleClick } from './editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
+import { handleElementClick } from './editorFunctions';
+import { useEditorContext } from '../../contexts/EditorContext';
+
 
 const RenderElements = ({ element }) => {
+  const {
+    setSelectedElement,
+    setPreviewImage
+  } = useEditorContext();
   
   const [twitterUrl, setTwitterUrl] = useState('');
   const [twitterId, setTwitterId] = useState('');
@@ -82,6 +91,11 @@ const RenderElements = ({ element }) => {
       key={elementId}
       className={`blog-post-element ${element.type === 'text' ? element.tag : element.type}`}
       style={element.style || {}}
+      onDrop={(e) => handleDrop(e)}
+      onDragOver={handleDragOver}
+      onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
+      onDoubleClick={(e) => handleDoubleClick(e)}
+      tabIndex="0"
     >
       {renderContent()}
     </div>

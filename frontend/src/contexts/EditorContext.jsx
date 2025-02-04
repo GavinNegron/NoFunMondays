@@ -42,28 +42,43 @@ export const EditorProvider = ({ children }) => {
     },
     [selectedElement]
   )
-
   const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const base64Image = reader.result
-      setImage(base64Image)
-     
-      setPreviewImage(base64Image)
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Image = reader.result;
+        setImage(base64Image);
+  
+        if (selectedElement) {
+          if (selectedElement.classList.contains('banner')) {
+            setImageUrl(base64Image);
+          } else if (selectedElement.classList.contains('image')) {
+            const imgElement = selectedElement.querySelector('img');
+            if (imgElement) imgElement.src = base64Image;
+          }
+          setPreviewImage(base64Image);
+        }
+      };
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file)
-  }
-
+  };
+  
   const renderImageSelector = () => {
-    const previewSrc = previewImage || '/image/placeholder.png';
+    let previewSrc = previewImage
 
+    if(selectedElement?.classList.contains('image')) {
+      previewSrc = selectedElement.querySelector('img').src
+    } else if (selectedElement?.classList.contains('banner')) {
+      previewSrc = imageUrl || selectedElement.querySelector('img').src
+    }
+  
     return (
       <>
         <img
-          src={previewSrc}
+          width={'100'}
+          height={'100'}
+          src={previewSrc} 
           alt="Selected preview"
           style={{ maxWidth: '100%' }}
           onClick={() => fileInputRef.current?.click()}
@@ -71,13 +86,17 @@ export const EditorProvider = ({ children }) => {
         <input
           ref={fileInputRef}
           type="file"
-          onChange={e => handleFileChange(e)}
+          id="imageFile"
+          onChange={handleFileChange}
           accept="image/*"
           style={{ display: 'none' }}
         />
       </>
-    )
-  }
+    );
+  };
+  
+  
+  
 
   return (
     <EditorContext.Provider

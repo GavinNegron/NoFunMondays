@@ -123,6 +123,7 @@ export const publishPost = async (post, postElements) => {
 
   const updatedPost = {
     ...post,
+    status: 'published',
     imageUrl,
     elements: updatedElements,
   };
