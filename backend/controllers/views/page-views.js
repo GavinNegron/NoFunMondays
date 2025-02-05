@@ -17,7 +17,7 @@ const pageViews = async (req, res) => {
     const analyticsDataClient = google.analyticsdata({
       version: 'v1beta',
       auth,
-    });
+    }); 
 
     const response = await analyticsDataClient.properties.runReport({
       property: `properties/${process.env.GOOGLE_ANALYTICS_PROPERTY_ID}`,
