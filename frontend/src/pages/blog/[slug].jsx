@@ -1,6 +1,6 @@
 import React, { useMemo, memo } from 'react';
 import Head from 'next/head';
-
+import Script from 'next/script'
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
 import NotFound from '../404';
@@ -13,7 +13,7 @@ const BlogPost = memo(({ post }) => {
 
   const renderedElements = useMemo(() => {
     return postElements.map((element) => (
-      <RenderElements key={element.id} element={element} editor={true} />
+      <RenderElements key={element.id} element={element} />
     ));
   }, [postElements]);
 
@@ -94,6 +94,7 @@ const BlogPost = memo(({ post }) => {
         </div>
       </main>
       <Footer />
+      <Script async src="https://platform.twitter.com/widgets.js"></Script>
     </>
   );
 });
