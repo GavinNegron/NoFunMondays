@@ -1,6 +1,7 @@
 import React, { useMemo, memo } from 'react';
 import Head from 'next/head';
-import Script from 'next/script'
+import Script from 'next/script';
+import useSWR from 'swr';
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
 import NotFound from '../404';
@@ -8,8 +9,22 @@ import RenderElements from '../../utilities/posts/renderElements';
 
 import '../../../public/css/blog-post.css';
 
+const fetcher = async (url) => {
+  const res = await fetch(url);
+  return res.json();
+};
+
 const BlogPost = memo(({ post }) => {
   const postElements = post?.elements || [];
+
+  const { data } = useSWR(
+    post ? `/api/page-views?slug=${encodeURIComponent(post.slug)}` : null,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
+  const views = data?.pageViews;
+  console.log("Data received:", data);
+
 
   const renderedElements = useMemo(() => {
     return postElements.map((element) => (
@@ -87,6 +102,7 @@ const BlogPost = memo(({ post }) => {
             <div className="post__content">
               <div className="post__content-header">
                 <p>{post?.title}</p>
+                <p>{views} views</p>
               </div>
               <div className="post__elements">{renderedElements}</div>
             </div>

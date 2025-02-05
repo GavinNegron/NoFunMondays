@@ -11,6 +11,7 @@ const { userPasswordReset } = require('../controllers/user/userPasswordReset');
 const passport = require('passport');
 const setAuthHeader = require('../middleware/setAuthHeader');
 const { accessTokenAutoRefresh } = require('../middleware/accessTokenAutoRefresh');
+const { pageViews } = require('../controllers/views/page-views');
 
 module.exports = function(app){
       
@@ -26,6 +27,8 @@ module.exports = function(app){
       app.post('/api/auth/user/reset-password-link/', userPasswordResetEmail);
       
       app.post('/api/auth/user/reset-password/:id/:token', userPasswordReset);
+
+      app.get('/api/page-views/', pageViews);
 
       // PROTECTED ROUTES
       app.get('/api/user/profile/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), userProfile);
