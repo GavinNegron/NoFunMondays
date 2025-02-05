@@ -23,8 +23,6 @@ const BlogPost = memo(({ post }) => {
     { revalidateOnFocus: false }
   );
   const views = data?.pageViews;
-  console.log("Data received:", data);
-
 
   const renderedElements = useMemo(() => {
     return postElements.map((element) => (
@@ -90,8 +88,18 @@ const BlogPost = memo(({ post }) => {
         <meta property="article:modified_time" content={post?.updatedAt} />
         <meta property="article:author" content={post?.author} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDBDQW96VD"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-SDBDQW96VD');
+          `}
+        </script>
       </Head>
-
       <Navbar />
       <main className="main">
         <div className="post">
