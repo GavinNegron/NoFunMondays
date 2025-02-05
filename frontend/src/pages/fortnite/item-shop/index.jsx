@@ -57,7 +57,7 @@ const FortniteShop = () => {
     return (
         <>
             <Head>
-                <title>Daily Item Shop Rotation</title>
+                <title>Daily Item Shop Rotation - NoFunMondays</title>
             </Head>
             <Navbar />
             <main className="main">
@@ -78,30 +78,34 @@ const FortniteShop = () => {
                                     <span>{name}</span>
                                 </div>
                                 <div className="shop__items">
-                                    {groupedItems[name].map((item) => {
-                                        const rarityClass = item.brItems?.[0]?.rarity?.displayValue?.toLowerCase().replace(/\s+/g, '-') || 'common';
-                                        return (
-                                            <div
-                                                key={item.id}
-                                                className={`shop-item ${rarityClass}`}
-                                                style={{
-                                                    backgroundColor: item.brItems?.[0]?.colors?.textBackgroundColor || 'transparent',
-                                                }}
-                                            >
-                                                <div className="shop-item__content">
-                                                    <div className="shop-item__img">
-                                                        <img
-                                                            src={item.brItems?.[0]?.images?.featured || item.newDisplayAsset?.renderImages?.[0]?.image}
-                                                            alt={item.bundle?.name || item.brItems?.[0]?.name}
-                                                        />
-                                                    </div>
-                                                    <span className="shop-item__header">
-                                                        {item.bundle?.name || item.brItems?.[0]?.name || (item.instruments?.[0]?.name)}
-                                                    </span>
+                                {groupedItems[name].map((item, index) => {
+                                    const rarityClass = item.brItems?.[0]?.rarity?.displayValue?.toLowerCase().replace(/\s+/g, '-') || 'common';
+                                    const imageUrl = item.brItems?.[0]?.images?.featured || 
+                                                    item.brItems?.[0]?.images?.icon || 
+                                                    item.newDisplayAsset?.renderImages?.[0]?.image;
+
+                                    return (
+                                        <div
+                                            key={item.id || `${name}-${index}`}
+                                            className={`shop-item ${rarityClass}`}
+                                            style={{
+                                                backgroundColor: item.brItems?.[0]?.colors?.textBackgroundColor || 'transparent',
+                                            }}
+                                        >
+                                            <div className="shop-item__content">
+                                                <div className="shop-item__img">
+                                                    <img
+                                                        src={imageUrl}
+                                                        alt={item.bundle?.name || item.brItems?.[0]?.name}
+                                                    />
                                                 </div>
+                                                <span className="shop-item__header">
+                                                    {item.bundle?.name || item.brItems?.[0]?.name || (item.instruments?.[0]?.name)}
+                                                </span>
                                             </div>
-                                        );
-                                    })}
+                                        </div>
+                                    );
+                                })}
                                 </div>
                             </div>
                         ))}

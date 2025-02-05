@@ -10,7 +10,6 @@ const VerifyEmail = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     if(errors) console.log(errors)
   }
 

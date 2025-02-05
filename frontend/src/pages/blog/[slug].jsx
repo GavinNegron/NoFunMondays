@@ -1,10 +1,7 @@
-import React, { useEffect, useMemo, memo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import React, { useMemo, memo } from 'react';
 import Head from 'next/head';
 
 // COMPONENTS
-import LoadingScreen from '../../components/base/loading';
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
 import NotFound from '../404';
@@ -12,37 +9,21 @@ import NotFound from '../404';
 // UTILITIES
 import RenderElements from '../../utilities/posts/renderElements';
 
-// ACTIONS
-import { fetchSlug } from '../../features/posts/postAction';
-
 // STYLESHEETS
 import '../../../public/css/blog-post.css';
 
-const BlogPost = memo(() => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const { slug } = router.query;
-  const { post, postElements, loading, error } = useSelector((state) => state.posts.post);
+const BlogPost = memo(({ post }) => {
+  if (!post) {
+    return <NotFound />;
+  }
 
-  useEffect(() => {
-    if (slug) {
-      dispatch(fetchSlug(slug));
-    }
-  }, [dispatch, slug]);
+  const postElements = post?.elements;
 
   const renderedElements = useMemo(() => {
     return postElements?.map((element) => (
       <RenderElements key={element.id} element={element} editor={true} />
     ));
   }, [postElements]);
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
-  if (!loading && !post && error) {
-    return <NotFound />;
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -122,3 +103,24 @@ const BlogPost = memo(() => {
 });
 
 export default BlogPost;
+
+export async function getServerSideProps({ params }) {
+  try {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://nofunmondays.com' 
+      : 'http://localhost:3000';
+
+    const response = await fetch(`${baseUrl}/api/posts/slug/${params.slug}`);
+
+    if (!response.ok) { 
+      return { notFound: true };
+    }
+
+    const post = await response.json(); 
+
+    return { props: { post } };
+    
+  } catch (error) {
+    return { notFound: true };
+  }
+}

@@ -16,14 +16,19 @@ function Publish() {
             isMountedRef.current = false;
         };
     }, []);
-
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.$) {
-            $(".publish").on('click', (e) => {
+        const handleClick = (e) => {
+            const publish = document.querySelector('.publish');
+            if (publish && publish.contains(e.target)) {
                 handleClickOutside(e, '.publish__inner', '.publish');
-            });
-        }
+            }
+        };
+    
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
     }, []);
+    
+    
 
     const handlePublish = () => {
         dispatch(publishPost({ post, postElements })).then((action) => {

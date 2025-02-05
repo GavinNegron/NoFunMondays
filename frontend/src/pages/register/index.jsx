@@ -10,7 +10,6 @@ const Register = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     console.log(errors)
   }
 

@@ -13,7 +13,7 @@ const Countdown = () => {
     return (
         <>
             <Head>
-                <title>Daily Item Shop Rotation</title>
+                <title>Season Countdown - NoFunMondays</title>
             </Head>
             <Navbar />
             <main className="main">

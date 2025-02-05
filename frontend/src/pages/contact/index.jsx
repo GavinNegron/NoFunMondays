@@ -32,13 +32,13 @@ const Contact = () => {
     return (
         <>
             <Head>
-                <title>NoFunMondays</title>
+                <title>Contact Us - NoFunMondays</title>
                 <meta name="description" content="Welcome to the landing page of our blog" />
             </Head>
             <Navbar />
             <main className="main">
                 <div className="wrapper">
-                    <h2>Contact us</h2>
+                    <h2>Contact Us</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-box">
                         <input

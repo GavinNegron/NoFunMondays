@@ -18,7 +18,6 @@ const fortniteAPISlice = createSlice({
         state.error = null;
       })
       .addCase(fortniteAPIAction.fetchShop.fulfilled, (state, action) => {
-        console.log('Fetched shop items:', action.payload);
         state.isLoading = false;
         state.shopItems = action.payload; 
       })
