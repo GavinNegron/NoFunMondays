@@ -9,7 +9,7 @@ const ResetPassword = () => {
     resolver: yupResolver(changePasswordSchema), 
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     if(errors) console.log(errors)
   }
 

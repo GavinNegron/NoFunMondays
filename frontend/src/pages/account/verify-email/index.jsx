@@ -9,7 +9,7 @@ const VerifyEmail = () => {
     resolver: yupResolver(verifyEmailSchema), 
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     if(errors) console.log(errors)
   }
 

@@ -1,29 +1,25 @@
 import React, { useMemo, memo } from 'react';
 import Head from 'next/head';
 
-// COMPONENTS
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
 import NotFound from '../404';
-
-// UTILITIES
 import RenderElements from '../../utilities/posts/renderElements';
 
-// STYLESHEETS
 import '../../../public/css/blog-post.css';
 
 const BlogPost = memo(({ post }) => {
-  if (!post) {
-    return <NotFound />;
-  }
-
-  const postElements = post?.elements;
+  const postElements = post?.elements || [];
 
   const renderedElements = useMemo(() => {
-    return postElements?.map((element) => (
+    return postElements.map((element) => (
       <RenderElements key={element.id} element={element} editor={true} />
     ));
   }, [postElements]);
+
+  if (!post) {
+    return <NotFound />;
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",

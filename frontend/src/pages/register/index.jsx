@@ -9,7 +9,7 @@ const Register = () => {
     resolver: yupResolver(registerSchema), 
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     console.log(errors)
   }
 
