@@ -25,6 +25,12 @@ function NewPost() {
     useEffect(() => {
         $(".new-post").on('click', (e) => {
             handleClickOutside(e, '.new-post__inner', '.new-post');
+            $("body").css({
+                "max-height": "",
+                "overflow": ""
+              });
+              
+              $(".new-post").css("display", "none");
         });
     });
 

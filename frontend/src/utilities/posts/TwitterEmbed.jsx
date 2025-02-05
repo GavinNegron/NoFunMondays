@@ -20,7 +20,7 @@ const TwitterEmbed = ({ tweetID }) => {
   }, [tweetID]);
 
   return (
-    <div className="w-full animate-fadeIn" id={tweetID}></div>
+    <div className="w-full animate-fadeIn" id={tweetID} data-tweetId={tweetID}></div>
   );
 };
 

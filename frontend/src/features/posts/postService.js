@@ -107,9 +107,10 @@ export const publishPost = async (post, postElements) => {
         }
       
         case 'twitter': {
-          const twitterInput = elementDom.querySelector('input.twitter');
-          if (twitterInput && twitterInput.value) {
-            updatedElement.twitterId = twitterInput.value;
+          const tweetDiv = elementDom.querySelector('[data-tweetid]'); // Find the child div with the data-tweetid
+          console.log(tweetDiv ? tweetDiv.getAttribute('data-tweetid') : 'not found');
+          if (tweetDiv) {
+            updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
           }
           break;
         }
@@ -128,7 +129,6 @@ export const publishPost = async (post, postElements) => {
     elements: updatedElements,
   };
 
-  console.log(updatedPost)
   const response = await axios.put(`/api/posts/${post._id}`, updatedPost, {
     headers: { 'Content-Type': 'application/json' },
   });
