@@ -3,7 +3,8 @@ import $ from 'jquery';
 /**
  * Handles clicking outside a specific DOM element and fades it out.
  * @param {HTMLElement} element - The target element to check for outside clicks
- * @param {Event} event - The click event
+ * @param {HTMLElement} targetClasses - The target elements
+ * @param {HTMLElement} targetRemove - The element to remove
  */
 export const handleClickOutside = (event, targetClasses, targetRemove) => {
   const targetArray = Array.isArray(targetClasses) ? targetClasses : [targetClasses];

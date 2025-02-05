@@ -17,7 +17,7 @@
 
   &__menu
     display: flex
-    gap: 1rem
+    gap: 2rem
     justify-content: flex-end
     align-content: center
 
@@ -38,6 +38,7 @@
   &__hamburger
     display: none
     cursor: pointer
+    font-size: 32px
 
     &-img
       max-width: 45px
@@ -69,21 +70,18 @@
       &:last-child
         border-bottom: none
 
-  @media (max-width: 1188px)
+  @media (max-width: 1320px)
     justify-content: center
-    gap: 1rem
+    gap: 2rem
 
     &__logo
       display: none
 
-  @media (max-width: 928px)
-    .socials
+  @media (max-width: 1109px)
+    .search
       display: none
 
-    &__menu
-      font-size: 19px
-
-  @media (max-width: 740px)
+  @media (max-width: 938px)
     &__logo
       display: flex
       justify-content: flex-start
@@ -94,11 +92,11 @@
     &__menu-left
       display: none
 
-  @media (max-width: 538px)
+  @media (max-width: 568px)
     &__menu-right
       display: none
 
-  @media (min-width: 740px)
+  @media (min-width: 939px)
     &__dropdown.active
       display: none
 

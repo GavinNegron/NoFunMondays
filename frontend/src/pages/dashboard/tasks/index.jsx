@@ -10,7 +10,6 @@ import Sidebar from '../../../components/layout/sidebar'
 
 // Components
 import TasksToDo from './components/tasksToDo/tasksToDo'
-import Search from '../../../components/base/search'
 import EditTask from './components/edit-task/edit-task'
 
 // Stylesheets
@@ -32,9 +31,6 @@ const DTasks = () => {
           <div className="dashboard__inner">
             <div className="dashboard__header">
               <span>Tasks</span>
-            </div>
-            <div className="dashboard__search">
-              <Search/>
             </div>
               <TasksToDo/>
           </div>
