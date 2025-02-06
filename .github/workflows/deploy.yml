@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.0.0'  
+          node-version: '20.0.0'
 
       - name: Install dependencies for frontend
         working-directory: ./frontend
@@ -26,8 +26,8 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      - name: Install dependencies for backend
-        working-directory: ./backend
+      - name: Install dependencies for root (backend and other root files)
+        working-directory: ./ # This will run `npm install` in the root
         run: npm install --legacy-peer-deps
 
       - name: Set up SSH
@@ -40,23 +40,9 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts || exit 0
 
-      - name: Force pull latest code on server
+      - name: Deploy entire repository to server
         run: |
-          ssh root@67.205.132.203 <<EOF
-            cd /var/www/nofunmondays.com
-            git fetch --all
-            git reset --hard origin/staging
-            git clean -fd
-          EOF
-
-      - name: Deploy frontend
-        run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/nofunmondays.com/frontend/build/
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/nofunmondays.com/frontend/public/
-
-      - name: Deploy backend
-        run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/nofunmondays.com/backend/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ root@67.205.132.203:/var/www/nofunmondays.com/
 
       - name: Start frontend with PM2
         run: |
@@ -65,15 +51,15 @@ jobs:
             pm2 describe "next-blue" > /dev/null || pm2 start npm --name "next-blue" -- run start:blue
             pm2 restart "next-blue" || true
           EOF
-      
+
       - name: Start backend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/nofunmondays.com/backend
+            cd /var/www/nofunmondays.com/
             pm2 describe "backend-blue" > /dev/null || pm2 start npm --name "backend-blue" -- run start:blue
             pm2 restart "backend-blue" || true
           EOF
-        
+
       - name: Restart Nginx reverse proxy
         run: |
           ssh root@67.205.132.203 <<EOF
