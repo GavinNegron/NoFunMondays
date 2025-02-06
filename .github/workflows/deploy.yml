@@ -40,22 +40,23 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts || exit 0
 
-      - name: Pull latest code on server
+      - name: Force pull latest code on server
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com
-            git reset --hard
-            git pull origin staging
+            git fetch --all
+            git reset --hard origin/staging
+            git clean -fd
           EOF
 
       - name: Deploy frontend
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
 
       - name: Deploy backend
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/staging.nofunmondays.com/backend/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/staging.nofunmondays.com/backend/
 
       - name: Start frontend with PM2
         run: |
