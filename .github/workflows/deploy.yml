@@ -42,7 +42,8 @@ jobs:
 
       - name: Deploy entire repository to server
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ root@67.205.132.203:/var/www/nofunmondays.com/
+          rsync -avz --delete --exclude=".env" -e "ssh -o StrictHostKeyChecking=no" ./ root@67.205.132.203:/var/www/nofunmondays.com/
+        
 
       - name: Start frontend with PM2
         run: |

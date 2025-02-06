@@ -18,7 +18,7 @@ const BlogPost = memo(({ post }) => {
   const postElements = post?.elements || [];
 
   const { data } = useSWR(
-    post ? `/api/page-views?slug=${encodeURIComponent(post.slug)}` : null,
+    post ? `/api/page-views?slug=/blog/${encodeURIComponent(post.slug)}` : null,
     fetcher,
     { revalidateOnFocus: false }
   );
