@@ -40,6 +40,14 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H 67.205.132.203 >> ~/.ssh/known_hosts || exit 0
 
+      - name: Pull latest code on server
+        run: |
+          ssh root@67.205.132.203 <<EOF
+            cd /var/www/staging.nofunmondays.com
+            git reset --hard
+            git pull origin staging
+          EOF
+
       - name: Deploy frontend
         run: |
           rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
