@@ -43,7 +43,7 @@ jobs:
       - name: Force pull latest code on server
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com
+            cd /var/www/nofunmondays.com
             git fetch --all
             git reset --hard origin/staging
             git clean -fd
@@ -51,17 +51,17 @@ jobs:
 
       - name: Deploy frontend
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/build/
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/staging.nofunmondays.com/frontend/public/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/build/ root@67.205.132.203:/var/www/nofunmondays.com/frontend/build/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./frontend/public/ root@67.205.132.203:/var/www/nofunmondays.com/frontend/public/
 
       - name: Deploy backend
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/staging.nofunmondays.com/backend/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./backend/ root@67.205.132.203:/var/www/nofunmondays.com/backend/
 
       - name: Start frontend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/frontend
+            cd /var/www/nofunmondays.com/frontend
             pm2 describe "next-blue" > /dev/null || pm2 start npm --name "next-blue" -- run start:blue
             pm2 restart "next-blue" || true
           EOF
@@ -69,7 +69,7 @@ jobs:
       - name: Start backend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
-            cd /var/www/staging.nofunmondays.com/backend
+            cd /var/www/nofunmondays.com/backend
             pm2 describe "backend-blue" > /dev/null || pm2 start npm --name "backend-blue" -- run start:blue
             pm2 restart "backend-blue" || true
           EOF
