@@ -7,11 +7,11 @@ const { changeUserPassword } = require('../controllers/user/changeUserPassword')
 const { userLogout } = require('../controllers/user/userLogout');
 const { userPasswordResetEmail } = require('../controllers/user/userPasswordResetEmail');
 const { userPasswordReset } = require('../controllers/user/userPasswordReset');
+const { pageViews } = require('../controllers/views/page-views');
 
 const passport = require('passport');
 const setAuthHeader = require('../middleware/setAuthHeader');
 const { accessTokenAutoRefresh } = require('../middleware/accessTokenAutoRefresh');
-const { pageViews } = require('../controllers/views/page-views');
 
 module.exports = function(app){
       
