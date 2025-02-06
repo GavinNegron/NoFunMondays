@@ -12,7 +12,8 @@ const refreshToken = async (req, res) => {
         message: "New tokens generated",
         access_token: newAccessToken,
         refresh_token: newRefreshToken,
-        access_token_exp: newAccessTokenExp
+        access_token_exp: newAccessTokenExp,
+        refresh_token_exp: newRefreshTokenExp
       });
 
     } catch (error) {
