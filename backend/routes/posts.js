@@ -17,7 +17,6 @@ const { accessTokenAutoRefresh } = require('../middleware/accessTokenAutoRefresh
 module.exports = function(app){
 
     // PUBLIC ROUTES
-    app.get('/api/posts/', getPosts)
 
     app.get('/api/posts/recent', getRecentPosts)
     
@@ -28,6 +27,8 @@ module.exports = function(app){
     app.get('/api/posts/title', fetchTitle)
 
     // PROTECTED ROUTES
+    app.get('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), getPosts)
+
     app.post('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), createPost)
 
     app.put('/api/posts/featured/:postId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), setFeaturedPost)
