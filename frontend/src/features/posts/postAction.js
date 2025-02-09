@@ -38,7 +38,16 @@ export const fetchFeaturedPost = createAsyncThunk('posts/fetchFeaturedPost', asy
     const response = await postService.fetchFeaturedPost();
     return response;
   } catch (error) {
-    return thunkAPI.rejectWithValue('Failed to fetch posts');
+    return thunkAPI.rejectWithValue('Failed to fetch featured posts');
+  }
+});
+
+export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async (_, thunkAPI) => {
+  try {
+    const response = await postService.fetchRecentPosts();
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to fetch recent posts');
   }
 });
 

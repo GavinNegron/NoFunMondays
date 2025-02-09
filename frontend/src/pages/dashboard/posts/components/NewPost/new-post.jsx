@@ -23,17 +23,17 @@ function NewPost() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        $(".new-post").on('click', (e) => {
-            handleClickOutside(e, '.new-post__inner', '.new-post');
-            $("body").css({
-                "max-height": "",
-                "overflow": ""
-              });
-              
-              $(".new-post").css("display", "none");
-        });
-    });
-
+        const handleClick = (e) => {
+            const newPost = document.querySelector('.new-post');
+            if (newPost && newPost.contains(e.target)) {
+                handleClickOutside(e, '.new-post__inner', '.new-post');
+                
+            }
+        };
+    
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, []);
     const handleNewPost = async () => {
         if (!title || !image) return setError('Title and image are required');
         try {

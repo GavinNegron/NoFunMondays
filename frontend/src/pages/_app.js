@@ -9,11 +9,19 @@ import { pageview } from '@/utilities/gtag';
 import { useEffect } from 'react';
 
 const GA_TRACKING_ID = 'G-968L600ZDF';
-
+ 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const isDashboardPostsPage = router.pathname.startsWith('/dashboard/posts');
   const isDashboardTasksPage = router.pathname.startsWith('/dashboard/tasks');
+
+  useEffect(() => {
+    if (localStorage.getItem('userId')) {
+      localStorage.setItem('userId', crypto.randomUUID());
+    } else {
+      console.log('code didnt run');
+    }
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = url => {

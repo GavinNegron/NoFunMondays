@@ -3,10 +3,10 @@ const Posts = require('../../models/Posts');
 const getRecentPosts = async (req, res) => {
   try {
       const { limit = 8, excludeFeatured = false } = req.query;
-      let postsQuery = Posts.find().sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
+      let postsQuery = Posts.find({ status: 'Published' }).sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
 
       if (excludeFeatured === 'true') {
-          const featuredPost = await Posts.findOne({ featured: true }).lean();
+          const featuredPost = await Posts.findOne({ featured: true, status: 'published' }).lean();
           if (featuredPost) {
               postsQuery = postsQuery.where('_id').ne(featuredPost._id); 
           }
@@ -19,4 +19,4 @@ const getRecentPosts = async (req, res) => {
   }
 };
 
-module.exports = { getRecentPosts }
+module.exports = { getRecentPosts };

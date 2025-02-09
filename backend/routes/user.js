@@ -28,7 +28,7 @@ module.exports = function(app){
       
       app.post('/api/auth/user/reset-password/:id/:token', userPasswordReset);
 
-      app.get('/api/page-views/', pageViews);
+      app.post('/api/page-views/', pageViews);
 
       // PROTECTED ROUTES
       app.get('/api/user/profile/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), userProfile);

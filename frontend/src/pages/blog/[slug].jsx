@@ -1,7 +1,6 @@
-import React, { useMemo, memo } from 'react';
+import React, { useMemo, memo, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
-import useSWR from 'swr';
 import Navbar from '../../components/layout/navbar';
 import Footer from '../../components/layout/footer/';
 import NotFound from '../404';
@@ -9,20 +8,25 @@ import RenderElements from '../../utilities/posts/renderElements';
 
 import '../../../public/css/blog-post.css';
 
-const fetcher = async (url) => {
-  const res = await fetch(url);
-  return res.json();
-};
-
 const BlogPost = memo(({ post }) => {
   const postElements = post?.elements || [];
+  const [views, setViews] = useState(0);
 
-  const { data } = useSWR(
-    post ? `/api/page-views?slug=/blog/${encodeURIComponent(post.slug)}` : null,
-    fetcher,
-    { revalidateOnFocus: false }
-  );
-  const views = data?.pageViews;
+  useEffect(() => {
+    if (post?.slug) {
+      fetch(`/api/page-views?slug=${encodeURIComponent(post.slug)}`, {
+        method: 'POST',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.pageViews) {
+            setViews(data.pageViews);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [post?.slug]);
+  console.log(post)
 
   const renderedElements = useMemo(() => {
     return postElements.map((element) => (
@@ -88,17 +92,6 @@ const BlogPost = memo(({ post }) => {
         <meta property="article:modified_time" content={post?.updatedAt} />
         <meta property="article:author" content={post?.author} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDBDQW96VD"></script>
-        <script>
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-SDBDQW96VD');
-          `}
-        </script>
       </Head>
       <Navbar />
       <main className="main">
@@ -110,7 +103,7 @@ const BlogPost = memo(({ post }) => {
             <div className="post__content">
               <div className="post__content-header">
                 <p>{post?.title}</p>
-                <p>{views} views</p>
+                <p>{post?.views || 69} views</p>
               </div>
               <div className="post__elements">{renderedElements}</div>
             </div>

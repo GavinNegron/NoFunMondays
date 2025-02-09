@@ -2,7 +2,7 @@ const Posts = require('../../models/Posts');
 
 const getFeaturedPosts = async (req, res) => {
     try {
-        const featuredPost = await Posts.findOne({ featured: true });
+        const featuredPost = await Posts.findOne({ featured: true, status: 'published' });
         if (!featuredPost) {
             return res.status(204).json({ message: 'No featured post found.' });
         }
@@ -12,4 +12,4 @@ const getFeaturedPosts = async (req, res) => {
     }
 };
 
-module.exports = { getFeaturedPosts }
+module.exports = { getFeaturedPosts };

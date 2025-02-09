@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../../features/posts/postAction';
+import { fetchRecentPosts } from '../../features/posts/postAction';
 import PostCard from './post-card';
 
 function RecentPosts({ initialPosts, initialLoading }) {
@@ -11,7 +11,7 @@ function RecentPosts({ initialPosts, initialLoading }) {
 
   useEffect(() => {
     if (!initialPosts && posts.length === 0 || postLimit !== 6) {
-      dispatch(fetchPosts({ limit: postLimit, excludeFeatured: true }));
+      dispatch(fetchRecentPosts({ limit: postLimit, excludeFeatured: true }));
     }
   }, [dispatch, postLimit, initialPosts, posts.length]); 
 
@@ -39,7 +39,7 @@ function RecentPosts({ initialPosts, initialLoading }) {
 }
 
 export async function getServerSideProps() {
-  const posts = await fetchPosts({ limit: 6, excludeFeatured: true });
+  const posts = await fetchRecentPosts({ limit: 6, excludeFeatured: true });
 
   return {
     props: {

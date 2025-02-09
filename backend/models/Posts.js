@@ -33,6 +33,11 @@ const blogPostSchema = new mongoose.Schema({
     required: true,
     lowerCase: true,
   },
+  views: {
+    type: Number, 
+    default: 0, 
+    required: true,
+  },
   elements: [
     {
       id: { type: String, required: true }, 

@@ -21,12 +21,6 @@ function Publish() {
             const publish = document.querySelector('.publish');
             if (publish && publish.contains(e.target)) {
                 handleClickOutside(e, '.publish__inner', '.publish');
-                $("body").css({
-                    "max-height": "",
-                    "overflow": ""
-                  });
-                  
-                  $(".new-post").css("display", "none");
             }
         };
     

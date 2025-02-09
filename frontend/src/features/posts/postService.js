@@ -27,8 +27,20 @@ export const fetchFeaturedPost = async () => {
   }
 };
 
+export const fetchRecentPosts = async () => {
+  try {
+    const response = await axios.get(`/api/posts/recent`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      throw new Error('Recent post not found');
+    }
+    throw new Error(error.response?.data?.message || 'Failed to fetch recent post');
+  }
+};
+
 export const fetchPosts = async (limit, excludeFeatured = false) => {
-  const response = await axios.get(`/api/posts/recent`, {
+  const response = await axios.get(`/api/posts/`, {
     params: { limit, excludeFeatured },
   });
   return response.data;
@@ -107,7 +119,7 @@ export const publishPost = async (post, postElements) => {
         }
       
         case 'twitter': {
-          const tweetDiv = elementDom.querySelector('[data-tweetid]'); // Find the child div with the data-tweetid
+          const tweetDiv = elementDom.querySelector('[data-tweetid]'); 
           console.log(tweetDiv ? tweetDiv.getAttribute('data-tweetid') : 'not found');
           if (tweetDiv) {
             updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
