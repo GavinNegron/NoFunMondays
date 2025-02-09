@@ -65,7 +65,7 @@ export const EditorProvider = ({ children }) => {
   };
   
   const renderImageSelector = () => {
-    let previewSrc = previewImage
+    let previewSrc = previewImage || '/image/placeholder.png'
 
     if(selectedElement?.classList.contains('image')) {
       previewSrc = selectedElement.querySelector('img').src
