@@ -1,7 +1,6 @@
 
 const { getPosts } = require('../controllers/posts/fetchPosts');
 const { getRecentPosts } = require('../controllers/posts/fetchRecentPosts');
-const { getFeaturedPosts } = require('../controllers/posts/fetchFeaturedPosts');
 const { setFeaturedPost } = require('../controllers/posts/setFeaturedPost');
 const { createPost } = require('../controllers/posts/createPost');
 const { updatePost } = require('../controllers/posts/updatePost');
@@ -20,8 +19,6 @@ module.exports = function(app){
 
     app.get('/api/posts/recent', getRecentPosts)
     
-    app.get('/api/posts/featured', getFeaturedPosts);
-
     app.get('/api/posts/slug/:slug', fetchSlug)
 
     app.get('/api/posts/title', fetchTitle)

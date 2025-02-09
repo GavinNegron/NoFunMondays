@@ -57,19 +57,6 @@ const postSlice = createSlice({
         state.error = action.payload;
       });
     builder
-      .addCase(postAction.fetchFeaturedPost.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(postAction.fetchFeaturedPost.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.featuredPost = action.payload;
-      })
-      .addCase(postAction.fetchFeaturedPost.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-    builder
       .addCase(postAction.deletePost.pending, (state) => {
         state.isLoading = true;
         state.error = null;

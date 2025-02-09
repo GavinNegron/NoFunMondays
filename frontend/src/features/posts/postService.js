@@ -15,21 +15,9 @@ export const deletePost = async (postId) => {
   return response.data;
 };
 
-export const fetchFeaturedPost = async () => {
+export const fetchRecentPosts = async (type) => {
   try {
-    const response = await axios.get(`/api/posts/featured`);
-    return response.data;
-  } catch (error) {
-    if (error.response?.status === 404) {
-      throw new Error('Featured post not found');
-    }
-    throw new Error(error.response?.data?.message || 'Failed to fetch featured post');
-  }
-};
-
-export const fetchRecentPosts = async () => {
-  try {
-    const response = await axios.get(`/api/posts/recent`);
+    const response = await axios.get(`/api/posts/recent?type=${type}`);
     return response.data;
   } catch (error) {
     if (error.response?.status === 404) {
@@ -38,6 +26,7 @@ export const fetchRecentPosts = async () => {
     throw new Error(error.response?.data?.message || 'Failed to fetch recent post');
   }
 };
+
 
 export const fetchPosts = async (limit, excludeFeatured = false) => {
   const response = await axios.get(`/api/posts/`, {

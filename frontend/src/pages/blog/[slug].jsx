@@ -26,7 +26,6 @@ const BlogPost = memo(({ post }) => {
         .catch(() => {});
     }
   }, [post?.slug]);
-  console.log(post)
 
   const renderedElements = useMemo(() => {
     return postElements.map((element) => (

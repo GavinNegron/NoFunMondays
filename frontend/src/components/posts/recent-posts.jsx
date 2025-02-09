@@ -3,17 +3,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchRecentPosts } from '../../features/posts/postAction';
 import PostCard from './post-card';
 
-function RecentPosts({ initialPosts, initialLoading }) {
+function RecentPosts({ initialPosts }) {
   const dispatch = useDispatch();
-  const { posts, isLoading } = useSelector((state) => state.posts.post);
+  const { posts } = useSelector((state) => state.posts.post);
   
   const [postLimit, setPostLimit] = useState(6);
+  const [loadedPosts, setLoadedPosts] = useState(initialPosts || []);
 
   useEffect(() => {
-    if (!initialPosts && posts.length === 0 || postLimit !== 6) {
+    if (posts.length === 0) {
+      setLoadedPosts(initialPosts);
+    } else {
+      setLoadedPosts(posts);
+    }
+  }, [posts, initialPosts]);
+
+  useEffect(() => {
+    if (postLimit > 6) {
       dispatch(fetchRecentPosts({ limit: postLimit, excludeFeatured: true }));
     }
-  }, [dispatch, postLimit, initialPosts, posts.length]); 
+  }, [dispatch, postLimit]);
 
   const handleLoadMore = () => {
     setPostLimit((prev) => prev + 4);
@@ -26,27 +35,16 @@ function RecentPosts({ initialPosts, initialLoading }) {
           <p>Recent Blog Posts</p>
         </div>
         <div className="recent-posts__inner">
-          {posts?.map((post) => (
+          {loadedPosts.map((post) => (
             <PostCard key={post._id} post={post} />
           ))}
         </div>
       </div>
       <div className="recent-posts__load">
-        <button className="fortnite-btn" onClick={handleLoadMore} disabled={isLoading || initialLoading}>Load More Posts</button>
+        <button className="fortnite-btn" onClick={handleLoadMore} disabled={loadedPosts.length < postLimit}>Load More Posts</button>
       </div>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const posts = await fetchRecentPosts({ limit: 6, excludeFeatured: true });
-
-  return {
-    props: {
-      initialPosts: posts,
-      initialLoading: false,
-    },
-  };
 }
 
 export default RecentPosts;

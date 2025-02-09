@@ -1,29 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchFeaturedPost } from '../../features/posts/postAction';
-
-const moment = require('moment');
+import moment from 'moment';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
-function FeaturedPost() {
-  const dispatch = useDispatch();
-  const { featuredPost, isLoading } = useSelector((state) => state.posts.post);
-  const [hasFetched, setHasFetched] = useState(false);
-
+function FeaturedPost({ featuredPost }) {
   useEffect(() => {
-    if (!hasFetched && !featuredPost && !isLoading) {
-      setHasFetched(true);
-      dispatch(fetchFeaturedPost());
-    }
-  }, [dispatch, featuredPost, isLoading, hasFetched]);
-  
+  }, [featuredPost]);
+
   if (!featuredPost) {
-    return null; 
+    return null;
   }
 
-  const formatDate = (date) => {
-    return moment(date).format('MM/DD/YYYY');
-  };
+  const formatDate = (date) => moment(date).format('MM/DD/YYYY');
 
   return (
     <div className="featured-post">
@@ -33,11 +20,11 @@ function FeaturedPost() {
       <div className="featured-post__inner d-flex col-12">
         <div className="featured-post__left d-flex col-12 col-md-12 col-lg-7">
           <div className="featured-post__img">
-            {featuredPost.imageUrl && (
+            {featuredPost?.imageUrl && (
               <Link
-                style={{ backgroundImage: `url(${featuredPost.imageUrl})` }}
-                href={`/blog/${featuredPost.slug}`}
-                aria-label={` ${featuredPost.title} `}
+                style={{ backgroundImage: `url(${featuredPost?.imageUrl})` }}
+                href={`/blog/${featuredPost?.slug}`}
+                aria-label={` ${featuredPost?.title} `}
               ></Link>
             )}
           </div>
@@ -45,13 +32,13 @@ function FeaturedPost() {
         <div className="featured-post__right d-flex col-12 col-md-12 col-lg-5">
           <div className="featured-post__content">
             <div className="featured-post__title">
-              <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
+              <Link href={`/blog/${featuredPost?.slug}`}>{featuredPost?.title}</Link>
             </div>
             <div className="featured-post__description">
-              <p>{featuredPost.description || 'No description available.'}</p>
+              <p>{featuredPost?.description || 'No description available.'}</p>
             </div>
             <div className="featured-post__date">
-              <p>{formatDate(featuredPost.createdAt)}</p>
+              <p>{formatDate(featuredPost?.createdAt)}</p>
             </div>
           </div>
         </div>
