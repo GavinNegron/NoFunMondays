@@ -31,11 +31,15 @@ function Landing({ featuredPost, recentPosts }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const host = context.req.headers.host;
+  const protocol = host.includes("localhost") ? "http" : "https";
+  const baseURL = `${protocol}://${host}`;
+
   try {
     const [featuredResponse, recentResponse] = await Promise.all([
-      axios.get(`${process.env.NEXT_PUBLIC_URL}/api/posts/recent?type=featured`),
-      axios.get(`${process.env.NEXT_PUBLIC_URL}/api/posts/recent?type=recent`),
+      axios.get(`${baseURL}/api/posts/recent?type=featured`),
+      axios.get(`${baseURL}/api/posts/recent?type=recent`),
     ]);
 
     const featuredPost = featuredResponse.data.length > 0 ? featuredResponse.data[0] : null;
@@ -51,5 +55,6 @@ export async function getServerSideProps() {
     };
   }
 }
+
 
 export default Landing;
