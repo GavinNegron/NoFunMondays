@@ -40,7 +40,7 @@ export const handleDoubleClick = (event) => {
 };
 
 
-export const handleMouseDown = (e, setIsDragging, setPossition) => {
+export const handleMouseDown = (e, setIsDragging, setPosition) => {
     const element = e.target.closest('.edit-styles');
     if (!element) return;
 

@@ -4,7 +4,6 @@ import { EditorProvider } from '../contexts/EditorContext';
 import { TaskProvider } from '../contexts/TaskContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Script from 'next/script';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
