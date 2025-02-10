@@ -12,7 +12,7 @@ export const handleDoubleClick = (event) => {
         element.contentEditable = true;
         element.style.outline = "none";
         element.spellcheck = false;
-        element.focus
+        element.focus();
 
         const handleClickOutside = (e) => {
             if (!element.contains(e.target)) {
@@ -24,19 +24,23 @@ export const handleDoubleClick = (event) => {
         document.addEventListener('mousedown', handleClickOutside);
 
         element.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                e.stopPropagation();
-            }
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault(); 
+                e.preventDefault();
                 element.contentEditable = false;
                 document.removeEventListener('mousedown', handleClickOutside);
+            } else if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                if (element.innerHTML.trim() === '') {
+                    element.innerHTML = '&nbsp;';
+                }
+                document.execCommand('insertText', false, '\n');
             }
         });
     }
 };
 
-export const handleMouseDown = (e, setIsDragging, setPosition) => {
+
+export const handleMouseDown = (e, setIsDragging, setPossition) => {
     const element = e.target.closest('.edit-styles');
     if (!element) return;
 

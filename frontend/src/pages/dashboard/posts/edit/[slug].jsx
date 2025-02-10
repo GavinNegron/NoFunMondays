@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEditorContext } from '../../../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Script from 'next/script';
 
 // Layout
-import LoadingScreen from '../../../../components/base/loading';
-import NotFound from '../../../404';
-import Navbar from '../../../../components/layout/navbar';
+import LoadingScreen from '@/components/base/loading';
+import NotFound from '@/pages/404';
+import Navbar from '@/components/layout/navbar';
 import EditorNavbar from '../components/EditorNavbar';
 import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities
-import { handleDrop, handleDragOver } from '../../../../utilities/dragUtils';
-import RenderElements from '../../../../utilities/posts/renderEditorElements';
+import { handleDrop, handleDragOver } from '@/utilities/dragUtils';
+import RenderElements from '@/utilities/posts/renderEditorElements';
 import { handleElementClick } from '@/utilities/posts/editorFunctions';
 
 // Layout
 import EditStyles from '../components/EditStyles/EditStyles';
 
 // Features
-import { fetchSlug, addPostElement, deletePostElement } from '../../../../features/posts/postAction';
+import { fetchSlug, addPostElement, deletePostElement } from '@/features/posts/postAction';
 
 // Stylesheets
 import '../../../../../public/css/dashboard.css';
@@ -30,10 +30,8 @@ import '../../../../../public/css/edit-post.css';
 
 function BlogPostEditor() {
     const {
-        notFound,
         selectedElement,
         setSelectedElement,
-        errorMessage,
         blogPostMainRef,
         setShowColorPicker,
         setPreviewImage,
@@ -44,17 +42,16 @@ function BlogPostEditor() {
     const router = useRouter();
 
     const [loadingState, setLoadingState] = useState(true);
-    const { post, postElements, isLoading, error } = useSelector((state) => state.posts.post);
+    const { post, postElements, isLoading } = useSelector((state) => state.posts.post);
     const { slug } = router.query;
 
     useEffect(() => {
+        if (!slug) return;
         const handleLoading = async () => {
             setLoadingState(true);
             try {
-                if (slug) {
-                    await dispatch(fetchSlug(slug));
-                    await new Promise((resolve) => setTimeout(resolve, 500));
-                }
+                await dispatch(fetchSlug(slug));
+                await new Promise((resolve) => setTimeout(resolve, 500));
             } finally {
                 setLoadingState(false);
             }
@@ -65,6 +62,7 @@ function BlogPostEditor() {
     useEffect(() => {
         const handleKeyDown = (event) => {
             if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
+                if (event.shiftKey) return;
                 const activeElement = document.activeElement;
                 const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`);
                 if (selectedElementNode && activeElement === selectedElementNode) {
@@ -107,67 +105,61 @@ function BlogPostEditor() {
         return <LoadingScreen />;
     }
 
-    if (error || errorMessage) {
-        return <div className="error-message">{error || errorMessage}</div>;
+    if (!loadingState && !isLoading && post === null) {
+        return <NotFound />;
     }
 
     return (
         <>
             <div className="blog-post-container">
-                {notFound ? (
-                    <NotFound />
-                ) : (
-                    <>
-                        <Head>
-                            <title>{post?.title}</title>
-                        </Head>
-                        <Navbar />
-                        {post && <EditorNavbar />}
-                        <EditorSidebar />
-                        <div className="editor-container">
-                            <div className="editor">
-                                <div className="editor__back">
-                                    <Link href="/dashboard/posts">
-                                        <i className="fa-solid fa-arrow-left"></i>
-                                        <span>Dashboard</span>
-                                    </Link>
-                                </div>
-                            </div>
+                <Head>
+                    <title>{post?.title}</title>
+                </Head>
+                <Navbar />
+                {post && <EditorNavbar />}
+                <EditorSidebar />
+                <div className="editor-container">
+                    <div className="editor">
+                        <div className="editor__back">
+                            <Link href="/dashboard/posts">
+                                <i className="fa-solid fa-arrow-left"></i>
+                                <span>Dashboard</span>
+                            </Link>
                         </div>
-                        <div className="blog-post-content">
+                    </div>
+                </div>
+                <div className="blog-post-content">
+                    <div
+                        className="blog-post-main"
+                        ref={blogPostMainRef}
+                        onDrop={dropFunction}
+                        onDragOver={handleDragOver}
+                    >
+                        <div
+                            className="blog-post-element banner"
+                            tabIndex="0"
+                            onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
+                        >
+                            {post?.imageUrl && <img src={imageUrl || post?.imageUrl} alt={post?.title} draggable="false" />}
+                        </div>
+                        <div className="blog-post-main__inner">
                             <div
-                                className="blog-post-main"
-                                ref={blogPostMainRef}
-                                onDrop={dropFunction}
-                                onDragOver={handleDragOver}
+                                className="blog-post-element title"
+                                tabIndex="0"
+                                onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
                             >
-                                <div
-                                    className="blog-post-element banner"
-                                    tabIndex="0"
-                                    onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
-                                >
-                                    {post?.imageUrl && <img src={imageUrl || post?.imageUrl} alt={post?.title} draggable="false" />}
-                                </div>
-                                <div className="blog-post-main__inner">
-                                    <div
-                                        className="blog-post-element title"
-                                        tabIndex="0"
-                                        onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
-                                    >
-                                        <span>{post?.title}</span>
-                                    </div>
-                                    {postElements && postElements.length > 0 && postElements.map((element) => (
-                                        <RenderElements key={element.id} element={element} editor={true} onClick={() => setSelectedElement(element)} />
-                                    ))}
-                                </div>
+                                <span>{post?.title}</span>
                             </div>
+                            {postElements && postElements.length > 0 && postElements.map((element) => (
+                                <RenderElements key={element.id} element={element} editor={true} onClick={() => setSelectedElement(element)} />
+                            ))}
                         </div>
-                        <EditStyles type='text'/>
-                        <EditStyles type='image'/>
-                        <EditStyles type='list'/>
-                        <EditStyles type='embed'/>
-                    </>
-                )}
+                    </div>
+                </div>
+                <EditStyles type='text'/>
+                <EditStyles type='image'/>
+                <EditStyles type='list'/>
+                <EditStyles type='embed'/>
             </div>
             <Script async src="https://platform.twitter.com/widgets.js"></Script>
         </>

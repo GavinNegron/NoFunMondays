@@ -5,7 +5,7 @@ const generateTokens = async (user) => {
     try {
         const payload = { _id: user._id, roles: user.roles };
 
-        const accessTokenExp = Math.floor(Date.now() / 1000) + (60 * 15);
+        const accessTokenExp = Math.floor(Date.now() / 1000) + (60 * 60);
         const accessToken = jwt.sign(
             { ...payload, exp: accessTokenExp},
             process.env.JWT_ACCESS_TOKEN_SECRET_KEY

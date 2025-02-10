@@ -12,7 +12,7 @@ const CustomTooltip = ({ id, header, description, place, fontWeight, background,
   }
 
   if (place === 'right') {
-    margin = '0 0 0 90px'
+    margin = '0 0 0 30px'
   }
 
   if (!fontWeight) {
