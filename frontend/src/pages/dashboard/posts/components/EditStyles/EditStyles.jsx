@@ -6,14 +6,14 @@ import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../
 import { handleElementClick } from '@/utilities/posts/editorFunctions';
 
 // Elements import
-import Embed from '../elements/embed';
-import Icons from '../elements/icons';
-import Family from '../elements/family';
-import Size from '../elements/size';
-import Type from '../elements/type';
-import Weight from '../elements/weight';
-import Margin from '../elements/margin';
-import Image from '../elements/image';
+import Embed from '../Elements/embed';
+import Icons from '../Elements/icons';
+import Family from '../Elements/family';
+import Size from '../Elements/size';
+import Type from '../Elements/type';
+import Weight from '../Elements/weight';
+import Margin from '../Elements/margin';
+import Image from '../Elements/image';
 
 const EditStyles = ({ type }) => { 
   const { blogPostMainRef } = useEditorContext();

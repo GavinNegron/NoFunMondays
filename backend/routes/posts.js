@@ -34,5 +34,5 @@ module.exports = function(app){
 
     app.delete('/api/posts/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
 
-    app.delete('/api/posts/:id/elements/:elementId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePostElement)
+    app.delete('/api/posts/:id/Elements/:elementId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePostElement)
 };
