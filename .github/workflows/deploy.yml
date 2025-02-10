@@ -57,16 +57,16 @@ jobs:
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/frontend
-            pm2 describe "next-green" > /dev/null || pm2 start npm --name "next-green" -- run start:green
-            pm2 restart "next-green" || true
+            pm2 describe "next-blue" > /dev/null || pm2 start npm --name "next-blue" -- run start:blue
+            pm2 restart "next-blue" || true
           EOF
 
       - name: Start backend with PM2
         run: |
           ssh root@67.205.132.203 <<EOF
             cd /var/www/staging.nofunmondays.com/backend
-            pm2 describe "backend-green" > /dev/null || pm2 start npm --name "backend-green" -- run start:green
-            pm2 restart "backend-green" || true
+            pm2 describe "backend-blue" > /dev/null || pm2 start npm --name "backend-blue" -- run start:blue
+            pm2 restart "backend-blue" || true
           EOF
 
       - name: Restart Nginx reverse proxy
