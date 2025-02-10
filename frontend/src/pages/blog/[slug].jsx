@@ -100,9 +100,24 @@ const BlogPost = memo(({ post }) => {
               <img src={post?.imageUrl} alt={post?.title} draggable="false" />
             </div>
             <div className="post__content">
-              <div className="post__content-header">
+              <div className="post__content__header">
                 <p>{post?.title}</p>
-                <p>{post?.views || 69} views</p>
+              </div>
+              <div className="post__icons">
+                <div className="post__icons__inner">
+                  <div className="post__icons-icon">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>{post?.views || 0}</span>
+                  </div>
+                  <div className="post__icons-icon">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>{post?.likes || 0}</span>
+                  </div>
+                  <div className="post__icons-icon">
+                    <i class="fa-solid fa-comment"></i>
+                    <span>{post?.comments || 0}</span>
+                  </div>
+                </div>
               </div>
               <div className="post__elements">{renderedElements}</div>
             </div>
