@@ -64,6 +64,7 @@ function BlogPostEditor() {
             if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement) {
                 if (event.shiftKey) return;
                 const activeElement = document.activeElement;
+                if (activeElement.isContentEditable) return;
                 const selectedElementNode = document.querySelector(`[data-id="${selectedElement.id}"]`);
                 if (selectedElementNode && activeElement === selectedElementNode) {
                     dispatch(deletePostElement(selectedElement.id));
@@ -71,12 +72,13 @@ function BlogPostEditor() {
                 }
             }
         };
-
+    
         document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [selectedElement, setSelectedElement, dispatch]);
+    
 
     useEffect(() => {
         const handleClick = (e) => {
