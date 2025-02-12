@@ -21,14 +21,6 @@ class MyDocument extends Document {
           {process.env.NODE_ENV === "production" && (
             <>
               <script async src="https://www.googletagmanager.com/gtag/js?id=G-968L600ZDF"></script>
-              <script async id="analytics" dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(argumentsw);}
-                  gtag('js', new Date());
-                  gtag('config', 'G-968L600ZDF');
-                `,
-              }} />
             </>
           )}
         </body>
