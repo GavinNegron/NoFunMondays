@@ -23,8 +23,11 @@ const pageViews = async (req, res) => {
     console.log("Current User Hash:", userHash);
     if (!existingView) {
       await PageView.create({ postSlug: slug, userId: userHash });
-      await PageView.updateOne({ postSlug: slug }, { $inc: { count: 1 } }, { upsert: true });
-      await Posts.updateOne({ slug }, { $inc: { views: 1 } });
+      await PageView.updateOne(
+        { postSlug: slug, userId: userHash }, 
+        { $inc: { count: 1 } }, 
+        { upsert: true }
+      );      await Posts.updateOne({ slug }, { $inc: { views: 1 } });
     }
 
     const totalViews = await PageView.countDocuments({ postSlug: slug });
