@@ -8,7 +8,8 @@ const hashUser = (ip, userAgent) => {
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const ip = req.headers['x-forwarded-for'] || req.ip;
+  console.log("USER IP \n is IP: \n", ip, "\n")
   const userAgent = req.headers['user-agent'] || 'unknown';
   const userHash = hashUser(ip, userAgent);
 
