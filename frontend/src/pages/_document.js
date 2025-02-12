@@ -11,6 +11,7 @@ class MyDocument extends Document {
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" />
+          <link rel="icon" href="/image/favicon.png" type="image/png"/>
         </Head>
         <body>
           <Main />
@@ -23,7 +24,7 @@ class MyDocument extends Document {
               <script async id="analytics" dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
+                  function gtag(){dataLayer.push(argumentsw);}
                   gtag('js', new Date());
                   gtag('config', 'G-968L600ZDF');
                 `,

@@ -12,10 +12,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Head>
-        <link rel="icon" href="/image/NoFunMondays.png" type="image/x-icon" />
-      </Head>
-
       {isDashboardPostsPage ? (
         <EditorProvider>
           <Component {...pageProps} />
