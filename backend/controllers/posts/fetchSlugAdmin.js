@@ -1,9 +1,9 @@
 const Posts = require('../../models/Posts');
 
-const fetchSlug = async (req, res) => {
+const fetchSlugAdmin = async (req, res) => {
   try {
     const { slug } = req.params;
-    const post = await Posts.findOne({ slug, status: 'published' }).lean();
+    const post = await Posts.findOne({ slug }).lean();
 
     if (post) {
       res.status(200).json(post);
@@ -15,4 +15,4 @@ const fetchSlug = async (req, res) => {
   }
 };
 
-module.exports = { fetchSlug };
+module.exports = { fetchSlugAdmin };

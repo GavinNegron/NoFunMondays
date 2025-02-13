@@ -8,6 +8,7 @@ const { deletePost } = require('../controllers/posts/deletePost');
 const { deletePostElement } = require('../controllers/posts/deletePostElement');
 const { fetchTitle } = require('../controllers/posts/fetchTitle');
 const { fetchSlug } = require('../controllers/posts/fetchSlug');
+const { fetchSlugAdmin } = require('../controllers/posts/fetchSlugAdmin');
 
 const passport = require('passport');
 const setAuthHeader = require('../middleware/setAuthHeader');
@@ -25,6 +26,8 @@ module.exports = function(app){
 
     // PROTECTED ROUTES
     app.get('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), getPosts)
+
+    app.get('/api/posts/edit/slug/:slug', fetchSlugAdmin)
 
     app.post('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), createPost)
 

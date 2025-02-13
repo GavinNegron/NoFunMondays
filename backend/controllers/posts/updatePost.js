@@ -1,4 +1,3 @@
-const axios = require('axios')
 const Posts = require('../../models/Posts');
 const { storage, bucketName } = require('../../config/googleCloudStorage');
 const { generateSlug } = require('../../utils/posts/generateSlug')

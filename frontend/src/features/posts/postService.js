@@ -36,7 +36,7 @@ export const fetchPosts = async (limit, excludeFeatured = false) => {
 };
 
 export const fetchSlug = async (slug) => {
-  const response = await axios.get(`/api/posts/slug/${slug}`);
+  const response = await axios.get(`/api/posts/edit/slug/${slug}`);
   return response.data;
 };
 

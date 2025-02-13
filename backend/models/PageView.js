@@ -13,6 +13,22 @@ const pageViewSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    browser: {
+        type: String,
+        required: true
+    },
+    referrer: {
+        type: String, 
+        default: 'direct'
+    },
+    region: {
+        type: String, 
+        default: 'unknown'
+    },
+    timezone: {
+        type: String, 
+        default: 'unknown'
+    },
     createdAt: { 
         type: Date, 
         default: Date.now 
