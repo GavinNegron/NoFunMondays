@@ -117,7 +117,6 @@ export const publishPost = async (post, postElements) => {
         }
       }
       
-      
       return updatedElement;
     }
     return element;
