@@ -3,7 +3,6 @@ import { useEditorContext } from '../../../../../contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '../../../../../utilities/domUtils';
 import { publishPost } from '../../../../../features/posts/postAction';
-import $ from 'jquery';
 
 function Publish() {
     const dispatch = useDispatch();

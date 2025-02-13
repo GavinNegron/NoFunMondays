@@ -18,7 +18,7 @@ const pageViews = async (req, res) => {
 
   try {
     const existingView = await PageView.findOne({ postSlug: slug, userId: userHash });
-
+zz
     if (!existingView) {
       await PageView.create({ postSlug: slug, userId: userHash });
       await Posts.updateOne({ slug }, { $inc: { views: 1 } });

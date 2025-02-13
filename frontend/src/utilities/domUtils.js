@@ -11,6 +11,8 @@ export const handleClickOutside = (event, targetClasses, targetRemove) => {
   const isClickInsideTarget = targetArray.some(targetClass => event.target.closest(targetClass));
   if (!isClickInsideTarget && targetRemove) {
     $(targetRemove).stop(true, true).fadeOut(200); 
+    $("body").css("max-height", "none");
+    $("body").css("overflow", "visible");
   }
 };
 
