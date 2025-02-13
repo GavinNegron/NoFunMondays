@@ -6,13 +6,13 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 // COMPONENTS
-import Navbar from '../../../components/layout/navbar';
-import Sidebar from '../../../components/layout/sidebar';
+import Navbar from '@/components/layout/navbar';
+import Sidebar from '@/components/layout/sidebar';
 import NewPost from './components/NewPost/new-post';
-import LoadingScreen from '../../../components/base/loading'
+import LoadingScreen from '@/components/base/loading'
 
 // FEATURES
-import { fetchPosts, deletePost } from '../../../features/posts/postAction';
+import { fetchPosts, deletePost } from '@/features/posts/postAction';
 
 // STYLESHEETS
 import '../../../../public/css/dashboard.css'

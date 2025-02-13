@@ -1,4 +1,4 @@
-import elements from '../../data/elements'
+import elements from '@/data/elements'
 import $ from 'jquery'
 
 export const handleDoubleClick = (event) => {

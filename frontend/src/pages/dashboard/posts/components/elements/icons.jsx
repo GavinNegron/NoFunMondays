@@ -1,5 +1,5 @@
-import { useEditorContext } from '../../../../../contexts/EditorContext'
-import Tooltip from '../../../../../utilities/tooltip';
+import { useEditorContext } from '@/contexts/EditorContext'
+import Tooltip from '@/utilities/tooltip';
 import { BlockPicker } from 'react-color';
 
 const Icons = () => {

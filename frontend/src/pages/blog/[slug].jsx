@@ -1,10 +1,10 @@
 import React, { useMemo, memo, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
-import Navbar from '../../components/layout/navbar';
-import Footer from '../../components/layout/footer/';
+import Navbar from '@/components/layout/navbar';
+import Footer from '@/components/layout/footer/';
 import NotFound from '../404';
-import RenderElements from '../../utilities/posts/renderElements';
+import RenderElements from '@/utilities/posts/renderElements';
 
 import '../../../public/css/blog-post.css';
 

@@ -1,5 +1,5 @@
-import { useEditorContext } from '../../../../../contexts/EditorContext'
-import elements from '../../../../../data/elements.json';
+import { useEditorContext } from '@/contexts/EditorContext'
+import elements from '@/data/elements.json';
 
 const Weight = () => {
   const {

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../components/layout/navbar';
-import Footer from '../components/layout/footer/';
-import FeaturedPost from '../components/posts/featured-post';
-import RecentPosts from '../components/posts/recent-posts';
+import Navbar from '@/components/layout/navbar';
+import Footer from '@/components/layout/footer/';
+import FeaturedPost from '@/components/posts/featured-post';
+import RecentPosts from '@/components/posts/recent-posts';
 import Head from 'next/head';
 import '../../public/css/landing.css';
 

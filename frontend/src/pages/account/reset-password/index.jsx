@@ -2,7 +2,7 @@ import '../../../../public/css/register.css'
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { resetPasswordSchema } from '../../../data/schemas'
+import { resetPasswordSchema } from '@/data/schemas' 
 
 const ResetPassword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({

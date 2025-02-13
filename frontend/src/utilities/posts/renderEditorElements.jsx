@@ -3,7 +3,7 @@ import { handleDrop, handleDragOver } from '../dragUtils';
 import { handleDoubleClick } from './editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
 import { handleElementClick } from './editorFunctions';
-import { useEditorContext } from '../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 
 
 const RenderElements = ({ element }) => {

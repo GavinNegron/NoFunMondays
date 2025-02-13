@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getElementStyles } from '../../utilities/posts/editorFunctions';
-import elements from '../../data/elements';
+import { getElementStyles } from '@/utilities/posts/editorFunctions';
+import elements from '@/data/elements';
 import DOMPurify from 'dompurify';
 
 export const createPost = async (newPost) => {

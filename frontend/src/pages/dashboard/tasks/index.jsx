@@ -5,8 +5,8 @@ import React from 'react'
 import Head from 'next/head'
 
 // Layout
-import Navbar from '../../../components/layout/navbar'
-import Sidebar from '../../../components/layout/sidebar'
+import Navbar from '@/components/layout/navbar'
+import Sidebar from '@/components/layout/sidebar'
 
 // Components
 import TasksToDo from './components/tasksToDo/tasksToDo'

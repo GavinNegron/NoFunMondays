@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 
 const Size = () => {
   const {

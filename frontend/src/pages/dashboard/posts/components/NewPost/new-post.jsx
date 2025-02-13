@@ -2,17 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 import $ from 'jquery';
 
 // COMPONENTS
-import LoadingScreen from '../../../../../components/base/loading';
+import LoadingScreen from '@/components/base/loading';
 
 // FEATURES
-import { createPost, fetchTitle } from '../../../../../features/posts/postAction';
+import { createPost, fetchTitle } from '@/features/posts/postAction';
 
 // UTILITIES
-import { handleClickOutside } from '../../../../../utilities/domUtils';
+import { handleClickOutside } from '@/utilities/domUtils';
 
 function NewPost() {
     const { renderImageSelector, image } = useEditorContext();

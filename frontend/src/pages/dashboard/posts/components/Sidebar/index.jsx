@@ -1,15 +1,15 @@
 // React
 import React, { useState, useEffect } from 'react';
-import Tooltip from '../../../../../utilities/tooltip';
+import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
-import { handleClickOutside } from '../../../../../utilities/domUtils';
+import { handleClickOutside } from '@/utilities/domUtils';
 import './_sidebar.sass'
 
 // Data 
-import elements from '../../../../../data/elements';
+import elements from '@/data/elements';
 
 // Utilities 
-import { handleDragStart } from '../../../../../utilities/dragUtils';
+import { handleDragStart } from '@/utilities/dragUtils';
 
 function EditSidebar() {
   const [activeElement, setActiveElement] = useState('text');

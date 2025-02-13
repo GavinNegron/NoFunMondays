@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Tooltip from '../../../../../utilities/tooltip';
+import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
 import Publish from '../Publish/index';
 import Link from 'next/link';

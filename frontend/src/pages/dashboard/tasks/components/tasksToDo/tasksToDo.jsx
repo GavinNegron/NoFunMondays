@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import $ from 'jquery'
-import { useTaskContext } from '../../../../../contexts/TaskContext';
+import { useTaskContext } from '@/contexts/TaskContext';
 
 // COMPONENTS
 import LoadingScreen from '@/components/base/loading'
 
 // FEATURES
-import { fetchTasks } from '../../../../../features/tasks/taskAction';
+import { fetchTasks } from '@/features/tasks/taskAction';
 
 const TasksToDo = () => {
   const { selectedTask, setSelectedTask } = useTaskContext();

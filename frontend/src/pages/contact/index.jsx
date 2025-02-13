@@ -6,12 +6,12 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
 // COMPONENTS
-import Navbar from '../../components/layout/navbar/'
-import Footer from '../../components/layout/footer/'
+import Navbar from '@/components/layout/navbar/'
+import Footer from '@/components/layout/footer/'
 
 // FORMS
 import { yupResolver } from '@hookform/resolvers/yup'
-import { contactSchema } from '../../data/schemas'
+import { contactSchema } from '@/data/schemas'
 
 // STYLESHEETS
 import '../../../public/css/contact.css'

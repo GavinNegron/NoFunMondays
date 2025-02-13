@@ -1,5 +1,5 @@
-import { useEditorContext } from '../../../../../contexts/EditorContext'
-import elements from '../../../../../data/elements'
+import { useEditorContext } from '@/contexts/EditorContext'
+import elements from '@/data/elements'
 
 const Family = () => {
   const {

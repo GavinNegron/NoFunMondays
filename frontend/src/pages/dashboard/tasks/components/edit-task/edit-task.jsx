@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useTaskContext } from '../../../../../contexts/TaskContext';
-import { updateTaskStatus } from '../../../../../features/tasks/taskAction';
+import { useTaskContext } from '@/contexts/TaskContext';
+import { updateTaskStatus } from '@/features/tasks/taskAction';
 
 const EditTask = () => {
   const { selectedTask, setSelectedTask } = useTaskContext();

@@ -10,8 +10,8 @@ import Script from 'next/script';
 import LoadingScreen from '@/components/base/loading';
 import NotFound from '@/pages/404';
 import Navbar from '@/components/layout/navbar';
-import EditorNavbar from '../components/EditorNavbar';
-import EditorSidebar from '../components/Sidebar/index';
+import EditorNavbar from '@/components/EditorNavbar';
+import EditorSidebar from '@/components/Sidebar/index';
 
 // Utilities
 import { handleDrop, handleDragOver } from '@/utilities/dragUtils';
@@ -19,7 +19,7 @@ import RenderElements from '@/utilities/posts/renderEditorElements';
 import { handleElementClick } from '@/utilities/posts/editorFunctions';
 
 // Layout
-import EditStyles from '../components/EditStyles/EditStyles';
+import EditStyles from '@/components/EditStyles/EditStyles';
 
 // Features
 import { fetchSlug, addPostElement, deletePostElement } from '@/features/posts/postAction';

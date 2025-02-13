@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleClickOutside } from '../../../../../utilities/domUtils';
-import { publishPost } from '../../../../../features/posts/postAction';
+import { handleClickOutside } from '@/utilities/domUtils';
+import { publishPost } from '@/features/posts/postAction';
 
 function Publish() {
     const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { useEditorContext } from '../../../../../contexts/EditorContext';
+import { useEditorContext } from '@/contexts/EditorContext';
 
 // Utilities
-import { handleMouseMove, handleMouseUp, handleMouseDown } from '../../../../../utilities/posts/editorFunctions';
+import { handleMouseMove, handleMouseUp, handleMouseDown } from '@/utilities/posts/editorFunctions';
 import { handleElementClick } from '@/utilities/posts/editorFunctions';
 
 // Elements import
