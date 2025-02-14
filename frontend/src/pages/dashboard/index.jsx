@@ -90,7 +90,7 @@ function Dashboard() {
               bgColor='#af71d224'
               color='#9d6fff'
             />
-             <StatBox 
+             <StatBox  
               icon='fa-solid fa-comment'
               header='Daily Comments'
               value={todayViews}
