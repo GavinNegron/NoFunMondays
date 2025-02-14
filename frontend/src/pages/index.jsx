@@ -45,7 +45,7 @@ export async function getServerSideProps(context) {
     const featuredPost = featuredResponse.data.length > 0 ? featuredResponse.data[0] : null;
     const recentPosts = recentResponse.data || [];
 
-    return {
+    return { 
       props: { featuredPost, recentPosts },
     };
   } catch (error) {
