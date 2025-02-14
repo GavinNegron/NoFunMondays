@@ -78,3 +78,13 @@ export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, 
     return thunkAPI.rejectWithValue('Failed to publish post.');
   }
 });
+
+// ANALYTICS
+
+export const fetchPostViews = createAsyncThunk('posts/fetchPostViews', async ({ slug, days }, thunkAPI) => {
+  try {
+    return await postService.fetchPostViews(slug ? slug : undefined, days);
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to get post views.');
+  }
+});

@@ -134,3 +134,14 @@ export const publishPost = async (post, postElements) => {
   });
   return response.data;
 };
+
+// ANALYTICS
+
+export const fetchPostViews = async (slug, days) => {
+  const query = new URLSearchParams();
+  if (slug) query.append('slug', slug);
+  if (days) query.append('days', days);
+
+  const response = await axios.get(`/api/posts/analytics/views?${query.toString()}`);
+  return response.data;
+};

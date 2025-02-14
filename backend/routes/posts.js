@@ -9,6 +9,7 @@ const { deletePostElement } = require('../controllers/posts/deletePostElement');
 const { fetchTitle } = require('../controllers/posts/fetchTitle');
 const { fetchSlug } = require('../controllers/posts/fetchSlug');
 const { fetchSlugAdmin } = require('../controllers/posts/fetchSlugAdmin');
+const { fetchPostViews } = require('../controllers/analytics/fetchPostViews');
 
 const passport = require('passport');
 const setAuthHeader = require('../middleware/setAuthHeader');
@@ -38,4 +39,6 @@ module.exports = function(app){
     app.delete('/api/posts/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
 
     app.delete('/api/posts/:id/elements/:elementId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePostElement)
+
+    app.get('/api/posts/analytics/views/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), fetchPostViews)
 };

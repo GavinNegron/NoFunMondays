@@ -132,13 +132,15 @@ const BlogPost = memo(({ post }) => {
 
 export default BlogPost;
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
   try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://nofunmondays.com' 
-      : 'http://localhost:3000';
+    const host = context.req.headers.host;
+    const protocol = host.includes("localhost") ? "http" : "https";
+    const baseUrl = `${protocol}://${host}`;
 
-    const response = await fetch(`${baseUrl}/api/posts/slug/${params.slug}`);
+    const { slug } = context.params;
+
+    const response = await fetch(`${baseUrl}/api/posts/slug/${slug}`);
 
     if (!response.ok) { 
       return { notFound: true };

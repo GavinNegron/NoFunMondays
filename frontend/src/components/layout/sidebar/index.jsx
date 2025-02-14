@@ -15,7 +15,7 @@ function Sidebar() {
   };
 
   const links = [
-    { text: "Dashboard", href: "/dashboard", iconName: "chart-simple" },
+    { text: "Dashboard", href: "/dashboard", iconName: "chart-line" },
     { text: "Posts", href: "/dashboard/posts", iconName: "newspaper" },
     { text: "Users", href: "/dashboard/users", iconName: "users-gear" },
     { text: "Notifications", href: "/dashboard/notifications", iconName: "bell" },

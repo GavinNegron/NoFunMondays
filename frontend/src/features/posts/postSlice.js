@@ -81,6 +81,19 @@ const postSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       });
+    builder
+      .addCase(postAction.fetchPostViews.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(postAction.fetchPostViews.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.views = action.payload;
+      })
+      .addCase(postAction.fetchPostViews.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
