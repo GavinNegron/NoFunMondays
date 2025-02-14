@@ -18,7 +18,7 @@ function Footer() {
         </div>
         <div className="footer__bottom center">
             <div className="footer__copyright">
-                <span>&copy; 2024 Lorem, ipsum. All rights reserved.</span>
+                <span>&copy; 2025 NoFunMondays. All Rights Reserved.</span>
             </div>
         </div>
     </div>

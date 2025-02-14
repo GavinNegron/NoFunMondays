@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // COMPONENTS
 import Navbar from '@/components/layout/navbar/'
 import Footer from '@/components/layout/footer/'
+import UnderConstruction from '@/components/base/construction'
 
 // FORMS
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -36,8 +37,8 @@ const Contact = () => {
                 <meta name="description" content="Welcome to the landing page of our blog" />
             </Head>
             <Navbar />
-            <main className="main">
-                <div className="wrapper">
+            <main className="main d-flex justify-content-center align-items-center">
+                {/* <div className="wrapper">
                     <h2>Contact Us</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-box">
@@ -62,7 +63,8 @@ const Contact = () => {
                         <button type="submit" disabled={loading}>Submit</button>
                     </div>
                     </form>
-                </div>
+                </div> */}
+            <UnderConstruction/>
             </main>
             <Footer />        
         </>

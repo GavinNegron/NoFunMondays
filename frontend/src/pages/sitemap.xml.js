@@ -26,11 +26,10 @@ function generateSiteMap(posts) {
 export async function getServerSideProps({ res }) {
   try {
     const response = await fetch(`${URL}/api/posts/recent?type=all`);
-    const text = await response.text(); // Get raw response first
+    const text = await response.text();
 
-    console.log("API Response:", text); // Log raw response
 
-    const posts = JSON.parse(text); // Try parsing JSON
+    const posts = JSON.parse(text); 
     if (!Array.isArray(posts)) {
       throw new Error("Expected an array but got something else");
     }
