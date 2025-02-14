@@ -24,18 +24,30 @@ function generateSiteMap(posts) {
 }
 
 export async function getServerSideProps({ res }) {
-  const response = await fetch(`${URL}/api/posts/recent?type=all`);
-  const posts = await response.json();
+  try {
+    const response = await fetch(`${URL}/api/posts/recent?type=all`);
+    const text = await response.text(); // Get raw response first
 
-  const sitemap = generateSiteMap(posts);
+    console.log("API Response:", text); // Log raw response
 
-  res.setHeader("Content-Type", "text/xml");
-  res.write(sitemap);
-  res.end();
+    const posts = JSON.parse(text); // Try parsing JSON
+    if (!Array.isArray(posts)) {
+      throw new Error("Expected an array but got something else");
+    }
 
-  return {
-    props: {},
-  };
+    const sitemap = generateSiteMap(posts);
+
+    res.setHeader("Content-Type", "text/xml");
+    res.write(sitemap);
+    res.end();
+  } catch (error) {
+    console.error("Error generating sitemap:", error);
+    res.statusCode = 500;
+    res.end("Error generating sitemap");
+  }
+
+  return { props: {} };
 }
+
 
 export default function SiteMap() {}
