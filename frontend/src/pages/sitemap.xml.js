@@ -24,7 +24,7 @@ function generateSiteMap(posts) {
 }
 
 export async function getServerSideProps({ res }) {
-  const response = await fetch(`${URL}/api/posts`);
+  const response = await fetch(`${URL}/api/posts/recent?type=all`);
   const posts = await response.json();
 
   const sitemap = generateSiteMap(posts);
