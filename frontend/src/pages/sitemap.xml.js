@@ -10,7 +10,7 @@ function generateSiteMap(posts) {
         <loc>${`${URL}/fortnite/item-shop`}</loc>
     </url>
      ${posts
-       .map(({ slug, createdAt }) => {
+       ?.map(({ slug, createdAt }) => {
          return `
            <url>
                <loc>${`${URL}/blog/${slug}`}</loc>
