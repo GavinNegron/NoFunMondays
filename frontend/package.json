@@ -4,6 +4,7 @@
   "proxy": "http://localhost:2001",
   "private": true,
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",

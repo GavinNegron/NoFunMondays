@@ -9,7 +9,7 @@ const pageViewSchema = new mongoose.Schema({
         required: true, 
         index: true 
     },
-    userId: { 
+    ipAddress: { 
         type: String, 
         required: true 
     },
