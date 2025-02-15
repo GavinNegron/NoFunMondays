@@ -3,6 +3,7 @@ const Posts = require('../../models/Posts');
 const PageView = require('../../models/PageView');
 const geoip = require('geoip-lite');
 const { v4: uuidv4 } = require('uuid');
+const { isBot } = require('../../utils/botDetect');
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
@@ -10,8 +11,9 @@ const pageViews = async (req, res) => {
   const userAgent = req.headers['user-agent'] || 'unknown';
   const referrer = req.headers['referer'] || 'direct';
   const userId = req.cookies.userId || uuidv4();
+  const humanCheck = req.cookies.humanCheck; 
 
-  res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); // Set cookie for 1 year
+  res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); 
 
   const parser = new UAParser(userAgent);
   const browser = parser.getBrowser().name || 'unknown';
@@ -25,8 +27,14 @@ const pageViews = async (req, res) => {
     return res.status(400).json({ error: 'Missing slug' });
   }
 
+  if (isBot(userAgent) || !humanCheck) {
+    return res.status(403).json({ error: 'Bot detected or human verification failed' });
+  }
+
   try {
-    const existingView = await PageView.findOne({ postSlug: slug, userId });
+    const userIdExists = await PageView.findOne({ postSlug: slug, userId });
+    const ipExists = await PageView.findOne({ postSlug: slug, ipAddress });
+    const existingView = userIdExists || ipExists;
 
     if (!existingView) {
       await PageView.create({ postSlug: slug, ipAddress, browser, referrer, region, timezone, userId });
