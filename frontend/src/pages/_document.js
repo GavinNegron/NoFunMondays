@@ -20,7 +20,7 @@ class MyDocument extends Document {
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossOrigin="anonymous"></script>
           <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
           <script>
-            document.cookie = "humanCheck=true; max-age=3600; path=/";
+            document.cookie = &quot;humanCheck=true; max-age=3600; path=/&quot;;
           </script>
         </body>
       </Html>
