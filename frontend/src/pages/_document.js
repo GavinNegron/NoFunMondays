@@ -19,11 +19,7 @@ class MyDocument extends Document {
           <NextScript />
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossOrigin="anonymous"></script>
           <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
-          {process.env.NODE_ENV === "production" && (
-            <>
-              <script async src="https://www.googletagmanager.com/gtag/js?id=G-968L600ZDF"></script>
-            </>
-          )}
+          <script defer src="https://cloud.umami.is/script.js" data-website-id="04b5791e-8507-4804-b5ec-701afc22b669"></script>
         </body>
       </Html>
     );
