@@ -17,7 +17,8 @@ const postSlice = createSlice({
   reducers: {
     addPostElement: (state, action) => {
       if (state.post) {
-        state.postElements = [...state.postElements, action.payload];
+        const { newElement, insertIndex } = action.payload;
+        state.postElements.splice(insertIndex, 0, newElement);
       }
     },
     deletePostElement: (state, action) => {
@@ -42,8 +43,7 @@ const postSlice = createSlice({
       .addCase(postAction.fetchSlug.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
-    builder
+      })
       .addCase(postAction.fetchPosts.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -55,8 +55,7 @@ const postSlice = createSlice({
       .addCase(postAction.fetchPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
-    builder
+      })
       .addCase(postAction.deletePost.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -67,8 +66,7 @@ const postSlice = createSlice({
       .addCase(postAction.deletePost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
-    builder
+      })
       .addCase(postAction.createPost.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -80,8 +78,7 @@ const postSlice = createSlice({
       .addCase(postAction.createPost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
-    builder
+      })
       .addCase(postAction.fetchPostViews.pending, (state) => {
         state.isLoading = true;
         state.error = null;

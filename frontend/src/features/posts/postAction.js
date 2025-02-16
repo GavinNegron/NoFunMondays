@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as postService from './postService';
 
-export const addPostElement = (newElement) => {
+export const addPostElement = (newElement, insertIndex) => {
   return {
     type: 'posts/addPostElement',
-    payload: newElement,
+    payload: { newElement, insertIndex },
   };
 };
 

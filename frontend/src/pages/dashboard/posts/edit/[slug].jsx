@@ -97,10 +97,7 @@ function BlogPostEditor() {
     }, [setShowColorPicker]);
 
     const dropFunction = (e) => {
-        const newElement = handleDrop(e);
-        if (newElement) {
-            dispatch(addPostElement(newElement));
-        }
+        handleDrop(e, dispatch, addPostElement);
     };
 
     if (loadingState || isLoading) {
