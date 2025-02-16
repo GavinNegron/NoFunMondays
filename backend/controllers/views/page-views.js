@@ -3,7 +3,8 @@ const Posts = require('../../models/Posts');
 const PageView = require('../../models/PageView');
 const geoip = require('geoip-lite');
 const { v4: uuidv4 } = require('uuid');
-const { isBot } = require('../../utils/botDetect');
+const { isBot } = require('../../utils/views/botDetect');
+const { isGoogleBotIP } = require('../../utils/views/googleBot');
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
@@ -14,6 +15,10 @@ const pageViews = async (req, res) => {
   const humanCheck = req.cookies.humanCheck; 
 
   res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); 
+
+  if (isGoogleBotIP(ipAddress)) {
+    return res.status(403).json({ error: 'Googlebot detected' });
+  }
 
   const parser = new UAParser(userAgent);
   const browser = parser.getBrowser().name || 'unknown';
