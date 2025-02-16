@@ -3,6 +3,7 @@ import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '@/utilities/domUtils';
 import { publishPost } from '@/features/posts/postAction';
+import Checkbox from '@/components/base/checkbox';
 
 function Publish() {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function Publish() {
             isMountedRef.current = false;
         };
     }, []);
+
     useEffect(() => {
         const handleClick = (e) => {
             const publish = document.querySelector('.publish');
@@ -27,8 +29,6 @@ function Publish() {
         return () => window.removeEventListener('click', handleClick);
     }, []);
     
-    
-
     const handlePublish = () => {
         dispatch(publishPost({ post, postElements })).then((action) => {
             if (action.meta.requestStatus === 'fulfilled') {
@@ -63,6 +63,10 @@ function Publish() {
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
                     </a>
+                    <div className="publish__content-featured">
+                        <Checkbox/>
+                        <span>Feature this post</span>
+                    </div>
                     <div className="publish__content-submit">
                         <button className="fortnite-btn" onClick={handlePublish}>
                             Publish Post

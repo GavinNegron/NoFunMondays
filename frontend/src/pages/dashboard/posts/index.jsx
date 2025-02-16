@@ -17,6 +17,7 @@ import { fetchPosts, deletePost } from '@/features/posts/postAction';
 // STYLESHEETS
 import '../../../../public/css/dashboard.css'
 import '../../../../public/css/posts.css'
+import Checkbox from '@/components/base/checkbox';
 
 function DPosts() {
   const dispatch = useDispatch();
@@ -103,7 +104,7 @@ function DPosts() {
             <div className="dashboard__top">
                 <div className="dashboard__filters">
                     <div className="dashboard__filters__item">
-                        <input type="checkbox" />
+                        <Checkbox/>
                         <span>Featured</span>
                     </div>
                     <span>|</span>
@@ -143,14 +144,9 @@ function DPosts() {
                     <tbody>
                     {posts.map((post) => (
               <tr key={post._id}>
-                <td>
-                  <input
-                    className="dashboard__checkbox"
-                    type="checkbox"
-                    checked={selectedItems.includes(post._id)}
-                    onChange={() => handleCheckboxChange(post._id)}
-                  />
-                </td>
+                  <td>
+                  <Checkbox/>
+                  </td>
                 <td className="dashboard__posts__image">
                   <img 
                     src={post.imageUrl || 'https://via.placeholder.com/150'}
@@ -163,7 +159,7 @@ function DPosts() {
                 </td>
                 <td className="dashboard__posts__views">{post.views || 0}</td>
                 <td className="dashboard__posts__status">
-                  <i>{post.status || 'Published'}</i>
+                  <i>{post.status || 'Publisdhed'}</i>
                 </td>
                 <td className="">
                   <div id='edit' className="dashboard__posts__icon">

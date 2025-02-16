@@ -8,9 +8,6 @@ import Head from 'next/head';
 import '../../public/css/landing.css';
 
 function Landing({ featuredPost, recentPosts }) {
-  useEffect(() => {
-  }, [featuredPost, recentPosts]);
-
   return (
     <>
       <Head>
