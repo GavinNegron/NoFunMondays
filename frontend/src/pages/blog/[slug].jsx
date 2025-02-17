@@ -37,34 +37,30 @@ const BlogPost = memo(({ post }) => {
     return <NotFound />;
   }
 
-  const jsonLd = {
+  const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    mainEntityOfPage: {
+    "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://nofunmondays.com/posts/${post?.slug}`
+      "@id": "https://nofunmondays.com/"
     },
-    headline: post?.title,
-    description: post?.excerpt,
-    image: post?.imageUrl,
-    dateCreated: post?.createdAt,
-    datePublished: post?.createdAt,
-    dateModified: post?.updatedAt,
-    author: {
+    "headline": post?.title,
+    "description": post?.description,
+    "image": post?.imageUrl,
+    "author": {
       "@type": "Person",
-      name: post?.author,
-      url: post?.author
+      "name": post?.author
     },
-    publisher: {
-      "@type": "Person",
-      name: "No Fun Mondays",
-      logo: {
+    "publisher": {
+      "@type": "Organization",
+      "name": "NoFunMondays",
+      "logo": {
         "@type": "ImageObject",
-        url: "https://nofunmondays.com/favicon.ico"
+        "url": "https://nofunmondays.com/image/NoFunMondays.png"
       }
     },
-    inLanguage: "en-US",
-    isFamilyFriendly: "true"
+    "datePublished": post?.createdAt,
+    "dateModified": post?.updatedAt
   };
 
   return (
@@ -90,7 +86,7 @@ const BlogPost = memo(({ post }) => {
         <meta property="article:published_time" content={post?.createdAt} />
         <meta property="article:modified_time" content={post?.updatedAt} />
         <meta property="article:author" content={post?.author} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       </Head>
       <Navbar />
       <main className="main">
@@ -106,15 +102,15 @@ const BlogPost = memo(({ post }) => {
               <div className="post__icons">
                 <div className="post__icons__inner">
                   <div className="post__icons-icon">
-                    <i class="fa-solid fa-eye"></i>
-                    <span>{post?.views || 0}</span>
+                    <i className="fa-solid fa-eye"></i>
+                    <span>{views || 0}</span>
                   </div>
                   <div className="post__icons-icon">
-                    <i class="fa-solid fa-heart"></i>
+                    <i className="fa-solid fa-heart"></i>
                     <span>{post?.likes || 0}</span>
                   </div>
                   <div className="post__icons-icon">
-                    <i class="fa-solid fa-comment"></i>
+                    <i className="fa-solid fa-comment"></i>
                     <span>{post?.comments || 0}</span>
                   </div>
                 </div>
