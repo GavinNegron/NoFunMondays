@@ -17,7 +17,7 @@ import { fetchPosts, deletePost } from '@/features/posts/postAction';
 // STYLESHEETS
 import '../../../../public/css/dashboard.css'
 import '../../../../public/css/posts.css'
-import Checkbox from '@/components/base/checkbox';
+import Checkbox from '@/components/base/checkbox/';
 
 function DPosts() {
   const dispatch = useDispatch();
@@ -32,7 +32,6 @@ function DPosts() {
       setLoadingState(true); 
       try {
         await dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false }));
-        await new Promise((resolve) => setTimeout(resolve, 500)); 
       } catch (error) {
         console.error('Failed to fetch posts:', error);
       } finally {
@@ -130,7 +129,7 @@ function DPosts() {
                     <thead>
                         <tr>
                             <th>
-                                <input onClick={() => handleSelectAll()} id="selectAll" type="checkbox" />
+                              <Checkbox onClick={() => handleSelectAll()} id="selectAll"/>
                             </th>
                             <th className="image">Image</th>
                             <th className="title">Title <i className="fa-solid fa-arrow-up"></i></th>

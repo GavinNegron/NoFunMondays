@@ -1,13 +1,10 @@
 @import '../../styles/components/base/base'
-@import '../../styles/components/base/socials'
 @import '../../styles/layout/grid'
 @import '../../styles/layout/layout'
 @import '../../components/layout/navbar/navbar'
 @import '../../components/layout/footer/footer'
 
-
-
-.wrapper 
+.contact 
 	position: relative 
 	max-width: 430px 
 	width: 100% 
@@ -15,8 +12,10 @@
 	padding: 34px 
 	border-radius: 6px 
 	box-shadow: 0 5px 10px rgba(0,0,0,0.2) 
+	font-family: 'Poppins'
+	margin: 30px
 	
-	h2 
+	&__header 
 		position: relative 
 		font-size: 22px 
 		font-weight: 600 
@@ -30,11 +29,11 @@
 			width: 28px 
 			border-radius: 12px 
 			background: #4070f4 
-	form 
+	&__form 
 		margin-top: 30px 
 		.input-box 
 			margin: 18px 0 
-form 
+
 	.input-box 
 		input, button
 			height: 100% 
@@ -48,24 +47,8 @@ form
 			border-bottom-width: 2.5px 
 			border-radius: 6px 
 			transition: all 0.3s ease 
-	.policy 
-		display: flex 
-		align-items: center 
-	h3 
-		color: #707070 
-		font-size: 14px 
-		font-weight: 500 
-		margin-left: 10px 
-	.text 
-		h3 
-			color: #333 
-			width: 100% 
-			text-align: center 
-			a 
-				color: #4070f4 
-				text-decoration: none 
-				&:hover 
-					text-decoration: underline 
+	
+	
 .input-box input:focus,
 .input-box input:valid 
 	border-color: #4070f4 
@@ -81,7 +64,7 @@ form
 			&:hover 
 				background: #0e4bf1 
 
-.error
+.contact--error
 	color: #ff6f6f
 	padding-top: 10px
 	font-family: 'Poppins'

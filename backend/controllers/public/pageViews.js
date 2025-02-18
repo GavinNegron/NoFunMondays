@@ -15,9 +15,7 @@ const pageViews = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   const accessToken = req.headers.authorization;
 
-  if (refreshToken || accessToken) {
-    return res.status(200).json({ message: 'Authenticated user, view not counted' });
-  }
+  if (refreshToken || accessToken) return res.status(200).json({ message: 'Authenticated user, view not counted' });
 
   res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); 
 
@@ -29,13 +27,9 @@ const pageViews = async (req, res) => {
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown';
 
-  if (!slug) {
-    return res.status(400).json({ error: 'Missing slug' });
-  }
+  if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
-  if (isBot(userAgent) || !humanCheck) {
-    return res.status(403).json({ error: 'Bot detected or human verification failed' });
-  }
+  if (isBot(userAgent) || !humanCheck) return res.status(403).json({ error: 'Bot detected or human verification failed' });
 
   try {
     const userIdExists = await PageView.findOne({ postSlug: slug, userId });

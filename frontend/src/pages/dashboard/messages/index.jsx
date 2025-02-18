@@ -4,18 +4,18 @@ import Sidebar from '@/components/layout/sidebar'
 import Head from 'next/head';
 import '../../../../public/css/dashboard.css'
 
-function Notifications() {
+function Messages() {
   return (
     <>
       <Head>
-        <title>Notifications</title>
+        <title>Messages</title>
       </Head>
       <Navbar />
       <main className="main db">
         <Sidebar />
         <div className="dashboard">
           <div className="dashboard__header">
-            <span>Notifications</span>
+            <span>Messages</span>
           </div>
           <div className="dashboard__grid container-fluid d-flex"></div>
         </div>
@@ -24,4 +24,4 @@ function Notifications() {
   )
 }
 
-export default Notifications
+export default Messages

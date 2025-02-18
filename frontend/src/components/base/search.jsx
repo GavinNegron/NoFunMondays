@@ -1,7 +1,7 @@
 function Search() {
 
     return (
-        <>   
+    <>   
         <div className='search'>
             <form action='' className='search__form'>
                 <input type='text' className='search__form-input' placeholder='Search: '></input>
@@ -10,8 +10,8 @@ function Search() {
                 </button>
             </form>
         </div>
-          </>
+    </>
         )
     }
         
-    export default Search
+export default Search

@@ -7,6 +7,8 @@
         display: flex
         justify-content: space-between
         align-self: center
+        gap: 20px
+        flex-wrap: wrap
 
     &__filters
         display: flex
@@ -45,6 +47,22 @@
         align-self: center
         margin-bottom: 30px
         flex-direction: column
+        
+        @media screen and ( max-width: 1320px )
+            &__title, tr .title
+                display: none
+
+        @media screen and ( max-width: 939px )
+            &__status, tr .status
+                display: none
+
+        @media screen and ( max-width: 720px )
+                    &__date, tr .date
+                        display: none
+
+        @media screen and ( max-width: 535px )
+                    &__views, tr .views
+                        display: none
 
         &__icon
             display: flex
@@ -83,6 +101,12 @@
                 background-color: #009879
                 font-weight: bold
 
+                &:first-child
+                    display: flex
+                    height: 45px
+                    align-items: center
+                    justify-content: center
+
                 i
                     padding-left: 2px
 
@@ -104,6 +128,9 @@
                         background-color: #009879
                         width: 50px
 
+                        @media screen and ( max-width:  600px)
+                            width: 35px
+
                     &:last-of-type
                         border-top-right-radius: 2px
                         border-bottom-right-radius: 2px
@@ -120,6 +147,9 @@
             th, td
                 padding: 10px 15px
 
+                @media screen and ( max-width:  600px)
+                    padding: 10px 0
+                    
     &__load
         display: flex
         justify-content: center

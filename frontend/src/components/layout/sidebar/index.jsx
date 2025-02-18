@@ -4,7 +4,19 @@ import Link from 'next/link';
 
 function Sidebar() {
   const router = useRouter();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1109);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarCollapsed(window.innerWidth <= 1109);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle('SidebarActive', sidebarCollapsed);
@@ -18,8 +30,8 @@ function Sidebar() {
     { text: "Dashboard", href: "/dashboard", iconName: "chart-line" },
     { text: "Posts", href: "/dashboard/posts", iconName: "newspaper" },
     { text: "Users", href: "/dashboard/users", iconName: "users-gear" },
-    { text: "Notifications", href: "/dashboard/notifications", iconName: "bell" },
-    { text: "Tasks", href: "/dashboard/tasks", iconName: "clipboard-list" },
+    { text: "Messages", href: "/dashboard/messages", iconName: "fas fa-envelope" },
+    { text: "Logs", href: "/dashboard/logs", iconName: "fas fa-file-lines" },
     { text: "Settings", href: "/dashboard/settings", iconName: "gear" },
   ];
 

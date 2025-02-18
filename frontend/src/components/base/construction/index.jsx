@@ -1,5 +1,5 @@
-import '@/styles/components/base/_construction.sass'
 import Typewriter from 'typewriter-effect';
+import './_construction.sass'
 
 function Search() {
     return (

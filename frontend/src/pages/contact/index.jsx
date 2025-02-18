@@ -8,11 +8,13 @@ import { useDispatch, useSelector } from 'react-redux'
 // COMPONENTS
 import Navbar from '@/components/layout/navbar/'
 import Footer from '@/components/layout/footer/'
-import UnderConstruction from '@/components/base/construction'
 
 // FORMS
 import { yupResolver } from '@hookform/resolvers/yup'
 import { contactSchema } from '@/data/schemas'
+
+// FEATURES
+import { contact } from '@/features/public/publicAction'
 
 // STYLESHEETS
 import '../../../public/css/contact.css'
@@ -27,7 +29,7 @@ const Contact = () => {
       })
 
       const onSubmit = (data) => {
-       
+        dispatch(contact(data))
       }
 
     return (
@@ -44,33 +46,44 @@ const Contact = () => {
             </Head>
             <Navbar />
             <main className="main d-flex justify-content-center align-items-center">
-                {/* <div className="wrapper">
-                    <h2>Contact Us</h2>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="input-box">
-                        <input
-                        type="text"
-                        placeholder="Enter your email"
-                        {...register('email')}
-                        />
-                        {errors.email && <p className="error">{errors.email.message}</p>}
+                <div className="contact">
+                    <div className="contact__header">
+                        <span>Contact Us</span>
                     </div>
-                    <div className="input-box">
-                        <input
-                        type="text"
-                        placeholder="Enter your message"
-                        {...register('message')}
-                        />
-                        {errors.message && <p className="error">{errors.message.message}</p>}
+                    <div className="contact__form">
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="input-box">
+                            <input
+                            type="text"
+                            placeholder="Enter your email"
+                            {...register('email')}
+                            />
+                            {errors.email && <p className="contact--error">{errors.email.message}</p>}
+                        </div>
+                        <div className="input-box">
+                            <input
+                            type="text"
+                            placeholder="Enter your name"
+                            {...register('name')}
+                            />
+                            {errors.message && <p className="contact--error">{errors.message.message}</p>}
+                        </div>
+                        <div className="input-box">
+                            <input
+                            type="text"
+                            placeholder="Enter your message"
+                            {...register('message')}
+                            />
+                            {errors.message && <p className="contact--error">{errors.message.message}</p>}
+                        </div>
+                        {loading && <p>Loading...</p>}
+                        {error && <p className="contact--error">{error}</p>}
+                        <div className="input-box button">
+                            <button type="submit" disabled={loading}>Submit</button>
+                        </div>
+                        </form>
                     </div>
-                    {loading && <p>Loading...</p>}
-                    {error && <p className="error">{error}</p>}
-                    <div className="input-box button">
-                        <button type="submit" disabled={loading}>Submit</button>
-                    </div>
-                    </form>
-                </div> */}
-            <UnderConstruction/>
+                </div>
             </main>
             <Footer />        
         </>

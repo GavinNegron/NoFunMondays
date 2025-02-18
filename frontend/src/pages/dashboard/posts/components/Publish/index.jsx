@@ -3,7 +3,7 @@ import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '@/utilities/domUtils';
 import { publishPost } from '@/features/posts/postAction';
-import Checkbox from '@/components/base/checkbox';
+import Checkbox from '@/components/base/checkbox/';
 
 function Publish() {
     const dispatch = useDispatch();

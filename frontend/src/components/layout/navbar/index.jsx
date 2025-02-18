@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import Socials from '../../base/socials'
+import Socials from '../../base/socials/'
 import Link from 'next/link'
 import './_navbar.sass'
 

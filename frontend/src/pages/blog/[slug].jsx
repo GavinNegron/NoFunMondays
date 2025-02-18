@@ -13,7 +13,7 @@ const BlogPost = memo(({ post }) => {
 
   useEffect(() => {
     if (post?.slug) {
-      fetch(`/api/page-views?slug=${encodeURIComponent(post.slug)}`, {
+      fetch(`/api/public/page-views?slug=${encodeURIComponent(post.slug)}`, {
         method: 'POST',
       })
     }
