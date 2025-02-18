@@ -40,16 +40,16 @@ function Dashboard() {
   }
 
   const today = format(new Date(), 'yyyy-MM-dd'); 
-  const todayViews = views.result.find(view => view._id === today)?.totalViews || 0;
+  const todayViews = views?.result?.find(view => view._id === today)?.totalViews || 0;
   const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-  const yesterdayViews = views.result.find(view => view._id === yesterday)?.totalViews || 0;
+  const yesterdayViews = views?.result?.find(view => view._id === yesterday)?.totalViews || 0;
   let viewChange = yesterdayViews === 0 
   ? todayViews > 0 ? '+100' : '0' 
   : ((todayViews - yesterdayViews) / yesterdayViews * 100).toFixed(2);
 
   viewChange = viewChange > 0 ? `+${viewChange}%` : `${viewChange}%`;
 
-  const data = views.result.map(view => ({
+  const data = views?.result?.map(view => ({
     date: format(new Date(view._id), 'MMM d'),
     views: view.totalViews
   }));

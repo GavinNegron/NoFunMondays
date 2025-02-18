@@ -5,12 +5,12 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <script src="https://kit.fontawesome.com/521ba76fa3.js" crossorigin="anonymous"></script>
+          <script async src="https://kit.fontawesome.com/521ba76fa3.js" crossorigin="anonymous"></script>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@100;200;300;400;500;600;700;800;900&family=Libre+Franklin:wght@900&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" />
-          <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@100..900&display=swap"></link>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@100..900&display=swap" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" />
         </Head>
         <body>
@@ -18,9 +18,11 @@ class MyDocument extends Document {
           <NextScript />
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossOrigin="anonymous"></script>
           <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-          <script>
-            document.cookie = "humanCheck=true; max-age=3600; path=/";
-          </script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `document.cookie = "humanCheck=true; max-age=3600; path=/";`,
+            }}
+          />
         </body>
       </Html>
     );

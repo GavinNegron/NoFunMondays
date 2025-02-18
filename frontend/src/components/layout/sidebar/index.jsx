@@ -4,19 +4,22 @@ import Link from 'next/link';
 
 function Sidebar() {
   const router = useRouter();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1109);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
+    setSidebarCollapsed(window.innerWidth <= 1109);
+  
     const handleResize = () => {
       setSidebarCollapsed(window.innerWidth <= 1109);
     };
-
+  
     window.addEventListener('resize', handleResize);
-
+  
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
 
   useEffect(() => {
     document.body.classList.toggle('SidebarActive', sidebarCollapsed);
