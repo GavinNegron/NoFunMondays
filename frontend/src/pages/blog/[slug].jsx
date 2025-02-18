@@ -10,20 +10,12 @@ import '../../../public/css/blog-post.css';
 
 const BlogPost = memo(({ post }) => {
   const postElements = post?.elements || [];
-  const [views, setViews] = useState(0);
 
   useEffect(() => {
     if (post?.slug) {
       fetch(`/api/page-views?slug=${encodeURIComponent(post.slug)}`, {
         method: 'POST',
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.pageViews) {
-            setViews(data.pageViews);
-          }
-        })
-        .catch(() => {});
     }
   }, [post?.slug]);
 
@@ -56,7 +48,7 @@ const BlogPost = memo(({ post }) => {
       "name": "NoFunMondays",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://nofunmondays.com/image/NoFunMondays.png"
+        "url": "https://nofunmondays.com/images/NoFunMondays.png"
       }
     },
     "datePublished": post?.createdAt,
@@ -70,8 +62,6 @@ const BlogPost = memo(({ post }) => {
         <meta name="description" content={post?.description} />
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta charSet="utf-8" />
         <meta property="og:site_name" content="NoFunMondays" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:title" content={post?.title} />
@@ -103,11 +93,11 @@ const BlogPost = memo(({ post }) => {
                 <div className="post__icons__inner">
                   <div className="post__icons-icon">
                     <i className="fa-solid fa-eye"></i>
-                    <span>{views || 0}</span>
+                    <span>{post?.views || 0}</span>
                   </div>
                   <div className="post__icons-icon">
                     <i className="fa-solid fa-heart"></i>
-                    <span>{post?.likes || 0}</span>
+                    <span>{post?.hearts || 0}</span>
                   </div>
                   <div className="post__icons-icon">
                     <i className="fa-solid fa-comment"></i>

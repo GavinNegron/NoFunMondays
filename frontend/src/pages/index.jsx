@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer/';
@@ -12,7 +11,11 @@ function Landing({ featuredPost, recentPosts }) {
     <>
       <Head>
         <title>NoFunMondays</title>
-        <meta name="description" content="Welcome to the landing page of our blog" />
+        <meta name="description" content="All the latest Fortnite News and Information!" />
+        <link rel="canonical" href="https://nofunmondays.com/"/>
+        <meta property="og:title" content="Contact Us - NoFunMondays"/>
+        <meta property="og:description" content="All the latest Fortnite News and Information!"/>
+        <meta property="og:url" content="https://nofunmondays.com/"/>
       </Head>
       <Navbar />
       <main className="main">

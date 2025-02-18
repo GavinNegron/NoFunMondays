@@ -10,7 +10,7 @@ function Footer() {
     <div className="container-fluid">
         <div className="footer__top center">
             <div className="footer__logo">
-                <Link href="/"><img src="/image/NoFunMondays.svg" alt="logo" /></Link>
+                <Link href="/"><img src="/images/NoFunMondays.svg" alt="logo" /></Link>
             </div>
             <div className="footer__socials">
                 <Socials />

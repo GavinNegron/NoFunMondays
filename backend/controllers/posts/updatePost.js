@@ -17,7 +17,7 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    const updates = { title, elements, status };
+    const updates = { title, elements, status, updatedAt: new Date() };
 
     if (imageUrl && imageUrl !== post.imageUrl) {
       updates.imageUrl = await processImageUpload(imageUrl);

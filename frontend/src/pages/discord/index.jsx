@@ -12,8 +12,12 @@ function Landing({ featuredPost, recentPosts }) {
   return (
     <>
       <Head>
-        <title>NoFunMondays</title>
-        <meta name="description" content="Welcome to the landing page of our blog" />
+        <title>Discord - NoFunMondays</title>
+        <meta name="description" content="Join our Discord server for more Fortnite News." />
+        <link rel="canonical" href="https://nofunmondays.com/"/>
+        <meta property="og:title" content="Contact Us - NoFunMondays"/>
+        <meta property="og:description" content="All the latest Fortnite News and Information!"/>
+        <meta property="og:url" content="https://nofunmondays.com/"/>
       </Head>
       <Navbar />
       <main className="main d-flex justify-content-center align-items-center ">

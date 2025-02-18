@@ -12,15 +12,14 @@ class MyDocument extends Document {
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800;900&family=Ubuntu:wght@700&display=swap" />
           <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Outfit:wght@100..900&display=swap"></link>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" />
-          <link rel="icon" href="/image/favicon.png" type="image/png"/>
         </Head>
         <body>
           <Main />
           <NextScript />
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5205794033914654" crossOrigin="anonymous"></script>
-          <script defer src="https://code.jquery.com/jquery-3.7.1.min.js" type="module"></script>
+          <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
           <script>
-            document.cookie = &quot;humanCheck=true; max-age=3600; path=/&quot;;
+            document.cookie = "humanCheck=true; max-age=3600; path=/";
           </script>
         </body>
       </Html>

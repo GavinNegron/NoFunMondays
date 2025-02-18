@@ -14,6 +14,11 @@ const blogPostSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
+  updatedAt: { 
+    type: Date, 
+    default: Date.now,
+    required: true,
+  },
   imageUrl: { 
     type: String,
     required: false,
@@ -34,6 +39,16 @@ const blogPostSchema = new mongoose.Schema({
     lowerCase: true,
   },
   views: {
+    type: Number, 
+    default: 0, 
+    required: true,
+  },
+  hearts: {
+    type: Number, 
+    default: 0, 
+    required: true,
+  },
+  comments: {
     type: Number, 
     default: 0, 
     required: true,

@@ -47,7 +47,7 @@ const SeasonCountdown = () => {
                 <div className="fortnite-countdown">
                     <div className="fortnite-countdown__inner">
                         <div className="fortnite-countdown__image">
-                            <img src="/image/lawless.jpg" alt="" />
+                            <img src="/images/lawless.jpg" alt="" />
                         </div>
                         <div className="fortnite-countdown__timer">
                             <div className="fortnite-countdown__timer-header">

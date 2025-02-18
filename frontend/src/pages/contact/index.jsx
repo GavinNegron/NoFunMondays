@@ -34,7 +34,13 @@ const Contact = () => {
         <>
             <Head>
                 <title>Contact Us - NoFunMondays</title>
-                <meta name="description" content="Welcome to the landing page of our blog" />
+                <meta name="description" content="Need to get in touch? Contact us for any questions, feedback, or assistance." />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <meta name="robots" content="index, follow"/>
+                <link rel="canonical" href="https://nofunmondays.com/contact"/>
+                <meta property="og:title" content="Contact Us - NoFunMondays"/>
+                <meta property="og:description" content="Need to get in touch? Contact us for any questions, feedback, or assistance."/>
+                <meta property="og:url" content="https://nofunmondays.com/contact"/>
             </Head>
             <Navbar />
             <main className="main d-flex justify-content-center align-items-center">

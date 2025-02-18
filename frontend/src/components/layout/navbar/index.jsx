@@ -37,7 +37,7 @@ function Navbar() {
       <nav className="container-fluid navbar">
         <div className="navbar__logo">
           <Link href="/" className="navbar__logo-name">
-            <img src="/image/NoFunMondays.svg" alt="Home" className="navbar__logo-img"/>
+            <img src="/images/NoFunMondays.svg" alt="Home" className="navbar__logo-img"/>
           </Link>
         </div>
 
