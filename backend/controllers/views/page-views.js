@@ -12,6 +12,12 @@ const pageViews = async (req, res) => {
   const referrer = req.headers['referer'] || 'direct';
   const userId = req.cookies.userId || uuidv4();
   const humanCheck = req.cookies.humanCheck; 
+  const refreshToken = req.cookies.refreshToken;
+  const accessToken = req.headers.authorization;
+
+  if (refreshToken || accessToken) {
+    return res.status(200).json({ message: 'Authenticated user, view not counted' });
+  }
 
   res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); 
 
@@ -48,5 +54,6 @@ const pageViews = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 module.exports = { pageViews };
