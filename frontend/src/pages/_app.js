@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta property="og:type" content="website"/>
         <meta name="twitter:title" content="NoFunMondays"/>
+        <link rel="icon" href="https://nofunmondays.com/images/NoFunMondays.png" />
       </Head>
       <Provider store={store}>
         {isDashboardPostsPage ? (
