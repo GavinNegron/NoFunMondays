@@ -1,5 +1,6 @@
 User-agent: *
 Sitemap: https://nofunmondays.com/sitemap.xml
+Sitemap: https://nofunmondays.com/sitemap-news.xml
 Disallow: /search?q=
 Disallow: /dashboard
 Disallow: /account
