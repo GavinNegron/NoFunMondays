@@ -17,7 +17,7 @@ function Landing({ featuredPost, recentPosts }) {
         <meta property="og:description" content="All the latest Fortnite News and Information!"/>
         <meta property="og:url" content="https://nofunmondays.com/"/>
       </Head>
-      <Navbar />
+      <Navbar /> 
       <main className="main">
         <div className="postgrid center d-flex">
           <div className="postgrid__inner">
