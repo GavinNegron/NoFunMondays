@@ -13,7 +13,7 @@ function Landing({ featuredPost, recentPosts }) {
         <title>NoFunMondays</title>
         <meta name="description" content="All the latest Fortnite News and Information!" />
         <link rel="canonical" href="https://nofunmondays.com/"/>
-        <meta property="og:title" content="Contact Us - NoFunMondays"/>
+        <meta property="og:title" content="NoFunMondays"/>
         <meta property="og:description" content="All the latest Fortnite News and Information!"/>
         <meta property="og:url" content="https://nofunmondays.com/"/>
       </Head>
