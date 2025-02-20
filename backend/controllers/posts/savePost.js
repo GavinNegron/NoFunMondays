@@ -20,7 +20,6 @@ const savePost = async (req, res) => {
     const updates = { title, elements, status };
 
     if (imageUrl && imageUrl !== post.imageUrl) {
-      console.log(imageUrl)
       updates.imageUrl = await imageUrl;
     }
 

@@ -2,7 +2,7 @@ const URL = "https://nofunmondays.com";
 
 function generateNewsSiteMap(posts) {
   return `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
           xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     ${posts
       .map(({ slug, createdAt, title }) => {
@@ -21,13 +21,12 @@ function generateNewsSiteMap(posts) {
         `;
       })
       .join("")}
-  </urlset>
-  `;
+  </urlset>`;
 }
 
 export async function getServerSideProps({ res }) {
   try {
-    const response = await fetch(`${URL}/api/posts/recent?type=all`); 
+    const response = await fetch(`${URL}/api/posts/recent?type=all`);
     const text = await response.text();
     const posts = JSON.parse(text);
 

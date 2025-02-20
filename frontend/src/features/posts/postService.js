@@ -74,10 +74,12 @@ export const publishPost = async (post, postElements) => {
 
       let elementType;
       let elementImageUrl;
+      let elementImageAlt;
 
       if (elementDom.classList.contains('image')) {
         elementType = 'image';
         elementImageUrl = elementDom.querySelector('img').src;
+        elementImageAlt = elementDom.querySelector('img').alt;
       } else {
         const matchedClass = Object.keys(elements).find(key =>
           Array.isArray(elements[key]?.classes) &&
@@ -107,6 +109,7 @@ export const publishPost = async (post, postElements) => {
       switch (elementType) {
         case 'image': {
           updatedElement.imageUrl = elementImageUrl;
+          updatedElement.imageAlt = elementImageAlt;
           break;
         }
       
@@ -165,10 +168,13 @@ export const savePost = async (post, postElements) => {
 
       let elementType;
       let elementImageUrl;
+      let elementImageAlt;
 
       if (elementDom.classList.contains('image')) {
         elementType = 'image';
         elementImageUrl = elementDom.querySelector('img').src;
+        elementImageAlt = elementDom.querySelector('img').alt;
+
       } else {
         const matchedClass = Object.keys(elements).find(key =>
           Array.isArray(elements[key]?.classes) &&
@@ -198,6 +204,7 @@ export const savePost = async (post, postElements) => {
       switch (elementType) {
         case 'image': {
           updatedElement.imageUrl = elementImageUrl;
+          updatedElement.imageAlt = elementImageAlt;
           break;
         }
       
@@ -215,20 +222,15 @@ export const savePost = async (post, postElements) => {
           break;
         }
       }
-      
       return updatedElement;
     }
     return element;
   });
-
   const title = document.getElementsByClassName('blog-post-main__title')[0]?.textContent.trim();
-
-  console.log(title)
   const updatedPost = {
     ...post,
     title, 
     status: 'draft',
-    imageUrl,
     elements: updatedElements,
   };
 

@@ -7,6 +7,7 @@ const { ObjectId } = require('mongoose').Types;
 const updatePost = async (req, res) => {
   const { id } = req.params;
   const { title, imageUrl, elements, status } = req.body;
+  console.log(elements)
 
   if (!ObjectId.isValid(id)) {
     return res.status(400).json({ message: "Invalid post ID" });

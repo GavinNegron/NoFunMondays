@@ -8,8 +8,6 @@ export const contact = async (email, name, message) => {
     message: DOMPurify.sanitize(message),
   };
 
-  console.log(sanitizedData);
-
   const response = await axios.post('/api/public/contact', sanitizedData, {
     headers: {
       'Content-Type': 'application/json',

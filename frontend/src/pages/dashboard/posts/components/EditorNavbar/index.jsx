@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
@@ -10,6 +10,7 @@ function EditNavbar() {
     const dispatch = useDispatch();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const postSlug = post?.slug;
+    const autoSaveTimer = useRef(null);
 
     const publishPost = async () => {
         $("body").css("max-height", "100vh");
@@ -18,14 +19,29 @@ function EditNavbar() {
     }
     
     const postStatus = post?.status;
-    console.log(post)
-    if (!postStatus) {
-    return null
-    }
+    if (!postStatus) return null;
 
     const handleSave = () => {
-        dispatch(savePost({ post, postElements }))
+        dispatch(savePost({ post, postElements }));
+        resetAutoSave();
     };
+
+    const resetAutoSave = () => {
+        if (autoSaveTimer.current) {
+            clearTimeout(autoSaveTimer.current);
+        }
+        autoSaveTimer.current = setTimeout(() => {
+            dispatch(savePost({ post, postElements }));
+            resetAutoSave();
+        }, 60000);
+    };
+
+    useEffect(() => {
+        resetAutoSave();
+        return () => {
+            if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+        };
+    }, [post, postElements]);
 
     return (
         <>
@@ -92,7 +108,7 @@ function EditNavbar() {
                     </div>
                     <div className="editor-navbar__item__save d-flex align-items-center">
                         <div className="editor-navbar__item">
-                            <Link data-tooltip-id='tip-save' href='#f' className='save-btn' onClick={() => handleSave()}>Save</Link>
+                            <Link data-tooltip-id='tip-save' href='#f' className='save-btn' onClick={handleSave}>Save</Link>
                             <Tooltip 
                                 id="tip-save" 
                                 header="Autosave is on" 

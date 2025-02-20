@@ -8,7 +8,6 @@ function Checkbox() {
             <div class="checkbox-bg"></div>
             <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
                 <path
-                stroke-linejoin="round"
                 stroke="currentColor"
                 d="M4 12L10 18L20 6"
                 class="check-path"

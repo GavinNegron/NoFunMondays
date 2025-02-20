@@ -87,7 +87,7 @@ const BlogPost = memo(({ post }) => {
             </div>
             <div className="post__content">
               <div className="post__content__header">
-                <p>{post?.title}</p>
+                <h1>{post?.title}</h1>
               </div>
               <div className="post__icons">
                 <div className="post__icons__inner">
@@ -129,7 +129,6 @@ export async function getServerSideProps(context) {
     let response = await fetch(`${baseUrl}/api/posts/slug/${slug}`);
     if (!response.ok) { 
       const redirectCheck = await fetch(`${baseUrl}/api/posts/recent?type=all`);
-      console.log(redirectCheck)
       if (!redirectCheck.ok) return { notFound: true };
 
       const posts = await redirectCheck.json();

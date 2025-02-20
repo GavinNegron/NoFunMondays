@@ -7,6 +7,7 @@ import { useEditorContext } from '@/contexts/EditorContext';
 
 
 const RenderElements = ({ element }) => {
+  console.log(element)
   const {
     setSelectedElement,
     setPreviewImage,
@@ -49,7 +50,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <img src={element.imageUrl || '/images/placeholder.png'} alt={element.alt} />;
+        return <img src={element.imageUrl || '/images/placeholder.png'} alt={element.imageAlt} />;
       case 'bullet':
         return (
           <div className="bullet-point">
@@ -79,9 +80,20 @@ const RenderElements = ({ element }) => {
             <button onClick={handleEmbedClick}>Embed</button>
           </div>
         );
-      case 'text':
-      default:
-        return <p>{element.content}</p>;
+        case 'h1':
+          return <h1>{element.content}</h1>;
+        case 'h2':
+          return <h2>{element.content}</h2>;
+        case 'h3':
+          return <h3>{element.content}</h3>;
+        case 'h4':
+          return <h4>{element.content}</h4>;
+        case 'h5':
+          return <h5>{element.content}</h5>;
+        case 'h6':
+          return <h6>{element.content}</h6>; 
+        default:
+          return <p>{element.content}</p>;
     }
   };
 
