@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const { blogDB } = require('../config/db'); 
+const mongoose = require('mongoose');
+const { blogDB } = require('../config/db');
 
-const blog = blogDB(); 
+const blog = blogDB();
 
 const blogPostSchema = new mongoose.Schema({
   title: { 
@@ -63,7 +63,11 @@ const blogPostSchema = new mongoose.Schema({
       twitterId: { type: String, required: false, default: undefined },
       style: { type: Object, default: {} }
     },
-  ]
-})
+  ],
+  redirects: {  
+    type: [String],
+    default: []
+  }
+});
 
-module.exports = blog.model('Posts', blogPostSchema);
+module.exports = blog.model('Posts', blogPostSchema, 'Posts');

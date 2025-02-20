@@ -27,7 +27,7 @@ function generateNewsSiteMap(posts) {
 
 export async function getServerSideProps({ res }) {
   try {
-    const response = await fetch(`${URL}/api/posts/recent?type=news`); 
+    const response = await fetch(`${URL}/api/posts/recent?type=all`); 
     const text = await response.text();
     const posts = JSON.parse(text);
 

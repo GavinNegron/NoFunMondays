@@ -58,6 +58,8 @@ export const EditorProvider = ({ children }) => {
             if (imgElement) imgElement.src = base64Image;
           }
           setPreviewImage(base64Image);
+        } else {
+        setPreviewImage(base64Image);
         }
       };
       reader.readAsDataURL(file);

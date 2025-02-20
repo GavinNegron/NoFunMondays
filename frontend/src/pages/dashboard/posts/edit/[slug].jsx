@@ -16,7 +16,7 @@ import EditorSidebar from '../components/Sidebar/index';
 // Utilities
 import { handleDrop, handleDragOver } from '@/utilities/dragUtils';
 import RenderElements from '@/utilities/posts/renderEditorElements';
-import { handleElementClick } from '@/utilities/posts/editorFunctions';
+import { handleElementClick, handleDoubleClick } from '@/utilities/posts/editorFunctions';
 
 // Layout
 import EditStyles from '../components/EditStyles/EditStyles';
@@ -35,7 +35,7 @@ function BlogPostEditor() {
         blogPostMainRef,
         setShowColorPicker,
         setPreviewImage,
-        imageUrl
+        imageUrl,
     } = useEditorContext();
 
     const dispatch = useDispatch();
@@ -115,12 +115,12 @@ function BlogPostEditor() {
                     <title>{post?.title}</title>
                 </Head>
                 <Navbar />
-                {post && <EditorNavbar />}
+                <EditorNavbar />
                 <EditorSidebar />
                 <div className="editor-container">
                     <div className="editor">
                         <div className="editor__back">
-                            <Link href="/dashboard/posts">
+                            <Link href="/dashboard/posts" >
                                 <i className="fa-solid fa-arrow-left"></i>
                                 <span>Dashboard</span>
                             </Link>
@@ -143,9 +143,10 @@ function BlogPostEditor() {
                         </div>
                         <div className="blog-post-main__inner">
                             <div
-                                className="blog-post-element title"
+                                className="blog-post-element title blog-post-main__title"
                                 tabIndex="0"
                                 onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
+                                onDoubleClick={(e) => handleDoubleClick(e)}
                             >
                                 <span>{post?.title}</span>
                             </div>

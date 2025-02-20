@@ -27,6 +27,7 @@ export const handleDoubleClick = (event) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 element.contentEditable = false;
+                  
                 document.removeEventListener('mousedown', handleClickOutside);
             } else if (e.key === 'Enter' && e.shiftKey) {
                 e.preventDefault();

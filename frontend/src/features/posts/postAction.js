@@ -43,7 +43,6 @@ export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async
   }
 });
 
-
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ limit, excludeFeatured }, thunkAPI) => {
   try {
     const response = await postService.fetchPosts(limit, excludeFeatured);
@@ -74,6 +73,14 @@ export const fetchTitle = createAsyncThunk('posts/fetchTitle', async (title, thu
 export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, postElements }, thunkAPI) => {
   try {
     return await postService.publishPost(post, postElements);
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to publish post.');
+  }
+});
+
+export const savePost = createAsyncThunk('posts/savePost', async ({ post, postElements }, thunkAPI) => {
+  try {
+    return await postService.savePost(post, postElements);
   } catch (error) {
     return thunkAPI.rejectWithValue('Failed to publish post.');
   }

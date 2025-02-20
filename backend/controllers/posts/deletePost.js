@@ -1,4 +1,5 @@
 const Posts = require('../../models/Posts');
+const PostSave = require('../../models/PostSave');
 const PageView = require('../../models/PageView');
 const { ObjectId } = require('mongoose').Types;
 
@@ -11,12 +12,15 @@ const deletePost = async (req, res) => {
         }
 
         const post = await Posts.findById(id);
-        if (!post) {
+        const savedPost = await PostSave.findById(id)
+        
+        if (!post && !savedPost) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        // Delete Post & Any views from PageView
-        await Posts.deleteOne({ _id: id });
+        if (post) await Posts.deleteOne({ _id: id });
+        if (savedPost) await PostSave.deleteOne({ _id: id });
+
         await PageView.deleteMany({ postSlug: post.slug });
 
         return res.status(200).json({ message: 'Post and associated page views deleted successfully', id });

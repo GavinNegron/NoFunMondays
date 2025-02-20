@@ -126,14 +126,28 @@ export async function getServerSideProps(context) {
 
     const { slug } = context.params;
 
-    const response = await fetch(`${baseUrl}/api/posts/slug/${slug}`);
-
+    let response = await fetch(`${baseUrl}/api/posts/slug/${slug}`);
     if (!response.ok) { 
+      const redirectCheck = await fetch(`${baseUrl}/api/posts/recent?type=all`);
+      console.log(redirectCheck)
+      if (!redirectCheck.ok) return { notFound: true };
+
+      const posts = await redirectCheck.json();
+      const postWithRedirect = posts.find(post => post.redirects.includes(slug));
+
+      if (postWithRedirect) {
+        return {
+          redirect: {
+            destination: `/blog/${postWithRedirect.slug}`,
+            permanent: true,
+          },
+        };
+      }
+
       return { notFound: true };
     }
 
-    const post = await response.json(); 
-
+    const post = await response.json();
     return { props: { post } };
     
   } catch (error) {

@@ -82,7 +82,7 @@ function NewPost() {
                     <div className="new-post__content-image">
                         <span>Select Image</span>
                         <div className="new-post__content-image__preview">
-                            {renderImageSelector(true)}
+                            {renderImageSelector()}
                         </div>
                     </div>
                     <div className="new-post__content-submit">

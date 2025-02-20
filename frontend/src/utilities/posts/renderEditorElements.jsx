@@ -9,7 +9,8 @@ import { useEditorContext } from '@/contexts/EditorContext';
 const RenderElements = ({ element }) => {
   const {
     setSelectedElement,
-    setPreviewImage
+    setPreviewImage,
+    setPost
   } = useEditorContext();
   
   const [twitterUrl, setTwitterUrl] = useState('');

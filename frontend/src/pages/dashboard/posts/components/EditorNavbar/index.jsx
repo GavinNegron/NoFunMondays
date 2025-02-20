@@ -1,12 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
 import Publish from '../Publish/index';
 import Link from 'next/link';
+import { savePost } from '@/features/posts/postAction';
 
 function EditNavbar() {
-    const { post } = useSelector((state) => state.posts.post);
+    const dispatch = useDispatch();
+    const { postElements, post } = useSelector((state) => state.posts.post);
     const postSlug = post?.slug;
 
     const publishPost = async () => {
@@ -16,10 +18,14 @@ function EditNavbar() {
     }
     
     const postStatus = post?.status;
-
+    console.log(post)
     if (!postStatus) {
     return null
     }
+
+    const handleSave = () => {
+        dispatch(savePost({ post, postElements }))
+    };
 
     return (
         <>
@@ -86,7 +92,7 @@ function EditNavbar() {
                     </div>
                     <div className="editor-navbar__item__save d-flex align-items-center">
                         <div className="editor-navbar__item">
-                            <Link data-tooltip-id='tip-save' href='#f' className='save-btn'>Save</Link>
+                            <Link data-tooltip-id='tip-save' href='#f' className='save-btn' onClick={() => handleSave()}>Save</Link>
                             <Tooltip 
                                 id="tip-save" 
                                 header="Autosave is on" 

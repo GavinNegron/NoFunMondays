@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Posts = require('../../models/Posts');
+const Post = require('../../models/Posts');
 const { generateSlug } = require('../../utils/posts/generateSlug');
 const { storage, bucketName } = require('../../config/googleCloudStorage');
 
@@ -52,7 +52,7 @@ const createPost = async (req, res) => {
 
         const slug = generateSlug(title);
 
-        const post = await Posts.create({
+        const post = await Post.create({
             title,
             imageUrl: publicUrl,
             slug: slug,
