@@ -11,15 +11,20 @@ function EditNavbar() {
     const { postElements, post } = useSelector((state) => state.posts.post);
     const postSlug = post?.slug;
     const autoSaveTimer = useRef(null);
+    const postStatus = post?.status;
+
+    useEffect(() => {
+        resetAutoSave();
+        return () => {
+            if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+        };
+    }, [post, postElements]);
 
     const publishPost = async () => {
         $("body").css("max-height", "100vh");
         $("body").css("overflow", "hidden");
         $(".publish").css("display", "flex");
-    }
-    
-    const postStatus = post?.status;
-    if (!postStatus) return null;
+    };
 
     const handleSave = () => {
         dispatch(savePost({ post, postElements }));
@@ -36,12 +41,7 @@ function EditNavbar() {
         }, 60000);
     };
 
-    useEffect(() => {
-        resetAutoSave();
-        return () => {
-            if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-        };
-    }, [post, postElements]);
+    if (!postStatus) return null;
 
     return (
         <>
