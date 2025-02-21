@@ -36,6 +36,17 @@ export const fetchRecentPosts = async (type) => {
   }
 };
 
+export const fetchChallengePosts = async (type) => {
+  try {
+    const response = await axios.get(`/api/posts/recent?type=${type}`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      throw new Error('Recent post not found');
+    }
+    throw new Error(error.response?.data?.message || 'Failed to fetch recent post');
+  }
+};
 
 export const fetchPosts = async (limit, excludeFeatured = false) => {
   const response = await axios.get(`/api/posts/`, {
@@ -63,7 +74,7 @@ export const updatePost = async (postId, updatedPost) => {
   return response.data;
 };
 
-export const publishPost = async (post, postElements) => {
+export const publishPost = async (post, postElements, isFeatured, isChallenge) => {
   const imageUrl = document.querySelector('.banner img').src;
   const stylesMap = new Map();
 
@@ -140,6 +151,8 @@ export const publishPost = async (post, postElements) => {
     ...post,
     title,
     slug, 
+    challenge: isChallenge,
+    featured: isFeatured,
     status: 'published',
     imageUrl,
     elements: updatedElements,

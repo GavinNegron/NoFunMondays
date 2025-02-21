@@ -4,7 +4,7 @@ const getRecentPosts = async (req, res) => {
   try {
       const { limit = 8, type } = req.query;
 
-      if (!type || !['all', 'recent', 'featured'].includes(type)) {
+      if (!type || !['all', 'recent', 'featured', 'challenge'].includes(type)) {
           return res.status(400).json({ status: "Failed", message: "Invalid or missing type" });
       }
 
@@ -20,12 +20,13 @@ const getRecentPosts = async (req, res) => {
                   query._id = { $ne: featuredPost._id };
               }
               break;
+          case 'challenge':
+              query.challenge = { $in: [true, "true"] };
+              break;
           case 'all':
               break;
       }
-
       const posts = await Posts.find(query).sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
-
 
       res.status(200).json(posts);
   } catch (error) {

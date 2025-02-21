@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '@/utilities/domUtils';
@@ -10,6 +10,8 @@ function Publish() {
     const { setPost } = useEditorContext();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const isMountedRef = useRef(true);
+    const [isFeatured, setIsFeatured] = useState(false);
+    const [isChallenge, setIsChallenge] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -30,7 +32,7 @@ function Publish() {
     }, []);
     
     const handlePublish = () => {
-        dispatch(publishPost({ post, postElements })).then((action) => {
+        dispatch(publishPost({ post, postElements, isFeatured, isChallenge })).then((action) => {
             if (action.meta.requestStatus === 'fulfilled') {
                 setPost(action.payload);
             }
@@ -63,9 +65,15 @@ function Publish() {
                             <p>Post will be <b>private</b> before set time.</p>
                         </div>
                     </a>
-                    <div className="publish__content-featured">
-                        <Checkbox/>
-                        <span>Feature this post</span>
+                    <div className="publish__content-checkbox">
+                        <div className="publish__content-checkbox__item">
+                            <Checkbox checked={isFeatured} onChange={() => setIsFeatured(!isFeatured)} />
+                            <span>Feature this post</span>
+                        </div>
+                        <div className="publish__content-checkbox__item">
+                            <Checkbox checked={isChallenge} onChange={() => setIsChallenge(!isChallenge)} />
+                            <span>Mark as Challenge</span>
+                        </div>
                     </div>
                     <div className="publish__content-submit">
                         <button className="fortnite-btn" onClick={handlePublish}>

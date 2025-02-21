@@ -1,9 +1,9 @@
 import './_checkbox.sass'
 
-function Checkbox() {
+function Checkbox({ checked, onChange }) {
     return (
         <label class="ios-checkbox blue">
-            <input type="checkbox" />
+            <input type="checkbox" checked={checked} onChange={onChange}  />
             <div class="checkbox-wrapper">
             <div class="checkbox-bg"></div>
             <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">

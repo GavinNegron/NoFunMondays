@@ -34,9 +34,18 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (postId, th
 });
 
 
-export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async ({ type = 'all' }, thunkAPI) => {
+export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async ({ type = 'challenge' }, thunkAPI) => {
   try {
     const response = await postService.fetchRecentPosts(type);
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Failed to fetch recent posts');
+  }
+});
+
+export const fetchChallengePosts = createAsyncThunk('posts/fetchChallengePosts', async ({ type = 'challenge' }, thunkAPI) => {
+  try {
+    const response = await postService.fetchChallengePosts(type);
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue('Failed to fetch recent posts');
@@ -70,9 +79,9 @@ export const fetchTitle = createAsyncThunk('posts/fetchTitle', async (title, thu
   }
 });
 
-export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, postElements }, thunkAPI) => {
+export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, postElements, isFeatured, isChallenge }, thunkAPI) => {
   try {
-    return await postService.publishPost(post, postElements);
+    return await postService.publishPost(post, postElements, isFeatured, isChallenge);
   } catch (error) {
     return thunkAPI.rejectWithValue('Failed to publish post.');
   }

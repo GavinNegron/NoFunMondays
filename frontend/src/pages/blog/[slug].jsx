@@ -1,4 +1,4 @@
-import React, { useMemo, memo, useEffect, useState } from 'react';
+import React, { useMemo, memo, useEffect } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 import Navbar from '@/components/layout/navbar';
@@ -102,6 +102,10 @@ const BlogPost = memo(({ post }) => {
                   <div className="post__icons-icon">
                     <i className="fa-solid fa-comment"></i>
                     <span>{post?.comments || 0}</span>
+                  </div>
+                  <div className="post__icons-icon">
+                    <i className="fa-solid fa-share"></i>
+                    <span>{post?.shares || 0}</span>
                   </div>
                 </div>
               </div>

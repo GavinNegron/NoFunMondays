@@ -9,7 +9,6 @@ const Image = () => {
   
   const handleAltChange = (e) => {
     selectedElement.querySelector('img').alt = e.target.value;
-    console.log(selectedElement.querySelector('img').alt)
     setStyle(prevStyle => ({ ...prevStyle, fontFamily: e.target.value }));
   };
 

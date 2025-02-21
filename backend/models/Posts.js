@@ -28,6 +28,11 @@ const blogPostSchema = new mongoose.Schema({
     default: false,
     required: true
   },
+  challenge: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   slug: {
     type: String, 
     required: true,
@@ -44,6 +49,11 @@ const blogPostSchema = new mongoose.Schema({
     required: true,
   },
   hearts: {
+    type: Number, 
+    default: 0, 
+    required: true,
+  },
+  shares: {
     type: Number, 
     default: 0, 
     required: true,
