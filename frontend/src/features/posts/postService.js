@@ -19,8 +19,9 @@ export const createPost = async (newPost) => {
   return response.data;
 };
 
-export const deletePost = async (postId) => {
-  const response = await axios.delete(`/api/posts/${postId}`);
+export const deletePost = async (postIds) => {
+  const ids = Array.isArray(postIds) ? postIds : [postIds];
+  const response = await axios.delete(`/api/posts`, { data: { ids } });
   return response.data;
 };
 

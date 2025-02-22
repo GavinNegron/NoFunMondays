@@ -24,15 +24,14 @@ export const createPost = createAsyncThunk('posts/create', async (newPost, thunk
   }
 });
 
-export const deletePost = createAsyncThunk('posts/deletePost', async (postId, thunkAPI) => {
+export const deletePost = createAsyncThunk('posts/deletePost', async (postIds, thunkAPI) => {
   try {
-    const response = await postService.deletePost(postId);
+    const response = await postService.deletePost(postIds);
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to delete post');
   }
 });
-
 
 export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async ({ type = 'challenge' }, thunkAPI) => {
   try {

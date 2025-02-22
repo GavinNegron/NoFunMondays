@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import $ from 'jquery';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -9,6 +8,9 @@ import Navbar from '@/components/layout/navbar';
 import Sidebar from '@/components/layout/sidebar';
 import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '@/components/base/loading';
+
+// UTILITIES
+import { handleClickOutside } from '@/utilities/domUtils';
 
 // FEATURES
 import { fetchPosts, deletePost } from '@/features/posts/postAction';
@@ -23,7 +25,10 @@ function DPosts() {
   const { posts } = useSelector((state) => state.posts.post);
   const [postLimit, setPostLimit] = useState(5);
   const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedPosts, setSelectedPosts] = useState([]);
   const [loadingState, setLoadingState] = useState(true);
+  const [showFeatured, setShowFeatured] = useState(false);
+  const [showChallenges, setShowChallenges] = useState(false);
 
   useEffect(() => {
     const handleLoading = async () => {
@@ -39,28 +44,82 @@ function DPosts() {
     handleLoading();
   }, [dispatch, postLimit]);
 
-  const handleLoadMore = () => {
-    setPostLimit((prev) => prev + 4);
-  };
+  useEffect(() => {
+    const handleClick = (e) => {
+      const confirm = document.querySelector('.dashboard__confirm');
+      if (confirm && confirm.contains(e.target)) {
+        handleClickOutside(e, '.dashboard__confirm__inner', '.dashboard__confirm');
+      }
+    };
 
-  const handleDelete = async (postId) => {
-    if (!window.confirm('Are you sure you want to delete this post?')) return;
+    window.addEventListener('click', handleClick);
+    return () => window.removeEventListener('click', handleClick);
+  }, []);
+
+  const handleLoadMore = async () => {
+    const newLimit = postLimit + 4;
+    setPostLimit(newLimit);
+
     try {
-      await dispatch(deletePost(postId));
-      dispatch(fetchPosts({ limit: postLimit }));
-    } catch (err) {
-      console.log(err);
+      await dispatch(fetchPosts({ limit: newLimit, excludeFeatured: false }));
+    } catch (error) {
+      console.error('Failed to load more posts:', error);
     }
   };
 
-  const handleNewPost = () => {
-    $("body").css({ "max-height": "100vh", overflow: "hidden" });
-    $(".new-post").css("display", "flex");
+  const handleDelete = async (postIds) => {
+    return new Promise((resolve) => {
+      const confirmBox = document.querySelector('.dashboard__confirm');
+      confirmBox.style.display = 'flex';
+
+      const confirmButton = confirmBox.querySelector('.dashboard__confirm-button button');
+      confirmButton.onclick = async () => {
+        confirmBox.style.display = 'none';
+        resolve(true);
+      };
+    }).then(async (confirmed) => {
+      if (confirmed) {
+        if (Array.isArray(postIds)) {
+          for (const postId of postIds) {
+            await dispatch(deletePost(postId));
+          }
+        } else {
+          await dispatch(deletePost(postIds));
+        }
+        dispatch(fetchPosts({ limit: postLimit }));
+      }
+    });
   };
 
-  const filteredPosts = selectedStatus
-    ? posts.filter((post) => post?.status === selectedStatus)
-    : posts;
+  const handleNewPost = () => {
+    document.body.style.maxHeight = '100vh';
+    document.body.style.overflow = 'hidden';
+    document.querySelector('.new-post').style.display = 'flex';
+  };
+
+  const handleSelectPost = (postId) => {
+    setSelectedPosts((prev) =>
+      prev.includes(postId) ? prev.filter((id) => id !== postId) : [...prev, postId]
+    );
+  };
+
+  const filteredPosts = posts.filter((post) => {
+    if (selectedStatus && post?.status !== selectedStatus) return false;
+    if (showFeatured && !post?.featured) return false;
+    if (showChallenges && !post?.challenge) return false;
+    return true;
+  });
+
+  const handleSelectAllPosts = () => {
+    setSelectedPosts(selectedPosts.length === filteredPosts.length ? [] : filteredPosts.map((post) => post._id));
+  };
+
+  useEffect(() => {
+    const modifySection = document.querySelector('.dashboard__modify');
+    if (modifySection) {
+      modifySection.style.display = selectedPosts.length > 0 ? 'flex' : 'none';
+    }
+  }, [selectedPosts]);
 
   if (loadingState) {
     return <LoadingScreen />;
@@ -76,14 +135,32 @@ function DPosts() {
         <main className="main db">
           <Sidebar />
           <div className="dashboard">
+            <div className="dashboard__confirm">
+              <div className="dashboard__confirm__inner">
+                <div className="dashboard__confirm-icon">
+                  <i className="fa-solid fa-warning"></i>
+                </div>
+                <div className="dashboard__confirm-header">
+                  <span>Delete Confirmation</span>
+                </div>
+                <div className="dashboard__confirm-button">
+                  <button>Confirm</button>
+                </div>
+              </div>
+            </div>
             <div className="dashboard__header">
               <span>Posts</span>
             </div>
             <div className="dashboard__top">
               <div className="dashboard__filters">
                 <div className="dashboard__filters__item">
-                  <Checkbox />
+                  <Checkbox checked={showFeatured} onChange={() => setShowFeatured(!showFeatured)} />
                   <span>Featured</span>
+                </div>
+                <span>|</span>
+                <div className="dashboard__filters__item">
+                  <Checkbox checked={showChallenges} onChange={() => setShowChallenges(!showChallenges)} />
+                  <span>Challenges</span>
                 </div>
                 <span>|</span>
                 <div className="dashboard__filters__item">
@@ -109,11 +186,14 @@ function DPosts() {
               <table>
                 <thead>
                   <tr>
-                    <th>
-                      <Checkbox id="selectAll" />
+                    <th id="selectAll">
+                      <Checkbox
+                        checked={selectedPosts.length > 0 && selectedPosts.length === filteredPosts.length}
+                        onChange={handleSelectAllPosts}
+                      />
                     </th>
                     <th className="image">Image</th>
-                    <th className="title">Title <i className="fa-solid fa-arrow-up"></i></th>
+                    <th className="title">Title</th>
                     <th className="date">Date</th>
                     <th className="views">Views</th>
                     <th className="status">Status</th>
@@ -128,7 +208,10 @@ function DPosts() {
                     .map((post) => (
                       <tr key={post?._id}>
                         <td>
-                          <Checkbox />
+                          <Checkbox
+                            checked={selectedPosts.includes(post._id)}
+                            onChange={() => handleSelectPost(post._id)}
+                          />
                         </td>
                         <td className="dashboard__posts__image">
                           <img
@@ -173,6 +256,19 @@ function DPosts() {
                     ))}
                 </tbody>
               </table>
+            </div>
+            <div className="dashboard__modify">
+              <div className="dashboard__modify__header">
+                <span>Bulk Editing: </span>
+              </div>
+              <div className="dashboard__modify__buttons">
+                <div className="dashboard__modify-item">
+                  <button onClick={() => handleDelete(selectedPosts)}>Delete Selected</button>
+                </div>
+                <div className="dashboard__modify-item">
+                  <button>Archive Selected</button>
+                </div>
+              </div>
             </div>
             <div className="dashboard__load">
               <button onClick={handleLoadMore} className="fortnite-btn">

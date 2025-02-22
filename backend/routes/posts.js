@@ -39,7 +39,7 @@ module.exports = function(app){
 
     app.put('/api/posts/save/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), savePost)
 
-    app.delete('/api/posts/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
+    app.delete('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
 
     app.delete('/api/posts/:id/elements/:elementId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePostElement)
 

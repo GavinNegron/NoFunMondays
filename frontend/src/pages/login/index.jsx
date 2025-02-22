@@ -30,10 +30,10 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Admin Login</title>
       </Head>
       <div className="wrapper">
-        <h2>Login</h2>
+        <h2>Admin Login | NoFunMondays</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="input-box">
             <input
@@ -55,9 +55,6 @@ const Login = () => {
           {error && <p className="error">{error}</p>}
           <div className="input-box button">
             <button type="submit" disabled={loading}>Login</button>
-          </div>
-          <div className="text">
-            <h3>Already have an account? <a href="#">Login now</a></h3>
           </div>
         </form>
       </div>

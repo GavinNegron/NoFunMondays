@@ -34,6 +34,7 @@ function NewPost() {
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
     }, []);
+    
     const handleNewPost = async () => {
         if (!title || !image) return setError('Title and image are required');
         try {
