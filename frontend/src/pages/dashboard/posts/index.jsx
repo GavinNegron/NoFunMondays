@@ -29,6 +29,7 @@ function DPosts() {
   const [loadingState, setLoadingState] = useState(true);
   const [showFeatured, setShowFeatured] = useState(false);
   const [showChallenges, setShowChallenges] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' });
 
   useEffect(() => {
     const handleLoading = async () => {
@@ -110,8 +111,29 @@ function DPosts() {
     return true;
   });
 
+  const sortedPosts = filteredPosts.slice().sort((a, b) => {
+    if (sortConfig.key === 'date') {
+      return sortConfig.direction === 'desc'
+        ? new Date(b.createdAt) - new Date(a.createdAt)
+        : new Date(a.createdAt) - new Date(b.createdAt);
+    } else if (sortConfig.key === 'views') {
+      return sortConfig.direction === 'desc'
+        ? b.views - a.views
+        : a.views - b.views;
+    }
+    return 0;
+  });
+
+  const handleSortChange = (key) => {
+    let direction = 'desc';
+    if (sortConfig.key === key && sortConfig.direction === 'desc') {
+      direction = 'asc';
+    }
+    setSortConfig({ key, direction });
+  };
+
   const handleSelectAllPosts = () => {
-    setSelectedPosts(selectedPosts.length === filteredPosts.length ? [] : filteredPosts.map((post) => post._id));
+    setSelectedPosts(selectedPosts.length === sortedPosts.length ? [] : sortedPosts.map((post) => post._id));
   };
 
   useEffect(() => {
@@ -188,72 +210,69 @@ function DPosts() {
                   <tr>
                     <th id="selectAll">
                       <Checkbox
-                        checked={selectedPosts.length > 0 && selectedPosts.length === filteredPosts.length}
+                        checked={selectedPosts.length > 0 && selectedPosts.length === sortedPosts.length}
                         onChange={handleSelectAllPosts}
                       />
                     </th>
                     <th className="image">Image</th>
                     <th className="title">Title</th>
-                    <th className="date">Date</th>
-                    <th className="views">Views</th>
+                    <th className="date" onClick={() => handleSortChange('date')}>Date</th>
+                    <th className="views" onClick={() => handleSortChange('views')}>Views</th>
                     <th className="status">Status</th>
                     <th className="edit">Edit</th>
                     <th className="delete">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredPosts
-                    .slice()
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    .map((post) => (
-                      <tr key={post?._id}>
-                        <td>
-                          <Checkbox
-                            checked={selectedPosts.includes(post._id)}
-                            onChange={() => handleSelectPost(post._id)}
-                          />
-                        </td>
-                        <td className="dashboard__posts__image">
-                          <img
-                            src={post?.imageUrl || 'https://via.placeholder.com/150'}
-                            alt={post?.title || 'Post image'}
-                          />
-                        </td>
-                        <td className="dashboard__posts__title">{post?.title}</td>
-                        <td className="dashboard__posts__date">
-                          {new Date(post?.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className="dashboard__posts__views">{post?.views || 0}</td>
-                        <td className="dashboard__posts__status">
-                          <i>{post?.status || 'Published'}</i>
-                        </td>
-                        <td className="">
-                          <div id="edit" className="dashboard__posts__icon">
-                            <p>
-                              <Link
-                                className="dashboard__posts__icon--edit"
-                                href={`/dashboard/posts/edit/${post?.slug}`}
-                              >
-                                Edit
-                              </Link>
-                            </p>
-                          </div>
-                        </td>
-                        <td className="">
-                          <div id="delete" className="dashboard__posts__icon">
-                            <p>
-                              <Link
-                                className="dashboard__posts__icon--delete"
-                                href="#delete"
-                                onClick={() => handleDelete(post?._id)}
-                              >
-                                Delete
-                              </Link>
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                  {sortedPosts.map((post) => (
+                    <tr key={post?._id}>
+                      <td>
+                        <Checkbox
+                          checked={selectedPosts.includes(post._id)}
+                          onChange={() => handleSelectPost(post._id)}
+                        />
+                      </td>
+                      <td className="dashboard__posts__image">
+                        <img
+                          src={post?.imageUrl || 'https://via.placeholder.com/150'}
+                          alt={post?.title || 'Post image'}
+                        />
+                      </td>
+                      <td className="dashboard__posts__title">{post?.title}</td>
+                      <td className="dashboard__posts__date">
+                        {new Date(post?.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="dashboard__posts__views">{post?.views || 0}</td>
+                      <td className="dashboard__posts__status">
+                        <i>{post?.status || 'Published'}</i>
+                      </td>
+                      <td className="">
+                        <div id="edit" className="dashboard__posts__icon">
+                          <p>
+                            <Link
+                              className="dashboard__posts__icon--edit"
+                              href={`/dashboard/posts/edit/${post?.slug}`}
+                            >
+                              Edit
+                            </Link>
+                          </p>
+                        </div>
+                      </td>
+                      <td className="">
+                        <div id="delete" className="dashboard__posts__icon">
+                          <p>
+                            <Link
+                              className="dashboard__posts__icon--delete"
+                              href="#delete"
+                              onClick={() => handleDelete(post?._id)}
+                            >
+                              Delete
+                            </Link>
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
