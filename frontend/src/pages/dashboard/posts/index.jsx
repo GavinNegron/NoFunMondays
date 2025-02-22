@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Link from 'next/link';
+import Fuse from 'fuse.js';
 
 // COMPONENTS
 import Navbar from '@/components/layout/navbar';
 import Sidebar from '@/components/layout/sidebar';
 import NewPost from './components/NewPost/new-post';
 import LoadingScreen from '@/components/base/loading';
+import Search from '@/components/base/search';
 
 // UTILITIES
 import { handleClickOutside } from '@/utilities/domUtils';
@@ -23,6 +25,7 @@ import Checkbox from '@/components/base/checkbox/';
 function DPosts() {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts.post);
+  const [allPosts, setAllPosts] = useState([]);
   const [postLimit, setPostLimit] = useState(5);
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedPosts, setSelectedPosts] = useState([]);
@@ -30,12 +33,14 @@ function DPosts() {
   const [showFeatured, setShowFeatured] = useState(false);
   const [showChallenges, setShowChallenges] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const handleLoading = async () => {
       setLoadingState(true);
       try {
-        await dispatch(fetchPosts({ limit: postLimit, excludeFeatured: false }));
+        const fetchedPosts = await dispatch(fetchPosts({ limit: 1000, excludeFeatured: false }));
+        setAllPosts(fetchedPosts.payload || []); // Ensure allPosts is an array
       } catch (error) {
         console.error('Failed to fetch posts:', error);
       } finally {
@@ -43,7 +48,7 @@ function DPosts() {
       }
     };
     handleLoading();
-  }, [dispatch, postLimit]);
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -60,12 +65,6 @@ function DPosts() {
   const handleLoadMore = async () => {
     const newLimit = postLimit + 4;
     setPostLimit(newLimit);
-
-    try {
-      await dispatch(fetchPosts({ limit: newLimit, excludeFeatured: false }));
-    } catch (error) {
-      console.error('Failed to load more posts:', error);
-    }
   };
 
   const handleDelete = async (postIds) => {
@@ -87,7 +86,8 @@ function DPosts() {
         } else {
           await dispatch(deletePost(postIds));
         }
-        dispatch(fetchPosts({ limit: postLimit }));
+        const fetchedPosts = await dispatch(fetchPosts({ limit: 1000 })); // Fetch all posts again after deletion
+        setAllPosts(fetchedPosts.payload || []);
       }
     });
   };
@@ -104,14 +104,21 @@ function DPosts() {
     );
   };
 
-  const filteredPosts = posts.filter((post) => {
-    if (selectedStatus && post?.status !== selectedStatus) return false;
-    if (showFeatured && !post?.featured) return false;
-    if (showChallenges && !post?.challenge) return false;
-    return true;
+  const fuse = new Fuse(allPosts, {
+    keys: ['title'],
+    threshold: 0.3,
   });
 
-  const sortedPosts = filteredPosts.slice().sort((a, b) => {
+  const filteredPosts = searchQuery
+    ? fuse.search(searchQuery).map(result => result.item)
+    : (Array.isArray(allPosts) ? allPosts.filter((post) => {
+        if (selectedStatus && post?.status !== selectedStatus) return false;
+        if (showFeatured && !post?.featured) return false;
+        if (showChallenges && !post?.challenge) return false;
+        return true;
+      }) : []);
+
+  const sortedPosts = filteredPosts.slice(0, postLimit).sort((a, b) => {
     if (sortConfig.key === 'date') {
       return sortConfig.direction === 'desc'
         ? new Date(b.createdAt) - new Date(a.createdAt)
@@ -172,6 +179,9 @@ function DPosts() {
             </div>
             <div className="dashboard__header">
               <span>Posts</span>
+            </div>
+            <div className="dashboard__search">
+              <Search value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
             </div>
             <div className="dashboard__top">
               <div className="dashboard__filters">
