@@ -11,15 +11,110 @@
     display: flex
     justify-content: center
     padding: 50px 0
+    gap: 50px
 
-    @media (max-width: 780px)
+    @media (max-width: 1210px)
+        flex-direction: column
+        align-items: center
+        padding: 50px 0 0 0 
+
+    @media screen and ( max-width: 780px)
+        gap: 0
         padding: 0
 
-    &__inner
-        width: 768px
+    &__sidebar
+        display: flex
+        background-color: #121212
+        align-items: center
+        flex-direction: column
+        width: 335px
+        height: 100%
+        padding: 20px
         box-shadow: 0 0 7px 2px #171717
 
-        @media (max-width: 780px)
+        @media (max-width: 1210px)
+            width: 100%
+            box-shadow: none
+
+        @media screen and ( max-width: 1210px)
+            margin-bottom: -45px
+
+    &__author
+        color: white
+        font-family: 'Poppins'
+        text-align: center
+        display: flex
+        align-items: center
+        flex-direction: column
+
+        @media screen and ( max-width:  1210px)
+            display: none
+
+        &-header
+            font-size: 26px
+            margin: 30px 20px 20px 20px
+        
+        &-name
+            margin-top: 5px
+
+        &-image img
+            width: 70%
+            background: #232323
+            border-radius: 100%
+
+        &-bio
+            margin-top: 5px
+            font-weight: 300
+            font-size: 16px
+            color: #e0e0e0
+    
+    &__recent
+        color: #fff
+        font-family: "Poppins"
+        text-align: center
+        display: flex
+        align-items: center
+        flex-direction: column
+
+        &-header
+            font-size: 26px
+            margin-top: 20px
+
+            @media screen and ( max-width:  1210px)
+                margin: 20px
+
+        &-posts
+            margin-top: 10px
+            gap: 10px
+            display: flex
+            flex-direction: column
+
+            @media screen and ( max-width:  1210px)
+                width: 100%
+                flex-direction: row
+                flex-wrap: wrap
+                justify-content: center
+
+        &-title
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+            color: #e0e0e0
+
+        &-item 
+            width: 300px
+            padding: 0 15px
+            border-radius: 20px
+
+        &-image img
+            width: 100%
+            border-radius: 3px
+
+    &__inner
+        max-width: 768px
+        box-shadow: 0 0 7px 2px #171717
+
+        @media (max-width: 1210px)
             box-shadow: none
 
     &__header

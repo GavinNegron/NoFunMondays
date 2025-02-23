@@ -201,7 +201,7 @@ const uploadToCloud = async (base64Image) => {
 };
 
 export const savePost = async (post, postElements) => {
-  let imageUrl = document.querySelector('.banner img').src;
+  let imageUrl = document.querySelector('.banner img')?.src;
   imageUrl = await uploadToCloud(imageUrl);
 
   const stylesMap = new Map();

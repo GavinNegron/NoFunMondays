@@ -1,4 +1,4 @@
-import React, { useMemo, memo, useEffect } from 'react';
+import React, { useMemo, memo, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 import Navbar from '@/components/layout/navbar';
@@ -7,8 +7,9 @@ import NotFound from '../404';
 import RenderElements from '@/utilities/posts/renderElements';
 
 import '../../../public/css/blog-post.css';
+import Link from 'next/link';
 
-const BlogPost = memo(({ post }) => {
+const BlogPost = memo(({ post, recentPosts }) => {
   const postElements = post?.elements || [];
 
   useEffect(() => {
@@ -112,6 +113,42 @@ const BlogPost = memo(({ post }) => {
               <div className="post__elements">{renderedElements}</div>
             </div>
           </div>
+          <aside className="post__sidebar">
+            <div className="post__author">
+              <div className="post__author-header">
+                <span>Author: </span>
+              </div>
+              <div className="post__author-image">
+                <img src="/images/profile.png" alt="" />
+              </div>
+              <div className="post__author-name">
+                <span>Gavin N.</span>
+              </div>
+              <div className="post__author-bio">
+                <span>Owner and Author on nofunmondays.com</span>
+              </div>
+            </div>
+            <div className="post__recent">
+              <div className="post__recent-header">
+                <span>Recent Posts</span>
+              </div>
+              <div className="post__recent-posts">
+              {recentPosts.map((recentPost) => (
+                <Link key={recentPost._id} target='_blank' href={`/blog/${recentPost?.slug}`}>
+                  <div className="post__recent-item">
+                    <div className="post__recent-image">
+                      <img src={recentPost?.imageUrl} alt={recentPost?.title} />
+                    </div>
+                    <div className="post__recent-title">
+                      <span>{recentPost?.title}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+
+              </div>
+            </div>
+          </aside>
         </div>
       </main>
       <Footer />
@@ -131,29 +168,31 @@ export async function getServerSideProps(context) {
     const { slug } = context.params;
 
     let response = await fetch(`${baseUrl}/api/posts/slug/${slug}`);
-    if (!response.ok) { 
-      const redirectCheck = await fetch(`${baseUrl}/api/posts/recent?type=all`);
-      if (!redirectCheck.ok) return { notFound: true };
-
-      const posts = await redirectCheck.json();
-      const postWithRedirect = posts.find(post => post.redirects.includes(slug));
-
-      if (postWithRedirect) {
-        return {
-          redirect: {
-            destination: `/blog/${postWithRedirect.slug}`,
-            permanent: true,
-          },
-        };
+    if (!response.ok) {
+      const redirectResponse = await fetch(`${baseUrl}/api/posts/redirects/${slug}`);
+      if (redirectResponse.ok) {
+        const redirectData = await redirectResponse.json();
+        if (redirectData.originalSlug) {
+          return {
+            redirect: {
+              destination: `/blog/${redirectData.originalSlug}`,
+              permanent: true,
+            },
+          };
+        }
       }
-
       return { notFound: true };
     }
 
     const post = await response.json();
-    return { props: { post } };
-    
+
+    const recentPostsResponse = await fetch(`${baseUrl}/api/posts/recent?type=all&limit=5&excludeSlug=${slug}`);
+    const recentPosts = await recentPostsResponse.json();
+
+    return { props: { post, recentPosts } };
+
   } catch (error) {
+    console.error(error);
     return { notFound: true };
   }
 }

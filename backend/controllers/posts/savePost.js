@@ -6,6 +6,7 @@ const { ObjectId } = require('mongoose').Types;
 const savePost = async (req, res) => {
   const { id } = req.params;
   const { title, imageUrl, elements, status } = req.body;
+  console.log(imageUrl, "IMAGEURL 1")
 
   if (!ObjectId.isValid(id)) {
     return res.status(400).json({ message: 'Invalid post ID' });
@@ -17,7 +18,7 @@ const savePost = async (req, res) => {
       post = await PostSave.create({ _id: id, title, elements: [], slug: generateSlug(title) });
     }
 
-    const updates = { title, elements, status };
+    const updates = { title, imageUrl, elements, status };
 
     if (imageUrl && imageUrl.startsWith('data:image')) {
       updates.imageUrl = await processImageUpload(imageUrl);

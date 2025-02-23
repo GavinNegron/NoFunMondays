@@ -12,6 +12,7 @@ const { fetchTitle } = require('../controllers/posts/fetchTitle');
 const { fetchSlug } = require('../controllers/posts/fetchSlug');
 const { fetchSlugAdmin } = require('../controllers/posts/fetchSlugAdmin');
 const { fetchPostViews } = require('../controllers/analytics/fetchPostViews');
+const { getRedirect } = require('../controllers/posts/getRedirect');
 
 const passport = require('passport');
 const setAuthHeader = require('../middleware/setAuthHeader');
@@ -26,6 +27,9 @@ module.exports = function(app){
     app.get('/api/posts/slug/:slug', fetchSlug)
 
     app.get('/api/posts/title', fetchTitle)
+
+    app.get('/api/posts/redirects/:slug', getRedirect);
+
 
     // PROTECTED ROUTES
     app.get('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), getPosts)

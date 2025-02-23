@@ -2,13 +2,17 @@ const Posts = require('../../models/Posts');
 
 const getRecentPosts = async (req, res) => {
   try {
-      const { limit = 8, type } = req.query;
+      const { limit = 8, type, excludeSlug } = req.query;
 
       if (!type || !['all', 'recent', 'featured', 'challenge'].includes(type)) {
           return res.status(400).json({ status: "Failed", message: "Invalid or missing type" });
       }
 
       let query = { status: 'published' };
+
+      if (excludeSlug) {
+          query.slug = { $ne: excludeSlug };
+      }
 
       switch (type) {
           case 'featured':
@@ -26,6 +30,7 @@ const getRecentPosts = async (req, res) => {
           case 'all':
               break;
       }
+
       const posts = await Posts.find(query).sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
 
       res.status(200).json(posts);
