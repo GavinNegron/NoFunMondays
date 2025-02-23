@@ -171,79 +171,114 @@ export const publishPost = async (post, postElements, isFeatured, isChallenge) =
   return response.data;
 };
 
+const getSignedUrl = async (fileName, fileType) => {
+  const response = await axios.get(`/api/upload/signed-url?fileName=${fileName}&fileType=${fileType}`);
+  return response.data;
+};
+
+const uploadToCloud = async (base64Image) => {
+  if (!base64Image.startsWith('data:image')) return base64Image;
+
+  const byteString = atob(base64Image.split(',')[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+
+  const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+  const fileName = `images/${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
+
+  const { signedUrl, publicUrl } = await getSignedUrl(fileName, blob.type);
+
+  await fetch(signedUrl, {
+    method: 'PUT',
+    body: blob,
+    headers: { 'Content-Type': blob.type },
+  });
+
+  return publicUrl;
+};
+
 export const savePost = async (post, postElements) => {
-  const imageUrl = document.querySelector('.banner img').src;
+  let imageUrl = document.querySelector('.banner img').src;
+  imageUrl = await uploadToCloud(imageUrl);
+
   const stylesMap = new Map();
 
-  const updatedElements = postElements.map(element => {
-  const elementDom = document.getElementById(element.id);
-    if (elementDom) {
-      stylesMap.set(element.id, getElementStyles(elementDom));
+  const updatedElements = await Promise.all(
+    postElements.map(async (element) => {
+      const elementDom = document.getElementById(element.id);
+      if (elementDom) {
+        stylesMap.set(element.id, getElementStyles(elementDom));
 
-      let elementType;
-      let elementImageUrl;
-      let elementImageAlt;
+        let elementType;
+        let elementImageUrl;
+        let elementImageAlt;
 
-      if (elementDom.classList.contains('image')) {
-        elementType = 'image';
-        elementImageUrl = elementDom.querySelector('img').src;
-        elementImageAlt = elementDom.querySelector('img').alt;
-
-      } else {
-        const matchedClass = Object.keys(elements).find(key =>
-          Array.isArray(elements[key]?.classes) &&
-          elements[key].classes.some(clsObj => elementDom.classList.contains(clsObj.class))
-        );
-
-        if (matchedClass) {
-          const matchedClsObj = elements[matchedClass].classes.find(clsObj =>
-            elementDom.classList.contains(clsObj.class)
-          );
-          elementType = matchedClsObj ? matchedClsObj.class : 'default-text';
+        if (elementDom.classList.contains('image')) {
+          elementType = 'image';
+          elementImageUrl = elementDom.querySelector('img').src;
+          elementImageAlt = elementDom.querySelector('img').alt;
+          elementImageUrl = await uploadToCloud(elementImageUrl);
         } else {
-          elementType = 'default-text';
-        }
-      }
+          const matchedClass = Object.keys(elements).find((key) =>
+            Array.isArray(elements[key]?.classes) &&
+            elements[key].classes.some((clsObj) => elementDom.classList.contains(clsObj.class))
+          );
 
-      let content = elementDom.innerText || element.content;
-      content = DOMPurify.sanitize(content);
-
-      const updatedElement = {
-        ...element,
-        type: elementType,
-        content: elementType === 'bullet' ? null : content,
-        style: { ...getElementStyles(elementDom) },
-      };
-
-      switch (elementType) {
-        case 'image': {
-          updatedElement.imageUrl = elementImageUrl;
-          updatedElement.imageAlt = elementImageAlt;
-          break;
-        }
-      
-        case 'bullet': {
-          const liElements = Array.from(elementDom.querySelectorAll('ul li'));
-          updatedElement.listItems = liElements.map(li => li.textContent);
-          break;
-        }
-      
-        case 'twitter': {
-          const tweetDiv = elementDom.querySelector('[data-tweetid]'); 
-          if (tweetDiv) {
-            updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
+          if (matchedClass) {
+            const matchedClsObj = elements[matchedClass].classes.find((clsObj) =>
+              elementDom.classList.contains(clsObj.class)
+            );
+            elementType = matchedClsObj ? matchedClsObj.class : 'default-text';
+          } else {
+            elementType = 'default-text';
           }
-          break;
         }
+
+        let content = elementDom.innerText || element.content;
+        content = DOMPurify.sanitize(content);
+
+        const updatedElement = {
+          ...element,
+          type: elementType,
+          content: elementType === 'bullet' ? null : content,
+          style: { ...getElementStyles(elementDom) },
+        };
+
+        switch (elementType) {
+          case 'image': {
+            updatedElement.imageUrl = elementImageUrl;
+            updatedElement.imageAlt = elementImageAlt;
+            break;
+          }
+
+          case 'bullet': {
+            const liElements = Array.from(elementDom.querySelectorAll('ul li'));
+            updatedElement.listItems = liElements.map((li) => li.textContent);
+            break;
+          }
+
+          case 'twitter': {
+            const tweetDiv = elementDom.querySelector('[data-tweetid]');
+            if (tweetDiv) {
+              updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
+            }
+            break;
+          }
+        }
+        return updatedElement;
       }
-      return updatedElement;
-    }
-    return element;
-  });
+      return element;
+    })
+  );
+
   const title = document.getElementsByClassName('blog-post-main__title')[0]?.textContent.trim();
   const updatedPost = {
     ...post,
-    title, 
+    title,
+    imageUrl,
     status: 'draft',
     elements: updatedElements,
   };
@@ -255,7 +290,6 @@ export const savePost = async (post, postElements) => {
   return response.data;
 };
 
-// ANALYTICS
 export const fetchPostViews = async (slug, days) => {
   const query = new URLSearchParams();
   if (slug) query.append('slug', slug);

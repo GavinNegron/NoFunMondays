@@ -4,6 +4,7 @@ const { getRecentPosts } = require('../controllers/posts/fetchRecentPosts');
 const { setFeaturedPost } = require('../controllers/posts/setFeaturedPost');
 const { createPost } = require('../controllers/posts/createPost');
 const { savePost } = require('../controllers/posts/savePost');
+const { signedUrl } = require('../controllers/posts/signedUrl');
 const { updatePost } = require('../controllers/posts/updatePost');
 const { deletePost } = require('../controllers/posts/deletePost');
 const { deletePostElement } = require('../controllers/posts/deletePostElement');
@@ -38,6 +39,8 @@ module.exports = function(app){
     app.put('/api/posts/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), updatePost)
 
     app.put('/api/posts/save/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), savePost)
+    
+    app.get('/api/upload/signed-url', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), signedUrl)
 
     app.delete('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
 

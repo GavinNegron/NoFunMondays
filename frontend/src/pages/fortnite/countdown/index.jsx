@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Navbar from '@/components/layout/navbar';
 
 const SeasonCountdown = () => {
-    const targetDate = new Date('February 21, 2025 02:00:00 GMT-5').getTime();
+    const targetDate = new Date('May 2, 2025 02:00:00 GMT-5').getTime();
     const [timeLeft, setTimeLeft] = useState(null);
 
     function calculateTimeLeft() {
@@ -43,11 +43,11 @@ const SeasonCountdown = () => {
                 <title>Season Countdown - NoFunMondays</title>
             </Head>
             <Navbar />
-            <main className="main d-flex justify-content-center">
+            <main className="main d-flex justify-content-center align-items-center">
                 <div className="fortnite-countdown">
                     <div className="fortnite-countdown__inner">
                         <div className="fortnite-countdown__image">
-                            <img src="/images/lawless.jpg" alt="" />
+                            <img src="/images/lawless2.jpg" alt="" />
                         </div>
                         <div className="fortnite-countdown__timer">
                             <div className="fortnite-countdown__timer-header">

@@ -20,50 +20,48 @@ const updatePost = async (req, res) => {
 
     const updates = { title, elements, status, featured, challenge, updatedAt: new Date() };
 
-    if (imageUrl && imageUrl !== post.imageUrl) {
-      updates.imageUrl = await processImageUpload(imageUrl);
-    }
-
     if (elements && Array.isArray(elements)) {
       for (let i = 0; i < elements.length; i++) {
-        if (
-          elements[i].type === "image" &&
-          elements[i].imageUrl.startsWith("data:image")
-        ) {
+        if (elements[i].type === "image" && elements[i].imageUrl.startsWith("data:image")) {
           elements[i].imageUrl = await processImageUpload(elements[i].imageUrl);
         }
       }
     }
 
     if (title && title !== post.title) {
+      const existingPostSave = await PostSave.findOne({ title });
+      if (existingPostSave && existingPostSave._id.toString() !== id) {
+        return res.status(400).json({ message: "Title already exists" });
+      }
+
       const newSlug = generateSlug(title);
-    
       if (newSlug !== post.slug) {
         updates.slug = newSlug;
-    
-        // Remove any existing redirect that matches the new slug
+
         const filteredRedirects = post.redirects.filter((redirect) => redirect !== newSlug);
-    
-        // Only add the old slug if it's not already in the filtered list
         if (!filteredRedirects.includes(post.slug)) {
           filteredRedirects.push(post.slug);
         }
-    
+
         updates.redirects = filteredRedirects;
       }
     }
-    
 
     const updatedPost = await Post.findByIdAndUpdate(id, updates, { new: true });
-    await PostSave.updateMany({ postId: id }, { $set: updates });
 
+    await PostSave.updateMany(
+      { _id: id },
+      { $set: updates }
+    );
 
     res.status(200).json(updatedPost);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Duplicate title error" });
+    }
     res.status(500).json({ error: error.message });
   }
 };
-
 
 const processImageUpload = async (base64Image) => {
   const buffer = Buffer.from(base64Image.split(',')[1], 'base64');
