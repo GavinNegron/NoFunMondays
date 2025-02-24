@@ -26,11 +26,9 @@ function NewPost() {
         const handleClick = (e) => {
             const newPost = document.querySelector('.new-post');
             if (newPost && newPost.contains(e.target)) {
-                handleClickOutside(e, '.new-post__inner', '.new-post');
-                
+                handleClickOutside(e, '.new-post__inner', '.new-post');  
             }
         };
-    
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
     }, []);

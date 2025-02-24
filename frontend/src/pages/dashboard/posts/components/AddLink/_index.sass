@@ -1,0 +1,62 @@
+.addLink
+    display: none
+    width: 100vw
+    height: 100vh
+    background: rgba(0, 0, 0, 0.6117647059)
+    z-index: 100000
+    position: fixed
+    top: 0
+    left: 0
+    align-items: center
+    justify-content: center
+    color: white
+    font-family: 'Poppins'
+
+    &__inner
+        width: 300px
+        background-color: #121212
+        display: flex
+        border: solid 1px #2b2b2b
+        flex-direction: column
+        padding: 15px
+
+    &__header
+        font-weight: 600
+
+    &__content
+        display: flex
+        gap: 10px
+        flex-direction: column
+        padding: 10px 0
+        
+    &__item
+        font-weight: 300
+        display: flex
+        flex-direction: column
+        gap: 5px
+
+        input
+            background-color: #2b2b2b
+            padding: 10px
+            border-radius: 2px
+            color: #e2e2e2
+            
+            &:focus
+                outline: solid 1px #404040
+
+    &__input
+        display: flex
+        justify-content: center
+        gap: 10px
+
+        &__item
+            width: 50%
+
+            button
+                background-color: #1c1c1c
+                width: 100%
+                padding: 10px
+                color: white
+                font-family: 'Poppins'
+                font-weight: 500
+                border-radius: 2px

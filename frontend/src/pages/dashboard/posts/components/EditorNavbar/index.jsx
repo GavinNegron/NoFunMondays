@@ -15,8 +15,17 @@ function EditNavbar() {
 
     useEffect(() => {
         resetAutoSave();
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                handleSave();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
         return () => {
             if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+            window.removeEventListener('keydown', handleKeyDown);
         };
     }, [post, postElements]);
 

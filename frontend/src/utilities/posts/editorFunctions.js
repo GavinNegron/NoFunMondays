@@ -37,7 +37,28 @@ export const handleDoubleClick = (event) => {
                 document.execCommand('insertText', false, '\n');
             }
         });
-    }
+        element.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const selection = window.getSelection().toString().trim();
+                const urlPattern = /^(https?:\/\/[^\s]+)/;
+        
+                if (selection) {
+                    document.querySelector('#addLink-text').value = selection;
+                    if (urlPattern.test(selection)) {
+                        document.querySelector('#addLink-address').value = selection;
+                    } else {
+                        document.querySelector('#addLink-address').value = '';
+                    }
+                } else {
+                    document.querySelector('#addLink-text').value = '';
+                    document.querySelector('#addLink-address').value = '';
+                }
+        
+                document.querySelector('.addLink').style.display = 'flex';
+            }
+        });
+    }        
 };
 
 
@@ -138,4 +159,27 @@ export const handleElementClick = (element, setSelectedElement) => {
         $('.edit-embed-styles').stop(true, true).fadeIn('fast')
         $('.edit-embed-styles').css('display', 'flex').show()
     }
+};
+
+export const handleAddLink = (selectedElement, updatePostElement) => {
+    const textInput = document.querySelector('#addLink-text').value.trim();
+    const linkInput = document.querySelector('#addLink-address').value.trim();
+
+    if (!textInput || !linkInput || !selectedElement) return;
+
+    const escapedId = CSS.escape(selectedElement.id);
+    const element = document.querySelector(`#${escapedId}`);
+    if (!element) return;
+
+    const innerTag = element.firstElementChild;
+    if (!innerTag) return;
+
+    const innerHTML = innerTag.innerHTML;
+    const regex = new RegExp(`(${textInput})`, 'g');
+    const updatedHTML = innerHTML.replace(regex, `<a class='link' href="${linkInput}" target="_blank">${textInput}</a>`);
+
+    innerTag.innerHTML = updatedHTML;
+    document.querySelector('.addLink').style.display = 'none';
+
+    updatePostElement(selectedElement.id, updatedHTML);
 };

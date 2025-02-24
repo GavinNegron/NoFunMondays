@@ -17,9 +17,11 @@ import EditorSidebar from '../components/Sidebar/index';
 import { handleDrop, handleDragOver } from '@/utilities/dragUtils';
 import RenderElements from '@/utilities/posts/renderEditorElements';
 import { handleElementClick, handleDoubleClick } from '@/utilities/posts/editorFunctions';
+import { handleClickOutside } from '@/utilities/domUtils';
 
 // Layout
-import EditStyles from '../components/EditStyles/EditStyles';
+import EditStyles from '../components/EditStyles';
+import AddLink from '../components/AddLink/'
 
 // Features
 import { fetchSlug, addPostElement, deletePostElement } from '@/features/posts/postAction';
@@ -100,6 +102,18 @@ function BlogPostEditor() {
         handleDrop(e, dispatch, addPostElement);
     };
 
+    useEffect(() => {
+        const handleClick = (e) => {
+            const newPost = document.querySelector('.addLink');
+            if (newPost && newPost.contains(e.target)) {
+                handleClickOutside(e, '.addLink__inner', '.addLink');
+            }
+        };
+    
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, []);
+
     if (loadingState || isLoading) {
         return <LoadingScreen />;
     }
@@ -160,6 +174,7 @@ function BlogPostEditor() {
                 <EditStyles type='image'/>
                 <EditStyles type='list'/>
                 <EditStyles type='embed'/>
+                <AddLink/>
             </div>
             <Script async src="https://platform.twitter.com/widgets.js"></Script>
         </>

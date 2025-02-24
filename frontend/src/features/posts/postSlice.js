@@ -28,6 +28,17 @@ const postSlice = createSlice({
         );
       }
     },
+    updatePostElement: (state, action) => {
+      if (state.post) {
+        const { elementId, updatedContent } = action.payload;
+        const elementIndex = state.postElements.findIndex(
+          (element) => element.id === elementId
+        );
+        if (elementIndex !== -1) {
+          state.postElements[elementIndex].content = updatedContent;
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -98,4 +109,5 @@ const postsReducer = combineReducers({
   post: postSlice.reducer, 
 });
 
+export const { addPostElement, deletePostElement, updatePostElement } = postSlice.actions;
 export default postsReducer;

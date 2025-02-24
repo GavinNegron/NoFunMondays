@@ -200,6 +200,15 @@ const uploadToCloud = async (base64Image) => {
   return publicUrl;
 };
 
+export const fetchPostViews = async (slug, days) => {
+  const query = new URLSearchParams();
+  if (slug) query.append('slug', slug);
+  if (days) query.append('days', days);
+
+  const response = await axios.get(`/api/posts/analytics/views?${query.toString()}`);
+  return response.data;
+};
+
 export const savePost = async (post, postElements) => {
   let imageUrl = document.querySelector('.banner img')?.src;
   imageUrl = await uploadToCloud(imageUrl);
@@ -237,8 +246,9 @@ export const savePost = async (post, postElements) => {
           }
         }
 
-        let content = elementDom.innerText || element.content;
-        content = DOMPurify.sanitize(content);
+        let content = elementDom.innerHTML || element.content;
+        content = DOMPurify.sanitize(content, { ALLOWED_TAGS: ['a',], ALLOWED_ATTR: ['href', 'target', 'class'] });
+        console.log(content)
 
         const updatedElement = {
           ...element,
@@ -287,14 +297,5 @@ export const savePost = async (post, postElements) => {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  return response.data;
-};
-
-export const fetchPostViews = async (slug, days) => {
-  const query = new URLSearchParams();
-  if (slug) query.append('slug', slug);
-  if (days) query.append('days', days);
-
-  const response = await axios.get(`/api/posts/analytics/views?${query.toString()}`);
   return response.data;
 };

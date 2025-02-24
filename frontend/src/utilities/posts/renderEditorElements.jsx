@@ -91,7 +91,8 @@ const RenderElements = ({ element }) => {
         case 'h6':
           return <h6>{element.content}</h6>; 
         default:
-          return <p>{element.content}</p>;
+          return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
+
     }
   };
 
