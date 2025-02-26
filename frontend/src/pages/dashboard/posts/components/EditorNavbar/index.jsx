@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
-
+import { useEditorContext } from '@/contexts/EditorContext';
 // UTILITIES
 import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
@@ -18,6 +18,11 @@ import Publish from '../Publish/index';
 import { savePost } from '@/features/posts/postAction';
 
 function EditNavbar() {
+    const {
+        selectedElement,
+        setStyle
+    } = useEditorContext();
+
     const dispatch = useDispatch();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const postSlug = post?.slug;
@@ -60,6 +65,11 @@ function EditNavbar() {
             resetAutoSave();
         }, 60000);
     };
+
+    const handleFamilyChange = (e) => {
+        selectedElement.style.fontFamily = e.target.value;
+        setStyle(prevStyle => ({ ...prevStyle, fontFamily: e.target.value }));
+      };
     
     if (!postStatus) return null;
 
