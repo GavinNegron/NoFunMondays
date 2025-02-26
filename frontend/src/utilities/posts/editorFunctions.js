@@ -17,6 +17,7 @@ export const handleDoubleClick = (event, dispatch, updatePostElement) => {
     
     const handleClickOutside = (e) => {
       if (!element.contains(e.target)) {
+        dispatch(updatePostElement(element.id, element.innerHTML.trim())); 
         element.contentEditable = false;
         element.removeEventListener('keydown', handleKeyDown);
         element.removeEventListener('keyup', handleKeyUp);
@@ -70,11 +71,6 @@ export const handleDoubleClick = (event, dispatch, updatePostElement) => {
         if (formatCommands[e.key.toLowerCase()]) {
           e.preventDefault();
           document.execCommand(formatCommands[e.key.toLowerCase()], false, null);
-          
-          const innerTag = element.firstElementChild;
-          const updatedHTML = innerTag ? innerTag.innerHTML : element.innerHTML;
-          
-          dispatch(updatePostElement(element.id, updatedHTML));
         }
       }
     };
