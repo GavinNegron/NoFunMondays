@@ -24,7 +24,7 @@ import EditStyles from '../components/EditStyles';
 import AddLink from '../components/AddLink/'
 
 // Features
-import { fetchSlug, addPostElement, deletePostElement } from '@/features/posts/postAction';
+import { fetchSlug, addPostElement, deletePostElement, updatePostElement } from '@/features/posts/postAction';
 
 // Stylesheets
 import '../../../../../public/css/dashboard.css';
@@ -160,7 +160,7 @@ function BlogPostEditor() {
                                 className="blog-post-element title blog-post-main__title"
                                 tabIndex="0"
                                 onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
-                                onDoubleClick={(e) => handleDoubleClick(e)}
+                                onDoubleClick={(e) => handleDoubleClick(e, dispatch, updatePostElement)}
                             >
                                 <span>{post?.title}</span>
                             </div>

@@ -17,7 +17,20 @@ const pageViews = async (req, res) => {
 
   if (refreshToken || accessToken) return res.status(200).json({ message: 'Authenticated user, view not counted' });
 
-  res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true }); 
+  const localhostIps = new Set([
+    '127.0.0.1',
+    '::1',
+    '::ffff:127.0.0.1',
+    '::ffff:127.0.0.2',
+    '0.0.0.0',
+    '::'
+  ]);
+
+  if (localhostIps.has(ipAddress) || ipAddress.startsWith('::ffff:127.')) {
+    return res.status(200).json({ message: 'Localhost view not counted' });
+  }
+
+  res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true });
 
   const parser = new UAParser(userAgent);
   const browser = parser.getBrowser().name || 'unknown';
@@ -48,6 +61,5 @@ const pageViews = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 module.exports = { pageViews };

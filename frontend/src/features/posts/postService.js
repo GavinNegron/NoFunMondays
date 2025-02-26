@@ -108,8 +108,8 @@ export const publishPost = async (post, postElements, isFeatured, isChallenge) =
         }
       }
 
-      let content = elementDom.innerText || element.content;
-      content = DOMPurify.sanitize(content);
+      let content = elementDom.innerHTML || element.content;
+      content = DOMPurify.sanitize(content, { ALLOWED_TAGS: ['a', 'i', 'b', 'u'], ALLOWED_ATTR: ['href', 'target', 'class'] });
 
       const updatedElement = {
         ...element,
@@ -247,8 +247,7 @@ export const savePost = async (post, postElements) => {
         }
 
         let content = elementDom.innerHTML || element.content;
-        content = DOMPurify.sanitize(content, { ALLOWED_TAGS: ['a',], ALLOWED_ATTR: ['href', 'target', 'class'] });
-        console.log(content)
+        content = DOMPurify.sanitize(content, { ALLOWED_TAGS: ['a', 'i', 'b', 'u'], ALLOWED_ATTR: ['href', 'target', 'class'] });
 
         const updatedElement = {
           ...element,

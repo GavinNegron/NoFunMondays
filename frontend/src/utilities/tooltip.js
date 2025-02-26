@@ -2,26 +2,26 @@ import React from 'react';
 import { Tooltip } from 'react-tooltip';  
 import 'react-tooltip/dist/react-tooltip.css';
 
-const CustomTooltip = ({ id, header, description, place, fontWeight, background, color, offset }) => {
-  let margin;
+const CustomTooltip = ({ id, header, description, place, fontWeight, background, color, offset, margin, delay }) => {
   let weight;
   
-  if (place === 'bottom') {
-    offset = [-10, 10];  
-    margin = '70px 0 0 0'
+  if (place === 'bottom' && offset === undefined && margin === undefined) {
+    offset = [10, 10];  
+    margin = '50px 0 0 0';
   }
 
   if (place === 'right') {
-    margin = '0 0 0 30px'
+    margin = '0 0 0 30px';
   }
 
   if (!fontWeight) {
-    if(!description) {
-      weight = '500'
+    if (!description) {
+      weight = '500';
     }
   } else {
-    weight = fontWeight
+    weight = fontWeight;
   }
+
   return (
     <>
       <Tooltip 
@@ -43,7 +43,8 @@ const CustomTooltip = ({ id, header, description, place, fontWeight, background,
         offset={offset}  
         boundary="viewport" 
         zIndex="100000"
-        >
+        delayShow={delay || 0} 
+      >
         <div>
           <strong 
             className="tooltip-header" 

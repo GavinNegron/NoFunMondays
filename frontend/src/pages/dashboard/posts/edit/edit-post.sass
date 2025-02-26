@@ -5,7 +5,7 @@
 @import '../../../../styles/layout/layout'
 @import '../../../../styles/components/posts/post-grid'
 @import '../../../../styles/components/posts/post-elements'
-@import '../components/EditorNavbar/nav1'
+@import '../components/EditorNavbar/'
 @import '../components/EditStyles/edit-styles'
 @import '../components/Publish/publish'
 
@@ -16,6 +16,7 @@
     position: relative
     width: calc(100% - 78px)
     left: 78px
+    top: 20px
     margin: 120px 0
 
 .blog-post-main
@@ -24,15 +25,16 @@
     width: 768px
     box-shadow: 0 0 7px 2px #171717
     z-index: 100
+    overflow: hidden
 
     &__inner
         padding: 30px 55px
 
 .editor-container
-    position: absolute
+    position: fixed
     left: 78px
     margin-bottom: 70px
-    top: 120px
+    top: 165px
     
 .editor
     &__back 

@@ -1,66 +1,97 @@
 import elements from '@/data/elements'
 import $ from 'jquery'
 
-export const handleDoubleClick = (event) => {
-    const element = event.currentTarget;
-    const textClasses = elements.text.classes.map(item => item.class);
-    const listClasses = elements.lists.classes.map(item => item.class);
-
-    const editableClasses = [...textClasses, ...listClasses];
-
-    if (editableClasses.some(cls => element.classList.contains(cls))) {
-        element.contentEditable = true;
-        element.style.outline = "none";
-        element.spellcheck = false;
-        element.focus();
-
-        const handleClickOutside = (e) => {
-            if (!element.contains(e.target)) {
-                element.contentEditable = false;
-                document.removeEventListener('mousedown', handleClickOutside);
-            }
+export const handleDoubleClick = (event, dispatch, updatePostElement) => {
+  const element = event.currentTarget;
+  const textClasses = elements.text.classes.map(item => item.class);
+  const listClasses = elements.lists.classes.map(item => item.class);
+  const editableClasses = [...textClasses, ...listClasses];
+  
+  if (editableClasses.some(cls => element.classList.contains(cls))) {
+    element.contentEditable = true;
+    element.style.outline = "none";
+    element.spellcheck = false;
+    element.focus();
+    
+    let enterKeyReleased = true;
+    
+    const handleClickOutside = (e) => {
+      if (!element.contains(e.target)) {
+        element.contentEditable = false;
+        element.removeEventListener('keydown', handleKeyDown);
+        element.removeEventListener('keyup', handleKeyUp);
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        
+        if (!e.shiftKey) {
+          element.contentEditable = false;
+          element.removeEventListener('keydown', handleKeyDown);
+          element.removeEventListener('keyup', handleKeyUp);
+          document.removeEventListener('mousedown', handleClickOutside);
+        } else if (e.shiftKey && enterKeyReleased) {
+          enterKeyReleased = false;
+          
+          if (element.innerHTML.trim() === '') {
+            element.innerHTML = '&nbsp;';
+          }
+          document.execCommand('insertText', false, '\n');
+        }
+      } else if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const selection = window.getSelection().toString().trim();
+        const urlPattern = /^(https?:\/\/[^\s]+)/;
+        if (selection) {
+          document.querySelector('#addLink-text').value = selection;
+          if (urlPattern.test(selection)) {
+            document.querySelector('#addLink-address').value = selection;
+          } else {
+            document.querySelector('#addLink-address').value = '';
+          }
+        } else {
+          document.querySelector('#addLink-text').value = '';
+          document.querySelector('#addLink-address').value = '';
+        }
+        document.querySelector('.addLink').style.display = 'flex';
+      } 
+      else if (e.ctrlKey) {
+        const formatCommands = {
+          'b': 'bold',
+          'i': 'italic',
+          'u': 'underline'
         };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        element.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                element.contentEditable = false;
-                  
-                document.removeEventListener('mousedown', handleClickOutside);
-            } else if (e.key === 'Enter' && e.shiftKey) {
-                e.preventDefault();
-                if (element.innerHTML.trim() === '') {
-                    element.innerHTML = '&nbsp;';
-                }
-                document.execCommand('insertText', false, '\n');
-            }
-        });
-        element.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
-                e.preventDefault();
-                const selection = window.getSelection().toString().trim();
-                const urlPattern = /^(https?:\/\/[^\s]+)/;
         
-                if (selection) {
-                    document.querySelector('#addLink-text').value = selection;
-                    if (urlPattern.test(selection)) {
-                        document.querySelector('#addLink-address').value = selection;
-                    } else {
-                        document.querySelector('#addLink-address').value = '';
-                    }
-                } else {
-                    document.querySelector('#addLink-text').value = '';
-                    document.querySelector('#addLink-address').value = '';
-                }
-        
-                document.querySelector('.addLink').style.display = 'flex';
-            }
-        });
-    }        
+        if (formatCommands[e.key.toLowerCase()]) {
+          e.preventDefault();
+          document.execCommand(formatCommands[e.key.toLowerCase()], false, null);
+          
+          const innerTag = element.firstElementChild;
+          const updatedHTML = innerTag ? innerTag.innerHTML : element.innerHTML;
+          
+          dispatch(updatePostElement(element.id, updatedHTML));
+        }
+      }
+    };
+    
+    const handleKeyUp = (e) => {
+      if (e.key === 'Enter') {
+        enterKeyReleased = true;
+      }
+    };
+    
+    element.removeEventListener('keydown', handleKeyDown);
+    element.removeEventListener('keyup', handleKeyUp);
+    
+    element.addEventListener('keydown', handleKeyDown);
+    element.addEventListener('keyup', handleKeyUp);
+  }
 };
-
 
 export const handleMouseDown = (e, setIsDragging, setPosition) => {
     const element = e.target.closest('.edit-styles');
@@ -161,7 +192,7 @@ export const handleElementClick = (element, setSelectedElement) => {
     }
 };
 
-export const handleAddLink = (selectedElement, updatePostElement) => {
+export const handleAddLink = (selectedElement, dispatch, updatePostElement) => {
     const textInput = document.querySelector('#addLink-text').value.trim();
     const linkInput = document.querySelector('#addLink-address').value.trim();
 
@@ -181,5 +212,21 @@ export const handleAddLink = (selectedElement, updatePostElement) => {
     innerTag.innerHTML = updatedHTML;
     document.querySelector('.addLink').style.display = 'none';
 
-    updatePostElement(selectedElement.id, updatedHTML);
+    dispatch(updatePostElement(selectedElement.id, updatedHTML));
+};
+
+export const handleEditorOpen = () => {
+  $(".editor-navbar__bottom").slideDown(75);
+  $(".editor-open").hide();
+  $(".editor-close").show();
+  document.querySelector(".blog-post-content").style.top = '20px'
+  document.querySelector(".editor-container").style.top = '165px'
+};
+
+export const handleEditorClose = () => {
+  $(".editor-navbar__bottom").slideUp(75);
+  $(".editor-open").show();
+  $(".editor-close").hide();
+  document.querySelector(".blog-post-content").style.top = '-10px'
+  document.querySelector(".editor-container").style.top = '135px'
 };

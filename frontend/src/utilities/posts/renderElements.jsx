@@ -26,20 +26,20 @@ const RenderElements = ({ element }) => {
         return <span className="divider__container"></span>;
       case 'twitter':
         return <TwitterEmbed tweetID={element.twitterId} />
-      case 'h1':
-        return <h1>{element.content}</h1>;
-      case 'h2':
-        return <h2>{element.content}</h2>;
-      case 'h3':
-        return <h3>{element.content}</h3>;
-      case 'h4':
-        return <h4>{element.content}</h4>;
-      case 'h5':
-        return <h5>{element.content}</h5>;
-      case 'h6':
-        return <h6>{element.content}</h6>; 
-      default:
-        return <p>{element.content}</p>;
+        case 'h1':
+          return <h1 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        case 'h2':
+          return <h2 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        case 'h3':
+          return <h3 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        case 'h4':
+          return <h4 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        case 'h5':
+          return <h5 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        case 'h6':
+          return <h6 dangerouslySetInnerHTML={{ __html: element.content }} />;
+        default:
+          return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
     }
   };
 

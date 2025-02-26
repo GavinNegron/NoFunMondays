@@ -1,6 +1,7 @@
 import { handleAddLink } from '@/utilities/posts/editorFunctions';
 import { useEditorContext } from '@/contexts/EditorContext'
 import { updatePostElement } from '@/features/posts/postAction'
+import { useDispatch } from 'react-redux';
 import './_index.sass';
 
 
@@ -8,6 +9,8 @@ const AddLink = () => {
     const {
         selectedElement,
     } = useEditorContext();
+
+    const dispatch = useDispatch();
 
     return (
       <div className="addLink">
@@ -30,7 +33,7 @@ const AddLink = () => {
                         <button id='addLink-cancel' onClick={() => { document.querySelector('.addLink').style.display = 'none'; }}>Cancel</button>
                     </div>
                     <div className="addLink__input__item">
-                        <button id='addLink-submit' onClick={() => handleAddLink(selectedElement, updatePostElement)}>Submit</button>
+                        <button id='addLink-submit' onClick={() => handleAddLink(selectedElement, dispatch, updatePostElement)}>Submit</button>
                     </div>
                 </div>
             </div>

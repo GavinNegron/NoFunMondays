@@ -1,17 +1,25 @@
+// REACT
 import React, { useState, useEffect } from 'react';
+import { useEditorContext } from '@/contexts/EditorContext';
+import { useDispatch } from 'react-redux';
+
+// UTILITIES
 import { handleDrop, handleDragOver } from '../dragUtils';
 import { handleDoubleClick } from './editorFunctions';
-import TwitterEmbed from './TwitterEmbed';
 import { handleElementClick } from './editorFunctions';
-import { useEditorContext } from '@/contexts/EditorContext';
 
+// COMPONENTS
+import TwitterEmbed from './TwitterEmbed';
+import { updatePostElement } from '@/features/posts/postAction';
 
 const RenderElements = ({ element }) => {
   const {
     setSelectedElement,
     setPreviewImage,
   } = useEditorContext();
-  
+
+  const dispatch = useDispatch();
+
   const [twitterUrl, setTwitterUrl] = useState('');
   const [twitterId, setTwitterId] = useState('');
 
@@ -21,8 +29,7 @@ const RenderElements = ({ element }) => {
     }
   }, [element.twitterId]);
 
-  useEffect(() => {
-  }, [twitterId]);
+  useEffect(() => {}, [twitterId]);
 
   const handleInputChange = (e) => {
     setTwitterUrl(e.target.value);
@@ -44,6 +51,25 @@ const RenderElements = ({ element }) => {
   if (!element) return null;
 
   const elementId = `${element.id}`;
+
+  const handleClick = (e) => {
+    if (e.target.tagName === 'A') {
+      e.preventDefault();
+      e.stopPropagation();
+  
+      const linkText = e.target.textContent.trim();
+      const linkAddress = e.target.getAttribute('href') || '';
+  
+      document.querySelector('#addLink-text').value = linkText;
+      document.querySelector('#addLink-address').value = linkAddress;
+  
+      document.querySelector('.addLink').style.display = 'flex';
+    } else {
+      handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage);
+    }
+  };
+  
+  
 
   const renderContent = () => {
     switch (element.type) {
@@ -78,21 +104,20 @@ const RenderElements = ({ element }) => {
             <button onClick={handleEmbedClick}>Embed</button>
           </div>
         );
-        case 'h1':
-          return <h1>{element.content}</h1>;
-        case 'h2':
-          return <h2>{element.content}</h2>;
-        case 'h3':
-          return <h3>{element.content}</h3>;
-        case 'h4':
-          return <h4>{element.content}</h4>;
-        case 'h5':
-          return <h5>{element.content}</h5>;
-        case 'h6':
-          return <h6>{element.content}</h6>; 
-        default:
-          return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
-
+      case 'h1':
+        return <h1 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h2':
+        return <h2 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h3':
+        return <h3 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h4':
+        return <h4 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h5':
+        return <h5 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h6':
+        return <h6 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      default:
+        return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
     }
   };
 
@@ -105,8 +130,8 @@ const RenderElements = ({ element }) => {
       style={element.style || {}}
       onDrop={(e) => handleDrop(e)}
       onDragOver={handleDragOver}
-      onClick={(e) => handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage)}
-      onDoubleClick={(e) => handleDoubleClick(e)}
+      onClick={handleClick}
+      onDoubleClick={(e) => handleDoubleClick(e, dispatch, updatePostElement)}
       tabIndex="0"
     >
       {renderContent()}

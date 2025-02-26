@@ -86,10 +86,8 @@ export const handleDrop = (e, dispatch, addPostElement) => {
     }
   }
 
-  // Remove existing drop indicators
   innerContainer.querySelectorAll('.drop-indicator').forEach(el => el.remove());
 
-  // Insert the new element at the correct position
   dispatch(addPostElement(newElement, insertIndex));
 };
 
@@ -100,22 +98,18 @@ export const handleDragOver = (e) => {
   const containerRect = container.getBoundingClientRect();
   const mouseY = e.clientY - containerRect.top;
   
-  // Get the inner container that holds the actual elements
   const innerContainer = container.querySelector('.blog-post-main__inner');
   if (!innerContainer) {
     console.error('Inner container not found');
     return;
   }
   
-  // Remove existing drop indicators
   innerContainer.querySelectorAll('.drop-indicator').forEach(el => el.remove());
   
-  // Create new indicator
   const indicator = document.createElement('div');
   indicator.className = 'drop-indicator';
   indicator.style.cssText = 'height: 2px; background: #007bff; margin: 4px 0; transition: all 0.2s ease;';
   
-  // Get children excluding drop indicators
   const children = Array.from(innerContainer.children).filter(
     child => !child.classList.contains('drop-indicator')
   );
