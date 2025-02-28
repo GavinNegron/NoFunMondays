@@ -1,4 +1,4 @@
-.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title, .bullet, .divider, .twitter
+.image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .banner, .title, .bullet, .divider, .twitter, .video
     &:hover, &:focus
         &::before
             content: ''
@@ -59,7 +59,7 @@
     &:focus::before
         content: 'Bullet Points'
 
-.twitter
+.twitter, .video
     &:hover, &:focus
         border: solid 1px #2eb86c
         background-color: #ffaf6507
@@ -121,3 +121,8 @@
     &:hover::before,
     &:focus::before
         content: 'Twitter'
+
+.video
+    &:hover::before,
+    &:focus::before
+        content: 'Video'

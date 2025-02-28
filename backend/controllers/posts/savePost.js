@@ -6,7 +6,6 @@ const { ObjectId } = require('mongoose').Types;
 const savePost = async (req, res) => {
   const { id } = req.params;
   const { title, imageUrl, elements, status } = req.body;
-  console.log(imageUrl, "IMAGEURL 1")
 
   if (!ObjectId.isValid(id)) {
     return res.status(400).json({ message: 'Invalid post ID' });

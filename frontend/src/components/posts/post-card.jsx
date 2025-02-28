@@ -15,11 +15,18 @@ function PostCard({ post }) {
     <div className="post-card d-flex col-md-12 flex-md-row col-lg-5 flex-lg-column">
       <div className="post-card__left d-flex">
         <div className="post-card__img">
-          <Link
-            style={{ backgroundImage: `url(${post.imageUrl || '/images/placeholder.png'})` }}
-            href={`/blog/${post.slug}`}
-            aria-label={` ${post.title || 'Untitled'} `}
-          />
+          <Link href={`/blog/${post.slug}`} aria-label={`${post.title || 'Untitled'}`}>
+            <img 
+              src={post.imageUrl || '/images/placeholder.png'} 
+              alt={post.title || 'Post image'} 
+              loading="lazy"
+              style={{
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%'
+              }}
+            />
+          </Link>
         </div>
       </div>
       <div className="post-card__right d-flex">

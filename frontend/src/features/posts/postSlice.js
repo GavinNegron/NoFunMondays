@@ -101,7 +101,19 @@ const postSlice = createSlice({
       .addCase(postAction.fetchPostViews.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(postAction.fetchRecentPosts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(postAction.fetchRecentPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+      })
+      .addCase(postAction.fetchRecentPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
   },
 });
 

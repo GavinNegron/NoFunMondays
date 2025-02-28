@@ -1,9 +1,21 @@
-const UAParser = require('ua-parser-js');
-const Posts = require('../../models/Posts');
-const PageView = require('../../models/PageView');
-const geoip = require('geoip-lite');
+const dns = require('dns');
+const { promisify } = require('util');
 const { v4: uuidv4 } = require('uuid');
-const { isBot } = require('../../utils/botDetect');
+const UAParser = require('ua-parser-js');
+const geoip = require('geoip-lite');
+const PageView = require('../../models/PageView');
+const Posts = require('../../models/Posts');
+
+const reverseLookup = promisify(dns.reverse);
+
+const isGoogleBotIP = async (ip) => {
+  try {
+    const hostnames = await reverseLookup(ip);
+    return hostnames.some((hostname) => hostname.endsWith('.googlebot.com') || hostname.endsWith('.google.com'));
+  } catch {
+    return false;
+  }
+};
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
@@ -30,6 +42,10 @@ const pageViews = async (req, res) => {
     return res.status(200).json({ message: 'Localhost view not counted' });
   }
 
+  if (await isGoogleBotIP(ipAddress)) {
+    return res.status(200).json({ message: 'Googlebot view not counted' });
+  }
+
   res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true });
 
   const parser = new UAParser(userAgent);
@@ -38,19 +54,20 @@ const pageViews = async (req, res) => {
   const geo = geoip.lookup(ipAddress);
   const region = geo ? `${geo.city}, ${geo.region}, ${geo.country}` : 'unknown';
 
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown';
-
   if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
   if (isBot(userAgent) || !humanCheck) return res.status(403).json({ error: 'Bot detected or human verification failed' });
 
   try {
-    const userIdExists = await PageView.findOne({ postSlug: slug, userId });
-    const ipExists = await PageView.findOne({ postSlug: slug, ipAddress });
+    const now = new Date();
+    const utcDate = now.toISOString().split('T')[0];
+
+    const userIdExists = await PageView.findOne({ postSlug: slug, userId, date: utcDate });
+    const ipExists = await PageView.findOne({ postSlug: slug, ipAddress, date: utcDate });
     const existingView = userIdExists || ipExists;
 
     if (!existingView) {
-      await PageView.create({ postSlug: slug, ipAddress, browser, referrer, region, timezone, userId });
+      await PageView.create({ postSlug: slug, ipAddress, browser, referrer, region, userId, date: utcDate });
       await Posts.updateOne({ slug }, { $inc: { views: 1 } });
     }
 

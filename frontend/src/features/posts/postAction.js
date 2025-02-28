@@ -40,18 +40,9 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (postIds, t
   }
 });
 
-export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async ({ type = 'challenge' }, thunkAPI) => {
+export const fetchRecentPosts = createAsyncThunk('posts/fetchRecentPosts', async ({postLimit, type}, thunkAPI) => {
   try {
-    const response = await postService.fetchRecentPosts(type);
-    return response;
-  } catch (error) {
-    return thunkAPI.rejectWithValue('Failed to fetch recent posts');
-  }
-});
-
-export const fetchChallengePosts = createAsyncThunk('posts/fetchChallengePosts', async ({ type = 'challenge' }, thunkAPI) => {
-  try {
-    const response = await postService.fetchChallengePosts(type);
+    const response = await postService.fetchRecentPosts(postLimit, type || 'recent');
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue('Failed to fetch recent posts');

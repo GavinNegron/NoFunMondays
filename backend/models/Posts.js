@@ -72,6 +72,7 @@ const blogPostSchema = new mongoose.Schema({
       imageAlt: { type: String, required: false },
       listItems: { type: Array, required: false, default: undefined },
       twitterId: { type: String, required: false, default: undefined },
+      videoId: { type: String, required: false, default: undefined },
       style: { type: Object, default: {} }
     },
   ],

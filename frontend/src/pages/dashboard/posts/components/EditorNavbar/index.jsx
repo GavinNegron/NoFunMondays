@@ -1,4 +1,3 @@
-// REACT
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
@@ -28,20 +27,32 @@ function EditNavbar() {
     const postSlug = post?.slug;
     const autoSaveTimer = useRef(null);
     const postStatus = post?.status;
+    const isSaving = useRef(false);
+    const ctrlPressed = useRef(false);
 
     useEffect(() => {
         resetAutoSave();
         const handleKeyDown = (event) => {
             if (event.ctrlKey && event.key === 's') {
                 event.preventDefault();
-                handleSave();
+                if (!ctrlPressed.current) {
+                    handleSave();
+                }
+                ctrlPressed.current = true;
+            }
+        };
+        const handleKeyUp = (event) => {
+            if (event.key === 'Control') {
+                ctrlPressed.current = false;
             }
         };
         window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
 
         return () => {
             if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
             window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
         };
     }, [post, postElements]);
 
@@ -52,8 +63,12 @@ function EditNavbar() {
     };
 
     const handleSave = () => {
+        if (isSaving.current) return;
+        isSaving.current = true;
         dispatch(savePost({ post, postElements }));
-        resetAutoSave();
+        setTimeout(() => {
+            isSaving.current = false;
+        }, 1000);
     };
 
     const resetAutoSave = () => {
@@ -69,8 +84,8 @@ function EditNavbar() {
     const handleFamilyChange = (e) => {
         selectedElement.style.fontFamily = e.target.value;
         setStyle(prevStyle => ({ ...prevStyle, fontFamily: e.target.value }));
-      };
-    
+    };
+
     if (!postStatus) return null;
 
     return (

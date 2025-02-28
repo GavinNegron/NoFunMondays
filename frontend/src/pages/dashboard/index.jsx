@@ -1,8 +1,7 @@
-// REACT
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
-import { format, subDays } from 'date-fns';
+import { format, subDays, parseISO } from 'date-fns';
 
 // COMPONENTS
 import Navbar from '@/components/layout/navbar';
@@ -21,6 +20,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const { views } = useSelector((state) => state.posts.post);
   const [loadingState, setLoadingState] = useState(true);
+
   useEffect(() => {
     const handleLoading = async () => {
       setLoadingState(true);
@@ -39,21 +39,30 @@ function Dashboard() {
     return <LoadingScreen />;
   }
 
-  const today = format(new Date(), 'yyyy-MM-dd'); 
+  const convertToEST = (dateStr) => {
+    const dateUTC = parseISO(dateStr);
+    return new Date(dateUTC.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  };
+
+  const todayEST = convertToEST(new Date().toISOString());
+  const today = format(todayEST, 'yyyy-MM-dd');
+
+  const yesterdayEST = convertToEST(subDays(new Date(), 1).toISOString());
+  const yesterday = format(yesterdayEST, 'yyyy-MM-dd');
+
   const todayViews = views?.result?.find(view => view._id === today)?.totalViews || 0;
-  const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
   const yesterdayViews = views?.result?.find(view => view._id === yesterday)?.totalViews || 0;
+
   let viewChange = yesterdayViews === 0 
-  ? todayViews > 0 ? '+100' : '0' 
-  : ((todayViews - yesterdayViews) / yesterdayViews * 100).toFixed(2);
+    ? todayViews > 0 ? '+100' : '0' 
+    : ((todayViews - yesterdayViews) / yesterdayViews * 100).toFixed(2);
 
   viewChange = viewChange > 0 ? `+${viewChange}%` : `${viewChange}%`;
 
   const data = views?.result?.map(view => ({
-    date: format(new Date(view._id), 'MMM d'),
+    date: format(convertToEST(view._id), 'MMM d'),
     views: view.totalViews
   }));
-  
 
   return (
     <>

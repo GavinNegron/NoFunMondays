@@ -5,22 +5,22 @@ import PostCard from './post-card';
 
 function RecentPosts({ initialPosts }) {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts.post);
+  const { posts, isLoading } = useSelector((state) => state.posts.post);
   
   const [postLimit, setPostLimit] = useState(6);
   const [loadedPosts, setLoadedPosts] = useState(initialPosts || []);
 
   useEffect(() => {
-    if (posts.length === 0) {
-      setLoadedPosts(initialPosts);
-    } else {
+    if (posts && posts.length > 0) {
       setLoadedPosts(posts);
+    } else if (initialPosts && initialPosts.length > 0) {
+      setLoadedPosts(initialPosts);
     }
   }, [posts, initialPosts]);
 
   useEffect(() => {
     if (postLimit > 6) {
-      dispatch(fetchRecentPosts({ limit: postLimit, excludeFeatured: true }));
+      dispatch(fetchRecentPosts({ postLimit, type: 'recent' }));
     }
   }, [dispatch, postLimit]);
 
@@ -41,7 +41,13 @@ function RecentPosts({ initialPosts }) {
         </div>
       </div>
       <div className="recent-posts__load">
-        <button className="fortnite-btn" onClick={handleLoadMore} disabled={loadedPosts.length < postLimit}>Load More Posts</button>
+        <button 
+          className="fortnite-btn" 
+          onClick={handleLoadMore} 
+          disabled={isLoading}
+        >
+          {isLoading ? 'Loading...' : 'Load More Posts'}
+        </button>
       </div>
     </>
   );

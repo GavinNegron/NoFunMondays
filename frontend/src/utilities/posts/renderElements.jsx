@@ -1,5 +1,6 @@
 import React from 'react';
 import TwitterEmbed from './TwitterEmbed';
+import VideoEmbed from './VideoEmbed';
 
 const RenderElements = ({ element }) => {
   if (!element) return null;
@@ -26,20 +27,22 @@ const RenderElements = ({ element }) => {
         return <span className="divider__container"></span>;
       case 'twitter':
         return <TwitterEmbed tweetID={element.twitterId} />
-        case 'h1':
-          return <h1 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        case 'h2':
-          return <h2 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        case 'h3':
-          return <h3 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        case 'h4':
-          return <h4 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        case 'h5':
-          return <h5 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        case 'h6':
-          return <h6 dangerouslySetInnerHTML={{ __html: element.content }} />;
-        default:
-          return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'video':
+        return <VideoEmbed videoUrl={element.videoId} />
+      case 'h1':
+        return <h1 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h2':
+        return <h2 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h3':
+        return <h3 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h4':
+        return <h4 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h5':
+        return <h5 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      case 'h6':
+        return <h6 dangerouslySetInnerHTML={{ __html: element.content }} />;
+      default:
+        return <p dangerouslySetInnerHTML={{ __html: element.content }} />;
     }
   };
 

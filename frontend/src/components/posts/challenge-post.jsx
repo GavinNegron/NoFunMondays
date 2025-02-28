@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChallengePosts } from '@/features/posts/postAction';
 import PostCard from './post-card';
+import { fetchRecentPosts } from '@/features/posts/postAction';
 
 function ChallengePosts({ initialPosts }) {
   const dispatch = useDispatch();
@@ -19,8 +19,9 @@ function ChallengePosts({ initialPosts }) {
   }, [posts, initialPosts]);
 
   useEffect(() => {
+    console.log(postLimit)
     if (postLimit > 6) {
-      dispatch(fetchChallengePosts({ limit: postLimit, excludeFeatured: true }));
+      dispatch(fetchRecentPosts({ postLimit, type: 'challenge' }));
     }
   }, [dispatch, postLimit]);
 
@@ -41,7 +42,7 @@ function ChallengePosts({ initialPosts }) {
         </div>
       </div>
       <div className="challenge-posts__load">
-        <button className="fortnite-btn" onClick={handleLoadMore} disabled={loadedPosts.length < postLimit}>Load More Posts</button>
+        <button className="fortnite-btn" onClick={handleLoadMore} >Load More Posts</button>
       </div>
     </>
   );

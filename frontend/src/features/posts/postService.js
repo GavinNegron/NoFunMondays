@@ -25,21 +25,9 @@ export const deletePost = async (postIds) => {
   return response.data;
 };
 
-export const fetchRecentPosts = async (type) => {
+export const fetchRecentPosts = async (postLimit, type = 'all') => {
   try {
-    const response = await axios.get(`/api/posts/recent?type=${type}`);
-    return response.data;
-  } catch (error) {
-    if (error.response?.status === 404) {
-      throw new Error('Recent post not found');
-    }
-    throw new Error(error.response?.data?.message || 'Failed to fetch recent post');
-  }
-};
-
-export const fetchChallengePosts = async (type) => {
-  try {
-    const response = await axios.get(`/api/posts/recent?type=${type}`);
+    const response = await axios.get(`/api/posts/recent?limit=${postLimit}&type=${type}`);
     return response.data;
   } catch (error) {
     if (error.response?.status === 404) {
@@ -135,6 +123,13 @@ export const publishPost = async (post, postElements, isFeatured, isChallenge) =
           const tweetDiv = elementDom.querySelector('[data-tweetid]'); 
           if (tweetDiv) {
             updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
+          }
+          break;
+        }
+        case 'video': {
+          const videoDiv = elementDom.querySelector('[data-videoid]');
+          if (videoDiv) {
+            updatedElement.videoId = videoDiv.getAttribute('data-videoid');
           }
           break;
         }
@@ -273,6 +268,13 @@ export const savePost = async (post, postElements) => {
             const tweetDiv = elementDom.querySelector('[data-tweetid]');
             if (tweetDiv) {
               updatedElement.twitterId = tweetDiv.getAttribute('data-tweetid');
+            }
+            break;
+          }
+          case 'video': {
+            const videoDiv = elementDom.querySelector('[data-videoid]');
+            if (videoDiv) {
+              updatedElement.videoId = videoDiv.getAttribute('data-videoid');
             }
             break;
           }

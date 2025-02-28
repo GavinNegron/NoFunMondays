@@ -2,7 +2,7 @@ const Posts = require('../../models/Posts');
 
 const getRecentPosts = async (req, res) => {
   try {
-      const { limit = 8, type, excludeSlug } = req.query;
+      const { limit = 6, type, excludeSlug } = req.query;
 
       if (!type || !['all', 'recent', 'featured', 'challenge'].includes(type)) {
           return res.status(400).json({ status: "Failed", message: "Invalid or missing type" });

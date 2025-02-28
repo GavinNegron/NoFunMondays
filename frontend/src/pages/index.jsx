@@ -39,7 +39,7 @@ export async function getServerSideProps(context) {
   try {
     const [featuredResponse, recentResponse] = await Promise.all([
       axios.get(`${baseURL}/api/posts/recent?type=featured`),
-      axios.get(`${baseURL}/api/posts/recent?type=recent`),
+      axios.get(`${baseURL}/api/posts/recent?type=recent&limit=6`),
     ]);
 
     const featuredPost = featuredResponse.data.length > 0 ? featuredResponse.data[0] : null;

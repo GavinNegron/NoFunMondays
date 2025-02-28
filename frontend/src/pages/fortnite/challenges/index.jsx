@@ -3,7 +3,6 @@ import '../../../../public/css/challenges.css';
 import Head from 'next/head';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
-import UnderConstruction from '@/components/base/construction'
 import ChallengePosts from '@/components/posts/challenge-post';
 import axios from 'axios';
 
@@ -38,7 +37,7 @@ function FortniteChallenges({ challengePosts }) {
   
     try {
       const [ recentResponse ] = await Promise.all([
-        axios.get(`${baseURL}/api/posts/recent?type=challenge`),
+        axios.get(`${baseURL}/api/posts/recent?type=challenge&limit=6`),
       ]);
       const challengePosts = recentResponse.data || [];
       return { 
@@ -52,5 +51,4 @@ function FortniteChallenges({ challengePosts }) {
     }
   }
   
-  
-  export default FortniteChallenges;
+export default FortniteChallenges;

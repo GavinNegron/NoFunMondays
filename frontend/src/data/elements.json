@@ -24,7 +24,9 @@
   },
   "embed": {
     "classes": [
-      { "class": "twitter", "text": "Twitter"}
+      { "class": "twitter", "text": "Twitter"},
+      { "class": "video", "text": "Video"}
+
     ]
   },
   "misc": {

@@ -1,51 +1,50 @@
-// REACT
 import React, { useState, useEffect } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 import { useDispatch } from 'react-redux';
-
-// UTILITIES
 import { handleDrop, handleDragOver } from '../dragUtils';
-import { handleDoubleClick } from './editorFunctions';
-import { handleElementClick } from './editorFunctions';
-
-// COMPONENTS
+import { handleDoubleClick, handleElementClick } from './editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
+import VideoEmbed from './VideoEmbed';
 import { updatePostElement } from '@/features/posts/postAction';
 
 const RenderElements = ({ element }) => {
-  const {
-    setSelectedElement,
-    setPreviewImage,
-  } = useEditorContext();
-
+  const { setSelectedElement, setPreviewImage } = useEditorContext();
   const dispatch = useDispatch();
-
   const [twitterUrl, setTwitterUrl] = useState('');
   const [twitterId, setTwitterId] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
+  const [videoId, setVideoId] = useState('');
 
   useEffect(() => {
     if (element.twitterId) {
       setTwitterId(element.twitterId);
     }
-  }, [element.twitterId]);
+    if (element.videoId) {
+      setVideoId(formatYouTubeEmbedUrl(element.videoId));
+    }
+  }, [element.twitterId, element.videoId]);
 
-  useEffect(() => {}, [twitterId]);
-
-  const handleInputChange = (e) => {
-    setTwitterUrl(e.target.value);
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
   };
 
   const extractTweetID = (url) => {
     const regex = /(?:twitter|x)\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/;
     const match = url.match(regex);
-    return match ? match[3] : null; 
+    return match ? match[3] : null;
   };
-  
-  const handleEmbedClick = () => {
-    const tweetID = extractTweetID(twitterUrl);
-    if (tweetID) {
-      setTwitterId(tweetID);
+
+  const handleEmbedClick = (url, setter) => {
+    const id = extractTweetID(url);
+    if (id) {
+      setter(id);
     }
+  };
+
+  const formatYouTubeEmbedUrl = (url) => {
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+    const match = url.match(regex);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
   };
 
   if (!element) return null;
@@ -56,20 +55,13 @@ const RenderElements = ({ element }) => {
     if (e.target.tagName === 'A') {
       e.preventDefault();
       e.stopPropagation();
-  
-      const linkText = e.target.textContent.trim();
-      const linkAddress = e.target.getAttribute('href') || '';
-  
-      document.querySelector('#addLink-text').value = linkText;
-      document.querySelector('#addLink-address').value = linkAddress;
-  
+      document.querySelector('#addLink-text').value = e.target.textContent.trim();
+      document.querySelector('#addLink-address').value = e.target.getAttribute('href') || '';
       document.querySelector('.addLink').style.display = 'flex';
     } else {
       handleElementClick(e.currentTarget, setSelectedElement, setPreviewImage);
     }
   };
-  
-  
 
   const renderContent = () => {
     switch (element.type) {
@@ -97,11 +89,26 @@ const RenderElements = ({ element }) => {
             <input
               type="text"
               value={twitterUrl}
-              onChange={handleInputChange}
+              onChange={handleInputChange(setTwitterUrl)}
               placeholder="Enter Twitter URL"
               className="twitter"
             />
-            <button onClick={handleEmbedClick}>Embed</button>
+            <button onClick={() => handleEmbedClick(twitterUrl, setTwitterId)}>Embed</button>
+          </div>
+        );
+      case 'video':
+        return videoId ? (
+          <VideoEmbed videoUrl={videoId} />
+        ) : (
+          <div>
+            <input
+              type="text"
+              value={videoUrl}
+              onChange={handleInputChange(setVideoUrl)}
+              placeholder="Enter Video URL"
+              className="video"
+            />
+            <button onClick={() => setVideoId(formatYouTubeEmbedUrl(videoUrl))}>Embed</button>
           </div>
         );
       case 'h1':
