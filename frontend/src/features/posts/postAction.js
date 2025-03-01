@@ -91,11 +91,11 @@ export const publishPost = createAsyncThunk('posts/publishPost', async ({ post, 
   }
 });
 
-export const savePost = createAsyncThunk('posts/savePost', async ({ post, postElements }, thunkAPI) => {
+export const savePost = createAsyncThunk('posts/savePost', async ({ post, postElements, isFeatured, isChallenge }, thunkAPI) => {
   try {
-    return await postService.savePost(post, postElements);
+    return await postService.savePost(post, postElements, isFeatured, isChallenge);
   } catch (error) {
-    return thunkAPI.rejectWithValue('Failed to publish post.');
+    return thunkAPI.rejectWithValue('Failed to save post.');
   }
 });
 

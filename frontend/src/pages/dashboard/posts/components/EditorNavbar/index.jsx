@@ -21,7 +21,9 @@ function EditNavbar() {
     const [navState, setNavState] = useState(false);
     const {
         selectedElement,
-        setStyle
+        setStyle,
+        isFeatured,
+        isChallenge,
     } = useEditorContext();
 
     const dispatch = useDispatch();
@@ -101,7 +103,7 @@ function EditNavbar() {
         $(".save-indicator").fadeIn(600).css("display", "flex");
         if (isSaving.current) return;
         isSaving.current = true;
-        dispatch(savePost({ post, postElements }));
+        dispatch(savePost({ post, postElements, isFeatured, isChallenge }));
         setTimeout(() => {
             isSaving.current = false;
             $(".save-indicator").fadeOut(600);

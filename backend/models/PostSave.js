@@ -27,6 +27,16 @@ const blogPostSaveSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  featured: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  challenge: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   elements: [
     {
       id: { type: String, required: true }, 

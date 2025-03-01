@@ -4,3 +4,6 @@ Sitemap: https://nofunmondays.com/sitemap-news.xml
 Disallow: /search?q=
 Disallow: /dashboard
 Disallow: /account
+Disallow: /blog/test
+Disallow: /blog/test
+Disallow: /login

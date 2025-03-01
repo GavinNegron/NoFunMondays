@@ -143,7 +143,7 @@ function BlogPostEditor() {
                 </div>
                 <div className="blog-post-content">
                     <div className="save-indicator">
-                        <i class="fa-solid fa-circle-check"></i>
+                        <i className="fa-solid fa-circle-check"></i>
                         <span>Saved: 12:45pm</span>
                     </div>
                     <div

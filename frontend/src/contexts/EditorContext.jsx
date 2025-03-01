@@ -9,7 +9,9 @@ export const EditorProvider = ({ children }) => {
   const [elementStyles, setElementStyles] = useState({ color: '', margin: '', fontFamily: '' })
   const [image, setImage] = useState('')
   const [previewImage, setPreviewImage] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrl, setImageUrl] = useState('');
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [isChallenge, setIsChallenge] = useState(false);
   const [style, setStyle] = useState({
     color: elementStyles.color || '#000000',
     fontSize: elementStyles.fontSize || 18,
@@ -125,6 +127,10 @@ export const EditorProvider = ({ children }) => {
         setShowColorPicker,
         toggleColorPicker,
         renderImageSelector,
+        isFeatured,
+        setIsFeatured,
+        isChallenge,
+        setIsChallenge
       }}
     >
       {children}

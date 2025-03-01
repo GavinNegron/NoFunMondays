@@ -7,12 +7,17 @@ import Checkbox from '@/components/base/checkbox/';
 
 function Publish() {
     const dispatch = useDispatch();
-    const { setPost } = useEditorContext();
+    const { setPost, isFeatured, setIsFeatured, isChallenge, setIsChallenge } = useEditorContext();
     const { postElements, post } = useSelector((state) => state.posts.post);
     const isMountedRef = useRef(true);
-    const [isFeatured, setIsFeatured] = useState(false);
-    const [isChallenge, setIsChallenge] = useState(false);
 
+    useEffect(() => {
+        if (post) {
+            setIsFeatured(post.featured || false);
+            setIsChallenge(post.challenge || false);
+        }
+    }, [post]);
+    
     useEffect(() => {
         return () => {
             isMountedRef.current = false;
