@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useEditorContext } from '@/contexts/EditorContext';
+
 // UTILITIES
 import Tooltip from '@/utilities/tooltip';
 import $ from 'jquery';
-import { handleEditorClose, handleEditorOpen } from '@/utilities/posts/editorFunctions';
+import { handleEditorClose, handleEditorOpen } from '@/utilities/editorFunctions';
 
 // DATA
 import elements from '@/data/elements';
@@ -17,6 +18,7 @@ import Publish from '../Publish/index';
 import { savePost } from '@/features/posts/postAction';
 
 function EditNavbar() {
+    const [navState, setNavState] = useState(false);
     const {
         selectedElement,
         setStyle
@@ -30,7 +32,27 @@ function EditNavbar() {
     const isSaving = useRef(false);
     const ctrlPressed = useRef(false);
 
+    // Cookie helper functions
+    const setCookie = (name, value, days = 30) => {
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + days);
+        document.cookie = `${name}=${value};expires=${expirationDate.toUTCString()};path=/`;
+    };
+
+    const getCookie = (name) => {
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith(`${name}=`))
+            ?.split('=')[1];
+        
+        return cookieValue;
+    };
+
     useEffect(() => {
+        // Check for editorState cookie on page load
+        const editorStateCookie = getCookie('editorState');
+        setNavState(editorStateCookie === 'true');
+
         resetAutoSave();
         const handleKeyDown = (event) => {
             if (event.ctrlKey && event.key === 's') {
@@ -56,6 +78,19 @@ function EditNavbar() {
         };
     }, [post, postElements]);
 
+    // Modified handleEditorOpen and handleEditorClose to update navState
+    const customHandleEditorOpen = () => {
+        handleEditorOpen();
+        setNavState(true);
+        setCookie('editorState', 'true');
+    };
+
+    const customHandleEditorClose = () => {
+        handleEditorClose();
+        setNavState(false);
+        setCookie('editorState', 'false');
+    };
+
     const publishPost = async () => {
         $("body").css("max-height", "100vh");
         $("body").css("overflow", "hidden");
@@ -63,14 +98,16 @@ function EditNavbar() {
     };
 
     const handleSave = () => {
+        $(".save-indicator").fadeIn(600).css("display", "flex");
         if (isSaving.current) return;
         isSaving.current = true;
         dispatch(savePost({ post, postElements }));
         setTimeout(() => {
             isSaving.current = false;
-        }, 1000);
+            $(".save-indicator").fadeOut(600);
+        }, 4000); 
     };
-
+    
     const resetAutoSave = () => {
         if (autoSaveTimer.current) {
             clearTimeout(autoSaveTimer.current);
@@ -190,11 +227,11 @@ function EditNavbar() {
                             </div>
                         </div>
                     </div>
-                    <div className="editor-open" onClick={handleEditorOpen}>
+                    <div className="editor-open" onClick={customHandleEditorOpen} style={{ display: navState ? 'none' : 'flex' }}>
                         <i className="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
-                <div className="editor-navbar__bottom">
+            <div className="editor-navbar__bottom" style={{ display: navState ? 'flex' : 'none' }}>
                 <div className="editor-navbar__column">
                 <div className="editor-navbar__item">
                     <select data-tooltip-id='tip-type-editor' onChange={(e) => handleFamilyChange(e)}>
@@ -422,7 +459,7 @@ function EditNavbar() {
                             />
                         </div>
                     </div>
-                    <div className="editor-close" onClick={handleEditorClose}>
+                    <div className="editor-close" onClick={customHandleEditorClose}>
                         <i className="fa-solid fa-chevron-up"></i>
                     </div>
                 </div>

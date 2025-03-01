@@ -6,6 +6,8 @@
   z-index: 1000
   height: 100%
   top: 70px
+  color: white
+  font-family: 'Poppins'
 
   &__icons
     display: flex
@@ -31,7 +33,14 @@
       &:hover
         background: #313131
 
-  &__add-elements
+  &__header
+      color: white
+      font-size: 20px
+      font-weight: bold
+      padding: 15px 20px
+      border-bottom: solid 2px
+
+  &__elements
     display: none
     position: absolute
     width: 550px
@@ -42,25 +51,22 @@
     flex-direction: column
     z-index: 1000
 
-    &__header
-      color: white
-      font-family: 'Poppins'
-      font-size: 20px
-      font-weight: bold
-      padding: 15px 20px
-      border-bottom: solid 2px
+    span, a
+      padding: 10px 0
+
+    &__inner
+      display: flex
+      flex-direction: row
 
     &__left
       background: #181818
       border-right: solid 1px #2b2b2b
-      width: 100%
       overflow: hidden
       height: 400px
+      width: 30%
 
       ul
         list-style-type: none
-        color: #ffffff
-        font-family: 'Poppins'
         font-weight: 400
         padding: 20px 25px
         font-size: 20px
@@ -74,7 +80,7 @@
     &__right
       background-color: #121212
       overflow: hidden
-      
+      width: 70%
       
       .image, .h1, .h2, .h3, .h4, .h5, .h6, .default-text, .bullet, .divider, .twitter, .video
           margin: 0 
@@ -84,27 +90,15 @@
         padding: 20px
         display: flex
         flex-direction: column
-        color: white
-        font-family: 'Poppins'
-
-        a
-          padding: 10px 0
 
       &__image
         padding: 20px
-        color: white
-        font-family: 'Poppins'
-
-        span
-          padding: 10px 0
 
       &__lists
         display: block
         padding: 20px
         display: flex
         flex-direction: column
-        color: white
-        font-family: 'Poppins'
 
         a
           display: list-item
@@ -115,12 +109,46 @@
         padding: 20px
         display: flex
         flex-direction: column
-        color: white
+
+  &__post-details
+    display: none
+    position: absolute
+    width: 550px
+    background-color: #121212
+    left: 79px
+    top: 50px
+    border-top: solid 7px #6c6ed9
+    flex-direction: column
+    z-index: 1000
+
+    &__inner
+      padding: 25px
+      display: flex
+
+    &__item
+      font-weight: 600
+      width: 100%
+
+    &__input 
+      margin: 10px 0
+
+      textarea
+        padding: 8px
+        border-radius: 3px
+        border: 1px solid rgba(89, 89, 89, 0.259)
+        background: #00000000
+        color: #dddddd
+        outline: none
+        width: 100%
         font-family: 'Poppins'
+        font-weight: 500
+        min-height: 50px
+        overflow: hidden
+        resize: none
 
-        a
-          padding: 10px 0
-
+        &:focus
+          outline: none
+          border: solid 1px #4b4b4b85
 
 .dropped-element 
   margin: 10px

@@ -1,21 +1,9 @@
-const dns = require('dns');
-const { promisify } = require('util');
 const { v4: uuidv4 } = require('uuid');
 const UAParser = require('ua-parser-js');
 const geoip = require('geoip-lite');
 const PageView = require('../../models/PageView');
 const Posts = require('../../models/Posts');
-
-const reverseLookup = promisify(dns.reverse);
-
-const isGoogleBotIP = async (ip) => {
-  try {
-    const hostnames = await reverseLookup(ip);
-    return hostnames.some((hostname) => hostname.endsWith('.googlebot.com') || hostname.endsWith('.google.com'));
-  } catch {
-    return false;
-  }
-};
+const isbot = require('isbot'); 
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
@@ -27,6 +15,10 @@ const pageViews = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   const accessToken = req.headers.authorization;
 
+  if (isbot(userAgent)) {
+    return res.status(200).json({ message: 'Bot view not counted' });
+  }
+  
   if (refreshToken || accessToken) return res.status(200).json({ message: 'Authenticated user, view not counted' });
 
   const localhostIps = new Set([

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 import { useDispatch } from 'react-redux';
-import { handleDrop, handleDragOver } from '../dragUtils';
-import { handleDoubleClick, handleElementClick } from './editorFunctions';
+import { handleDrop, handleDragOver } from '../editorFunctions';
+import { handleDoubleClick, handleElementClick } from '../editorFunctions';
 import TwitterEmbed from './TwitterEmbed';
 import VideoEmbed from './VideoEmbed';
 import { updatePostElement } from '@/features/posts/postAction';

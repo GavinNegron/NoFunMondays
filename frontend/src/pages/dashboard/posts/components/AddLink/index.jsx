@@ -1,4 +1,4 @@
-import { handleAddLink } from '@/utilities/posts/editorFunctions';
+import { handleAddLink } from '@/utilities/editorFunctions';
 import { useEditorContext } from '@/contexts/EditorContext'
 import { updatePostElement } from '@/features/posts/postAction'
 import { useDispatch } from 'react-redux';

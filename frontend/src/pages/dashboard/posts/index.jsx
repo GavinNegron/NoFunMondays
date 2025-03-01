@@ -12,7 +12,7 @@ import LoadingScreen from '@/components/base/loading';
 import Search from '@/components/base/search';
 
 // UTILITIES
-import { handleClickOutside } from '@/utilities/domUtils';
+import { handleClickOutside } from '@/utilities/editorFunctions';
 
 // FEATURES
 import { fetchPosts, deletePost } from '@/features/posts/postAction';

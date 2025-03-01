@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getElementStyles } from '@/utilities/posts/editorFunctions';
+import { getElementStyles } from '@/utilities/editorFunctions';
 import elements from '@/data/elements';
 import DOMPurify from 'dompurify';
 
@@ -142,13 +142,15 @@ export const publishPost = async (post, postElements, isFeatured, isChallenge) =
 
   const title = document.getElementsByClassName('blog-post-main__title')[0]?.textContent.trim();
   const slug = generateSlug(title);
-  
+  const description = document.querySelector('.editor-sidebar__post-details__input textarea').value;
+
   const updatedPost = {
     ...post,
     title,
     slug, 
     challenge: isChallenge,
     featured: isFeatured,
+    description,
     status: 'published',
     imageUrl,
     elements: updatedElements,
@@ -286,11 +288,13 @@ export const savePost = async (post, postElements) => {
   );
 
   const title = document.getElementsByClassName('blog-post-main__title')[0]?.textContent.trim();
+  const description = document.querySelector('.editor-sidebar__post-details__input textarea').value;
   const updatedPost = {
     ...post,
     title,
     imageUrl,
     status: 'draft',
+    description,
     elements: updatedElements,
   };
 

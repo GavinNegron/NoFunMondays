@@ -7,7 +7,7 @@ const { ObjectId } = require('mongoose').Types;
 
 const updatePost = async (req, res) => {
   const { id } = req.params;
-  const { title, imageUrl, elements, status, featured, challenge } = req.body;
+  const { title, elements, status, featured, challenge, description } = req.body;
 
   if (!ObjectId.isValid(id)) {
     return res.status(400).json({ message: "Invalid post ID" });
@@ -19,7 +19,7 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    const updates = { title, elements, status, featured, challenge, updatedAt: new Date() };
+    const updates = { title, elements, status, featured, challenge, description, updatedAt: new Date() };
 
     if (elements && Array.isArray(elements)) {
       for (let i = 0; i < elements.length; i++) {
@@ -39,35 +39,28 @@ const updatePost = async (req, res) => {
       if (newSlug !== post.slug) {
         updates.slug = newSlug;
 
-        // Find the redirect entry associated with the old slug
         const redirect = await Redirect.findOne({ slug: post.slug });
 
         if (redirect) {
-          // Remove the old slug from redirectSlugs (if it exists)
           redirect.redirectSlugs = redirect.redirectSlugs.filter(redirectSlug => redirectSlug !== post.slug);
 
-          // If the newSlug is already in redirectSlugs, remove it
           redirect.redirectSlugs = redirect.redirectSlugs.filter(redirectSlug => redirectSlug !== newSlug);
 
-          // Update the slug in Redirects collection
           redirect.slug = newSlug;
 
-          // Add the old post.slug to redirectSlugs if it's not already there
           if (!redirect.redirectSlugs.includes(post.slug)) {
             redirect.redirectSlugs.push(post.slug);
           }
 
           await redirect.save();
         } else {
-          // If no redirect exists for the old slug, create a new entry with the newSlug
           await Redirect.create({
             slug: newSlug, 
-            redirectSlugs: [post.slug] // Add post.slug as a redirectSlug
+            redirectSlugs: [post.slug] 
           });
         }
 
-        // Update the post's redirects
-        updates.redirects = [post.slug]; // Set redirects array with old slug
+        updates.redirects = [post.slug]; 
       }        
     }
 

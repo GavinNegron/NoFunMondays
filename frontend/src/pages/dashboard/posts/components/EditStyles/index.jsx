@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 
 // Utilities
-import { handleMouseMove, handleMouseUp, handleMouseDown } from '@/utilities/posts/editorFunctions';
-import { handleElementClick } from '@/utilities/posts/editorFunctions';
+import { handleMouseMove, handleMouseUp, handleMouseDown } from '@/utilities/editorFunctions';
+import { handleElementClick } from '@/utilities/editorFunctions';
 
 // Elements import
 import Embed from '../elements/embed';

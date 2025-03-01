@@ -14,10 +14,10 @@ import EditorNavbar from '../components/EditorNavbar';
 import EditorSidebar from '../components/Sidebar/index';
 
 // Utilities
-import { handleDrop, handleDragOver } from '@/utilities/dragUtils';
+import { handleDrop, handleDragOver } from '@/utilities/editorFunctions';
 import RenderElements from '@/utilities/posts/renderEditorElements';
-import { handleElementClick, handleDoubleClick } from '@/utilities/posts/editorFunctions';
-import { handleClickOutside } from '@/utilities/domUtils';
+import { handleElementClick, handleDoubleClick } from '@/utilities/editorFunctions';
+import { handleClickOutside } from '@/utilities/editorFunctions';
 
 // Layout
 import EditStyles from '../components/EditStyles';
@@ -130,7 +130,7 @@ function BlogPostEditor() {
                 </Head>
                 <Navbar />
                 <EditorNavbar />
-                <EditorSidebar />
+                <EditorSidebar post={post}/>
                 <div className="editor-container">
                     <div className="editor">
                         <div className="editor__back">
@@ -142,6 +142,10 @@ function BlogPostEditor() {
                     </div>
                 </div>
                 <div className="blog-post-content">
+                    <div className="save-indicator">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Saved: 12:45pm</span>
+                    </div>
                     <div
                         className="blog-post-main"
                         ref={blogPostMainRef}

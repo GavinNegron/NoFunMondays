@@ -23,6 +23,10 @@ const blogPostSaveSchema = new mongoose.Schema({
     required: true,
     default: 'draft'
   },
+  description: {
+    type: String,
+    required: true
+  },
   elements: [
     {
       id: { type: String, required: true }, 

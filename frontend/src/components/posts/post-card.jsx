@@ -35,7 +35,7 @@ function PostCard({ post }) {
             <Link href={`/blog/${post.slug}`}>{post.title || 'Untitled'}</Link>
           </div>
           <div className="post-card__description">
-            <p>{post.description || 'No description available.'}</p>
+            <p>{`${post?.description}...` || 'No description available.'}</p>
           </div>
           <div className="post-card__date">
             <p>{formatDate(post.createdAt)}</p>

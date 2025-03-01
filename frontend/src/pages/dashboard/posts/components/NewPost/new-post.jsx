@@ -12,7 +12,7 @@ import LoadingScreen from '@/components/base/loading';
 import { createPost, fetchTitle } from '@/features/posts/postAction';
 
 // UTILITIES
-import { handleClickOutside } from '@/utilities/domUtils';
+import { handleClickOutside } from '@/utilities/editorFunctions';
 
 function NewPost() {
     const { renderImageSelector, image } = useEditorContext();

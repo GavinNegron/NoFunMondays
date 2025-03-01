@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleClickOutside } from '@/utilities/domUtils';
+import { handleClickOutside } from '@/utilities/editorFunctions';
 import { publishPost } from '@/features/posts/postAction';
 import Checkbox from '@/components/base/checkbox/';
 

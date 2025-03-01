@@ -15,6 +15,13 @@ export const addPostElement = (newElement, insertIndex) => {
   };
 };
 
+export const updatePostDescription = (newDescription) => {
+  return {
+    type: 'posts/updatePostDescription',
+    payload: { newDescription },
+  };
+};
+
 export const deletePostElement = (elementId) => {
   return {
     type: 'posts/deletePostElement',
