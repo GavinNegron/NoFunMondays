@@ -34,10 +34,6 @@ const pageViews = async (req, res) => {
     return res.status(200).json({ message: 'Localhost view not counted' });
   }
 
-  if (await isGoogleBotIP(ipAddress)) {
-    return res.status(200).json({ message: 'Googlebot view not counted' });
-  }
-
   res.cookie('userId', userId, { maxAge: 31536000000, httpOnly: true });
 
   const parser = new UAParser(userAgent);
