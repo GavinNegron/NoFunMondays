@@ -3,7 +3,7 @@ const UAParser = require('ua-parser-js');
 const geoip = require('geoip-lite');
 const PageView = require('../../models/PageView');
 const Posts = require('../../models/Posts');
-const isbot = require('isbot'); 
+const { isbot } = require('isbot'); 
 
 const pageViews = async (req, res) => {
   const { slug } = req.query;
@@ -48,7 +48,7 @@ const pageViews = async (req, res) => {
 
   if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
-  if (isBot(userAgent) || !humanCheck) return res.status(403).json({ error: 'Bot detected or human verification failed' });
+  if (isbot(userAgent) || !humanCheck) return res.status(403).json({ error: 'Bot detected or human verification failed' });
 
   try {
     const now = new Date();
