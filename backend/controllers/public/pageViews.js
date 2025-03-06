@@ -11,7 +11,6 @@ const pageViews = async (req, res) => {
   const userAgent = req.headers['user-agent'] || 'unknown';
   const referrer = req.headers['referer'] || 'direct';
   const userId = req.cookies.userId || uuidv4();
-  const humanCheck = req.cookies.humanCheck; 
   const refreshToken = req.cookies.refreshToken;
   const accessToken = req.headers.authorization;
 
@@ -44,7 +43,7 @@ const pageViews = async (req, res) => {
 
   if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
-  if (isbot(userAgent) || !humanCheck) return res.status(403).json({ error: 'Bot detected or human verification failed' });
+  if (isbot(userAgent)) return res.status(403).json({ error: 'Bot detected or human verification failed' });
 
   try {
     const now = new Date();

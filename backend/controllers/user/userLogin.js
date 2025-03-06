@@ -22,7 +22,7 @@ const userLogin = async (req, res) => {
     const { accessToken, refreshToken, accessTokenExp, refreshTokenExp } = await generateTokens(user);
 
     try {
-      setTokenCookies(res, accessToken, refreshToken, accessTokenExp, refreshTokenExp)
+      setTokenCookies(res, accessToken, accessTokenExp, refreshToken, refreshTokenExp)
     } catch(error) {
       return res.status(500).json({ status: "Failed", message: "Error setting cookies" })
     }

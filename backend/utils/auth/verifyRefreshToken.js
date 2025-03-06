@@ -7,14 +7,14 @@ const verifyRefreshToken = async (refreshToken) => {
         
         const userRefreshToken = await UserRefreshToken.findOne({ token: refreshToken });
 
-        if (!userRefreshToken) throw { error: true, message: `"Invalid refresh token"`};
+        if (!userRefreshToken) throw { error: true, message: `"23423423 Invalid refresh token"`};
 
         const tokenDetails = jwt.verify(refreshToken, privateKey)
 
         return {
             tokenDetails, 
             error: false,
-            message: "Valid refresh token"
+            message: "23423423 4234 2Valid refresh token"
         }
 
     } catch (error) {

@@ -6,24 +6,44 @@ const accessTokenAutoRefresh = async (req, res, next) => {
     try {
         const accessToken = req.cookies.accessToken;
 
-        if (accessToken || !isTokenExpired(accessToken)) {
+        // Check if token exists and is valid
+        if (accessToken && !isTokenExpired(accessToken)) {
             req.headers['authorization'] = `Bearer ${accessToken}`;
+            return next();
         } 
         
-        if (!accessToken || isTokenExpired(accessToken)) {
-            const refreshToken = req.cookies.refreshToken;
+        // If token doesn't exist or is expired, try to refresh
+        const refreshToken = req.cookies.refreshToken;
 
-            if (!refreshToken) throw new Error("Refresh token is missing");
-
-            const { newAccessToken, newRefreshToken, newAccessTokenExp, newRefreshTokenExp } = await refreshAccessToken(req, res)            
-
-            setTokenCookies(res, newAccessToken, newRefreshToken, newAccessTokenExp, newRefreshTokenExp)
-            req.headers['authorization'] = `Bearer ${newAccessToken}`;
+        if (!refreshToken) {
+            return res.status(401).json({ 
+                error: 'Unauthorized', 
+                message: 'No refresh token available', 
+                tokenStatus: 'missing' 
+            });
         }
-        next();
+
+        try {
+            const { newAccessToken, newRefreshToken, newAccessTokenExp, newRefreshTokenExp } = await refreshAccessToken(req, res);           
+            
+            setTokenCookies(res, newAccessToken, newAccessTokenExp, newRefreshToken, newRefreshTokenExp);
+            req.headers['authorization'] = `Bearer ${newAccessToken}`;
+            return next();
+        } catch (error) {
+            console.error('Token refresh failed:', error);
+            return res.status(401).json({ 
+                error: 'Unauthorized', 
+                message: 'Token refresh failed', 
+                tokenStatus: 'invalid' 
+            });
+        }
     } catch (error) {
-        console.error('Error adding access token to header:', error.message);
-        res.status(401).json({ error: 'Unauthorized', message: 'Access token is missing or invalid', error });
+        console.error('Error in token refresh middleware:', error.message);
+        return res.status(401).json({ 
+            error: 'Unauthorized', 
+            message: 'Authentication error', 
+            error: error.message 
+        });
     }
 }
 
