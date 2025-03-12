@@ -15,7 +15,7 @@ module.exports = {
     return [
       {
         source: '/api/:path((?!auth).*)',
-        destination: 'http://localhost:2001/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*` || 'http://localhost:2001/api/:path*',
         permanent: true,
       },
     ];
