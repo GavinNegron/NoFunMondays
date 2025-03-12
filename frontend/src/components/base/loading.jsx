@@ -4,6 +4,15 @@ import { faGamepad } from '@fortawesome/free-solid-svg-icons'
 function Loading() {
   return (
     <>
+          <style>
+        {`
+          .fa-beat, .fa-bounce, .fa-fade, .fa-beat-fade, .fa-flip, 
+          .fa-pulse, .fa-shake, .fa-spin, .fa-spin-pulse {
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+          }
+        `}
+      </style>
       <div 
         className="loading-screen"
         style={{

@@ -9,11 +9,8 @@ const path = require('path')
 const rateLimit = require('express-rate-limit')
 const { blogDB, dashboardDB, logDB } = require('./config/db')
 
-import('./config/passport-jwt-strategy.js');
-
 const app = express()
 
-// Initialize DB connections
 const blogDbConn = blogDB();
 const dashboardDBConn = dashboardDB();
 const logDBConn = logDB();
@@ -49,9 +46,8 @@ app.disable('x-powered-by')
 app.use(
     cors({
         origin: ['http://localhost:3000', 'https://nofunmondays.com', 'https://staging.nofunmondays.com'],
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization'],
-
         optionsSuccessStatus: 200,
         credentials: true
     })

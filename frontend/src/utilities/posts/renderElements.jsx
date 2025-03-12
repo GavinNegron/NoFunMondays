@@ -10,7 +10,7 @@ const RenderElements = ({ element }) => {
   const renderContent = () => {
     switch (element.type) {
       case 'image': 
-        return <img src={element.imageUrl || '/images/placeholder.png'} alt={element.imageAlt} />;
+        return <img className='no-select' draggable='false' src={element.imageUrl || '/images/placeholder.png'} alt={element.imageAlt} />;
       case 'bullet':
         return (
           <div className="bullet-point">

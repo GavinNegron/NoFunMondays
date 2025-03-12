@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useRef } from 'react';
-import Script from 'next/script';
 
 const TwitterEmbed = ({ tweetID }) => {
   const isMounted = useRef(false);

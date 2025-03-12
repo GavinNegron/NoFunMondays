@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 function Sidebar() {
   const router = useRouter();
@@ -19,20 +20,20 @@ function Sidebar() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
 
   useEffect(() => {
     document.body.classList.toggle('SidebarActive', sidebarCollapsed);
   }, [sidebarCollapsed]);
+
 
   const toggleSidebarState = () => {
     setSidebarCollapsed(prevState => !prevState);
   };
 
   const links = [
-    { text: "Dashboard", href: "/dashboard", iconName: "chart-line" },
+    { text: "Dashboard", href: "/dashboard/", iconName: "chart-line" },
     { text: "Posts", href: "/dashboard/posts", iconName: "newspaper" },
-    { text: "Users", href: "/dashboard/users", iconName: "users-gear" },
+    { text: "Authors", href: "/dashboard/authors", iconName: "users" },
     { text: "Messages", href: "/dashboard/messages", iconName: "fas fa-envelope" },
     { text: "Logs", href: "/dashboard/logs", iconName: "fas fa-file-lines" },
     { text: "Settings", href: "/dashboard/settings", iconName: "gear" },
@@ -57,7 +58,7 @@ function Sidebar() {
           <img src="/images/user.jpeg" draggable="false" alt="User Profile" />
         </div>
         <div className="d-flex flex-column">
-          <span className="sidebar__profile-name">Gavin Negron</span>
+          <span className="sidebar__profile-name">Gavin N</span>
           <span className="sidebar__profile-email">gavinnegron@icloud.com</span>
         </div>
       </div>
@@ -82,12 +83,12 @@ function Sidebar() {
 
       <div className="sidebar__bottom d-flex align-items-center flex-column">
         <span className="sidebar__links-line"></span>
-        <div className="sidebar__links-item">
+        <div className="sidebar__links-item" id='logout-btn'onClick={() => signOut({ callbackUrl: '/'})}>
           <div className="sidebar__links-item-icon">
             <i className="fa-solid fa-right-from-bracket" style={{ color: "#ffffff" }}></i>
           </div>
           <div className="sidebar__links-item-text">
-            <Link href="/" draggable="false">Logout</Link>
+            <span>Logout</span>
           </div>
         </div>
         <div className="sidebar__links-item toggle">

@@ -2,7 +2,6 @@
 import React from 'react' 
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
 // COMPONENTS
@@ -20,7 +19,6 @@ import { contact } from '@/features/public/publicAction'
 import '../../../public/css/contact.css'
 
 const Contact = () => {
-    const router = useRouter()
     const dispatch = useDispatch()
     const { loading, error } = useSelector((state) => state.user) 
   

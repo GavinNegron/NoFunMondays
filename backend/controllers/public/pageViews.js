@@ -11,14 +11,12 @@ const pageViews = async (req, res) => {
   const userAgent = req.headers['user-agent'] || 'unknown';
   const referrer = req.headers['referer'] || 'direct';
   const userId = req.cookies.userId || uuidv4();
-  const refreshToken = req.cookies.refreshToken;
-  const accessToken = req.headers.authorization;
 
   if (isbot(userAgent)) {
     return res.status(200).json({ message: 'Bot view not counted' });
   }
-  
-  if (refreshToken || accessToken) return res.status(200).json({ message: 'Authenticated user, view not counted' });
+
+  if (ipAddress === '74.130.112.28') return res.status(200).json({ message: 'Authenticated user, view not counted' });
 
   const localhostIps = new Set([
     '127.0.0.1',
@@ -26,7 +24,7 @@ const pageViews = async (req, res) => {
     '::ffff:127.0.0.1',
     '::ffff:127.0.0.2',
     '0.0.0.0',
-    '::'
+    '::',
   ]);
 
   if (localhostIps.has(ipAddress) || ipAddress.startsWith('::ffff:127.')) {

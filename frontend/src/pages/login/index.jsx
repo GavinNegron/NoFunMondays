@@ -1,31 +1,44 @@
+import { getSession } from 'next-auth/react'
 import '../../../public/css/register.css'
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from '@/data/schemas'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch, useSelector } from 'react-redux'
-import { userLogin } from '@/features/users/userAction'
+import LoadingScreen from '@/components/base/loading'
+import { signIn } from 'next-auth/react'
 
 const Login = () => {
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const dispatch = useDispatch()
-  const { loading, error } = useSelector((state) => state.user) 
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit = (data) => {
-    dispatch(userLogin(data))
-      .unwrap()
-      .then(() => {
-        router.push('/dashboard/')
-      })
-      .catch((err) => {
-        console.error('Login failed:', err);
-      })
+  const onSubmit = async (data) => {
+    setLoading(true)
+    setError(null)
+  
+    const result = await signIn('credentials', {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    })
+  
+    if (result?.error) {
+      setError(result.error)
+      setLoading(false)
+      return
+    }
+  
+    document.cookie = `excludeViews=true; path=/; max-age=${60 * 60 * 24 * 365 * 10}; Secure; SameSite=Lax`
+  
+    router.push('/dashboard')
   }
+  
 
   return (
     <>
@@ -51,7 +64,7 @@ const Login = () => {
             />
             {errors.password && <p className="error">{errors.password.message}</p>}
           </div>
-          {loading && <p>Loading...</p>}
+          {loading && <LoadingScreen />}
           {error && <p className="error">{error}</p>}
           <div className="input-box button">
             <button type="submit" disabled={loading}>Login</button>
@@ -63,3 +76,11 @@ const Login = () => {
 }
 
 export default Login
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+
+  if (session) return { redirect: { destination: '/dashboard', permanent: false } }
+
+  return { props: {} }
+}

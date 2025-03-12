@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useEditorContext } from '@/contexts/EditorContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleClickOutside } from '@/utilities/editorFunctions';
@@ -16,7 +16,7 @@ function Publish() {
             setIsFeatured(post.featured || false);
             setIsChallenge(post.challenge || false);
         }
-    }, [post]);
+    }, [post, setIsChallenge, setIsFeatured]);
     
     useEffect(() => {
         return () => {

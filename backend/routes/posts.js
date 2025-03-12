@@ -14,41 +14,37 @@ const { fetchSlugAdmin } = require('../controllers/posts/fetchSlugAdmin');
 const { fetchPostViews } = require('../controllers/analytics/fetchPostViews');
 const { getRedirect } = require('../controllers/posts/getRedirect');
 
-const passport = require('passport');
-const setAuthHeader = require('../middleware/setAuthHeader');
-const { accessTokenAutoRefresh } = require('../middleware/accessTokenAutoRefresh');
+const { verifyToken } = require('../middleware/verifyToken');
 
 module.exports = function(app){
-
     // PUBLIC ROUTES
-
-    app.get('/api/posts/recent', getRecentPosts)
+    app.get('/api/posts/recent', getRecentPosts);
     
-    app.get('/api/posts/slug/:slug', fetchSlug)
+    app.get('/api/posts/slug/:slug', fetchSlug);
 
-    app.get('/api/posts/title', fetchTitle)
+    app.get('/api/posts/title', fetchTitle);
 
     app.get('/api/posts/redirects/:slug', getRedirect);
 
 
     // PROTECTED ROUTES
-    app.get('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), getPosts)
+    app.get('/api/posts/', verifyToken, getPosts);
 
-    app.get('/api/posts/edit/slug/:slug', fetchSlugAdmin)
+    app.get('/api/posts/edit/slug/:slug', verifyToken, fetchSlugAdmin);
 
-    app.post('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), createPost)
+    app.post('/api/posts/', verifyToken, createPost);
 
-    app.put('/api/posts/featured/:postId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), setFeaturedPost)
+    app.put('/api/posts/featured/:postId', verifyToken, setFeaturedPost);
 
-    app.put('/api/posts/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), updatePost)
+    app.put('/api/posts/:id', verifyToken, updatePost);
 
-    app.put('/api/posts/save/:id', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), savePost)
+    app.put('/api/posts/save/:id', verifyToken, savePost);
     
-    app.get('/api/upload/signed-url', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), signedUrl)
+    app.get('/api/upload/signed-url', verifyToken, signedUrl);
 
-    app.delete('/api/posts/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePost)
+    app.delete('/api/posts/',  deletePost);
 
-    app.delete('/api/posts/:id/elements/:elementId', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), deletePostElement)
+    app.delete('/api/posts/:id/elements/:elementId', verifyToken, deletePostElement);
 
-    app.get('/api/posts/analytics/views/', accessTokenAutoRefresh, setAuthHeader, passport.authenticate('jwt', { session: false }), fetchPostViews)
+    app.get('/api/posts/analytics/views/', verifyToken, fetchPostViews);
 };

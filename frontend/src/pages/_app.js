@@ -1,33 +1,36 @@
-import { Provider } from 'react-redux';
-import { store } from '../app/store';
-import { EditorProvider } from '../contexts/EditorContext';  
-import { useRouter } from 'next/router';
-import Head from 'next/head';
+import { Provider } from 'react-redux'
+import { SessionProvider } from 'next-auth/react'
+import { store } from '../app/store'
+import { EditorProvider } from '../contexts/EditorContext'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
 
-function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-  const isDashboardPostsPage = router.pathname.startsWith('/dashboard/posts');
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  const router = useRouter()
+  const isDashboardPostsPage = router.pathname.startsWith('/dashboard/posts')
 
   return (
     <>
       <Head>
-        <meta charSet="UTF-8"/>
+        <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <meta property="og:type" content="website"/>
-        <meta name="twitter:title" content="NoFunMondays"/>
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="NoFunMondays" />
         <link rel="icon" href="https://nofunmondays.com/images/NoFunMondays.png" />
       </Head>
-      <Provider store={store}>
-        {isDashboardPostsPage ? (
-          <EditorProvider>
+      <SessionProvider session={session}>
+        <Provider store={store}>
+          {isDashboardPostsPage ? (
+            <EditorProvider>
+              <Component {...pageProps} />
+            </EditorProvider>
+          ) : (
             <Component {...pageProps} />
-          </EditorProvider>
-        ) : (
-          <Component {...pageProps} />
-        )}
-      </Provider>
+          )}
+        </Provider>
+      </SessionProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

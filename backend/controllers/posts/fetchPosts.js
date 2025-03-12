@@ -6,7 +6,7 @@ const getPosts = async (req, res) => {
     const query = excludeFeatured === 'true' ? { featured: { $ne: true } } : {};
 
     const posts = await Posts.find(query)
-      .sort({ createdAt: -1 }) // Sort by newest first
+      .sort({ createdAt: -1 }) 
       .limit(limit ? parseInt(limit) : 0)
       .lean();
     

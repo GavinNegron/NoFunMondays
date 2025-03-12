@@ -3,18 +3,12 @@ import '../../../../public/css/item-shop.css';
 import Head from 'next/head';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchShop } from '@/features/fortniteAPI/fortniteAPIAction';
 import LoadingScreen from '@/components/base/loading';
 
-const FortniteShop = () => {
-    const dispatch = useDispatch();
-    const { shopItems, isLoading } = useSelector((state) => state.fortniteAPI.fortnite);
+const FortniteShop = ({ shopItems }) => {
     const [timeUntilRotation, setTimeUntilRotation] = useState('');
 
     useEffect(() => {
-        dispatch(fetchShop());
-
         const updateTimeRemaining = () => {
             const now = new Date();
             const nextRotation = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
@@ -31,14 +25,15 @@ const FortniteShop = () => {
         const intervalId = setInterval(updateTimeRemaining, 1000);
 
         return () => clearInterval(intervalId);
-    }, [dispatch]);
+    }, []);
 
-    if (isLoading) {
+    // Show loading screen if shopItems is undefined or null
+    if (shopItems === undefined || shopItems === null) {
         return <LoadingScreen />;
     }
 
-    if (!shopItems || shopItems.length === 0) {
-        return null;
+    if (shopItems.length === 0) {
+        return <p>No items available</p>;
     }
 
     const groupedItems = shopItems
@@ -53,7 +48,12 @@ const FortniteShop = () => {
             }
             return acc;
         }, {});
-
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
     return (
         <>
             <Head>
@@ -64,7 +64,7 @@ const FortniteShop = () => {
                 <div className="shop">
                     <div className="shop__inner">
                         <div className="shop__header">
-                            <span>Fortnite Item Shop | February 2nd 2025</span>
+                            <span>Fortnite Item Shop | {formattedDate}</span>
                         </div>
                         <div className="shop__description">
                             <span>Daily item shop rotation for Fortnite Battle Royale | shop updates daily at 00:00 UTC.</span>
@@ -78,34 +78,34 @@ const FortniteShop = () => {
                                     <span>{name}</span>
                                 </div>
                                 <div className="shop__items">
-                                {groupedItems[name].map((item, index) => {
-                                    const rarityClass = item.brItems?.[0]?.rarity?.displayValue?.toLowerCase().replace(/\s+/g, '-') || 'common';
-                                    const imageUrl = item.brItems?.[0]?.images?.featured || 
-                                                    item.brItems?.[0]?.images?.icon || 
-                                                    item.newDisplayAsset?.renderImages?.[0]?.image;
+                                    {groupedItems[name].map((item, index) => {
+                                        const rarityClass = item.brItems?.[0]?.rarity?.displayValue?.toLowerCase().replace(/\s+/g, '-') || 'common';
+                                        const imageUrl = item.brItems?.[0]?.images?.featured || 
+                                                        item.brItems?.[0]?.images?.icon || 
+                                                        item.newDisplayAsset?.renderImages?.[0]?.image;
 
-                                    return (
-                                        <div
-                                            key={item.id || `${name}-${index}`}
-                                            className={`shop-item ${rarityClass}`}
-                                            style={{
-                                                backgroundColor: item.brItems?.[0]?.colors?.textBackgroundColor || 'transparent',
-                                            }}
-                                        >
-                                            <div className="shop-item__content">
-                                                <div className="shop-item__img">
-                                                    <img
-                                                        src={imageUrl}
-                                                        alt={item.bundle?.name || item.brItems?.[0]?.name}
-                                                    />
+                                        return (
+                                            <div
+                                                key={item.id || `${name}-${index}`}
+                                                className={`shop-item ${rarityClass}`}
+                                                style={{
+                                                    backgroundColor: item.brItems?.[0]?.colors?.textBackgroundColor || 'transparent',
+                                                }}
+                                            >
+                                                <div className="shop-item__content">
+                                                    <div className="shop-item__img">
+                                                        <img
+                                                            src={imageUrl}
+                                                            alt={item.bundle?.name || item.brItems?.[0]?.name}
+                                                        />
+                                                    </div>
+                                                    <span className="shop-item__header">
+                                                        {item.bundle?.name || item.brItems?.[0]?.name || (item.instruments?.[0]?.name)}
+                                                    </span>
                                                 </div>
-                                                <span className="shop-item__header">
-                                                    {item.bundle?.name || item.brItems?.[0]?.name || (item.instruments?.[0]?.name)}
-                                                </span>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
@@ -118,3 +118,25 @@ const FortniteShop = () => {
 };
 
 export default FortniteShop;
+
+export async function getServerSideProps() {
+    try {
+        const response = await fetch('https://fortnite-api.com/v2/shop');
+        const data = await response.json();
+
+        const shopItems = data.data?.entries || [];
+
+        return {
+            props: {
+                shopItems,
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching shop items:', error);
+        return {
+            props: {
+                shopItems: null, 
+            },
+        };
+    }
+}

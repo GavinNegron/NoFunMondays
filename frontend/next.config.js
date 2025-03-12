@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = {
   distDir: 'build',
-  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -12,18 +11,19 @@ module.exports = {
       },
     ],
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
-        source: '/api/:path*',
-        destination: process.env.API_URL || 'http://localhost:2001/api/:path*',
+        source: '/api/:path((?!auth).*)',
+        destination: 'http://localhost:2001/api/:path*',
+        permanent: true,
       },
     ];
   },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'src'), 
+      '@': path.resolve(__dirname, 'src'),
     };
     return config;
   },

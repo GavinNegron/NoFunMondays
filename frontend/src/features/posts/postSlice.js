@@ -39,6 +39,9 @@ const postSlice = createSlice({
         }
       }
     },
+    resetPosts: (state) => {
+      state.posts = [];
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -121,5 +124,5 @@ const postsReducer = combineReducers({
   post: postSlice.reducer, 
 });
 
-export const { addPostElement, deletePostElement, updatePostElement } = postSlice.actions;
+export const { addPostElement, deletePostElement, updatePostElement, resetPosts } = postSlice.actions;
 export default postsReducer;

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Script from 'next/script';
+import { requireAuth } from '@/utilities/requireAuth'
 
 // Layout
 import LoadingScreen from '@/components/base/loading';
@@ -144,7 +145,7 @@ function BlogPostEditor() {
                 <div className="blog-post-content">
                     <div className="save-indicator">
                         <i className="fa-solid fa-circle-check"></i>
-                        <span>Saved: 12:45pm</span>
+                        <span>Saved: 00:00pm/am</span>
                     </div>
                     <div
                         className="blog-post-main"
@@ -186,3 +187,7 @@ function BlogPostEditor() {
 }
 
 export default BlogPostEditor;
+
+export async function getServerSideProps(context) {
+    return requireAuth(context)
+}

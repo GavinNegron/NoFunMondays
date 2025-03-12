@@ -48,7 +48,8 @@ function NewPost() {
                 imageUrl: image,
                 status: 'draft',
             };
-
+            
+            setIsLoading(true);
             const createdPost = await dispatch(createPost(post)).unwrap();
             router.push(`/dashboard/posts/edit/${createdPost.slug}`);
         } catch (error) {
@@ -76,7 +77,7 @@ function NewPost() {
                     )}
                     <div className="new-post__content-title">
                         <span>Add a title: </span>
-                        <input onChange={e => setTitle(e.target.value)} maxLength="80" type="text" placeholder="Add a title" />
+                        <input onChange={e => setTitle(e.target.value)} maxLength="120" type="text" placeholder="Add a title" />
                     </div>
                     <div className="new-post__content-image">
                         <span>Select Image</span>

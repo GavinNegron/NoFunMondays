@@ -2,8 +2,7 @@ const Posts = require('../../models/Posts');
 
 const getRecentPosts = async (req, res) => {
   try {
-      const { limit = 6, type, excludeSlug } = req.query;
-
+      const { limit, type, excludeSlug } = req.query;
       if (!type || !['all', 'recent', 'featured', 'challenge'].includes(type)) {
           return res.status(400).json({ status: "Failed", message: "Invalid or missing type" });
       }
@@ -31,7 +30,13 @@ const getRecentPosts = async (req, res) => {
               break;
       }
 
-      const posts = await Posts.find(query).sort({ createdAt: -1 }).limit(parseInt(limit)).lean();
+      let queryBuilder = Posts.find(query).sort({ createdAt: -1 });
+
+      if (limit) {
+          queryBuilder = queryBuilder.limit(parseInt(limit));
+      }
+
+      const posts = await queryBuilder.lean();
 
       res.status(200).json(posts);
   } catch (error) {

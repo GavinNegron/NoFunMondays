@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Link from 'next/link';
 import Fuse from 'fuse.js';
+import { requireAuth } from '@/utilities/requireAuth'
 
 // COMPONENTS
 import Navbar from '@/components/layout/navbar';
@@ -24,7 +25,6 @@ import Checkbox from '@/components/base/checkbox/';
 
 function DPosts() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts.post);
   const [allPosts, setAllPosts] = useState([]);
   const [postLimit, setPostLimit] = useState(5);
   const [selectedStatus, setSelectedStatus] = useState('');
@@ -177,13 +177,13 @@ function DPosts() {
                 </div>
               </div>
             </div>
-            <div className="dashboard__header">
+            <div className="dashboard__header no-select">
               <span>Posts</span>
             </div>
             <div className="dashboard__search">
               <Search value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
             </div>
-            <div className="dashboard__top">
+            <div className="dashboard__top no-select">
               <div className="dashboard__filters">
                 <div className="dashboard__filters__item">
                   <Checkbox checked={showFeatured} onChange={() => setShowFeatured(!showFeatured)} />
@@ -216,7 +216,7 @@ function DPosts() {
             </div>
             <div className="dashboard__posts">
               <table>
-                <thead>
+                <thead className='no-select'>
                   <tr>
                     <th id="selectAll">
                       <Checkbox
@@ -242,11 +242,13 @@ function DPosts() {
                           onChange={() => handleSelectPost(post._id)}
                         />
                       </td>
-                      <td className="dashboard__posts__image">
-                        <img
-                          src={post?.imageUrl || 'https://via.placeholder.com/150'}
-                          alt={post?.title || 'Post image'}
-                        />
+                      <td className="dashboard__posts__image no-select">
+                        <a href={`/dashboard/posts/edit/${post?.slug}`}>
+                          <img
+                            src={post?.imageUrl || 'https://via.placeholder.com/150'}
+                            alt={post?.title || 'Post image'}
+                          />
+                        </a>
                       </td>
                       <td className="dashboard__posts__title">{post?.title}</td>
                       <td className="dashboard__posts__date">
@@ -313,3 +315,7 @@ function DPosts() {
 }
 
 export default DPosts;
+
+export async function getServerSideProps(context) {
+  return requireAuth(context)
+}

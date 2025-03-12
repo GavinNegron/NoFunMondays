@@ -31,7 +31,7 @@ const SeasonCountdown = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [calculateTimeLeft]);
 
     if (!timeLeft) {
         return null;

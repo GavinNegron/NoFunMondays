@@ -1,19 +1,26 @@
-const URL = "https://nofunmondays.com";
-
 function generateSiteMap(posts) {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>${`${URL}/`}</loc>
+        <loc>https://nofunmondays.com/</loc>
     </url>
     <url>
-        <loc>${`${URL}/fortnite/item-shop`}</loc>
+        <loc>https://nofunmondays.com/contact</loc>
+    </url>
+    <url>
+        <loc>https://nofunmondays.com/fortnite/item-shop</loc>
+    </url>
+     <url>
+        <loc>https://nofunmondays.com/fortnite/challenges</loc>
+    </url>
+     <url>
+        <loc>https://nofunmondays.com/fortnite/countdown</loc>
     </url>
      ${posts
        ?.map(({ slug, createdAt }) => {
          return `
            <url>
-               <loc>${`${URL}/blog/${slug}`}</loc>
+               <loc>${`https://nofunmondays.com/blog/${slug}`}</loc>
                <lastmod>${new Date(createdAt).toISOString()}</lastmod>
            </url>
          `;
@@ -25,7 +32,7 @@ function generateSiteMap(posts) {
 
 export async function getServerSideProps({ res }) {
   try {
-    const response = await fetch(`${URL}/api/posts/recent?type=all`);
+    const response = await fetch(`https://nofunmondays.com/api/posts/recent?type=all`);
     const text = await response.text();
 
 
@@ -47,6 +54,5 @@ export async function getServerSideProps({ res }) {
 
   return { props: {} };
 }
-
 
 export default function SiteMap() {}

@@ -21,6 +21,7 @@ const publicSlice = createSlice({
       })
       .addCase(publicAction.contact.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
       })
       .addCase(publicAction.contact.rejected, (state, action) => {
         state.loading = false;
@@ -32,7 +33,5 @@ const publicSlice = createSlice({
 const publicReducer = combineReducers({
   public: publicSlice.reducer, 
 });
-
-export const { loginRequest, loginSuccess, loginFailure, logout } = publicSlice.actions;
 
 export default publicReducer;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { format, subDays, parseISO } from 'date-fns';
+import { requireAuth } from '@/utilities/requireAuth'
 
 // COMPONENTS
 import Navbar from '@/components/layout/navbar';
@@ -73,7 +74,7 @@ function Dashboard() {
       <main className="main db">
         <Sidebar />
         <div className="dashboard">
-          <div className="dashboard__header">
+          <div className="dashboard__header no-select">
             <span>Dashboard</span>
           </div>
           <div className="dashboard__grid d-flex">
@@ -123,3 +124,7 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+export async function getServerSideProps(context) {
+  return requireAuth(context)
+}

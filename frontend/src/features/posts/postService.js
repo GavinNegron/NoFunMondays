@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getElementStyles } from '@/utilities/editorFunctions';
 import elements from '@/data/elements';
 import DOMPurify from 'dompurify';
-
+import { getAuthToken } from '@/utilities/getAuthToken';
 function generateSlug(title) {
   return title
     .toLowerCase()
@@ -13,15 +13,28 @@ function generateSlug(title) {
 }
 
 export const createPost = async (newPost) => {
+  const token = getAuthToken();
+
   const response = await axios.post(`/api/posts`, newPost, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
   return response.data;
 };
 
 export const deletePost = async (postIds) => {
+  const token = getAuthToken();
+
   const ids = Array.isArray(postIds) ? postIds : [postIds];
-  const response = await axios.delete(`/api/posts`, { data: { ids } });
+  const response = await axios.delete(`/api/posts`, { 
+    data: { ids },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true
+  });
   return response.data;
 };
 
@@ -38,14 +51,27 @@ export const fetchRecentPosts = async (postLimit, type = 'all') => {
 };
 
 export const fetchPosts = async (limit, excludeFeatured = false) => {
+  const token = getAuthToken();
+
   const response = await axios.get(`/api/posts/`, {
     params: { limit, excludeFeatured },
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    withCredentials: true,
   });
   return response.data;
 };
 
 export const fetchSlug = async (slug) => {
-  const response = await axios.get(`/api/posts/edit/slug/${slug}`);
+  const token = getAuthToken();
+
+  const response = await axios.get(`/api/posts/edit/slug/${slug}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    withCredentials: true,
+  });
   return response.data;
 };
 
@@ -57,18 +83,32 @@ export const fetchTitle = async (title) => {
 };
 
 export const updatePost = async (postId, updatedPost) => {
+  const token = getAuthToken();
+
   const response = await axios.put(`/api/posts/${postId}`, updatedPost, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
   return response.data;
 };
 
 const getSignedUrl = async (fileName, fileType) => {
-  const response = await axios.get(`/api/upload/signed-url?fileName=${fileName}&fileType=${fileType}`);
+  const token = getAuthToken();
+
+  const response = await axios.get(`/api/upload/signed-url?fileName=${fileName}&fileType=${fileType}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
   return response.data;
 };
 
 const uploadToCloud = async (base64Image) => {
+  const token = getAuthToken();
+  
   if (!base64Image.startsWith('data:image')) return base64Image;
 
   const byteString = atob(base64Image.split(',')[1]);
@@ -83,25 +123,35 @@ const uploadToCloud = async (base64Image) => {
 
   const { signedUrl, publicUrl } = await getSignedUrl(fileName, blob.type);
 
-  await fetch(signedUrl, {
-    method: 'PUT',
-    body: blob,
-    headers: { 'Content-Type': blob.type },
+ await axios.put(signedUrl, blob, {
+    headers: {
+      'Content-Type': blob.type,
+      'Authorization': `Bearer ${token}`,
+    },
   });
 
   return publicUrl;
 };
 
 export const fetchPostViews = async (slug, days) => {
+  const token = getAuthToken();
+
   const query = new URLSearchParams();
   if (slug) query.append('slug', slug);
   if (days) query.append('days', days);
 
-  const response = await axios.get(`/api/posts/analytics/views?${query.toString()}`);
+  const response = await axios.get(`/api/posts/analytics/views?${query.toString()}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const savePost = async (post, postElements, isFeatured, isChallenge) => {
+  const token = getAuthToken();
+
   let imageUrl = document.querySelector('.banner img')?.src;
   imageUrl = await uploadToCloud(imageUrl);
 
@@ -196,13 +246,18 @@ export const savePost = async (post, postElements, isFeatured, isChallenge) => {
   };
 
   const response = await axios.put(`/api/posts/save/${post._id}`, updatedPost, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
 
   return response.data;
 };
 
 export const publishPost = async (post, postElements, isFeatured, isChallenge) => {
+  const token = getAuthToken();
+
   const imageUrl = document.querySelector('.banner img').src;
   const stylesMap = new Map();
 
@@ -296,12 +351,19 @@ export const publishPost = async (post, postElements, isFeatured, isChallenge) =
   };
 
   const response = await axios.put(`/api/posts/${post._id}`, updatedPost, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
 
   axios.put(`/api/posts/save/${post._id}`, updatedPost, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    withCredentials: true,
   });
+
 
   window.location.href = `/dashboard/posts/edit/${slug}`
   return response.data;

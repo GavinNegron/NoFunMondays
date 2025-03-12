@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useEditorContext } from '@/contexts/EditorContext';
@@ -50,6 +50,37 @@ function EditNavbar() {
         return cookieValue;
     };
 
+    // Wrap handleSave in useCallback to prevent recreation on each render
+    const handleSave = useCallback(() => {
+        const now = new Date();
+        const hours = now.getHours() % 12 || 12;
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+        const formattedTime = `${hours}:${minutes} ${ampm}`;
+    
+        $(".save-indicator").fadeIn(600).css("display", "flex");
+        $(".save-indicator span").text(`Saved: ${formattedTime}`);
+        
+        if (isSaving.current) return;
+        isSaving.current = true;
+        dispatch(savePost({ post, postElements, isFeatured, isChallenge }));
+        setTimeout(() => {
+            isSaving.current = false;
+            $(".save-indicator").fadeOut(600);
+        }, 4000); 
+    }, [dispatch, post, postElements, isFeatured, isChallenge]);
+    
+    // Wrap resetAutoSave in useCallback to prevent recreation on each render
+    const resetAutoSave = useCallback(() => {
+        if (autoSaveTimer.current) {
+            clearTimeout(autoSaveTimer.current);
+        }
+        autoSaveTimer.current = setTimeout(() => {
+            dispatch(savePost({ post, postElements }));
+            resetAutoSave();
+        }, 60000);
+    }, [dispatch, post, postElements]);
+
     useEffect(() => {
         // Check for editorState cookie on page load
         const editorStateCookie = getCookie('editorState');
@@ -78,7 +109,7 @@ function EditNavbar() {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('keyup', handleKeyUp);
         };
-    }, [post, postElements]);
+    }, [resetAutoSave, handleSave]);
 
     // Modified handleEditorOpen and handleEditorClose to update navState
     const customHandleEditorOpen = () => {
@@ -97,27 +128,6 @@ function EditNavbar() {
         $("body").css("max-height", "100vh");
         $("body").css("overflow", "hidden");
         $(".publish").css("display", "flex");
-    };
-
-    const handleSave = () => {
-        $(".save-indicator").fadeIn(600).css("display", "flex");
-        if (isSaving.current) return;
-        isSaving.current = true;
-        dispatch(savePost({ post, postElements, isFeatured, isChallenge }));
-        setTimeout(() => {
-            isSaving.current = false;
-            $(".save-indicator").fadeOut(600);
-        }, 4000); 
-    };
-    
-    const resetAutoSave = () => {
-        if (autoSaveTimer.current) {
-            clearTimeout(autoSaveTimer.current);
-        }
-        autoSaveTimer.current = setTimeout(() => {
-            dispatch(savePost({ post, postElements }));
-            resetAutoSave();
-        }, 60000);
     };
 
     const handleFamilyChange = (e) => {

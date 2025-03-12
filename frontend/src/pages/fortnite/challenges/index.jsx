@@ -3,7 +3,7 @@ import '../../../../public/css/challenges.css';
 import Head from 'next/head';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
-import ChallengePosts from '@/components/posts/challenge-post';
+import PostsContainer from '@/components/posts/PostContainer';
 import axios from 'axios';
 
 function FortniteChallenges({ challengePosts }) {
@@ -21,7 +21,7 @@ function FortniteChallenges({ challengePosts }) {
         <main className="main">
           <div className="postgrid center d-flex">
           <div className="postgrid__inner">
-            <ChallengePosts initialPosts={challengePosts} />
+            <PostsContainer postType='challenge' initialPosts={challengePosts} />
           </div>
         </div>
         </main>
@@ -30,14 +30,10 @@ function FortniteChallenges({ challengePosts }) {
     );
   }
   
-  export async function getServerSideProps(context) {
-    const host = context.req.headers.host;
-    const protocol = host.includes("localhost") ? "http" : "https";
-    const baseURL = `${protocol}://${host}`;
-  
+  export async function getServerSideProps() {
     try {
       const [ recentResponse ] = await Promise.all([
-        axios.get(`${baseURL}/api/posts/recent?type=challenge&limit=6`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/recent?type=challenge&limit=6`),
       ]);
       const challengePosts = recentResponse.data || [];
       return { 
