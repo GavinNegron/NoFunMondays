@@ -12,14 +12,25 @@ module.exports = {
     ],
   },
   async redirects() {
-    return [
-      {
-        source: '/api/:path((?!auth).*)',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*` || 'http://localhost:2001/api/:path*',
+    const redirects = [];
+  
+    if (process.env.NEXTAUTH_API) {
+      redirects.push({
+        source: '/api/auth/:path*',
+        destination: `${process.env.NEXTAUTH_API}/api/auth/:path*`,
         permanent: true,
-      },
-    ];
-  },
+      });
+    }
+  
+    redirects.push({
+      source: '/api/:path((?!auth).*)',
+      destination: 'http://localhost:2001/api/:path*',
+      permanent: true,
+    });
+  
+    return redirects;
+  }
+,
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
