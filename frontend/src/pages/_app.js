@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <meta name="twitter:title" content="NoFunMondays" />
         <link rel="icon" href="https://nofunmondays.com/images/NoFunMondays.png" />
       </Head>
-      <SessionProvider session={session}>
+      <SessionProvider session={session} >
         <Provider store={store}>
           {isDashboardPostsPage ? (
             <EditorProvider>

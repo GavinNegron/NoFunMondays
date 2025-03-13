@@ -13,15 +13,6 @@ module.exports = {
   },
   async redirects() {
     const redirects = [];
-  
-    if (process.env.NEXTAUTH_API) {
-      redirects.push({
-        source: '/api/auth/:path*',
-        destination: `${process.env.NEXTAUTH_API}/api/auth/:path*`,
-        permanent: true,
-      });
-    }
-  
     redirects.push({
       source: '/api/:path((?!auth).*)',
       destination: 'http://localhost:2001/api/:path*',
